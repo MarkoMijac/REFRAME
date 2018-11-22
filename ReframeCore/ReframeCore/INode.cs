@@ -14,5 +14,6 @@ namespace ReframeCore
         string MemberName { get; }
         object OwnerObject { get; }
         void Update();
+        int GetIdentifier();
     }
 }

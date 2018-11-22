@@ -11,8 +11,10 @@ namespace ReframeCore
     /// </summary>
     public class Node : INode
     {
+        #region Properties
+
         /// <summary>
-        /// The class member (property or method) reactive node represents.
+        /// The name of the class member (property or method) reactive node represents.
         /// </summary>
         public string MemberName { get; private set; }
 
@@ -21,10 +23,38 @@ namespace ReframeCore
         /// </summary>
         public object OwnerObject { get; private set; }
 
-        public Node(string memberName, object ownerObject)
+        /// <summary>
+        /// Delegate to the update method.
+        /// </summary>
+        private Action UpdateMethod { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Instantiates new reactive node.
+        /// </summary>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        public Node(string memberName, object ownerObject, Action updateMethod)
         {
             MemberName = memberName;
             OwnerObject = ownerObject;
+            UpdateMethod = updateMethod;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets reactive node's unique identifier.
+        /// </summary>
+        /// <returns></returns>
+        public int GetIdentifier()
+        {
+            return OwnerObject.GetHashCode() + MemberName.GetHashCode();
         }
 
         /// <summary>
@@ -32,7 +62,14 @@ namespace ReframeCore
         /// </summary>
         public void Update()
         {
-
+            UpdateMethod?.Invoke();
         }
+
+        public override string ToString()
+        {
+            return OwnerObject.GetType().ToString() + " -> " + MemberName;
+        }
+
+        #endregion
     }
 }
