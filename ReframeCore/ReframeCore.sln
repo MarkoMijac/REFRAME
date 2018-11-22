@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCore", "ReframeCore\ReframeCore.csproj", "{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCoreTests", "ReframeCoreTests\ReframeCoreTests.csproj", "{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6009287E-EE29-46BE-9BCC-CE6FD3EE4F81}
+	EndGlobalSection
+EndGlobal
