@@ -47,12 +47,13 @@ namespace ReframeCore
         /// <summary>
         /// Instantiates new reactive node.
         /// </summary>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="ownerObject">Associated object which owns the member.</param>
-        public Node(string memberName, object ownerObject, Action updateMethod)
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <param name="updateMethod">Delegate to the update method.</param>
+        public Node(object ownerObject, string memberName, Action updateMethod)
         {
-            MemberName = memberName;
             OwnerObject = ownerObject;
+            MemberName = memberName;
             UpdateMethod = updateMethod;
 
             Predecessors = new List<INode>();
@@ -68,7 +69,7 @@ namespace ReframeCore
         /// <summary>
         /// Gets reactive node's unique identifier.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Reactive node's unique identifier.</returns>
         private int GetIdentifier()
         {
             return GetIdentifier(OwnerObject, MemberName);
@@ -77,23 +78,22 @@ namespace ReframeCore
         /// <summary>
         /// Gets reactive node's unique identifier.
         /// </summary>
-        /// <param name="o">Owner object.</param>
-        /// <param name="m">Member name.</param>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <returns>Reactive node's unique identifier.</returns>
-        private int GetIdentifier(object o, string m)
+        private int GetIdentifier(object ownerObject, string memberName)
         {
-            return o.GetHashCode() + m.GetHashCode();
+            return ownerObject.GetHashCode() + memberName.GetHashCode();
         }
 
         /// <summary>
-        /// Checks if forwarded owner object and member name have the same identifier as this reactive node.
+        /// Checks if forwarded reactive node has the same identifier as this reactive node.
         /// </summary>
-        /// <param name="ownerObject">Owner object to be compared.</param>
-        /// <param name="memberName">Member name to be compared.</param>
-        /// <returns>True if forwarded combination has the same identifier as this reactive node.</returns>
-        public bool IsEqualIdentifier(object ownerObject, string memberName)
+        /// <param name="node">Reactive node which we want to compare.</param>
+        /// <returns>True if forwarded reactive node has the same identifier as this reactive node.</returns>
+        public bool HasSameIdentifier(object ownerObject, string memberName)
         {
-            return GetIdentifier() == GetIdentifier(ownerObject, memberName);
+            return Identifier == GetIdentifier(ownerObject, memberName);
         }
 
         /// <summary>

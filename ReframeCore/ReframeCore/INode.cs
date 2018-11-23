@@ -15,7 +15,7 @@ namespace ReframeCore
         string MemberName { get; }
         object OwnerObject { get; }
         void Update();
-        bool IsEqualIdentifier(object ownerObject, string memberName);
+        bool HasSameIdentifier(object ownerObject, string memberName);
 
         IList<INode> Predecessors { get; }
         IList<INode> Successors { get; }
