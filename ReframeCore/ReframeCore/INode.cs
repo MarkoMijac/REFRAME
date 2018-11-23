@@ -15,5 +15,8 @@ namespace ReframeCore
         object OwnerObject { get; }
         void Update();
         int GetIdentifier();
+
+        IList<INode> Predecessors { get; }
+        IList<INode> Successors { get; }
     }
 }

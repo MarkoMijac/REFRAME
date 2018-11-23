@@ -28,6 +28,16 @@ namespace ReframeCore
         /// </summary>
         private Action UpdateMethod { get; set; }
 
+        /// <summary>
+        /// List of reactive nodes that are predecessors to this reactive node.
+        /// </summary>
+        public IList<INode> Predecessors { get; private set; }
+
+        /// <summary>
+        /// List of reactive nodes that are successors to this reactive node.
+        /// </summary>
+        public IList<INode> Successors { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -42,6 +52,9 @@ namespace ReframeCore
             MemberName = memberName;
             OwnerObject = ownerObject;
             UpdateMethod = updateMethod;
+
+            Predecessors = new List<INode>();
+            Successors = new List<INode>();
         }
 
         #endregion
