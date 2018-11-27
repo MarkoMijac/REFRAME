@@ -44,6 +44,7 @@
     <Compile Include="Exceptions\NodeNullReferenceException.cs" />
     <Compile Include="Exceptions\ReactiveDependencyException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
+    <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="Node.cs" />
