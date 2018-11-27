@@ -12,6 +12,6 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
-        bool AddDependency(INode predecessor, INode successor);
+        void AddDependency(INode predecessor, INode successor);
     }
 }

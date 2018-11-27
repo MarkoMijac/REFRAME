@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,38 +48,30 @@ namespace ReframeCore
         #region Methods
 
         /// <summary>
-        /// Adds reactive node to dependency graph if it is not already added.
+        /// Adds new node to dependency graph if such node does not already exist in dependency graph.
         /// </summary>
-        /// <param name="node">Reactive node which is to be added.</param>
-        /// <returns>True if reactive node is added, otherwise False.</returns>
-        //private bool AddNode(INode node)
-        //{
-        //    bool added = false;
-
-        //    if (Nodes.Contains(node) == false)
-        //    {
-        //        Nodes.Add(node);
-        //        added = true;
-        //    }
-
-        //    return added;
-        //}
-
-
-        private INode AddNode(INode node)
+        /// <param name="node">Reactive node which we want to add.</param>
+        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
+        private bool AddNode(INode node)
         {
-            INode n = GetNode(node);
-            if (n == null)
+            bool added = false;
+
+            if (node == null)
             {
-                n = node;
-                Nodes.Add(n);
+                throw new NodeNullReferenceException();
             }
 
-            return n;
+            if (ContainsNode(node) == false)
+            {
+                Nodes.Add(node);
+                added = true;
+            }
+
+            return added;
         }
 
         /// <summary>
-        /// Adds new node in dependency graph if such node does not exist.
+        /// Adds node to dependency graph if such node does not already exist in dependency graph.
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
@@ -97,6 +90,27 @@ namespace ReframeCore
         }
 
         /// <summary>
+        /// Checks if dependency graph contains provided reactive node.
+        /// </summary>
+        /// <param name="node">Reactive node for which we are checking.</param>
+        /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
+        private bool ContainsNode(INode node)
+        {
+            return GetNode(node) != null;
+        }
+
+        /// <summary>
+        /// Checks if dependency graph contains provided reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Owner object associated with reactive node.</param>
+        /// <param name="memberName">Member name represented by reactive node.</param>
+        /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
+        private bool ContainsNode(object ownerObject, string memberName)
+        {
+            return GetNode(ownerObject, memberName) != null;
+        }
+
+        /// <summary>
         /// Creates new reactive node.
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
@@ -109,7 +123,7 @@ namespace ReframeCore
         }
 
         /// <summary>
-        /// Gets existing reactive node from dependency graph.
+        /// Gets reactive node from dependency graph if exists, otherwise returns null.
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by the reactive node.</param>
@@ -120,13 +134,29 @@ namespace ReframeCore
         }
 
         /// <summary>
-        /// Gets existing reactive node from dependency graph.
+        /// Gets existing reactive node from dependency graph, otherwise returns null.
         /// </summary>
         /// <param name="node">Reactive node which we want to find.</param>
         /// <returns>Reactive node if such exists in dependency graph, otherwise null.</returns>
         private INode GetNode(INode node)
         {
-            return GetNode(node.OwnerObject, node.MemberName);
+            INode n;
+
+            if (node == null)
+            {
+                throw new NodeNullReferenceException();
+            }
+
+            if (Nodes.Contains(node))
+            {
+                n = node;
+            }
+            else
+            {
+                n = GetNode(node.OwnerObject, node.MemberName);
+            }
+
+            return n;
         }
 
         /// <summary>
@@ -135,22 +165,18 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive nodes acting as a predecessor in reactive dependecy.</param>
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
-        /// <returns></returns>
-        public bool AddDependency(INode predecessor, INode successor)
+        public void AddDependency(INode predecessor, INode successor)
         {
-            bool added = false;
+            INode p = GetNode(predecessor);
+            INode s = GetNode(successor);
 
-            if (predecessor != null && successor != null)
+            if (p == null || s == null)
             {
-                AddNode(predecessor);
-                AddNode(successor);
-
-                bool addedSuccessor = predecessor.AddSuccessor(successor);
-                bool addedPredecessor = successor.AddPredecessor(predecessor);
-                added = addedSuccessor & addedPredecessor;
+                throw new ReactiveDependencyException("Reactive dependency could not be added! Specified reactive nodes do not exist!");
             }
 
-            return added;
+            p.AddSuccessor(s);
+            s.AddPredecessor(p);
         }
 
         #endregion
