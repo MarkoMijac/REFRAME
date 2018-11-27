@@ -183,6 +183,56 @@ namespace ReframeCore
             s.AddPredecessor(p);
         }
 
+        /// <summary>
+        /// Removes reactive node from dependency graph if the node does not participate in any reactive dependencies (i.e. it doesn't have any predecessors or successors).
+        /// </summary>
+        /// <param name="node">Node which we want to remove from dependency graph.</param>
+        private void RemoveNode(INode node)
+        {
+            if (node == null)
+            {
+                throw new NodeNullReferenceException("Cannot remove reactive node which is null!");
+            }
+
+            if (node.Predecessors.Count > 0 || node.Successors.Count > 0)
+            {
+                throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
+            }
+
+            Nodes.Remove(node);
+        }
+
+        /// <summary>
+        /// Removes reactive dependency between two nodes if it exists. The first node stops to be predecessor of the second node,
+        /// and the second node stops to be successor on the first node.
+        /// </summary>
+        /// <param name="predecessor"></param>
+        /// <param name="successor"></param>
+        public void RemoveDependency(INode predecessor, INode successor)
+        {
+            INode p = GetNode(predecessor);
+            INode s = GetNode(successor);
+
+            if (p == null || s == null)
+            {
+                throw new ReactiveDependencyException("Reactive dependency could not be removed! Specified reactive nodes do not exist!");
+            }
+
+            p.Successors.Remove(s);
+            s.Predecessors.Remove(p);
+
+            //Removing nodes if they are not participating in reactive dependencies anymore (i.e. they do not have any predecessors or dependents).
+            if (p.Predecessors.Count == 0 && p.Successors.Count == 0)
+            {
+                RemoveNode(p);
+            }
+
+            if (s.Predecessors.Count == 0 && s.Successors.Count == 0)
+            {
+                RemoveNode(s);
+            }
+        }
+
         #endregion
     }
 }
