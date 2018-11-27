@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
+    /// <summary>
+    /// Dependency graph containing reactive nodes.
+    /// </summary>
     public class DependencyGraph : IDependencyGraph
     {
         #region Properties
@@ -75,18 +78,19 @@ namespace ReframeCore
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <param name="updateMethod">Delegate of the update method.</param>
-        /// <returns>Newly added or existing reactive node.</returns>
-        private INode AddNode(object ownerObject, string memberName, Action updateMethod)
+        /// <param name="updateMethodName">Update method name.</param>
+        /// <returns>True if node is added to dependency graph, False if reactive node has already existed. </returns>
+        private bool AddNode(object ownerObject, string memberName, string updateMethodName)
         {
-            INode node = GetNode(ownerObject, memberName);
-            if (node == null)
+            bool added = false;
+
+            if (ContainsNode(ownerObject, memberName) == false)
             {
-                node = CreateNewNode(ownerObject, memberName, updateMethod);
-                Nodes.Add(node);
+                Nodes.Add(CreateNewNode(ownerObject, memberName, updateMethodName));
+                added = true;
             }
 
-            return node;
+            return added;
         }
 
         /// <summary>
@@ -117,9 +121,9 @@ namespace ReframeCore
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <param name="updateMethod">Delegate of the update method.</param>
         /// <returns>New reactive node.</returns>
-        private INode CreateNewNode(object ownerObject, string memberName, Action updateMethod)
+        private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName)
         {
-            return new Node(ownerObject, memberName, updateMethod);
+            return new Node(ownerObject, memberName, updateMethodName);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,9 +49,32 @@ namespace ReframeCore
         /// Instantiates new reactive node.
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">he name of the class member reactive node represents.</param>
+        /// <param name="updateMethodName">Update method name.</param>
+        public Node(object ownerObject, string memberName, string updateMethodName)
+        {
+            Action action = Reflector.CreateAction(ownerObject, updateMethodName);
+            Initialize(ownerObject, memberName, action);
+        }
+
+        /// <summary>
+        /// Instantiates new reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethod">Delegate to the update method.</param>
         public Node(object ownerObject, string memberName, Action updateMethod)
+        {
+            Initialize(ownerObject, memberName, updateMethod);
+        }
+
+        /// <summary>
+        /// Initializes reactive node's properties.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <param name="updateMethod">Delegate to the update method.</param>
+        private void Initialize(object ownerObject, string memberName, Action updateMethod)
         {
             OwnerObject = ownerObject;
             MemberName = memberName;
