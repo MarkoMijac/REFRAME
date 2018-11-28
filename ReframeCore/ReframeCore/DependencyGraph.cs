@@ -24,6 +24,11 @@ namespace ReframeCore
         /// </summary>
         private IList<INode> Nodes { get; set; }
 
+        /// <summary>
+        /// Settings object for this dependency graph.
+        /// </summary>
+        private Settings Settings { get; set; }
+
         #endregion
 
         #region Constructors
@@ -43,6 +48,7 @@ namespace ReframeCore
         public DependencyGraph(string identifier)
         {
             Identifier = identifier;
+            Settings = new Settings();
             Nodes = new List<INode>();
         }
 
@@ -78,8 +84,20 @@ namespace ReframeCore
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
+        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
+        private bool AddNode(object ownerObject, string memberName)
+        {
+            string updateMethodName = GetDefaultUpdateMethodName(memberName);
+            return AddNode(ownerObject, memberName, "");
+        }
+
+        /// <summary>
+        /// Adds node to dependency graph if such node does not already exist in dependency graph.
+        /// </summary>
+        /// <param name="ownerObject">Owner object associated with reactive node.</param>
+        /// <param name="memberName">Member name represented by reactive node.</param>
         /// <param name="updateMethodName">Update method name.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed. </returns>
+        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
         private bool AddNode(object ownerObject, string memberName, string updateMethodName)
         {
             bool added = false;
@@ -206,9 +224,9 @@ namespace ReframeCore
         /// Removes reactive dependency between two nodes if it exists. The first node stops to be predecessor of the second node,
         /// and the second node stops to be successor on the first node.
         /// </summary>
-        /// <param name="predecessor"></param>
-        /// <param name="successor"></param>
-        public void RemoveDependency(INode predecessor, INode successor)
+        /// <param name="predecessor">Reactive nodes acting as a predecessor in reactive dependecy.</param>
+        /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
+        private void RemoveDependency(INode predecessor, INode successor)
         {
             INode p = GetNode(predecessor);
             INode s = GetNode(successor);
@@ -231,6 +249,16 @@ namespace ReframeCore
             {
                 RemoveNode(s);
             }
+        }
+
+        /// <summary>
+        /// Gets update method name generated from default prefix and property name.
+        /// </summary>
+        /// <param name="memberName">Member name represented by reactive node.</param>
+        /// <returns>Update method name generated from default prefix and property name.</returns>
+        private string GetDefaultUpdateMethodName(string memberName)
+        {
+            return Settings.UpdateMethodNamePrefix + memberName;
         }
 
         #endregion
