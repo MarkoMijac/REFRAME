@@ -1,4 +1,5 @@
-﻿using ReframeCore.Helpers;
+﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,17 @@ namespace ReframeCore
         /// Instantiates new reactive node.
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">he name of the class member reactive node represents.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        public Node(object ownerObject, string memberName)
+        {
+            Initialize(ownerObject, memberName, null);
+        }
+
+        /// <summary>
+        /// Instantiates new reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethodName">Update method name.</param>
         public Node(object ownerObject, string memberName, string updateMethodName)
         {
@@ -76,6 +87,8 @@ namespace ReframeCore
         /// <param name="updateMethod">Delegate to the update method.</param>
         private void Initialize(object ownerObject, string memberName, Action updateMethod)
         {
+            ValidateArguments(ownerObject, memberName);
+
             OwnerObject = ownerObject;
             MemberName = memberName;
             UpdateMethod = updateMethod;
@@ -84,6 +97,20 @@ namespace ReframeCore
             Successors = new List<INode>();
 
             Identifier = GetIdentifier();
+        }
+
+        /// <summary>
+        /// Validates arguments passed in order to create reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        private void ValidateArguments(object ownerObject, string memberName)
+        {
+            if (ownerObject == null 
+                || Reflector.ContainsMember(ownerObject, memberName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+            }
         }
 
         #endregion
