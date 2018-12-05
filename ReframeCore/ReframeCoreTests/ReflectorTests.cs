@@ -119,6 +119,71 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void ContainsMember_NullInstance_ReturnsFalse()
+        {
+            //ARRANGE
+            ExampleClass ex = null;
+
+            //ACT
+            bool contains = Reflector.ContainsMember(ex, _validMemberPropertyName);
+
+            //ASSERT
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsMember_EmptyMemberName_ReturnsFalse()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            bool contains = Reflector.ContainsMember(ex, "");
+
+            //ASSERT
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsMember_NonexistantMemberName_ReturnsFalse()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            bool contains = Reflector.ContainsMember(ex, _invalidMemberPropertyName);
+
+            //ASSERT
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsMember_ValidInstanceAndMemberPropertyName_ReturnsTrue()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            bool contains = Reflector.ContainsMember(ex, _validMemberPropertyName);
+
+            //ASSERT
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsMember_ValidInstanceAndMemberMethodName_ReturnsTrue()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            bool contains = Reflector.ContainsMember(ex, _validMemberMethodName);
+
+            //ASSERT
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
         public void CreateAction_NullInstance_ReturnsNull()
         {
             //ARRANGE
