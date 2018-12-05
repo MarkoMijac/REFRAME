@@ -51,11 +51,16 @@
     <Compile Include="Helpers\ExampleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectorTests.cs" />
+    <Compile Include="NodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">
+      <Project>{2551c41c-aaa2-42d5-a96d-95a44474df92}</Project>
+      <Name>ReframeCoreExamples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
       <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
       <Name>ReframeCore</Name>
