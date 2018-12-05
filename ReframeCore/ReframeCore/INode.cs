@@ -23,6 +23,8 @@ namespace ReframeCore
 
         bool AddPredecessor(INode predecessor);
         bool AddSuccessor(INode successor);
+        bool RemovePredecessor(INode predecessor);
+        bool RemoveSuccessor(INode successor);
 
     }
 }

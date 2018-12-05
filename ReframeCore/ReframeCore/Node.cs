@@ -215,6 +215,16 @@ namespace ReframeCore
         }
 
         /// <summary>
+        /// Removes node's predecessor.
+        /// </summary>
+        /// <param name="predecessor">Predecessor reactive node which should be removed.</param>
+        /// <returns>True if predecessor removed, otherwise false.</returns>
+        public bool RemovePredecessor(INode predecessor)
+        {
+            return Predecessors.Remove(predecessor);
+        }
+
+        /// <summary>
         /// Adds successor to this reactive node.
         /// </summary>
         /// <param name="successor">Reactive node which becomes sucessor.</param>
@@ -240,6 +250,16 @@ namespace ReframeCore
             }
 
             return added;
+        }
+
+        /// <summary>
+        /// Removes node's successor.
+        /// </summary>
+        /// <param name="successor">Successor reactive node which should be removed.</param>
+        /// <returns>True if successor removed, otherwise false.</returns>
+        public bool RemoveSuccessor(INode successor)
+        {
+            return Successors.Remove(successor);
         }
 
         public override string ToString()

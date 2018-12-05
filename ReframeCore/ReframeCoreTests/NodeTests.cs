@@ -314,5 +314,124 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsFalse(added);
         }
+
+        [TestMethod]
+        public void RemovePredecessor_GivenValidPredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            string predecessorPropertyName = "Width";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            node.AddPredecessor(predecessorNode);
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
+        public void RemovePredecessor_GivenNonexistingPredecessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            string predecessorPropertyName = "Width";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = new Node(building00, predecessorPropertyName);
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemovePredecessor_GivenNullPredecessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = null;
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenValidSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Width";
+            
+
+            string successorPropertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            INode node = new Node(building00, propertyName);
+            INode successorNode = new Node(building00, successorPropertyName, updateMethodName);
+            node.AddSuccessor(successorNode);
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenNonexistingSuccessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Width";
+
+
+            string successorPropertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            INode node = new Node(building00, propertyName);
+            INode successorNode = new Node(building00, successorPropertyName, updateMethodName);
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenNullSuccessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Width";
+
+            INode node = new Node(building00, propertyName);
+            INode successorNode = null;
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
     }
 }
