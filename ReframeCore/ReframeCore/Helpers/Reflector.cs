@@ -31,6 +31,24 @@ namespace ReframeCore.Helpers
         }
 
         /// <summary>
+        /// Gets info about property.
+        /// </summary>
+        /// <param name="obj">Object which contains the property.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns>Info about the property.</returns>
+        public static PropertyInfo GetPropertyInfo(object obj, string propertyName)
+        {
+            PropertyInfo propertyInfo = null;
+
+            if (obj != null && propertyName != "")
+            {
+                propertyInfo = obj.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            }
+
+            return propertyInfo;
+        }
+
+        /// <summary>
         /// Creates action delegate referencing specified method of the object.
         /// </summary>
         /// <param name="obj">Object which contains the method.</param>

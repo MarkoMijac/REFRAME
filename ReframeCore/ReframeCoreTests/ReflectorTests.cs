@@ -11,6 +11,8 @@ namespace ReframeCoreTests
     {
         private string _validMemberMethodName = "MemberMethodExample";
         private string _invalidMemberMethodName = "NonexistantMethod";
+        private string _validMemberPropertyName = "MemberProperty";
+        private string _invalidMemberPropertyName = "NonexistantProperty";
 
         [TestMethod]
         public void GetMethodInfo_NullInstance_ReturnsNull()
@@ -32,7 +34,7 @@ namespace ReframeCoreTests
             ExampleClass ex = new ExampleClass();
 
             //ACT
-            MethodInfo info = Reflector.GetMethodInfo(null, "");
+            MethodInfo info = Reflector.GetMethodInfo(ex, "");
 
             //ASSERT
             Assert.IsNull(info);
@@ -52,19 +54,6 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetMethodInfo_ValidInstanceAndMemberMethodName_ReturnsMethodInfo()
-        {
-            //ARRANGE
-            ExampleClass ex = new ExampleClass();
-
-            //ACT
-            MethodInfo info = Reflector.GetMethodInfo(ex, _validMemberMethodName);
-
-            //ASSERT
-            Assert.IsInstanceOfType(info, typeof(MethodInfo));
-        }
-
-        [TestMethod]
         public void GetMethodInfo_ValidInstanceAndMemberMethodName_ReturnsAppropriateMethodInfo()
         {
             //ARRANGE
@@ -75,6 +64,58 @@ namespace ReframeCoreTests
 
             //ASSERT
             Assert.IsTrue(info.DeclaringType == typeof(ExampleClass) && info.Name == _validMemberMethodName);
+        }
+
+        [TestMethod]
+        public void GetPropertyInfo_NullInstance_ReturnsNull()
+        {
+            //ARRANGE
+            ExampleClass ex = null;
+
+            //ACT
+            PropertyInfo info = Reflector.GetPropertyInfo(ex, _validMemberPropertyName);
+
+            //ASSERT
+            Assert.IsNull(info);
+        }
+
+        [TestMethod]
+        public void GetPropertyInfo_EmptyPropertyName_ReturnsNull()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            PropertyInfo info = Reflector.GetPropertyInfo(ex, "");
+
+            //ASSERT
+            Assert.IsNull(info);
+        }
+
+        [TestMethod]
+        public void GetPropertyInfo_NonexistantPropertyName_ReturnsNull()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            PropertyInfo info = Reflector.GetPropertyInfo(ex, _invalidMemberPropertyName);
+
+            //ASSERT
+            Assert.IsNull(info);
+        }
+
+        [TestMethod]
+        public void GetPropertyInfo_ValidInstanceAndMemberPropertyName_ReturnsAppropriatePropertyInfo()
+        {
+            //ARRANGE
+            ExampleClass ex = new ExampleClass();
+
+            //ACT
+            PropertyInfo info = Reflector.GetPropertyInfo(ex, _validMemberPropertyName);
+
+            //ASSERT
+            Assert.IsTrue(info.DeclaringType == typeof(ExampleClass) && info.Name == _validMemberPropertyName);
         }
 
         [TestMethod]

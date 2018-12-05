@@ -12,5 +12,7 @@ namespace ReframeCoreTests.Helpers
         {
 
         }
+
+        public string MemberProperty { get; set; }
     }
 }
