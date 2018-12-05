@@ -195,7 +195,17 @@ namespace ReframeCore
         {
             bool added = false;
 
-            if (!IsPredecessor(predecessor) && predecessor != this)
+            if (predecessor == null)
+            {
+                throw new ReactiveNodeException("Cannot add null object as a predecessor");
+            }
+
+            if (HasSameIdentifier(predecessor))
+            {
+                throw new ReactiveNodeException("Reactive node cannot be both predecessor and successor!");
+            }
+
+            if (!IsPredecessor(predecessor))
             {
                 Predecessors.Add(predecessor);
                 added = true;

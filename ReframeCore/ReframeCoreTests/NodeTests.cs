@@ -175,5 +175,75 @@ namespace ReframeCoreTests
             Assert.IsFalse(same);
         }
 
+        [TestMethod]
+        public void AddPredecessor_GivenAnotherValidNode_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "UpdateArea";
+
+            string predecessorPropertyName = "Width";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = new Node(building00, predecessorPropertyName);
+
+            //Act
+            bool added = node.AddPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
+        [TestMethod]
+        public void AddPredecessor_GivenNullNode_ThrowsException()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "UpdateArea";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = null;
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => node.AddPredecessor(predecessorNode));
+        }
+
+        [TestMethod]
+        public void AddPredecessor_GivenSameNode_ThrowsException()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "UpdateArea";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = node;
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => node.AddPredecessor(predecessorNode));
+        }
+
+        [TestMethod]
+        public void AddPredecessor_GivenAlreadyAddedNode_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "UpdateArea";
+
+            string predecessorPropertyName = "Width";
+
+            INode node = new Node(building00, propertyName, updateMethodName);
+            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            node.AddPredecessor(predecessorNode);
+
+            //Act
+            bool added = node.AddPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsFalse(added);
+        }
     }
 }
