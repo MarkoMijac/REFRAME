@@ -10,7 +10,7 @@ namespace ReframeCoreTests
     public class NodeTests
     {
         [TestMethod]
-        public void NodeConstructor_GivenCorrectArguments_CreatesSourceNode()
+        public void NodeCreation_GivenCorrectArguments_CreatesSourceNode()
         {
             //Arrange
             Building00 building = new Building00();
@@ -24,7 +24,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void NodeConstructor_CreatedSourceNode_HoldsProperData()
+        public void NodeCreation_CreatedSourceNode_HoldsProperData()
         {
             //Arrange
             Building00 building = new Building00();
@@ -38,7 +38,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void NodeConstructor_SourceNodeUpdateInvoke_DoesNotBreak()
+        public void NodeCreation_SourceNodeUpdateInvoke_DoesNotBreak()
         {
             //Arrange
             Building00 building = new Building00();
@@ -57,7 +57,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void NodeConstructor_GivenCorrectArguments_CreatesNonSourceNode()
+        public void NodeCreation_GivenCorrectArguments_CreatesNonSourceNode()
         {
             //Arrange
             Building00 building = new Building00();
@@ -72,7 +72,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void NodeConstructor_GivenNullObject_ThrowsException()
+        public void NodeCreation_GivenNullObject_ThrowsException()
         {
             //Arrange
             Building00 building00 = null;
@@ -83,7 +83,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void NodeConstructor_GivenNonExistantMemberName_ThrowsException()
+        public void NodeCreation_GivenNonExistantMemberName_ThrowsException()
         {
             //Arrange
             Building00 building00 = new Building00();
@@ -91,6 +91,88 @@ namespace ReframeCoreTests
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => new Node(building00, memberName));
+        }
+
+        [TestMethod]
+        public void NodeCreation_CreatedReactiveNode_ObtainedIdentifier()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+
+            //Act
+            INode node = new Node(building00, memberName);
+
+            //Assert
+            Assert.AreNotEqual(default(int), node.Identifier);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+
+            INode node1 = new Node(building00, memberName);
+            INode node2 = new Node(building00, memberName);
+
+            //Act
+            bool same = node1.HasSameIdentifier(node2);
+
+            //Assert
+            Assert.IsTrue(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember1_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+
+            INode node1 = new Node(building00, memberName);
+
+            //Act
+            bool same = node1.HasSameIdentifier(building00, memberName);
+
+            //Assert
+            Assert.IsTrue(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndMember_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+            string memberName2 = "Length";
+
+            INode node1 = new Node(building00, memberName);
+            INode node2 = new Node(building00, memberName2);
+
+            //Act
+            bool same = node1.HasSameIdentifier(node2);
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndMember1_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+            string memberName2 = "Length";
+
+            INode node1 = new Node(building00, memberName);
+
+            //Act
+            bool same = node1.HasSameIdentifier(building00, memberName2);
+
+            //Assert
+            Assert.IsFalse(same);
         }
 
     }

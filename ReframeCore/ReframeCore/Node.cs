@@ -138,13 +138,24 @@ namespace ReframeCore
         }
 
         /// <summary>
-        /// Checks if forwarded reactive node has the same identifier as this reactive node.
+        /// Checks if specified reactive node has the same identifier as this reactive node.
         /// </summary>
-        /// <param name="node">Reactive node which we want to compare.</param>
-        /// <returns>True if forwarded reactive node has the same identifier as this reactive node.</returns>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">Name of the member reactive node represents.</param>
+        /// <returns>True if specified reactive node has the same identifier as this reactive node.</returns>
         public bool HasSameIdentifier(object ownerObject, string memberName)
         {
             return Identifier == GetIdentifier(ownerObject, memberName);
+        }
+
+        /// <summary>
+        /// Checks if specified reactive node has the same identifier as this reactive node.
+        /// </summary>
+        /// <param name="node">Reactive node which we want to compare.</param>
+        /// <returns>True if specified reactive node has the same identifier as this reactive node.</returns>
+        public bool HasSameIdentifier(INode node)
+        {
+            return Identifier == node.Identifier;
         }
 
         /// <summary>

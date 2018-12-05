@@ -16,6 +16,7 @@ namespace ReframeCore
         object OwnerObject { get; }
         void Update();
         bool HasSameIdentifier(object ownerObject, string memberName);
+        bool HasSameIdentifier(INode node);
 
         IList<INode> Predecessors { get; }
         IList<INode> Successors { get; }
