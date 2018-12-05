@@ -223,7 +223,17 @@ namespace ReframeCore
         {
             bool added = false;
 
-            if (!IsSuccessor(successor) && successor != this)
+            if (successor == null)
+            {
+                throw new ReactiveNodeException("Cannot add null object as a successor!");
+            }
+
+            if (HasSameIdentifier(successor))
+            {
+                throw new ReactiveNodeException("Reactive node cannot be both predecessor and successor!");
+            }
+
+            if (!IsSuccessor(successor))
             {
                 Successors.Add(successor);
                 added = true;
