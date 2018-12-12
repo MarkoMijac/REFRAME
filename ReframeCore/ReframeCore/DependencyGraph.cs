@@ -36,14 +36,6 @@ namespace ReframeCore
         /// <summary>
         /// Instantiates new dependency graph.
         /// </summary>
-        public DependencyGraph() : this("")
-        {
-
-        }
-
-        /// <summary>
-        /// Instantiates new dependency graph.
-        /// </summary>
         /// <param name="identifier">Dependency graph unique identifier.</param>
         public DependencyGraph(string identifier)
         {
@@ -61,7 +53,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node which we want to add.</param>
         /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(INode node)
+        public bool AddNode(INode node)
         {
             bool added = false;
 
@@ -116,7 +108,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node for which we are checking.</param>
         /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
-        private bool ContainsNode(INode node)
+        public bool ContainsNode(INode node)
         {
             return GetNode(node) != null;
         }
@@ -127,7 +119,7 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
-        private bool ContainsNode(object ownerObject, string memberName)
+        public bool ContainsNode(object ownerObject, string memberName)
         {
             return GetNode(ownerObject, memberName) != null;
         }
