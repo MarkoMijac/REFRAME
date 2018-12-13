@@ -181,16 +181,27 @@ namespace ReframeCore
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
         public void AddDependency(INode predecessor, INode successor)
         {
+            if (predecessor == null || successor == null)
+            {
+                throw new NodeNullReferenceException("Reactive dependency could not be added! At least one of the involved nodes is null!");
+            }
+
             INode p = GetNode(predecessor);
             INode s = GetNode(successor);
 
-            if (p == null || s == null)
+            if (p == null)
             {
-                throw new ReactiveDependencyException("Reactive dependency could not be added! Specified reactive nodes do not exist!");
+                AddNode(predecessor);
+                p = predecessor;
+            }
+
+            if (s == null)
+            {
+                AddNode(successor);
+                s = successor;
             }
 
             p.AddSuccessor(s);
-            s.AddPredecessor(p);
         }
 
         /// <summary>
@@ -218,29 +229,17 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive nodes acting as a predecessor in reactive dependecy.</param>
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
-        private void RemoveDependency(INode predecessor, INode successor)
+        public bool RemoveDependency(INode predecessor, INode successor)
         {
             INode p = GetNode(predecessor);
             INode s = GetNode(successor);
 
             if (p == null || s == null)
             {
-                throw new ReactiveDependencyException("Reactive dependency could not be removed! Specified reactive nodes do not exist!");
+                throw new ReactiveDependencyException("Reactive dependency could not be removed! Specified reactive nodes are not part of the graph!");
             }
 
-            p.Successors.Remove(s);
-            s.Predecessors.Remove(p);
-
-            //Removing nodes if they are not participating in reactive dependencies anymore (i.e. they do not have any predecessors or dependents).
-            if (p.Predecessors.Count == 0 && p.Successors.Count == 0)
-            {
-                RemoveNode(p);
-            }
-
-            if (s.Predecessors.Count == 0 && s.Successors.Count == 0)
-            {
-                RemoveNode(s);
-            }
+            return p.RemoveSuccessor(s);
         }
 
         /// <summary>
@@ -251,6 +250,26 @@ namespace ReframeCore
         private string GetDefaultUpdateMethodName(string memberName)
         {
             return Settings.UpdateMethodNamePrefix + memberName;
+        }
+
+        /// <summary>
+        /// Clears unused nodes, i.e. removes all nodes from the graph which do not participate in reactive dependencies.
+        /// </summary>
+        /// <returns>Number of nodes removed from graph.</returns>
+        public int RemoveUnusedNodes()
+        {
+            int numberOfRemovedNodes = 0;
+
+            for (int i = Nodes.Count-1; i >=0; i--)
+            {
+                if (Nodes[i].Predecessors.Count == 0 && Nodes[i].Successors.Count == 0)
+                {
+                    RemoveNode(Nodes[i]);
+                    numberOfRemovedNodes++;
+                }
+            }
+
+            return numberOfRemovedNodes;
         }
 
         #endregion
