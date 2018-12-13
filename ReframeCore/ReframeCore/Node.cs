@@ -171,7 +171,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive node that we check if it is a predecessor of this reactive node.</param>
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
-        private bool IsPredecessor(INode predecessor)
+        public bool HasPredecessor(INode predecessor)
         {
             return Predecessors.Contains(predecessor);
         }
@@ -181,7 +181,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive node that we check if it is a successor of this reactive node.</param>
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
-        private bool IsSuccessor(INode successor)
+        public bool HasSuccessor(INode successor)
         {
             return Successors.Contains(successor);
         }
@@ -205,9 +205,10 @@ namespace ReframeCore
                 throw new ReactiveNodeException("Reactive node cannot be both predecessor and successor!");
             }
 
-            if (!IsPredecessor(predecessor))
+            if (!HasPredecessor(predecessor))
             {
                 Predecessors.Add(predecessor);
+                predecessor.AddSuccessor(this);
                 added = true;
             }
 
@@ -221,7 +222,7 @@ namespace ReframeCore
         /// <returns>True if predecessor removed, otherwise false.</returns>
         public bool RemovePredecessor(INode predecessor)
         {
-            return Predecessors.Remove(predecessor);
+            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(this);
         }
 
         /// <summary>
@@ -243,9 +244,10 @@ namespace ReframeCore
                 throw new ReactiveNodeException("Reactive node cannot be both predecessor and successor!");
             }
 
-            if (!IsSuccessor(successor))
+            if (!HasSuccessor(successor))
             {
                 Successors.Add(successor);
+                successor.AddPredecessor(this);
                 added = true;
             }
 
@@ -259,7 +261,7 @@ namespace ReframeCore
         /// <returns>True if successor removed, otherwise false.</returns>
         public bool RemoveSuccessor(INode successor)
         {
-            return Successors.Remove(successor);
+            return Successors.Remove(successor) && successor.Predecessors.Remove(this);
         }
 
         public override string ToString()

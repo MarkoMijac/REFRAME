@@ -25,6 +25,8 @@ namespace ReframeCore
         bool AddSuccessor(INode successor);
         bool RemovePredecessor(INode predecessor);
         bool RemoveSuccessor(INode successor);
+        bool HasPredecessor(INode predecessor);
+        bool HasSuccessor(INode successor);
 
     }
 }
