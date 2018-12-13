@@ -77,7 +77,7 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(object ownerObject, string memberName)
+        public bool AddNode(object ownerObject, string memberName)
         {
             string updateMethodName = GetDefaultUpdateMethodName(memberName);
             return AddNode(ownerObject, memberName, "");
@@ -90,7 +90,7 @@ namespace ReframeCore
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <param name="updateMethodName">Update method name.</param>
         /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(object ownerObject, string memberName, string updateMethodName)
+        public bool AddNode(object ownerObject, string memberName, string updateMethodName)
         {
             bool added = false;
 
@@ -142,7 +142,7 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by the reactive node.</param>
         /// <returns>Reactive node if exists in dependency graph, otherwise null.</returns>
-        private INode GetNode(object ownerObject, string memberName)
+        public INode GetNode(object ownerObject, string memberName)
         {
             return Nodes.FirstOrDefault(n => n.HasSameIdentifier(ownerObject, memberName));
         }
@@ -152,7 +152,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node which we want to find.</param>
         /// <returns>Reactive node if such exists in dependency graph, otherwise null.</returns>
-        private INode GetNode(INode node)
+        public INode GetNode(INode node)
         {
             INode n;
 
@@ -197,7 +197,7 @@ namespace ReframeCore
         /// Removes reactive node from dependency graph if the node does not participate in any reactive dependencies (i.e. it doesn't have any predecessors or successors).
         /// </summary>
         /// <param name="node">Node which we want to remove from dependency graph.</param>
-        private void RemoveNode(INode node)
+        public bool RemoveNode(INode node)
         {
             if (node == null)
             {
@@ -209,7 +209,7 @@ namespace ReframeCore
                 throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
             }
 
-            Nodes.Remove(node);
+            return Nodes.Remove(node);
         }
 
         /// <summary>
