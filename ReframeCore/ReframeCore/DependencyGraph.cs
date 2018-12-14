@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
+    public enum DependencyGraphStatus { NotInitialized, Initialized, NotConsistent, Consistent}
+
     /// <summary>
     /// Dependency graph containing reactive nodes.
     /// </summary>
@@ -29,6 +32,8 @@ namespace ReframeCore
         /// </summary>
         private Settings Settings { get; set; }
 
+        public DependencyGraphStatus Status { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -42,6 +47,12 @@ namespace ReframeCore
             Identifier = identifier;
             Settings = new Settings();
             Nodes = new List<INode>();
+            Status = DependencyGraphStatus.NotInitialized;
+        }
+
+        public void Initialize()
+        {
+            Status = DependencyGraphStatus.Initialized;
         }
 
         #endregion
@@ -270,6 +281,57 @@ namespace ReframeCore
             }
 
             return numberOfRemovedNodes;
+        }
+
+        /// <summary>
+        /// Performs update of all nodes that depend on provided initial node.
+        /// Proper order of update is handled by topologically sorting dependent nodes.
+        /// </summary>
+        /// <param name="initialNode">Initial node that triggered the update.</param>
+        public void PerformUpdate(INode initialNode)
+        {
+            if (Status != DependencyGraphStatus.NotInitialized)
+            {
+                Status = DependencyGraphStatus.NotConsistent;
+
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode);
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
+
+                Status = DependencyGraphStatus.Consistent;
+            }
+            else
+            {
+                throw new DependencyGraphException("Dependency graph is not initialized!");
+            }
+        }
+
+        private IList<INode> GetNodesToUpdate(INode node)
+        {
+            IList<INode> nodesToUpdate = null;
+
+            INode initialNode = GetNode(node);
+
+            if (initialNode == null)
+            {
+                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
+            }
+
+            ISort sortAlgorithm = new TopologicalSort();
+            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, false);
+
+            if (Settings.LogUpdates == true)
+            {
+                Logger.NodesToUpdate.Clear();
+                foreach (var n in nodesToUpdate)
+                {
+                    Logger.NodesToUpdate.Add(n.ToString());
+                }
+            }
+
+            return nodesToUpdate;
         }
 
         #endregion

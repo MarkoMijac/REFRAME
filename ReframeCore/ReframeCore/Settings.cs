@@ -7,9 +7,12 @@
     {
         public string UpdateMethodNamePrefix { get; set; }
 
+        public bool LogUpdates { get; set; }
+
         public Settings()
         {
             UpdateMethodNamePrefix = "Update_";
+            LogUpdates = true;
         }
     }
 }

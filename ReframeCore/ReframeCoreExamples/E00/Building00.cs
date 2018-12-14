@@ -46,6 +46,14 @@ namespace ReframeCoreExamples.E00
             set { _length = value; }
         }
 
+        private double _height;
+
+        public double Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
+
         private double _consumption;
 
         public double Consumption
@@ -97,7 +105,7 @@ namespace ReframeCoreExamples.E00
 
         private void Update_Volume()
         {
-            Volume = Area * 2.4;
+            Volume = Area * Height;
         }
 
         private void Update_TotalConsumption()

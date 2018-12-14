@@ -617,5 +617,111 @@ namespace ReframeCoreTests
             //Assert
             Assert.AreEqual(numOfNodes, 3);
         }
+
+        [TestMethod]
+        public void PerformUpdate_GivenNotInitializedGraph_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = new Node(building, "Width");
+            INode lengthNode = new Node(building, "Length");
+            INode areaNode = new Node(building, "Area", "Update_Area");
+            INode heightNode = new Node(building, "Height");
+            INode volumeNode = new Node(building, "Volume");
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            INode initialNode = widthNode;
+
+            //Act&Assert
+            Assert.ThrowsException<DependencyGraphException>(()=> graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenInitialNodeIsNull_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = new Node(building, "Width");
+            INode lengthNode = new Node(building, "Length");
+            INode areaNode = new Node(building, "Area", "Update_Area");
+            INode heightNode = new Node(building, "Height");
+            INode volumeNode = new Node(building, "Volume");
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            graph.Initialize();
+
+            INode initialNode = null;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenNonExistingInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = new Node(building, "Width");
+            INode lengthNode = new Node(building, "Length");
+            INode areaNode = new Node(building, "Area", "Update_Area");
+            INode heightNode = new Node(building, "Height");
+            INode volumeNode = new Node(building, "Volume");
+
+            INode consumption = new Node(building, "Consumption");
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            graph.Initialize();
+
+            INode initialNode = consumption;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenValidDependencyGraph_PerformsUpdate()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = new Node(building, "Width");
+            INode lengthNode = new Node(building, "Length");
+            INode areaNode = new Node(building, "Area", "Update_Area");
+            INode heightNode = new Node(building, "Height");
+            INode volumeNode = new Node(building, "Volume");
+
+            INode consumption = new Node(building, "Consumption");
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            graph.Initialize();
+
+            INode initialNode = consumption;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
+        }
     }
 }

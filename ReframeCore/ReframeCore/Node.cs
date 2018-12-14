@@ -266,7 +266,7 @@ namespace ReframeCore
 
         public override string ToString()
         {
-            return OwnerObject.GetType().ToString() + " -> " + MemberName;
+            return Identifier + "; " + OwnerObject.GetType().ToString() + ";" + MemberName;
         }
 
         #endregion
