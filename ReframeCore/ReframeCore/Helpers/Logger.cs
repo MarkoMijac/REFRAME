@@ -6,13 +6,58 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Helpers
 {
-    public static class Logger
+    public class Logger
     {
-        private static List<string> _nodesToUpdate = new List<string>();
-        private static List<string> _updatedNodes = new List<string>();
+        private List<string> _nodesToUpdate = new List<string>();
+        private List<string> _updatedNodes = new List<string>();
 
-        public static List<string> NodesToUpdate { get => _nodesToUpdate; }
+        public Logger()
+        {
+            _nodesToUpdate = new List<string>();
+            _updatedNodes = new List<string>();
+        }
 
-        public static List<string> UpdatedNodes { get => _updatedNodes; }
+        public void LogNodeToUpdate(INode node)
+        {
+            _nodesToUpdate.Add(ExtractData(node));
+        }
+
+        public void LogUpdatedNode(INode node)
+        {
+            _updatedNodes.Add(ExtractData(node));
+        }
+
+        public void ClearNodesToUpdate()
+        {
+            _nodesToUpdate.Clear();
+        }
+
+        public void ClearUpdatedNodes()
+        {
+            _updatedNodes.Clear();
+        }
+
+        private string ExtractData(INode node)
+        {
+            string data = "";
+
+            data += node.Identifier + ";";
+            data += node.MemberName + ";";
+            data += node.OwnerObject.GetType().ToString() + ";";
+
+            return data;
+        }
+
+        public string GetNodesToUpdate()
+        {
+            string data = "";
+
+            foreach (var d in _nodesToUpdate)
+            {
+                data += d + Environment.NewLine;
+            }
+
+            return data;
+        }
     }
 }
