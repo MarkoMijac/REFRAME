@@ -12,6 +12,8 @@ namespace ReframeCoreTests
     [TestClass]
     public class DependencyGraphTests
     {
+        #region AddNode
+
         [TestMethod]
         public void AddNode_GivenNullObject_ThrowsException()
         {
@@ -20,7 +22,7 @@ namespace ReframeCoreTests
             INode node = null;
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(()=>graph.AddNode(node));
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddNode(node));
         }
 
         [TestMethod]
@@ -138,6 +140,10 @@ namespace ReframeCoreTests
             Assert.ThrowsException<ReactiveNodeException>(() => graph.AddNode(building, memberName, updateMethodName));
         }
 
+        #endregion
+
+        #region ContainsNode
+
         [TestMethod]
         public void ContainsNode_GivenAddedNode_ReturnsTrue()
         {
@@ -203,6 +209,10 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsFalse(contains);
         }
+
+        #endregion
+
+        #region GetNode
 
         [TestMethod]
         public void GetNode_GivenSuchNodeExists_ReturnsNode()
@@ -307,8 +317,12 @@ namespace ReframeCoreTests
             INode node = null;
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(()=> graph.GetNode(node));
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.GetNode(node));
         }
+
+        #endregion
+
+        #region RemoveNode
 
         [TestMethod]
         public void RemoveNode_GivenInvalidArguments_ThrowsException()
@@ -392,6 +406,10 @@ namespace ReframeCoreTests
             Assert.IsTrue(removed);
         }
 
+        #endregion
+
+        #region AddDependency
+
         [TestMethod]
         public void AddDependency_GivenValidAddedNodes_DependencyAdded()
         {
@@ -469,6 +487,10 @@ namespace ReframeCoreTests
             Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
         }
 
+        #endregion
+
+        #region RemoveDependency
+
         [TestMethod]
         public void RemoveDependency_GivenNullNodes_ThrowsException()
         {
@@ -540,6 +562,10 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(removed);
         }
+
+        #endregion
+
+        #region RemoveUnusedNodes
 
         [TestMethod]
         public void RemoveUnusedNodes_GivenEmptyGraph_ReturnsZero()
@@ -619,6 +645,10 @@ namespace ReframeCoreTests
             Assert.AreEqual(numOfNodes, 3);
         }
 
+        #endregion
+
+        #region PerformUpdate GENERAL
+
         [TestMethod]
         public void PerformUpdate_GivenNotInitializedGraph_ThrowsException()
         {
@@ -696,6 +726,8 @@ namespace ReframeCoreTests
             //Act&Assert
             Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
         }
+
+        #endregion
 
         #region PerformUpdate CASE 1
 
