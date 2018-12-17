@@ -11,7 +11,7 @@ namespace ReframeCore
     /// </summary>
     public interface INode
     {
-        int Identifier { get; }
+        uint Identifier { get; }
         string MemberName { get; }
         object OwnerObject { get; }
         void Update();

@@ -15,7 +15,7 @@ namespace ReframeCore
     {
         #region Properties
 
-        public int Identifier { get; private set; }
+        public uint Identifier { get; private set; }
 
         /// <summary>
         /// The name of the class member (property or method) reactive node represents.
@@ -121,7 +121,7 @@ namespace ReframeCore
         /// Gets reactive node's unique identifier.
         /// </summary>
         /// <returns>Reactive node's unique identifier.</returns>
-        private int GetIdentifier()
+        private uint GetIdentifier()
         {
             return GetIdentifier(OwnerObject, MemberName);
         }
@@ -132,9 +132,9 @@ namespace ReframeCore
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <returns>Reactive node's unique identifier.</returns>
-        private int GetIdentifier(object ownerObject, string memberName)
+        private uint GetIdentifier(object ownerObject, string memberName)
         {
-            return ownerObject.GetHashCode() + memberName.GetHashCode();
+            return (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
         }
 
         /// <summary>

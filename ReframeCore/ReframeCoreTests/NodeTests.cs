@@ -104,7 +104,7 @@ namespace ReframeCoreTests
             INode node = new Node(building00, memberName);
 
             //Assert
-            Assert.AreNotEqual(default(int), node.Identifier);
+            Assert.AreNotEqual(default(uint), node.Identifier);
         }
 
         [TestMethod]
