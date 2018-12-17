@@ -311,6 +311,34 @@ namespace ReframeCore
             }
         }
 
+        /// <summary>
+        /// Performs update of all nodes in dependency graph. Proper order of update is handled by topologically sorting dependend nodes.
+        /// </summary>
+        public void PerformUpdate()
+        {
+            if (Status != DependencyGraphStatus.NotInitialized)
+            {
+                Status = DependencyGraphStatus.NotConsistent;
+
+                IList<INode> nodesToUpdate = GetNodesToUpdate();
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
+
+                Status = DependencyGraphStatus.Consistent;
+            }
+            else
+            {
+                throw new DependencyGraphException("Dependency graph is not initialized!");
+            }
+        }
+
+        /// <summary>
+        /// Gets nodes from dependency graph that need to be updated, arranged in order they should be updated.
+        /// </summary>
+        /// <param name="node">Initial node that triggered the update.</param>
+        /// <returns>List of nodes from dependency graph that need to be updated.</returns>
         private IList<INode> GetNodesToUpdate(INode node)
         {
             IList<INode> nodesToUpdate = null;
@@ -325,6 +353,31 @@ namespace ReframeCore
             ISort sortAlgorithm = new TopologicalSort();
             nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, true);
 
+            LogNodesToUpdate(nodesToUpdate);
+
+            return nodesToUpdate;
+        }
+
+        /// <summary>
+        /// Gets all nodes from dependency graph, arranged in order they should be updated.
+        /// </summary>
+        /// <returns>List of all nodes from dependency graph.</returns>
+        private IList<INode> GetNodesToUpdate()
+        {
+            ISort sortAlgorithm = new TopologicalSort();
+            IList<INode> nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors);
+
+            LogNodesToUpdate(nodesToUpdate);
+
+            return nodesToUpdate;
+        }
+
+        /// <summary>
+        /// Logs nodes to be updated.
+        /// </summary>
+        /// <param name="nodesToUpdate">Nodes to be updated.</param>
+        private void LogNodesToUpdate(IList<INode> nodesToUpdate)
+        {
             if (Settings.LogUpdates == true)
             {
                 Logger.ClearNodesToUpdate();
@@ -333,8 +386,6 @@ namespace ReframeCore
                     Logger.LogNodeToUpdate(n);
                 }
             }
-
-            return nodesToUpdate;
         }
 
         #endregion

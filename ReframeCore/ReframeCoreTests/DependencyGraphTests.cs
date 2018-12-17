@@ -701,7 +701,7 @@ namespace ReframeCoreTests
 
         /*
          * Simple dependency graph with 8 nodes and 8 reactive dependencies. All nodes and dependencies are from the same object.
-         * Dependencies are arrange so that there would be a glitch if there was no topological order.
+         * Dependencies are arranged so that there would be a glitch if there was no topological order.
          */
 
         [TestMethod]
@@ -861,6 +861,25 @@ namespace ReframeCoreTests
             Assert.IsTrue(building.Area == 100 && building.Volume == 400 && building.TotalConsumption == 2000 && building.TotalConsumptionPer_m3 == 5);
         }
 
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenNoInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
         private void CreateCase1(DependencyGraph graph, Building00 building)
         {
             building.Width = 10;
@@ -928,6 +947,22 @@ namespace ReframeCoreTests
             logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
             logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
             logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case1_GivenNoInitialNode(DependencyGraph graph, Building00 building)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(building, "Consumption"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "Height"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "Length"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "Width"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "Area"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
 
             return logger;
         }
