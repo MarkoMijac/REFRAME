@@ -34,6 +34,8 @@ namespace ReframeCore
 
         public DependencyGraphStatus Status { get; private set; }
 
+        public Logger Logger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -48,6 +50,7 @@ namespace ReframeCore
             Settings = new Settings();
             Nodes = new List<INode>();
             Status = DependencyGraphStatus.NotInitialized;
+            Logger = new Logger();
         }
 
         public void Initialize()
@@ -320,14 +323,14 @@ namespace ReframeCore
             }
 
             ISort sortAlgorithm = new TopologicalSort();
-            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, false);
+            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, true);
 
             if (Settings.LogUpdates == true)
             {
-                Logger.NodesToUpdate.Clear();
+                Logger.ClearNodesToUpdate();
                 foreach (var n in nodesToUpdate)
                 {
-                    Logger.NodesToUpdate.Add(n.ToString());
+                    Logger.LogNodeToUpdate(n);
                 }
             }
 
