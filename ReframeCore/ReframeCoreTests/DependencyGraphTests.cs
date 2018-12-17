@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeCore.Exceptions;
 using ReframeCoreExamples.E00;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreTests
 {
@@ -696,32 +697,241 @@ namespace ReframeCoreTests
             Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
         }
 
+        #region PerformUpdate CASE 1
+
+        /*
+         * Simple dependency graph with 8 nodes and 8 reactive dependencies. All nodes and dependencies are from the same object.
+         * Dependencies are arrange so that there would be a glitch if there was no topological order.
+         */
+
         [TestMethod]
-        public void PerformUpdate_GivenValidDependencyGraph_PerformsUpdate()
+        public void PerformUpdate_Case1_GivenWidthAsInitialNode_SchedulesCorrectUpdateOrder()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenLengthAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Length");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenHeightAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Height");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenHeightAsInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenConsumptionAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Consumption");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenAreaAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Area");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_AreaAsInitialNode(graph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenTotalConsumptionPer_m3AsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "TotalConsumptionPer_m3");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+
+            Assert.AreEqual("", actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenWidthAsInitialNode_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(building.Area == 90 && building.Volume == 360 && building.TotalConsumption == 1800 && building.TotalConsumptionPer_m3 == 5);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_ChangingLength_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            CreateCase1(graph, building);
+            INode initialNode = graph.GetNode(building, "Width");
+            graph.PerformUpdate(initialNode);
+
+            building.Length = 10;
+            initialNode = graph.GetNode(building, "Length");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(building.Area == 100 && building.Volume == 400 && building.TotalConsumption == 2000 && building.TotalConsumptionPer_m3 == 5);
+        }
+
+        private void CreateCase1(DependencyGraph graph, Building00 building)
+        {
+            building.Width = 10;
+            building.Length = 9;
+            building.Height = 4;
+            building.Consumption = 20;
+
             INode widthNode = new Node(building, "Width");
             INode lengthNode = new Node(building, "Length");
             INode areaNode = new Node(building, "Area", "Update_Area");
             INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
-
-            INode consumption = new Node(building, "Consumption");
+            INode volumeNode = new Node(building, "Volume", "Update_Volume");
+            INode consumptionNode = new Node(building, "Consumption");
+            INode totalConsumptionNode = new Node(building, "TotalConsumption", "Update_TotalConsumption");
+            INode totalConsumptionPer_m3 = new Node(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3");
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
             graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(areaNode, totalConsumptionNode);
             graph.AddDependency(heightNode, volumeNode);
+            graph.AddDependency(consumptionNode, totalConsumptionNode);
+            graph.AddDependency(totalConsumptionNode, totalConsumptionPer_m3);
+            graph.AddDependency(volumeNode, totalConsumptionPer_m3);
 
             graph.Initialize();
-
-            INode initialNode = consumption;
-
-            //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
         }
+
+        private Logger CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building00 building00)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(building00, "Area"));
+            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
+            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
+            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case1_GivenHeightAsInitialNode(DependencyGraph graph, Building00 building)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(DependencyGraph graph, Building00 building)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
+            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case1_AreaAsInitialNode(DependencyGraph graph, Building00 building00)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
+            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
+            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+
+            return logger;
+        }
+
+        #endregion
     }
 }

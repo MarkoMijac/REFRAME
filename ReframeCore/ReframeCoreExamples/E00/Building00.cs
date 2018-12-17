@@ -86,12 +86,12 @@ namespace ReframeCoreExamples.E00
             private set { _totalConsumption = value; }
         }
 
-        private double _specConsumption;
+        private double _totalConsumptionPer_m3;
 
-        public double SpecConsumption
+        public double TotalConsumptionPer_m3
         {
-            get { return _specConsumption; }
-            private set { _specConsumption = value; }
+            get { return _totalConsumptionPer_m3; }
+            private set { _totalConsumptionPer_m3 = value; }
         }
 
         #endregion
@@ -113,16 +113,16 @@ namespace ReframeCoreExamples.E00
             TotalConsumption = Consumption * Area;
         }
 
-        private void Update_SpecConsumption()
+        private void Update_TotalConsumptionPer_m3()
         {
-            double spec = TotalConsumption / 2.9;
-            if (double.IsNaN(spec))
+            double consumptionPer_m3 = TotalConsumption / Volume;
+            if (double.IsNaN(consumptionPer_m3))
             {
-                SpecConsumption = 0;
+                TotalConsumptionPer_m3 = 0;
             }
             else
             {
-                SpecConsumption = spec;
+                TotalConsumptionPer_m3 = consumptionPer_m3;
             }
         }
 
