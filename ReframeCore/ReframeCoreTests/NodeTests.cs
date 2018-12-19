@@ -147,7 +147,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndMember_ReturnsFalse()
+        public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember_ReturnsFalse()
         {
             //Arrange
             Building00 building00 = new Building00();
@@ -165,7 +165,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndMember1_ReturnsFalse()
+        public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember1_ReturnsFalse()
         {
             //Arrange
             Building00 building00 = new Building00();
@@ -176,6 +176,43 @@ namespace ReframeCoreTests
 
             //Act
             bool same = node1.HasSameIdentifier(building00, memberName2);
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building1 = new Building00();
+            Building00 building2 = new Building00();
+
+            string memberName = "Width";
+
+            INode node1 = new Node(building1, memberName);
+            INode node2 = new Node(building2, memberName);
+
+            //Act
+            bool same = node1.HasSameIdentifier(node2);
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember1_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building1 = new Building00();
+            Building00 building2 = new Building00();
+
+            string memberName = "Width";
+
+            INode node1 = new Node(building1, memberName);
+
+            //Act
+            bool same = node1.HasSameIdentifier(building2, memberName);
 
             //Assert
             Assert.IsFalse(same);
