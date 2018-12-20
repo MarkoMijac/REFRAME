@@ -507,6 +507,58 @@ namespace ReframeCoreTests
             Assert.IsTrue(apartmentTotalArea.HasPredecessor(basementArea) && basementArea.HasSuccessor(apartmentTotalArea));
         }
 
+        [TestMethod]
+        public void AddDependency1_GivenValidAddedNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Width";
+            string successorMember = "Area";
+
+            INode predecessor = graph.AddNode(building, predecessorMember);
+            INode successor = graph.AddNode(building, successorMember);
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenNullNodes_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+
+            object predecessorObject = null;
+            string predecessorMember = "";
+            object successorObject = new Building00();
+            string successorMember = "Width";
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddDependency(predecessorObject, predecessorMember, successorObject, successorMember));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenValidButNotAddedNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Width";
+            string successorMember = "Area";
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            INode predecessor = graph.GetNode(building, predecessorMember);
+            INode successor = graph.GetNode(building, successorMember);
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
         #endregion
 
         #region RemoveDependency
@@ -1067,42 +1119,42 @@ namespace ReframeCoreTests
             apartment.Balcony.Length = 3;
             apartment.Balcony.UtilCoeff = 0.5;
 
-            INode balconyWidthNode = new Node(apartment.Balcony, "Width");
-            INode balconyLengthNode = new Node(apartment.Balcony, "Length");
-            INode balconyAreaNode = new Node(apartment.Balcony, "Area", "Update_Area");
+            INode balconyWidthNode = graph.AddNode(apartment.Balcony, "Width");
+            INode balconyLengthNode = graph.AddNode(apartment.Balcony, "Length");
+            INode balconyAreaNode = graph.AddNode(apartment.Balcony, "Area");
 
             graph.AddDependency(balconyWidthNode, balconyAreaNode);
             graph.AddDependency(balconyLengthNode, balconyAreaNode);
 
-            INode basementWidthNode = new Node(apartment.Basement, "Width");
-            INode basementLengthNode = new Node(apartment.Basement, "Length");
-            INode basementAreaNode = new Node(apartment.Basement, "Area", "Update_Area");
+            INode basementWidthNode = graph.AddNode(apartment.Basement, "Width");
+            INode basementLengthNode = graph.AddNode(apartment.Basement, "Length");
+            INode basementAreaNode = graph.AddNode(apartment.Basement, "Area");
 
             graph.AddDependency(basementWidthNode, basementAreaNode);
             graph.AddDependency(basementLengthNode, basementAreaNode);
 
-            INode widthNode = new Node(apartment, "Width");
-            INode lengthNode = new Node(apartment, "Length");
-            INode heatedAreaNode = new Node(apartment, "HeatedArea", "Update_HeatedArea");
+            INode widthNode = graph.AddNode(apartment, "Width");
+            INode lengthNode = graph.AddNode(apartment, "Length");
+            INode heatedAreaNode = graph.AddNode(apartment, "HeatedArea");
 
             graph.AddDependency(widthNode, heatedAreaNode);
             graph.AddDependency(lengthNode, heatedAreaNode);
 
-            INode heightNode = new Node(apartment, "Height");
-            INode heatedVolumeNode = new Node(apartment, "HeatedVolume", "Update_HeatedVolume");
+            INode heightNode = graph.AddNode(apartment, "Height");
+            INode heatedVolumeNode = graph.AddNode(apartment, "HeatedVolume");
 
             graph.AddDependency(heightNode, heatedVolumeNode);
             graph.AddDependency(heatedAreaNode, heatedVolumeNode);
 
-            INode consumptionNode = new Node(apartment, "Consumption");
-            INode totalConsumptionNode = new Node(apartment, "TotalConsumption", "Update_TotalConsumption");
+            INode consumptionNode = graph.AddNode(apartment, "Consumption");
+            INode totalConsumptionNode = graph.AddNode(apartment, "TotalConsumption");
 
             graph.AddDependency(consumptionNode, totalConsumptionNode);
             graph.AddDependency(heatedVolumeNode, totalConsumptionNode);
 
-            INode totalAreaNode = new Node(apartment, "TotalArea", "Update_TotalArea");
-            INode balconyUtilCoeffNode = new Node(apartment.Balcony, "UtilCoeff");
-            INode basementUtilCoeffNode = new Node(apartment.Basement, "UtilCoeff");
+            INode totalAreaNode = graph.AddNode(apartment, "TotalArea");
+            INode balconyUtilCoeffNode = graph.AddNode(apartment.Balcony, "UtilCoeff");
+            INode basementUtilCoeffNode = graph.AddNode(apartment.Basement, "UtilCoeff");
 
             graph.AddDependency(heatedAreaNode, totalAreaNode);
             graph.AddDependency(balconyAreaNode, totalAreaNode);

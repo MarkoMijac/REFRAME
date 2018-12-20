@@ -224,6 +224,27 @@ namespace ReframeCore
         }
 
         /// <summary>
+        /// Constructs reactive dependency between two reactive nodes, where the first node acts as a predecessor and
+        /// the second one as successor.
+        /// </summary>
+        /// <param name="predecessorObject">Owner object associated with predecessor reactive node.</param>
+        /// <param name="predecessorMember">Member name represented by the predecessor reactive node.</param>
+        /// <param name="successorObject">Owner object associated with successor reactive node.</param>
+        /// <param name="successorMember">Member name represented by the successor reactive node</param>
+        public void AddDependency(object predecessorObject, string predecessorMember, object successorObject, string successorMember)
+        {
+            if (predecessorObject == null || predecessorMember == "" || successorObject == null || successorMember == "")
+            {
+                throw new NodeNullReferenceException("Reactive dependency could not be added! At least one of the involved nodes is null!");
+            }
+
+            INode predecessor = AddNode(predecessorObject, predecessorMember);
+            INode successor = AddNode(successorObject, successorMember);
+
+            AddDependency(predecessor, successor);
+        }
+
+        /// <summary>
         /// Removes reactive node from dependency graph if the node does not participate in any reactive dependencies (i.e. it doesn't have any predecessors or successors).
         /// </summary>
         /// <param name="node">Node which we want to remove from dependency graph.</param>
