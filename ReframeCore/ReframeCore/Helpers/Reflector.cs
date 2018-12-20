@@ -99,5 +99,72 @@ namespace ReframeCore.Helpers
             MethodInfo methodInfo = GetMethodInfo(obj, methodName);
             return CreateAction(obj, methodInfo);
         }
+
+        /// <summary>
+        /// Checks if specified member is a property.
+        /// </summary>
+        /// <param name="obj">Object which contains the member.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <returns>True if the member is a property, otherwise False.</returns>
+        public static bool IsProperty(object obj, string memberName)
+        {
+            bool isProperty = false;
+
+            if (obj != null && memberName != "")
+            {
+                MemberInfo[] infos = obj.GetType().GetMember(memberName, MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (infos.Length > 0)
+                {
+                    isProperty = true;
+                }
+            }
+
+            return isProperty;
+        }
+
+        /// <summary>
+        /// Checks if specified member is a method.
+        /// </summary>
+        /// <param name="obj">Object which contains the member.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <returns>True if the member is a method, otherwise False.</returns>
+        public static bool IsMethod(object obj, string memberName)
+        {
+            bool isMethod = false;
+
+            if (obj != null && memberName != "")
+            {
+                MemberInfo[] infos = obj.GetType().GetMember(memberName, MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (infos.Length > 0)
+                {
+                    isMethod = true;
+                }
+            }
+
+            return isMethod;
+        }
+
+        /// <summary>
+        /// Gets the type of the member.
+        /// </summary>
+        /// <param name="obj">Object which contains the member.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <returns>Type of the member.</returns>
+        public static MemberTypes GetMemberType(object obj, string memberName)
+        {
+            MemberTypes type = default(MemberTypes);
+
+            if (obj != null && memberName != "")
+            {
+                MemberInfo[] infos = obj.GetType().GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (infos.Length > 0)
+                {
+                    type = infos[0].MemberType;
+                }
+            }
+
+            return type;
+        }
     }
 }
