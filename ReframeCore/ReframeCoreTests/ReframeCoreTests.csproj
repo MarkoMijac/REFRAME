@@ -52,7 +52,7 @@
     <Compile Include="Helpers\ExampleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectorTests.cs" />
-    <Compile Include="NodeTests.cs" />
+    <Compile Include="PropertyNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

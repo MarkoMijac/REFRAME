@@ -33,7 +33,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool added = graph.AddNode(node);
@@ -49,7 +49,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -105,7 +105,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -152,7 +152,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -169,7 +169,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool contains = graph.ContainsNode(node);
@@ -185,7 +185,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -202,7 +202,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
@@ -284,7 +284,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -301,7 +301,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             INode n = graph.GetNode(node);
@@ -343,7 +343,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool removed = graph.RemoveNode(node);
@@ -360,8 +360,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new Node(building, memberName);
-            INode successorNode = new Node(building, memberName2);
+            INode predecessorNode = new PropertyNode(building, memberName);
+            INode successorNode = new PropertyNode(building, memberName2);
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -379,8 +379,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new Node(building, memberName);
-            INode successorNode = new Node(building, memberName2);
+            INode predecessorNode = new PropertyNode(building, memberName);
+            INode successorNode = new PropertyNode(building, memberName2);
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -397,7 +397,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -420,8 +420,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -455,8 +455,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -477,8 +477,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -497,8 +497,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
-            INode basementArea = new Node(basement, "Area");
+            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
+            INode basementArea = new PropertyNode(basement, "Area");
 
             //Act
             graph.AddDependency(basementArea, apartmentTotalArea);
@@ -585,8 +585,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             //Act&Assert
             Assert.ThrowsException<ReactiveDependencyException>(() => graph.RemoveDependency(predecessor, successor));
@@ -601,8 +601,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -624,8 +624,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
-            INode basementArea = new Node(basement, "Area");
+            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
+            INode basementArea = new PropertyNode(basement, "Area");
 
             graph.AddDependency(basementArea, apartmentTotalArea);
 
@@ -645,8 +645,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddDependency(predecessor, successor);
 
@@ -683,8 +683,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddDependency(predecessor, successor);
 
             //Act
@@ -704,8 +704,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddDependency(predecessor, successor);
             graph.AddNode(building00, memberName3);
 
@@ -726,8 +726,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddNode(predecessor);
             graph.AddNode(successor);
             graph.AddNode(building00, memberName3);
@@ -750,11 +750,11 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
+            INode widthNode = new PropertyNode(building, "Width");
+            INode lengthNode = new PropertyNode(building, "Length");
+            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
+            INode heightNode = new PropertyNode(building, "Height");
+            INode volumeNode = new PropertyNode(building, "Volume");
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -774,11 +774,11 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
+            INode widthNode = new PropertyNode(building, "Width");
+            INode lengthNode = new PropertyNode(building, "Length");
+            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
+            INode heightNode = new PropertyNode(building, "Height");
+            INode volumeNode = new PropertyNode(building, "Volume");
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -800,13 +800,13 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
+            INode widthNode = new PropertyNode(building, "Width");
+            INode lengthNode = new PropertyNode(building, "Length");
+            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
+            INode heightNode = new PropertyNode(building, "Height");
+            INode volumeNode = new PropertyNode(building, "Volume");
 
-            INode consumption = new Node(building, "Consumption");
+            INode consumption = new PropertyNode(building, "Consumption");
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -1013,14 +1013,14 @@ namespace ReframeCoreTests
             building.Height = 4;
             building.Consumption = 20;
 
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume", "Update_Volume");
-            INode consumptionNode = new Node(building, "Consumption");
-            INode totalConsumptionNode = new Node(building, "TotalConsumption", "Update_TotalConsumption");
-            INode totalConsumptionPer_m3 = new Node(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3");
+            INode widthNode = new PropertyNode(building, "Width");
+            INode lengthNode = new PropertyNode(building, "Length");
+            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
+            INode heightNode = new PropertyNode(building, "Height");
+            INode volumeNode = new PropertyNode(building, "Volume", "Update_Volume");
+            INode consumptionNode = new PropertyNode(building, "Consumption");
+            INode totalConsumptionNode = new PropertyNode(building, "TotalConsumption", "Update_TotalConsumption");
+            INode totalConsumptionPer_m3 = new PropertyNode(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3");
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);

@@ -152,7 +152,7 @@ namespace ReframeCore
         /// <returns>New reactive node.</returns>
         private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName)
         {
-            return new Node(ownerObject, memberName, updateMethodName);
+            return new PropertyNode(ownerObject, memberName, updateMethodName);
         }
 
         /// <summary>
