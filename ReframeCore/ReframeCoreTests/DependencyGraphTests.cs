@@ -1119,48 +1119,30 @@ namespace ReframeCoreTests
             apartment.Balcony.Length = 3;
             apartment.Balcony.UtilCoeff = 0.5;
 
-            INode balconyWidthNode = graph.AddNode(apartment.Balcony, "Width");
-            INode balconyLengthNode = graph.AddNode(apartment.Balcony, "Length");
-            INode balconyAreaNode = graph.AddNode(apartment.Balcony, "Area");
+            graph.AddDependency(apartment.Balcony, "Width", apartment.Balcony, "Area");
+            graph.AddDependency(apartment.Balcony, "Length", apartment.Balcony, "Area");
 
-            graph.AddDependency(balconyWidthNode, balconyAreaNode);
-            graph.AddDependency(balconyLengthNode, balconyAreaNode);
+            graph.AddDependency(apartment.Basement, "Width", apartment.Basement, "Area");
+            graph.AddDependency(apartment.Basement, "Length", apartment.Basement, "Area");
 
-            INode basementWidthNode = graph.AddNode(apartment.Basement, "Width");
-            INode basementLengthNode = graph.AddNode(apartment.Basement, "Length");
-            INode basementAreaNode = graph.AddNode(apartment.Basement, "Area");
+            graph.AddDependency(apartment, "Width", apartment, "HeatedArea");
+            graph.AddDependency(apartment, "Length", apartment, "HeatedArea");
 
-            graph.AddDependency(basementWidthNode, basementAreaNode);
-            graph.AddDependency(basementLengthNode, basementAreaNode);
+            graph.AddDependency(apartment, "Height", apartment, "HeatedVolume");
+            graph.AddDependency(apartment, "HeatedArea", apartment, "HeatedVolume");
 
-            INode widthNode = graph.AddNode(apartment, "Width");
-            INode lengthNode = graph.AddNode(apartment, "Length");
-            INode heatedAreaNode = graph.AddNode(apartment, "HeatedArea");
-
-            graph.AddDependency(widthNode, heatedAreaNode);
-            graph.AddDependency(lengthNode, heatedAreaNode);
-
-            INode heightNode = graph.AddNode(apartment, "Height");
-            INode heatedVolumeNode = graph.AddNode(apartment, "HeatedVolume");
-
-            graph.AddDependency(heightNode, heatedVolumeNode);
-            graph.AddDependency(heatedAreaNode, heatedVolumeNode);
-
-            INode consumptionNode = graph.AddNode(apartment, "Consumption");
-            INode totalConsumptionNode = graph.AddNode(apartment, "TotalConsumption");
-
-            graph.AddDependency(consumptionNode, totalConsumptionNode);
-            graph.AddDependency(heatedVolumeNode, totalConsumptionNode);
+            graph.AddDependency(apartment, "Consumption", apartment, "TotalConsumption");
+            graph.AddDependency(apartment, "HeatedVolume", apartment, "TotalConsumption");
 
             INode totalAreaNode = graph.AddNode(apartment, "TotalArea");
             INode balconyUtilCoeffNode = graph.AddNode(apartment.Balcony, "UtilCoeff");
             INode basementUtilCoeffNode = graph.AddNode(apartment.Basement, "UtilCoeff");
 
-            graph.AddDependency(heatedAreaNode, totalAreaNode);
-            graph.AddDependency(balconyAreaNode, totalAreaNode);
-            graph.AddDependency(basementAreaNode, totalAreaNode);
-            graph.AddDependency(balconyUtilCoeffNode, totalAreaNode);
-            graph.AddDependency(basementUtilCoeffNode, totalAreaNode);
+            graph.AddDependency(apartment, "HeatedArea", apartment, "TotalArea");
+            graph.AddDependency(apartment.Balcony, "Area", apartment, "TotalArea");
+            graph.AddDependency(apartment.Basement, "Area", apartment, "TotalArea");
+            graph.AddDependency(apartment.Balcony, "UtilCoeff", apartment, "TotalArea");
+            graph.AddDependency(apartment.Basement, "UtilCoeff", apartment, "TotalArea");
 
             graph.Initialize();
         }
