@@ -6,6 +6,7 @@ using ReframeCore;
 using ReframeCore.Exceptions;
 using ReframeCoreExamples.E00;
 using ReframeCore.Helpers;
+using ReframeCoreExamples.E01;
 
 namespace ReframeCoreTests
 {
@@ -430,7 +431,6 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
-
         }
 
         [TestMethod]
@@ -485,6 +485,26 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenNodesFromDifferentObjects_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment01 = new Apartment01 { Name = "AP-01" };
+
+            AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
+            apartment01.Basement = basement;
+
+            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
+            INode basementArea = new Node(basement, "Area");
+
+            //Act
+            graph.AddDependency(basementArea, apartmentTotalArea);
+
+            //Assert
+            Assert.IsTrue(apartmentTotalArea.HasPredecessor(basementArea) && basementArea.HasSuccessor(apartmentTotalArea));
         }
 
         #endregion
@@ -544,6 +564,28 @@ namespace ReframeCoreTests
 
         [TestMethod]
         public void RemoveDependency_GivenValidAddedNodesWithDependency_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment01 = new Apartment01 { Name = "AP-01" };
+
+            AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
+            apartment01.Basement = basement;
+
+            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
+            INode basementArea = new Node(basement, "Area");
+
+            graph.AddDependency(basementArea, apartmentTotalArea);
+
+            //Act
+            bool removed = graph.RemoveDependency(basementArea, apartmentTotalArea);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
+        public void RemoveDependency_GivenNodesFromDifferentObjectsWithDependency_ReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -997,6 +1039,233 @@ namespace ReframeCoreTests
             logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
 
             return logger;
+        }
+
+        #endregion
+
+        #region PerformUpdate CASE2
+
+        /*
+         * Simple dependency graph with nodes from three objects of two different classes.
+         */
+
+        private void CreateCase2(DependencyGraph graph, Apartment01 apartment)
+        {
+            apartment.Basement = new AdditionalPart01 { Name = "Basement"};
+            apartment.Balcony = new AdditionalPart01 { Name = "Balcony" };
+
+            apartment.Width = 10;
+            apartment.Length = 7;
+            apartment.Height = 2.5;
+            apartment.Consumption = 6;
+
+            apartment.Basement.Width = 4;
+            apartment.Basement.Length = 2;
+            apartment.Basement.UtilCoeff = 0.6;
+
+            apartment.Balcony.Width = 1;
+            apartment.Balcony.Length = 3;
+            apartment.Balcony.UtilCoeff = 0.5;
+
+            INode balconyWidthNode = new Node(apartment.Balcony, "Width");
+            INode balconyLengthNode = new Node(apartment.Balcony, "Length");
+            INode balconyAreaNode = new Node(apartment.Balcony, "Area", "Update_Area");
+
+            graph.AddDependency(balconyWidthNode, balconyAreaNode);
+            graph.AddDependency(balconyLengthNode, balconyAreaNode);
+
+            INode basementWidthNode = new Node(apartment.Basement, "Width");
+            INode basementLengthNode = new Node(apartment.Basement, "Length");
+            INode basementAreaNode = new Node(apartment.Basement, "Area", "Update_Area");
+
+            graph.AddDependency(basementWidthNode, basementAreaNode);
+            graph.AddDependency(basementLengthNode, basementAreaNode);
+
+            INode widthNode = new Node(apartment, "Width");
+            INode lengthNode = new Node(apartment, "Length");
+            INode heatedAreaNode = new Node(apartment, "HeatedArea", "Update_HeatedArea");
+
+            graph.AddDependency(widthNode, heatedAreaNode);
+            graph.AddDependency(lengthNode, heatedAreaNode);
+
+            INode heightNode = new Node(apartment, "Height");
+            INode heatedVolumeNode = new Node(apartment, "HeatedVolume", "Update_HeatedVolume");
+
+            graph.AddDependency(heightNode, heatedVolumeNode);
+            graph.AddDependency(heatedAreaNode, heatedVolumeNode);
+
+            INode consumptionNode = new Node(apartment, "Consumption");
+            INode totalConsumptionNode = new Node(apartment, "TotalConsumption", "Update_TotalConsumption");
+
+            graph.AddDependency(consumptionNode, totalConsumptionNode);
+            graph.AddDependency(heatedVolumeNode, totalConsumptionNode);
+
+            INode totalAreaNode = new Node(apartment, "TotalArea", "Update_TotalArea");
+            INode balconyUtilCoeffNode = new Node(apartment.Balcony, "UtilCoeff");
+            INode basementUtilCoeffNode = new Node(apartment.Basement, "UtilCoeff");
+
+            graph.AddDependency(heatedAreaNode, totalAreaNode);
+            graph.AddDependency(balconyAreaNode, totalAreaNode);
+            graph.AddDependency(basementAreaNode, totalAreaNode);
+            graph.AddDependency(balconyUtilCoeffNode, totalAreaNode);
+            graph.AddDependency(basementUtilCoeffNode, totalAreaNode);
+
+            graph.Initialize();
+        }
+
+        private Logger CreateExpectedLogger_Case2_GivenNoInitialNode(DependencyGraph graph, Apartment01 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "UtilCoeff"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "UtilCoeff"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Consumption"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Height"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Length"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Width"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Length"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Width"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Length"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Width"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case2_GivenWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case2_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment = new Apartment01 { Name = "Apartment 01"};
+
+            CreateCase2(graph, apartment);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case2_GivenNoInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case2_GivenNoInitialNode_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
+
+            CreateCase2(graph, apartment);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(
+                apartment.Basement.Area == 8 &&
+                apartment.Balcony.Area == 3 &&
+                apartment.HeatedArea == 70 &&
+                apartment.TotalArea == 76.3 &&
+                apartment.HeatedVolume == 175 &&
+                apartment.TotalConsumption == 1050
+                );
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case2_GivenApartmentWidthAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
+
+            CreateCase2(graph, apartment);
+            INode initialNode = graph.GetNode(apartment, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case2_GivenWidthAsInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case2_GivenBalconyWidthAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
+
+            CreateCase2(graph, apartment);
+            INode initialNode = graph.GetNode(apartment.Balcony, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case2_ChangingApartmentLength_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
+
+            CreateCase2(graph, apartment);
+            graph.PerformUpdate();
+
+            //Act
+            INode initialNode = graph.GetNode(apartment, "Length");
+            apartment.Length = 8;
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            //Assert
+            Assert.IsTrue(
+                apartment.Basement.Area == 8 &&
+                apartment.Balcony.Area == 3 &&
+                apartment.HeatedArea == 80 &&
+                apartment.TotalArea == 86.3 &&
+                apartment.HeatedVolume == 200 &&
+                apartment.TotalConsumption == 1200
+                );
         }
 
         #endregion
