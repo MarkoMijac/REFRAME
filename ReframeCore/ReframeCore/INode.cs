@@ -11,17 +11,22 @@ namespace ReframeCore
     /// </summary>
     public interface INode
     {
-        int Identifier { get; }
+        uint Identifier { get; }
         string MemberName { get; }
         object OwnerObject { get; }
         void Update();
         bool HasSameIdentifier(object ownerObject, string memberName);
+        bool HasSameIdentifier(INode node);
 
         IList<INode> Predecessors { get; }
         IList<INode> Successors { get; }
 
         bool AddPredecessor(INode predecessor);
         bool AddSuccessor(INode successor);
+        bool RemovePredecessor(INode predecessor);
+        bool RemoveSuccessor(INode successor);
+        bool HasPredecessor(INode predecessor);
+        bool HasSuccessor(INode successor);
 
     }
 }

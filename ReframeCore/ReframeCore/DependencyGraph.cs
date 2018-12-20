@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
+    public enum DependencyGraphStatus { NotInitialized, Initialized, NotConsistent, Consistent}
+
     /// <summary>
     /// Dependency graph containing reactive nodes.
     /// </summary>
@@ -29,17 +32,13 @@ namespace ReframeCore
         /// </summary>
         private Settings Settings { get; set; }
 
+        public DependencyGraphStatus Status { get; private set; }
+
+        public Logger Logger { get; private set; }
+
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Instantiates new dependency graph.
-        /// </summary>
-        public DependencyGraph() : this("")
-        {
-
-        }
 
         /// <summary>
         /// Instantiates new dependency graph.
@@ -50,6 +49,13 @@ namespace ReframeCore
             Identifier = identifier;
             Settings = new Settings();
             Nodes = new List<INode>();
+            Status = DependencyGraphStatus.NotInitialized;
+            Logger = new Logger();
+        }
+
+        public void Initialize()
+        {
+            Status = DependencyGraphStatus.Initialized;
         }
 
         #endregion
@@ -61,7 +67,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node which we want to add.</param>
         /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(INode node)
+        public bool AddNode(INode node)
         {
             bool added = false;
 
@@ -84,11 +90,16 @@ namespace ReframeCore
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(object ownerObject, string memberName)
+        /// <returns>Newly added or already existing node.</returns>
+        public INode AddNode(object ownerObject, string memberName)
         {
-            string updateMethodName = GetDefaultUpdateMethodName(memberName);
-            return AddNode(ownerObject, memberName, "");
+            string updateMethodName = "";
+            if (Settings.UseDefaultUpdateMethodNames == true)
+            {
+                updateMethodName = GetDefaultUpdateMethodName(memberName);
+            }
+
+            return AddNode(ownerObject, memberName, updateMethodName);
         }
 
         /// <summary>
@@ -97,18 +108,18 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <param name="updateMethodName">Update method name.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        private bool AddNode(object ownerObject, string memberName, string updateMethodName)
+        /// <returns>Newly added or already existing node.</returns>
+        public INode AddNode(object ownerObject, string memberName, string updateMethodName)
         {
-            bool added = false;
+            INode addedNode = GetNode(ownerObject, memberName);
 
-            if (ContainsNode(ownerObject, memberName) == false)
+            if (addedNode == null)
             {
-                Nodes.Add(CreateNewNode(ownerObject, memberName, updateMethodName));
-                added = true;
+                addedNode = CreateNewNode(ownerObject, memberName, updateMethodName);
+                Nodes.Add(addedNode);
             }
 
-            return added;
+            return addedNode;
         }
 
         /// <summary>
@@ -116,7 +127,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node for which we are checking.</param>
         /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
-        private bool ContainsNode(INode node)
+        public bool ContainsNode(INode node)
         {
             return GetNode(node) != null;
         }
@@ -127,7 +138,7 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <returns>True if dependency graph contains reactive node, otherwise False.</returns>
-        private bool ContainsNode(object ownerObject, string memberName)
+        public bool ContainsNode(object ownerObject, string memberName)
         {
             return GetNode(ownerObject, memberName) != null;
         }
@@ -150,7 +161,7 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by the reactive node.</param>
         /// <returns>Reactive node if exists in dependency graph, otherwise null.</returns>
-        private INode GetNode(object ownerObject, string memberName)
+        public INode GetNode(object ownerObject, string memberName)
         {
             return Nodes.FirstOrDefault(n => n.HasSameIdentifier(ownerObject, memberName));
         }
@@ -160,7 +171,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="node">Reactive node which we want to find.</param>
         /// <returns>Reactive node if such exists in dependency graph, otherwise null.</returns>
-        private INode GetNode(INode node)
+        public INode GetNode(INode node)
         {
             INode n;
 
@@ -189,23 +200,55 @@ namespace ReframeCore
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
         public void AddDependency(INode predecessor, INode successor)
         {
+            if (predecessor == null || successor == null)
+            {
+                throw new NodeNullReferenceException("Reactive dependency could not be added! At least one of the involved nodes is null!");
+            }
+
             INode p = GetNode(predecessor);
             INode s = GetNode(successor);
 
-            if (p == null || s == null)
+            if (p == null)
             {
-                throw new ReactiveDependencyException("Reactive dependency could not be added! Specified reactive nodes do not exist!");
+                AddNode(predecessor);
+                p = predecessor;
+            }
+
+            if (s == null)
+            {
+                AddNode(successor);
+                s = successor;
             }
 
             p.AddSuccessor(s);
-            s.AddPredecessor(p);
+        }
+
+        /// <summary>
+        /// Constructs reactive dependency between two reactive nodes, where the first node acts as a predecessor and
+        /// the second one as successor.
+        /// </summary>
+        /// <param name="predecessorObject">Owner object associated with predecessor reactive node.</param>
+        /// <param name="predecessorMember">Member name represented by the predecessor reactive node.</param>
+        /// <param name="successorObject">Owner object associated with successor reactive node.</param>
+        /// <param name="successorMember">Member name represented by the successor reactive node</param>
+        public void AddDependency(object predecessorObject, string predecessorMember, object successorObject, string successorMember)
+        {
+            if (predecessorObject == null || predecessorMember == "" || successorObject == null || successorMember == "")
+            {
+                throw new NodeNullReferenceException("Reactive dependency could not be added! At least one of the involved nodes is null!");
+            }
+
+            INode predecessor = AddNode(predecessorObject, predecessorMember);
+            INode successor = AddNode(successorObject, successorMember);
+
+            AddDependency(predecessor, successor);
         }
 
         /// <summary>
         /// Removes reactive node from dependency graph if the node does not participate in any reactive dependencies (i.e. it doesn't have any predecessors or successors).
         /// </summary>
         /// <param name="node">Node which we want to remove from dependency graph.</param>
-        private void RemoveNode(INode node)
+        public bool RemoveNode(INode node)
         {
             if (node == null)
             {
@@ -217,7 +260,7 @@ namespace ReframeCore
                 throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
             }
 
-            Nodes.Remove(node);
+            return Nodes.Remove(node);
         }
 
         /// <summary>
@@ -226,29 +269,17 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive nodes acting as a predecessor in reactive dependecy.</param>
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
-        private void RemoveDependency(INode predecessor, INode successor)
+        public bool RemoveDependency(INode predecessor, INode successor)
         {
             INode p = GetNode(predecessor);
             INode s = GetNode(successor);
 
             if (p == null || s == null)
             {
-                throw new ReactiveDependencyException("Reactive dependency could not be removed! Specified reactive nodes do not exist!");
+                throw new ReactiveDependencyException("Reactive dependency could not be removed! Specified reactive nodes are not part of the graph!");
             }
 
-            p.Successors.Remove(s);
-            s.Predecessors.Remove(p);
-
-            //Removing nodes if they are not participating in reactive dependencies anymore (i.e. they do not have any predecessors or dependents).
-            if (p.Predecessors.Count == 0 && p.Successors.Count == 0)
-            {
-                RemoveNode(p);
-            }
-
-            if (s.Predecessors.Count == 0 && s.Successors.Count == 0)
-            {
-                RemoveNode(s);
-            }
+            return p.RemoveSuccessor(s);
         }
 
         /// <summary>
@@ -259,6 +290,128 @@ namespace ReframeCore
         private string GetDefaultUpdateMethodName(string memberName)
         {
             return Settings.UpdateMethodNamePrefix + memberName;
+        }
+
+        /// <summary>
+        /// Clears unused nodes, i.e. removes all nodes from the graph which do not participate in reactive dependencies.
+        /// </summary>
+        /// <returns>Number of nodes removed from graph.</returns>
+        public int RemoveUnusedNodes()
+        {
+            int numberOfRemovedNodes = 0;
+
+            for (int i = Nodes.Count-1; i >=0; i--)
+            {
+                if (Nodes[i].Predecessors.Count == 0 && Nodes[i].Successors.Count == 0)
+                {
+                    RemoveNode(Nodes[i]);
+                    numberOfRemovedNodes++;
+                }
+            }
+
+            return numberOfRemovedNodes;
+        }
+
+        /// <summary>
+        /// Performs update of all nodes that depend on provided initial node.
+        /// Proper order of update is handled by topologically sorting dependent nodes.
+        /// </summary>
+        /// <param name="initialNode">Initial node that triggered the update.</param>
+        public void PerformUpdate(INode initialNode)
+        {
+            if (Status != DependencyGraphStatus.NotInitialized)
+            {
+                Status = DependencyGraphStatus.NotConsistent;
+
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode);
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
+
+                Status = DependencyGraphStatus.Consistent;
+            }
+            else
+            {
+                throw new DependencyGraphException("Dependency graph is not initialized!");
+            }
+        }
+
+        /// <summary>
+        /// Performs update of all nodes in dependency graph. Proper order of update is handled by topologically sorting dependend nodes.
+        /// </summary>
+        public void PerformUpdate()
+        {
+            if (Status != DependencyGraphStatus.NotInitialized)
+            {
+                Status = DependencyGraphStatus.NotConsistent;
+
+                IList<INode> nodesToUpdate = GetNodesToUpdate();
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
+
+                Status = DependencyGraphStatus.Consistent;
+            }
+            else
+            {
+                throw new DependencyGraphException("Dependency graph is not initialized!");
+            }
+        }
+
+        /// <summary>
+        /// Gets nodes from dependency graph that need to be updated, arranged in order they should be updated.
+        /// </summary>
+        /// <param name="node">Initial node that triggered the update.</param>
+        /// <returns>List of nodes from dependency graph that need to be updated.</returns>
+        private IList<INode> GetNodesToUpdate(INode node)
+        {
+            IList<INode> nodesToUpdate = null;
+
+            INode initialNode = GetNode(node);
+
+            if (initialNode == null)
+            {
+                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
+            }
+
+            ISort sortAlgorithm = new TopologicalSort();
+            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, true);
+
+            LogNodesToUpdate(nodesToUpdate);
+
+            return nodesToUpdate;
+        }
+
+        /// <summary>
+        /// Gets all nodes from dependency graph, arranged in order they should be updated.
+        /// </summary>
+        /// <returns>List of all nodes from dependency graph.</returns>
+        private IList<INode> GetNodesToUpdate()
+        {
+            ISort sortAlgorithm = new TopologicalSort();
+            IList<INode> nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors);
+
+            LogNodesToUpdate(nodesToUpdate);
+
+            return nodesToUpdate;
+        }
+
+        /// <summary>
+        /// Logs nodes to be updated.
+        /// </summary>
+        /// <param name="nodesToUpdate">Nodes to be updated.</param>
+        private void LogNodesToUpdate(IList<INode> nodesToUpdate)
+        {
+            if (Settings.LogUpdates == true)
+            {
+                Logger.ClearNodesToUpdate();
+                foreach (var n in nodesToUpdate)
+                {
+                    Logger.LogNodeToUpdate(n);
+                }
+            }
         }
 
         #endregion

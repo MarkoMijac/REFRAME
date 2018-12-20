@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCore", "ReframeCore\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCoreTests", "ReframeCoreTests\ReframeCoreTests.csproj", "{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCoreExamples", "ReframeCoreExamples\ReframeCoreExamples.csproj", "{2551C41C-AAA2-42D5-A96D-95A44474DF92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B35DDEF-36DF-4D30-81C0-6E98A25C5652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2551C41C-AAA2-42D5-A96D-95A44474DF92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2551C41C-AAA2-42D5-A96D-95A44474DF92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2551C41C-AAA2-42D5-A96D-95A44474DF92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2551C41C-AAA2-42D5-A96D-95A44474DF92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

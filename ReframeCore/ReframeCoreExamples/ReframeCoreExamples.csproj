@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</ProjectGuid>
+    <ProjectGuid>{2551C41C-AAA2-42D5-A96D-95A44474DF92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReframeCore</RootNamespace>
-    <AssemblyName>ReframeCore</AssemblyName>
+    <RootNamespace>ReframeCoreExamples</RootNamespace>
+    <AssemblyName>ReframeCoreExamples</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -49,25 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyGraph.cs" />
-    <Compile Include="Exceptions\DependencyGraphException.cs" />
-    <Compile Include="Exceptions\NodeNullReferenceException.cs" />
-    <Compile Include="Exceptions\ReactiveDependencyException.cs" />
-    <Compile Include="Exceptions\ReactiveNodeException.cs" />
-    <Compile Include="Exceptions\ReframeException.cs" />
-    <Compile Include="Helpers\Logger.cs" />
-    <Compile Include="Helpers\Reflector.cs" />
-    <Compile Include="IDependencyGraph.cs" />
-    <Compile Include="INode.cs" />
-    <Compile Include="ISort.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="E00\Building00.cs" />
+    <Compile Include="E01\AdditionalPart01.cs" />
+    <Compile Include="E01\Apartment01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="TopologicalSort.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
