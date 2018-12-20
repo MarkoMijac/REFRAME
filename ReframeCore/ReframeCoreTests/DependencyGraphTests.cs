@@ -60,7 +60,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidArguments_ReturnsTrue()
+        public void AddNode1_GivenValidArguments_ReturnsCorrectNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -68,10 +68,10 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act
-            bool added = graph.AddNode(building, memberName);
+            INode addedNode = graph.AddNode(building, memberName);
 
             //Assert
-            Assert.IsTrue(added);
+            Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode1_GivenAlreadyAddedNode_ReturnsFalse()
+        public void AddNode1_GivenAlreadyAddedNode_ReturnsExistingNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -109,10 +109,10 @@ namespace ReframeCoreTests
             graph.AddNode(node);
 
             //Act
-            bool added = graph.AddNode(building, memberName);
+            INode addedNode = graph.AddNode(building, memberName);
 
             //Assert
-            Assert.IsFalse(added);
+            Assert.AreEqual(node, addedNode);
         }
 
         [TestMethod]

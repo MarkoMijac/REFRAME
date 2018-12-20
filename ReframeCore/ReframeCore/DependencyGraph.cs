@@ -90,11 +90,16 @@ namespace ReframeCore
         /// </summary>
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        public bool AddNode(object ownerObject, string memberName)
+        /// <returns>Newly added or already existing node.</returns>
+        public INode AddNode(object ownerObject, string memberName)
         {
-            string updateMethodName = GetDefaultUpdateMethodName(memberName);
-            return AddNode(ownerObject, memberName, "");
+            string updateMethodName = "";
+            if (Settings.UseDefaultUpdateMethodNames == true)
+            {
+                updateMethodName = GetDefaultUpdateMethodName(memberName);
+            }
+
+            return AddNode(ownerObject, memberName, updateMethodName);
         }
 
         /// <summary>
@@ -103,18 +108,18 @@ namespace ReframeCore
         /// <param name="ownerObject">Owner object associated with reactive node.</param>
         /// <param name="memberName">Member name represented by reactive node.</param>
         /// <param name="updateMethodName">Update method name.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        public bool AddNode(object ownerObject, string memberName, string updateMethodName)
+        /// <returns>Newly added or already existing node.</returns>
+        public INode AddNode(object ownerObject, string memberName, string updateMethodName)
         {
-            bool added = false;
+            INode addedNode = GetNode(ownerObject, memberName);
 
-            if (ContainsNode(ownerObject, memberName) == false)
+            if (addedNode == null)
             {
-                Nodes.Add(CreateNewNode(ownerObject, memberName, updateMethodName));
-                added = true;
+                addedNode = CreateNewNode(ownerObject, memberName, updateMethodName);
+                Nodes.Add(addedNode);
             }
 
-            return added;
+            return addedNode;
         }
 
         /// <summary>
