@@ -60,6 +60,7 @@
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="ISort.cs" />
+    <Compile Include="MethodNode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="PropertyNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
