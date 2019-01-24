@@ -317,13 +317,14 @@ namespace ReframeCore
         /// Proper order of update is handled by topologically sorting dependent nodes.
         /// </summary>
         /// <param name="initialNode">Initial node that triggered the update.</param>
-        public void PerformUpdate(INode initialNode)
+        /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
+        public void PerformUpdate(INode initialNode, bool skipInitialNode)
         {
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
 
-                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode);
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, skipInitialNode);
                 foreach (var node in nodesToUpdate)
                 {
                     node.Update();
@@ -335,6 +336,17 @@ namespace ReframeCore
             {
                 throw new DependencyGraphException("Dependency graph is not initialized!");
             }
+        }
+
+        /// <summary>
+        /// Performs update of all nodes that depend on provided initial node.
+        /// Proper order of update is handled by topologically sorting dependent nodes.
+        /// </summary>
+        /// <param name="initialNode">Initial node that triggered the update.</param>
+        /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
+        public void PerformUpdate(INode initialNode)
+        {
+            PerformUpdate(initialNode, true);
         }
 
         /// <summary>
@@ -364,8 +376,9 @@ namespace ReframeCore
         /// Gets nodes from dependency graph that need to be updated, arranged in order they should be updated.
         /// </summary>
         /// <param name="node">Initial node that triggered the update.</param>
+        /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.</param>
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
-        private IList<INode> GetNodesToUpdate(INode node)
+        private IList<INode> GetNodesToUpdate(INode node, bool skipInitialNode)
         {
             IList<INode> nodesToUpdate = null;
 
@@ -377,7 +390,7 @@ namespace ReframeCore
             }
 
             ISort sortAlgorithm = new TopologicalSort();
-            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, true);
+            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, skipInitialNode);
 
             LogNodesToUpdate(nodesToUpdate);
 
