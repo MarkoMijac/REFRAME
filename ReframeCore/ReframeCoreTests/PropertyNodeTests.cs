@@ -311,6 +311,23 @@ namespace ReframeCoreTests
             Assert.IsFalse(added);
         }
 
+        [TestMethod]
+        public void AddPredecessor_GivenValidMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+
+            INode node = new PropertyNode(building00, "Volume", "Update_Volume");
+            INode predecessorNode = new MethodNode(building00, "Update_Area");
+
+            //Act
+            bool added = node.AddPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
         #endregion
 
         #region HasPredecessor
@@ -378,6 +395,23 @@ namespace ReframeCoreTests
             Assert.IsFalse(hasPredecessor);
         }
 
+        [TestMethod]
+        public void HasPredecessor_GivenMethodNodeAddedAsSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode predecessorNode = new PropertyNode(building00, "Volume", "Update_Volume");
+            INode successorNode = new MethodNode(building00, "Update_Area");
+            predecessorNode.AddSuccessor(successorNode);
+
+            //Act
+            bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(hasPredecessor);
+        }
+
         #endregion
 
         #region HasSuccessor
@@ -423,6 +457,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(hasSuccessor);
+        }
+
+        [TestMethod]
+        public void HasSuccessor_GivenMethodNodeAddedAsPredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode successorNode = new PropertyNode(building00, "Area", "Update_Area");
+            INode predecessorNode = new MethodNode(building00, "Update_Volume");
+            successorNode.AddPredecessor(predecessorNode);
+
+            //Act
+            bool hasSuccessor = predecessorNode.HasSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(hasSuccessor);
         }
 
         #endregion
@@ -498,6 +549,22 @@ namespace ReframeCoreTests
             Assert.IsFalse(added);
         }
 
+        [TestMethod]
+        public void AddSuccessor_GivenValidMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new MethodNode(building00, "Update_Area");
+            INode successorNode = new PropertyNode(building00, "Volume", "Update_Volume");
+
+            //Act
+            bool added = node.AddSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
         #endregion
 
         #region RemovePredecessor
@@ -559,6 +626,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemovePredecessor_GivenValidMethodNodePredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new PropertyNode(building00, "Width", "Update_Width");
+            INode predecessorNode = new PropertyNode(building00, "Update_Area");
+            node.AddPredecessor(predecessorNode);
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
         }
 
         #endregion
@@ -623,6 +707,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenValidMethodNodeSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new PropertyNode(building00, "Width");
+            INode successorNode = new MethodNode(building00, "Update_Area");
+            node.AddSuccessor(successorNode);
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
         }
 
         #endregion

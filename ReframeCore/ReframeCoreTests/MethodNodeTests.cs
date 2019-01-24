@@ -235,6 +235,22 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void AddPredecessor_GivenAnotherValidPropertyNode_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode node = new MethodNode(building, "Update_Volume");
+            INode predecessorNode = new PropertyNode(building, "Area","Update_Area");
+
+            //Act
+            bool added = node.AddPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
+        [TestMethod]
         public void AddPredecessor_GivenNullNode_ThrowsException()
         {
             //Arrange
@@ -288,6 +304,23 @@ namespace ReframeCoreTests
             Building02 building = new Building02();
 
             INode successorNode = new MethodNode(building, "Update_Volume");
+            INode predecessorNode = new MethodNode(building, "Update_Area");
+            predecessorNode.AddSuccessor(successorNode);
+
+            //Act
+            bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(hasPredecessor);
+        }
+
+        [TestMethod]
+        public void HasPredecessor_GivenPropertyNodeAddedAsSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode successorNode = new PropertyNode(building, "Volume", "Update_Volume");
             INode predecessorNode = new MethodNode(building, "Update_Area");
             predecessorNode.AddSuccessor(successorNode);
 
@@ -354,6 +387,23 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void HasSuccessor_GivenPropertyNodeAddedAsPredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode successorNode = new MethodNode(building, "Update_Volume");
+            INode predecessorNode = new PropertyNode(building, "Area", "Update_Area");
+            successorNode.AddPredecessor(predecessorNode);
+
+            //Act
+            bool hasSuccessor = predecessorNode.HasSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(hasSuccessor);
+        }
+
+        [TestMethod]
         public void HasSuccessor_GivenNodeNotAddedAsPredecessor_ReturnsFalse()
         {
             //Arrange
@@ -399,6 +449,22 @@ namespace ReframeCoreTests
 
             INode node = new MethodNode(building, "Update_Volume");
             INode successorNode = new MethodNode(building, "Update_Area");
+
+            //Act
+            bool added = node.AddSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
+        [TestMethod]
+        public void AddSuccessor_GivenValidPropertyNode_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode node = new MethodNode(building, "Update_Volume");
+            INode successorNode = new PropertyNode(building, "Area", "Update_Area");
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -472,6 +538,23 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void RemovePredecessor_GivenValidPropertyNodePredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode node = new MethodNode(building, "Update_Area");
+            INode predecessorNode = new PropertyNode(building, "Volume", "Update_Volume");
+            node.AddPredecessor(predecessorNode);
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
         public void RemovePredecessor_GivenNonexistingPredecessor_ReturnsFalse()
         {
             //Arrange
@@ -515,6 +598,23 @@ namespace ReframeCoreTests
 
             INode node = new MethodNode(building, "Update_Area");
             INode successorNode = new MethodNode(building, "Update_Volume");
+            node.AddSuccessor(successorNode);
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenValidPropertyNodeSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building02 building = new Building02();
+
+            INode node = new MethodNode(building, "Update_Area");
+            INode successorNode = new PropertyNode(building, "Volume", "Update_Volume");
             node.AddSuccessor(successorNode);
 
             //Act
