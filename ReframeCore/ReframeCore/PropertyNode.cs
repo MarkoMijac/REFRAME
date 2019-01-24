@@ -15,15 +15,15 @@ namespace ReframeCore
     {
         #region Properties
 
-        private Node DefaultNodeImplementation { get; set; }
+        private Node DefaultImplementation { get; set; }
 
         /// <summary>
         /// Node's unique identifier.
         /// </summary>
         public uint Identifier
         {
-            get => DefaultNodeImplementation.Identifier;
-            private set => DefaultNodeImplementation.Identifier = value;
+            get => DefaultImplementation.Identifier;
+            private set => DefaultImplementation.Identifier = value;
         }
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace ReframeCore
         /// </summary>
         public string MemberName
         {
-            get => DefaultNodeImplementation.MemberName;
-            private set => DefaultNodeImplementation.MemberName = value;
+            get => DefaultImplementation.MemberName;
+            private set => DefaultImplementation.MemberName = value;
         }
 
         /// <summary>
@@ -40,17 +40,17 @@ namespace ReframeCore
         /// </summary>
         public object OwnerObject
         {
-            get => DefaultNodeImplementation.OwnerObject;
-            private set => DefaultNodeImplementation.OwnerObject = value;
+            get => DefaultImplementation.OwnerObject;
+            private set => DefaultImplementation.OwnerObject = value;
         }
 
         /// <summary>
         /// Delegate to the update method.
         /// </summary>
-        private Action UpdateMethod
+        public Action UpdateMethod
         {
-            get => DefaultNodeImplementation.UpdateMethod;
-            set => DefaultNodeImplementation.UpdateMethod = value;
+            get => DefaultImplementation.UpdateMethod;
+            set => DefaultImplementation.UpdateMethod = value;
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace ReframeCore
         /// </summary>
         public IList<INode> Predecessors
         {
-            get => DefaultNodeImplementation.Predecessors;
-            private set => DefaultNodeImplementation.Predecessors = value;
+            get => DefaultImplementation.Predecessors;
+            private set => DefaultImplementation.Predecessors = value;
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace ReframeCore
         /// </summary>
         public IList<INode> Successors
         {
-            get => DefaultNodeImplementation.Successors;
-            private set => DefaultNodeImplementation.Successors = value;
+            get => DefaultImplementation.Successors;
+            private set => DefaultImplementation.Successors = value;
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace ReframeCore
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         public PropertyNode(object ownerObject, string memberName)
         {
-            DefaultNodeImplementation = new Node(ownerObject, memberName);
+            DefaultImplementation = new Node(ownerObject, memberName);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace ReframeCore
         /// <param name="updateMethodName">Update method name.</param>
         public PropertyNode(object ownerObject, string memberName, string updateMethodName)
         {
-            DefaultNodeImplementation = new Node(ownerObject, memberName, updateMethodName);
+            DefaultImplementation = new Node(ownerObject, memberName, updateMethodName);
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace ReframeCore
         /// <returns>True if specified reactive node has the same identifier as this reactive node.</returns>
         public bool HasSameIdentifier(object ownerObject, string memberName)
         {
-            return DefaultNodeImplementation.HasSameIdentifier(ownerObject, memberName);
+            return DefaultImplementation.HasSameIdentifier(ownerObject, memberName);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace ReframeCore
         /// <returns>True if specified reactive node has the same identifier as this reactive node.</returns>
         public bool HasSameIdentifier(INode node)
         {
-            return DefaultNodeImplementation.HasSameIdentifier(node);
+            return DefaultImplementation.HasSameIdentifier(node);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace ReframeCore
         /// </summary>
         public void Update()
         {
-            DefaultNodeImplementation.Update();
+            DefaultImplementation.Update();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace ReframeCore
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
         public bool HasPredecessor(INode predecessor)
         {
-            return DefaultNodeImplementation.HasPredecessor(predecessor);
+            return DefaultImplementation.HasPredecessor(predecessor);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace ReframeCore
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
         public bool HasSuccessor(INode successor)
         {
-            return DefaultNodeImplementation.HasSuccessor(successor);
+            return DefaultImplementation.HasSuccessor(successor);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace ReframeCore
         /// <returns>True if predecessor is added, otherwise False.</returns>
         public bool AddPredecessor(INode predecessor)
         {
-            return DefaultNodeImplementation.AddPredecessor(predecessor, this);
+            return DefaultImplementation.AddPredecessor(predecessor, this);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace ReframeCore
         /// <returns>True if predecessor removed, otherwise false.</returns>
         public bool RemovePredecessor(INode predecessor)
         {
-            return DefaultNodeImplementation.RemovePredecessor(predecessor, this);
+            return DefaultImplementation.RemovePredecessor(predecessor, this);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace ReframeCore
         /// <returns>True if successor is added, otherwise False.</returns>
         public bool AddSuccessor(INode successor)
         {
-            return DefaultNodeImplementation.AddSuccessor(this, successor);
+            return DefaultImplementation.AddSuccessor(this, successor);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace ReframeCore
         /// <returns>True if successor removed, otherwise false.</returns>
         public bool RemoveSuccessor(INode successor)
         {
-            return DefaultNodeImplementation.RemoveSuccessor(this, successor);
+            return DefaultImplementation.RemoveSuccessor(this, successor);
         }
 
         #endregion

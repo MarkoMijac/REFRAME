@@ -50,6 +50,7 @@ namespace ReframeCoreTests
             {
                 //Act
                 INode widthNode = new PropertyNode(building, memberName);
+                widthNode.Update();
             }
             catch (Exception ex)
             {
@@ -71,6 +72,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsInstanceOfType(widthNode, typeof(INode));
+        }
+
+        [TestMethod]
+        public void NodeCreation_CreatedNonSourceNode_HoldsProperData()
+        {
+            //Arrange
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            PropertyNode widthNode = new PropertyNode(building, memberName, updateMethodName);
+
+            //Assert
+            Assert.IsTrue(widthNode.OwnerObject == building 
+                && widthNode.MemberName == memberName
+                && widthNode.UpdateMethod.Method.Name == updateMethodName);
         }
 
         [TestMethod]
@@ -316,6 +334,26 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(hasPredecessor);
+        }
+
+        [TestMethod]
+        public void HasPredecessor_GivenNodeNotAddedAsSuccessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            string predecessorPropertyName = "Width";
+
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
+
+            //Act
+            bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsFalse(hasPredecessor);
         }
 
         [TestMethod]
