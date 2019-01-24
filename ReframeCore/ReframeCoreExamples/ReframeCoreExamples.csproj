@@ -52,6 +52,7 @@
     <Compile Include="E00\Building00.cs" />
     <Compile Include="E01\AdditionalPart01.cs" />
     <Compile Include="E01\Apartment01.cs" />
+    <Compile Include="E02\Building02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
