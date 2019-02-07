@@ -27,7 +27,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode_GivenValidNode_ReturnsTrue()
+        public void AddNode_GivenValidPropertyNode_ReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -43,13 +43,46 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode_GivenAlreadyAddedNode_ReturnsFalse()
+        public void AddNode_GivenValidMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+
+            //Act
+            bool added = graph.AddNode(node);
+
+            //Assert
+            Assert.IsTrue(added);
+        }
+
+        [TestMethod]
+        public void AddNode_GivenAlreadyAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
             INode node = new PropertyNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            bool added = graph.AddNode(node);
+
+            //Assert
+            Assert.IsFalse(added);
+        }
+
+        [TestMethod]
+        public void AddNode_GivenAlreadyAddedMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -72,6 +105,36 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName);
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenValidArguments_ReturnsPropertyNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(PropertyNode));
+        }
+
+        //[TestMethod]
+        public void AddNode1_GivenValidArguments_ReturnsMethodNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(MethodNode));
         }
 
         [TestMethod]

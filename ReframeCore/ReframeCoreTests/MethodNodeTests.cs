@@ -103,8 +103,6 @@ namespace ReframeCoreTests
             Assert.AreNotEqual(default(uint), node.Identifier);
         }
 
-
-
         #endregion
 
         #region HasSameIdentifier
