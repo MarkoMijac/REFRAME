@@ -10,6 +10,8 @@ namespace ReframeCore
 {
     public enum DependencyGraphStatus { NotInitialized, Initialized, NotConsistent, Consistent}
 
+    internal enum NodeType { PropertyNode, MethodNode }
+
     /// <summary>
     /// Dependency graph containing reactive nodes.
     /// </summary>
@@ -30,7 +32,7 @@ namespace ReframeCore
         /// <summary>
         /// Settings object for this dependency graph.
         /// </summary>
-        private Settings Settings { get; set; }
+        public Settings Settings { get; private set; }
 
         public DependencyGraphStatus Status { get; private set; }
 
@@ -66,10 +68,10 @@ namespace ReframeCore
         /// Adds new node to dependency graph if such node does not already exist in dependency graph.
         /// </summary>
         /// <param name="node">Reactive node which we want to add.</param>
-        /// <returns>True if node is added to dependency graph, False if reactive node has already existed.</returns>
-        public bool AddNode(INode node)
+        /// <returns>Node which is added to dependency graph, NULL if reactive node has already existed in dependency graph.</returns>
+        public INode AddNode(INode node)
         {
-            bool added = false;
+            INode addedNode = null;
 
             if (node == null)
             {
@@ -79,10 +81,10 @@ namespace ReframeCore
             if (ContainsNode(node) == false)
             {
                 Nodes.Add(node);
-                added = true;
+                addedNode = node;
             }
 
-            return added;
+            return addedNode;
         }
 
         /// <summary>
@@ -93,13 +95,31 @@ namespace ReframeCore
         /// <returns>Newly added or already existing node.</returns>
         public INode AddNode(object ownerObject, string memberName)
         {
-            string updateMethodName = "";
-            if (Settings.UseDefaultUpdateMethodNames == true)
+            INode nodeToAdd = GetNode(ownerObject, memberName);
+
+            if (nodeToAdd == null)
             {
-                updateMethodName = GetDefaultUpdateMethodName(memberName);
+                NodeType nodeType = NodeType.PropertyNode;
+                string updateMethodName = "";
+                if (Reflector.IsProperty(ownerObject, memberName) == true)
+                {
+                    nodeType = NodeType.PropertyNode;
+                    if (Settings.UseDefaultUpdateMethodNames == true)
+                    {
+                        updateMethodName = GetDefaultUpdateMethodName(memberName);
+                    }
+                }
+                else if (Reflector.IsMethod(ownerObject, memberName) == true)
+                {
+                    nodeType = NodeType.MethodNode;
+                    updateMethodName = memberName;
+                }
+
+                nodeToAdd = CreateNewNode(ownerObject, memberName, updateMethodName, nodeType);
+                Nodes.Add(nodeToAdd);
             }
 
-            return AddNode(ownerObject, memberName, updateMethodName);
+            return nodeToAdd;
         }
 
         /// <summary>
@@ -111,15 +131,25 @@ namespace ReframeCore
         /// <returns>Newly added or already existing node.</returns>
         public INode AddNode(object ownerObject, string memberName, string updateMethodName)
         {
-            INode addedNode = GetNode(ownerObject, memberName);
+            INode nodeToAdd = GetNode(ownerObject, memberName);
 
-            if (addedNode == null)
+            if (nodeToAdd == null)
             {
-                addedNode = CreateNewNode(ownerObject, memberName, updateMethodName);
-                Nodes.Add(addedNode);
+                NodeType nodeType = NodeType.PropertyNode;
+                if (Reflector.IsProperty(ownerObject, memberName) == true)
+                {
+                    nodeType = NodeType.PropertyNode;
+                }
+                else if (Reflector.IsMethod(ownerObject, memberName) == true)
+                {
+                    nodeType = NodeType.MethodNode;
+                }
+
+                nodeToAdd = CreateNewNode(ownerObject, memberName, updateMethodName, nodeType);
+                Nodes.Add(nodeToAdd);
             }
 
-            return addedNode;
+            return nodeToAdd;
         }
 
         /// <summary>
@@ -153,6 +183,24 @@ namespace ReframeCore
         private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName)
         {
             return new PropertyNode(ownerObject, memberName, updateMethodName);
+        }
+
+        /// <summary>
+        /// Creates new reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Owner object associated with reactive node.</param>
+        /// <param name="memberName">Member name represented by reactive node.</param>
+        /// <param name="updateMethod">Delegate of the update method.</param>
+        /// <param name="type">Type of the node to be created.</param>
+        /// <returns>New reactive node.</returns>
+        private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName, NodeType type)
+        {
+            switch (type)
+            {
+                case NodeType.PropertyNode: return new PropertyNode(ownerObject, memberName, updateMethodName);
+                case NodeType.MethodNode: return new MethodNode(ownerObject, memberName);
+                default: throw new ReactiveNodeException("Unrecognized reactive node type!");
+            }
         }
 
         /// <summary>
