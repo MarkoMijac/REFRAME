@@ -978,5 +978,44 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region PerformUpdate CASE 5
+
+        /*
+         * Simple dependency graph with mixed method and property nodes from same object.
+         */
+
+        private void CreateCase5(DependencyGraph graph, Building02 building)
+        {
+            building.Width = 10;
+            building.Length = 9;
+            building.Height = 4;
+            building.Consumption = 20;
+
+            INode widthNode = new PropertyNode(building, "Width");
+            INode lengthNode = new PropertyNode(building, "Length");
+            INode heightNode = new PropertyNode(building, "Height");
+            INode consumptionNode = new PropertyNode(building, "Consumption");
+
+            INode updateAreaNode = new MethodNode(building, "Update_Area");
+            INode updateVolumeNode = new MethodNode(building, "Update_Volume");
+            INode updateTotalConsumptionNode = new MethodNode(building, "Update_TotalConsumption");
+            INode updateTotalConsumptionPer_m3Node = new MethodNode(building, "Update_TotalConsumptionPer_m3");
+
+            graph.AddDependency(widthNode, updateAreaNode);
+            graph.AddDependency(lengthNode, updateAreaNode);
+            graph.AddDependency(heightNode, updateVolumeNode);
+            graph.AddDependency(consumptionNode, updateTotalConsumptionNode);
+            graph.AddDependency(updateAreaNode, updateVolumeNode);
+            graph.AddDependency(updateAreaNode, updateTotalConsumptionNode);
+            graph.AddDependency(updateTotalConsumptionNode, updateTotalConsumptionPer_m3Node);
+            graph.AddDependency(updateVolumeNode, updateTotalConsumptionPer_m3Node);
+
+            graph.Initialize();
+
+            graph.Initialize();
+        }
+
+        #endregion
     }
 }
