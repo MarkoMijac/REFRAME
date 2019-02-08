@@ -6,6 +6,7 @@ using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
 using ReframeCoreExamples.E01;
 using ReframeCoreExamples.E02;
+using ReframeCoreExamples.E04;
 
 namespace ReframeCoreTests
 {
@@ -797,6 +798,184 @@ namespace ReframeCoreTests
         /*
          * Simple dependency graph with method nodes from three objects of two different classes.
          */
+
+        private void CreateCase4(DependencyGraph graph, Apartment04 apartment)
+        {
+            apartment.Basement = new AdditionalPart04 { Name = "Basement" };
+            apartment.Balcony = new AdditionalPart04 { Name = "Balcony" };
+
+            apartment.Width = 10;
+            apartment.Length = 7;
+            apartment.Height = 2.5;
+            apartment.Consumption = 6;
+
+            apartment.Basement.Width = 4;
+            apartment.Basement.Length = 2;
+            apartment.Basement.UtilCoeff = 0.6;
+
+            apartment.Balcony.Width = 1;
+            apartment.Balcony.Length = 3;
+            apartment.Balcony.UtilCoeff = 0.5;
+
+            graph.AddDependency(apartment, "Update_HeatedArea", apartment, "Update_HeatedVolume");
+            graph.AddDependency(apartment, "Update_HeatedArea", apartment, "Update_TotalArea");
+            graph.AddDependency(apartment, "Update_HeatedVolume", apartment, "Update_TotalConsumption");
+
+            graph.AddDependency(apartment.Balcony, "Update_Area", apartment.Balcony, "Update_UtilityArea");
+            graph.AddDependency(apartment.Balcony, "Update_UtilityArea", apartment, "Update_TotalArea");
+
+            graph.AddDependency(apartment.Basement, "Update_Area", apartment.Basement, "Update_UtilityArea");
+            graph.AddDependency(apartment.Basement, "Update_UtilityArea", apartment, "Update_TotalArea");
+
+            graph.Initialize();
+        }
+
+        private Logger CreateExpectedLogger_Case4_GivenNoInitialNode(DependencyGraph graph, Apartment04 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Update_Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Update_UtilityArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedVolume"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalConsumption"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_Area"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedVolume"));
+            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalConsumption"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case4_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment04 apartment = new Apartment04 { Name = "Apartment 04" };
+
+            CreateCase4(graph, apartment);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case4_GivenNoInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case4_GivenNoInitialNode_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment04 apartment = new Apartment04 { Name = "Apartment 04" };
+
+            CreateCase4(graph, apartment);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(
+                apartment.Basement.Area == 8 && apartment.Basement.UtilityArea == 4.8 &&
+                apartment.Balcony.Area == 3 && apartment.Balcony.UtilityArea == 1.5 &&
+                apartment.HeatedArea == 70 &&
+                apartment.TotalArea == 76.3 &&
+                apartment.HeatedVolume == 175 &&
+                apartment.TotalConsumption == 1050
+                );
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case4_GivenBalconyUpdateAreaAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment04 apartment = new Apartment04 { Name = "Apartment 04" };
+
+            CreateCase4(graph, apartment);
+            INode initialNode = graph.GetNode(apartment.Balcony, "Update_Area");
+
+            //Act
+            graph.PerformUpdate(initialNode, false);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment04 apartment = new Apartment04 { Name = "Apartment 04" };
+
+            CreateCase4(graph, apartment);
+            INode initialNode = graph.GetNode(apartment, "Update_HeatedArea");
+
+            //Act
+            graph.PerformUpdate(initialNode, false);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(graph, apartment);
+
+            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case4_ChangingBalconyLength_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment04 apartment = new Apartment04 { Name = "Apartment 04" };
+
+            CreateCase4(graph, apartment);
+            graph.PerformUpdate();
+
+            //Act
+            INode initialNode = graph.GetNode(apartment.Balcony, "Update_Area");
+            apartment.Balcony.Length = 4;
+            graph.PerformUpdate(initialNode, false);
+
+            //Assert
+            Assert.IsTrue(
+                apartment.Basement.Area == 8 && apartment.Basement.UtilityArea == 4.8 &&
+                apartment.Balcony.Area == 4 && apartment.Balcony.UtilityArea == 2 &&
+                apartment.HeatedArea == 70 &&
+                apartment.TotalArea == 76.8 &&
+                apartment.HeatedVolume == 175 &&
+                apartment.TotalConsumption == 1050
+                );
+        }
 
         #endregion
     }
