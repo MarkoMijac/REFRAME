@@ -358,7 +358,7 @@ namespace ReframeCoreTests
         #region ContainsNode
 
         [TestMethod]
-        public void ContainsNode_GivenAddedNode_ReturnsTrue()
+        public void ContainsNode_GivenAddedPropertyNode_ReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -375,7 +375,24 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode_GivenNotAddedNode_ReturnsFalse()
+        public void ContainsNode_GivenAddedMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -391,7 +408,23 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode1_GivenAddedNodeReturnsTrue()
+        public void ContainsNode_GivenNotAddedMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenAddedPropertyNodeReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -408,13 +441,46 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode1_GivenNotAddedNode_ReturnsFalse()
+        public void ContainsNode1_GivenAddedMethodNodeReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(building, memberName);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
             INode node = new PropertyNode(building, memberName);
+
+            //Act
+            bool contains = graph.ContainsNode(building, memberName);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            INode node = new MethodNode(building, memberName);
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
