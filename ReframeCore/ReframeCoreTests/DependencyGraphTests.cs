@@ -689,27 +689,7 @@ namespace ReframeCoreTests
 
         #region AddDependency
 
-        [TestMethod]
-        public void AddDependency_GivenValidAddedNodes_DependencyAdded()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building00 = new Building00();
-            string memberName = "Width";
-            string memberName2 = "Area";
-
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
-
-            graph.AddNode(predecessor);
-            graph.AddNode(successor);
-
-            //Act
-            graph.AddDependency(predecessor, successor);
-
-            //Assert
-            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
-        }
+        #region public void AddDependency(INode predecessor, INode successor)
 
         [TestMethod]
         public void AddDependency_GivenNullNodes_ThrowsException()
@@ -721,7 +701,7 @@ namespace ReframeCoreTests
             INode successor = null;
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(()=> graph.AddDependency(predecessor, successor));
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddDependency(predecessor, successor));
         }
 
         [TestMethod]
@@ -743,7 +723,7 @@ namespace ReframeCoreTests
             bool predecessorAdded = graph.GetNode(predecessor) != null;
             bool successorAdded = graph.GetNode(successor) != null;
 
-            Assert.IsTrue(predecessorAdded == true && successorAdded==true);
+            Assert.IsTrue(predecessorAdded == true && successorAdded == true);
         }
 
         [TestMethod]
@@ -757,6 +737,72 @@ namespace ReframeCoreTests
 
             INode predecessor = new PropertyNode(building00, memberName);
             INode successor = new PropertyNode(building00, memberName2);
+
+            //Act
+            graph.AddDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidAddedPropertyNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+            string memberName2 = "Area";
+
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
+
+            graph.AddNode(predecessor);
+            graph.AddNode(successor);
+
+            //Act
+            graph.AddDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidAddedMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building00 = new Building00();
+            string memberName = "Update_Area";
+            string memberName2 = "Update_Volume";
+
+            INode predecessor = new MethodNode(building00, memberName);
+            INode successor = new MethodNode(building00, memberName2);
+
+            graph.AddNode(predecessor);
+            graph.AddNode(successor);
+
+            //Act
+            graph.AddDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidAddedPropertyAndMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building00 = new Building00();
+            string memberName = "Area";
+            string memberName2 = "Update_Volume";
+
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new MethodNode(building00, memberName2);
+
+            graph.AddNode(predecessor);
+            graph.AddNode(successor);
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -785,14 +831,56 @@ namespace ReframeCoreTests
             Assert.IsTrue(apartmentTotalArea.HasPredecessor(basementArea) && basementArea.HasSuccessor(apartmentTotalArea));
         }
 
+        #endregion
+
+        #region public void AddDependency(object predecessorObject, string predecessorMember, object successorObject, string successorMember)
+
         [TestMethod]
-        public void AddDependency1_GivenValidAddedNodes_DependencyAdded()
+        public void AddDependency1_GivenValidAddedPropertyNodes_DependencyAdded()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string predecessorMember = "Width";
             string successorMember = "Area";
+
+            INode predecessor = graph.AddNode(building, predecessorMember);
+            INode successor = graph.AddNode(building, successorMember);
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenValidAddedMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Update_Area";
+            string successorMember = "Update_Volume";
+
+            INode predecessor = graph.AddNode(building, predecessorMember);
+            INode successor = graph.AddNode(building, successorMember);
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenValidAddedPropertyAndMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Area";
+            string successorMember = "Update_Volume";
 
             INode predecessor = graph.AddNode(building, predecessorMember);
             INode successor = graph.AddNode(building, successorMember);
@@ -836,6 +924,8 @@ namespace ReframeCoreTests
             INode successor = graph.GetNode(building, successorMember);
             Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
         }
+
+        #endregion
 
         #endregion
 
