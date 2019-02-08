@@ -95,31 +95,22 @@ namespace ReframeCore
         /// <returns>Newly added or already existing node.</returns>
         public INode AddNode(object ownerObject, string memberName)
         {
-            INode nodeToAdd = GetNode(ownerObject, memberName);
+            string updateMethodName = "";
+            NodeType nodeType = GetNodeType(ownerObject, memberName);
 
-            if (nodeToAdd == null)
+            if (nodeType == NodeType.PropertyNode)
             {
-                NodeType nodeType = NodeType.PropertyNode;
-                string updateMethodName = "";
-                if (Reflector.IsProperty(ownerObject, memberName) == true)
+                if (Settings.UseDefaultUpdateMethodNames == true)
                 {
-                    nodeType = NodeType.PropertyNode;
-                    if (Settings.UseDefaultUpdateMethodNames == true)
-                    {
-                        updateMethodName = GetDefaultUpdateMethodName(memberName);
-                    }
+                    updateMethodName = GetDefaultUpdateMethodName(memberName);
                 }
-                else if (Reflector.IsMethod(ownerObject, memberName) == true)
-                {
-                    nodeType = NodeType.MethodNode;
-                    updateMethodName = memberName;
-                }
-
-                nodeToAdd = CreateNewNode(ownerObject, memberName, updateMethodName, nodeType);
-                Nodes.Add(nodeToAdd);
+            }
+            else if (nodeType == NodeType.MethodNode)
+            {
+                updateMethodName = memberName;
             }
 
-            return nodeToAdd;
+            return AddNode(ownerObject, memberName, updateMethodName);
         }
 
         /// <summary>
@@ -135,21 +126,29 @@ namespace ReframeCore
 
             if (nodeToAdd == null)
             {
-                NodeType nodeType = NodeType.PropertyNode;
-                if (Reflector.IsProperty(ownerObject, memberName) == true)
-                {
-                    nodeType = NodeType.PropertyNode;
-                }
-                else if (Reflector.IsMethod(ownerObject, memberName) == true)
-                {
-                    nodeType = NodeType.MethodNode;
-                }
+                NodeType nodeType = GetNodeType(ownerObject, memberName);
 
                 nodeToAdd = CreateNewNode(ownerObject, memberName, updateMethodName, nodeType);
                 Nodes.Add(nodeToAdd);
             }
 
             return nodeToAdd;
+        }
+
+        private static NodeType GetNodeType(object ownerObject, string memberName)
+        {
+            NodeType nodeType = NodeType.PropertyNode;
+
+            if (Reflector.IsProperty(ownerObject, memberName) == true)
+            {
+                nodeType = NodeType.PropertyNode;
+            }
+            else if (Reflector.IsMethod(ownerObject, memberName) == true)
+            {
+                nodeType = NodeType.MethodNode;
+            }
+
+            return nodeType;
         }
 
         /// <summary>
