@@ -34,6 +34,11 @@ namespace ReframeCore
         /// </summary>
         public Settings Settings { get; private set; }
 
+        /// <summary>
+        /// Algorithm for topological sorting.
+        /// </summary>
+        public ISort SortAlgorithm { get; set; }
+
         public DependencyGraphStatus Status { get; private set; }
 
         public Logger Logger { get; private set; }
@@ -51,6 +56,7 @@ namespace ReframeCore
             Identifier = identifier;
             Settings = new Settings();
             Nodes = new List<INode>();
+            SortAlgorithm = new TopologicalSort2();
             Status = DependencyGraphStatus.NotInitialized;
             Logger = new Logger();
         }
@@ -436,9 +442,9 @@ namespace ReframeCore
                 throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
             }
 
-            ISort sortAlgorithm = new TopologicalSort();
-            nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, skipInitialNode);
+            nodesToUpdate = SortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, skipInitialNode);
 
+            ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
 
             return nodesToUpdate;
@@ -450,12 +456,17 @@ namespace ReframeCore
         /// <returns>List of all nodes from dependency graph.</returns>
         private IList<INode> GetNodesToUpdate()
         {
-            ISort sortAlgorithm = new TopologicalSort();
-            IList<INode> nodesToUpdate = sortAlgorithm.Sort(Nodes, n => n.Successors);
+            IList<INode> nodesToUpdate = SortAlgorithm.Sort(Nodes, n => n.Successors);
 
+            ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
 
             return nodesToUpdate;
+        }
+
+        private void ValidateGraph(IList<INode> nodes)
+        {
+
         }
 
         /// <summary>

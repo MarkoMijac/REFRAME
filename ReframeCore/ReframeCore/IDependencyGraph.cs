@@ -13,5 +13,6 @@ namespace ReframeCore
     {
         string Identifier { get; }
         void AddDependency(INode predecessor, INode successor);
+        ISort SortAlgorithm { get; set; }
     }
 }
