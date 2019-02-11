@@ -141,6 +141,12 @@ namespace ReframeCore
             return nodeToAdd;
         }
 
+        /// <summary>
+        /// Checks the type of the node.
+        /// </summary>
+        /// <param name="ownerObject">Owner object associated with reactive node.</param>
+        /// <param name="memberName">Member name represented by reactive node.</param>
+        /// <returns>Type of the node.</returns>
         private static NodeType GetNodeType(object ownerObject, string memberName)
         {
             NodeType nodeType = NodeType.PropertyNode;
@@ -249,7 +255,7 @@ namespace ReframeCore
         /// Constructs reactive dependency between two reactive nodes, where the first node acts as a predecessor and
         /// the second one as successor. 
         /// </summary>
-        /// <param name="predecessor">Reactive nodes acting as a predecessor in reactive dependecy.</param>
+        /// <param name="predecessor">Reactive node acting as a predecessor in reactive dependecy.</param>
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
         public void AddDependency(INode predecessor, INode successor)
         {
@@ -274,6 +280,46 @@ namespace ReframeCore
             }
 
             p.AddSuccessor(s);
+        }
+
+        /// <summary>
+        /// Constructs reactive dependencies between predecessor node and multiple successor nodes.
+        /// </summary>
+        /// <param name="predecessor">Reactive node acting as a predecessor in reactive dependency.</param>
+        /// <param name="successors">List of reactive nodes acting as a successors in reactive dependencies.</param>
+        public void AddDependency(INode predecessor, List<INode> successors)
+        {
+            if (successors != null)
+            {
+                foreach (INode successor in successors)
+                {
+                    AddDependency(predecessor, successor);
+                }
+            }
+            else
+            {
+                throw new NodeNullReferenceException();
+            }
+        }
+
+        /// <summary>
+        /// Constructs reactive dependencies between multiple predecessor nodes and a successor node.
+        /// </summary>
+        /// <param name="predecessors">List of reactive nodes acting as a predecessors in reactive dependencies.</param>
+        /// <param name="successor">Reactive node acting as a successor in reactive dependencies.</param>
+        public void AddDependency(List<INode> predecessors, INode successor)
+        {
+            if (predecessors != null)
+            {
+                foreach (INode predecessor in predecessors)
+                {
+                    AddDependency(predecessor, successor);
+                }
+            }
+            else
+            {
+                throw new NodeNullReferenceException();
+            }
         }
 
         /// <summary>
