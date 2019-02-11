@@ -9,12 +9,10 @@ namespace ReframeCore.Helpers
     public class Logger
     {
         private List<string> _nodesToUpdate = new List<string>();
-        private List<string> _updatedNodes = new List<string>();
 
         public Logger()
         {
             _nodesToUpdate = new List<string>();
-            _updatedNodes = new List<string>();
         }
 
         public void LogNodeToUpdate(INode node)
@@ -22,19 +20,10 @@ namespace ReframeCore.Helpers
             _nodesToUpdate.Add(ExtractData(node));
         }
 
-        public void LogUpdatedNode(INode node)
-        {
-            _updatedNodes.Add(ExtractData(node));
-        }
 
         public void ClearNodesToUpdate()
         {
             _nodesToUpdate.Clear();
-        }
-
-        public void ClearUpdatedNodes()
-        {
-            _updatedNodes.Clear();
         }
 
         private string ExtractData(INode node)
@@ -58,6 +47,11 @@ namespace ReframeCore.Helpers
             }
 
             return data;
+        }
+
+        public override string ToString()
+        {
+            return GetNodesToUpdate();
         }
     }
 }
