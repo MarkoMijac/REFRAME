@@ -55,6 +55,7 @@
     <Compile Include="E02\Building02.cs" />
     <Compile Include="E04\AdditionalPart04.cs" />
     <Compile Include="E04\Apartment04.cs" />
+    <Compile Include="E06\Cycle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

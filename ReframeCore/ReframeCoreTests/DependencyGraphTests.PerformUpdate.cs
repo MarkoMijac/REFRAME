@@ -7,6 +7,7 @@ using ReframeCore.Helpers;
 using ReframeCoreExamples.E01;
 using ReframeCoreExamples.E02;
 using ReframeCoreExamples.E04;
+using ReframeCoreExamples.E06;
 
 namespace ReframeCoreTests
 {
@@ -1175,6 +1176,123 @@ namespace ReframeCoreTests
             Logger expectedLogger = CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        #endregion
+
+        #region PerformUpdate CASE 6
+
+        /*Simple graph with cycles */
+
+        private void CreateCase6(DependencyGraph graph, Cycle cycle)
+        {
+            INode aNode = graph.AddNode(cycle, "A");
+            INode bNode = graph.AddNode(cycle, "B");
+            INode cNode = graph.AddNode(cycle, "C");
+            INode dNode = graph.AddNode(cycle, "D");
+            INode eNode = graph.AddNode(cycle, "E");
+            INode fNode = graph.AddNode(cycle, "F");
+
+            graph.AddDependency(aNode, bNode);
+            graph.AddDependency(aNode, cNode);
+            graph.AddDependency(bNode, dNode);
+            graph.AddDependency(cNode, bNode);
+            graph.AddDependency(cNode, eNode);
+            graph.AddDependency(dNode, cNode);
+            graph.AddDependency(dNode, fNode);
+            graph.AddDependency(eNode, fNode);
+
+            graph.Initialize();
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenNoInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+
+            CreateCase6(graph, cycle);
+
+            //Act&Assert
+            Assert.ThrowsException<CyclicReactiveDependencyException>(() => graph.PerformUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenANodeAsInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+            
+            CreateCase6(graph, cycle);
+            INode initialNode = graph.GetNode(cycle, "A");
+
+            //Act&Assert
+            Assert.ThrowsException<CyclicReactiveDependencyException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenBNodeAsInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+
+            CreateCase6(graph, cycle);
+            INode initialNode = graph.GetNode(cycle, "B");
+
+            //Act&Assert
+            Assert.ThrowsException<CyclicReactiveDependencyException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenCNodeAsInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+
+            CreateCase6(graph, cycle);
+            INode initialNode = graph.GetNode(cycle, "C");
+
+            //Act&Assert
+            Assert.ThrowsException<CyclicReactiveDependencyException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenDNodeAsInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+
+            CreateCase6(graph, cycle);
+            INode initialNode = graph.GetNode(cycle, "D");
+
+            //Act&Assert
+            Assert.ThrowsException<CyclicReactiveDependencyException>(() => graph.PerformUpdate(initialNode));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case6_GivenENodeAsInitialNode_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Cycle cycle = new Cycle();
+
+            CreateCase6(graph, cycle);
+            INode initialNode = graph.GetNode(cycle, "E");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = new Logger();
+            expectedLogger.LogNodeToUpdate(graph.GetNode(cycle, "F"));
+
+            Assert.AreEqual(actualLogger.ToString(), expectedLogger.ToString());
         }
 
         #endregion
