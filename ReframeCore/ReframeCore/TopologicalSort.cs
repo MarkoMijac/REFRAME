@@ -20,7 +20,7 @@ namespace ReframeCore
         /// <param name="visited">A dictionary maintaining visited nodes.</param>
         /// <param name="getDependents">Function which gets dependent nodes.</param>
         /// <param name="sorted">List representing topologically sorted graph.</param>
-        private void DFS(IEnumerable<INode> graph, INode currentNode, Dictionary<INode, bool> visited, Func<INode, IEnumerable<INode>> getDependents, List<INode> sorted)
+        private void DFS(INode currentNode, Dictionary<INode, bool> visited, Func<INode, IEnumerable<INode>> getDependents, List<INode> sorted)
         {
             visited[currentNode] = true;
             var dependents = getDependents(currentNode);
@@ -29,7 +29,7 @@ namespace ReframeCore
                 bool f;
                 if (visited.TryGetValue(dependent, out f) == false)
                 {
-                    DFS(graph, dependent, visited, getDependents, sorted);
+                    DFS(dependent, visited, getDependents, sorted);
                 }
             }
             sorted.Add(currentNode);
@@ -52,7 +52,7 @@ namespace ReframeCore
                 bool f = false;
                 if (visited.TryGetValue(currentNode, out f) == false || f == false)
                 {
-                    DFS(graph, currentNode, visited, getDependents, sorted);
+                    DFS(currentNode, visited, getDependents, sorted);
                 }
             }
 
@@ -76,7 +76,7 @@ namespace ReframeCore
             var sorted = new List<INode>();
             Dictionary<INode, bool> visited = new Dictionary<INode, bool>();
 
-            DFS(graph, initialNode, visited, getDependents, sorted);
+            DFS(initialNode, visited, getDependents, sorted);
 
             if (omitInitialNode == true)
             {
