@@ -11,9 +11,11 @@ using ReframeCoreExamples.E01;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class DependencyGraphTests
+    public partial class DependencyGraphTests
     {
         #region AddNode
+
+        #region public bool AddNode(INode node)
 
         [TestMethod]
         public void AddNode_GivenNullObject_ThrowsException()
@@ -27,40 +29,77 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode_GivenValidNode_ReturnsTrue()
+        public void AddNode_GivenValidNonExistingPropertyNode_ReturnsAddedNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
-            bool added = graph.AddNode(node);
+            INode addedNode = graph.AddNode(node);
 
             //Assert
-            Assert.IsTrue(added);
+            Assert.IsNotNull(addedNode);
         }
 
         [TestMethod]
-        public void AddNode_GivenAlreadyAddedNode_ReturnsFalse()
+        public void AddNode_GivenValidNonExistingMethodNode_ReturnsAddedNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+
+            //Act
+            INode addedNode = graph.AddNode(node);
+
+            //Assert
+            Assert.IsNotNull(addedNode);
+        }
+
+        [TestMethod]
+        public void AddNode_GivenAlreadyAddedPropertyNode_ReturnsNull()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
-            bool added = graph.AddNode(node);
+            INode addedNode = graph.AddNode(node);
 
             //Assert
-            Assert.IsFalse(added);
+            Assert.IsNull(addedNode);
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidArguments_ReturnsCorrectNode()
+        public void AddNode_GivenAlreadyAddedMethodNode_ReturnsNull()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            INode addedNode = graph.AddNode(node);
+
+            //Assert
+            Assert.IsNull(addedNode);
+        }
+
+        #endregion
+
+        #region public INode AddNode(object ownerObject, string memberName)
+
+        [TestMethod]
+        public void AddNode1_GivenValidArguments_ReturnsPropertyNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -71,11 +110,77 @@ namespace ReframeCoreTests
             INode addedNode = graph.AddNode(building, memberName);
 
             //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(PropertyNode));
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenValidArguments_ReturnsCorrectPropertyNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+
+            //Assert
             Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName);
         }
 
         [TestMethod]
-        public void AddNode1_GivenInvalidArguments1_ThrowsException()
+        public void AddNode1_GivenValidArguments_ReturnsPropertyNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(addedNode.UpdateMethod == null);
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenValidArgumentsAndDefaultUpdateMethodNames_ReturnsPropertyNodeWithUpdateMethod()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            graph.Settings.UseDefaultUpdateMethodNames = true;
+
+            Building00 building = new Building00();
+            string memberName = "Area";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(addedNode.UpdateMethod != null
+                && addedNode.UpdateMethod.Method.Name == graph.Settings.UpdateMethodNamePrefix + memberName);
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenValidArgumentsAndNoDefaultUpdateMethodNames_ReturnsPropertyNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            graph.Settings.UseDefaultUpdateMethodNames = false;
+
+            Building00 building = new Building00();
+            string memberName = "Area";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+
+            //Assert
+            //Assert
+            Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName && addedNode.UpdateMethod == null);
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenInvalidOwnerObject_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -87,7 +192,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode1_GivenInvalidArguments2_ThrowsException()
+        public void AddNode1_GivenInvalidMemberName_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -99,24 +204,112 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode1_GivenAlreadyAddedNode_ReturnsExistingNode()
+        public void AddNode1_GivenValidArguments_ReturnsMethodNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
-            string memberName = "Width";
-            INode node = new Node(building, memberName);
-            graph.AddNode(node);
+            string memberName = "Update_Area";
 
             //Act
             INode addedNode = graph.AddNode(building, memberName);
 
             //Assert
-            Assert.AreEqual(node, addedNode);
+            Assert.IsInstanceOfType(addedNode, typeof(MethodNode));
+        }
+
+        #endregion
+
+        #region public INode AddNode(object ownerObject, string memberName, string updateMethodName)
+
+        [TestMethod]
+        public void AddNode2_GivenValidArguments_ReturnsPropertyNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName, updateMethodName);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(PropertyNode));
         }
 
         [TestMethod]
-        public void AddNode2_GivenInvalidArguments_ThrowsException()
+        public void AddNode2_GivenValidArguments_ReturnsMethodNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName, updateMethodName);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(MethodNode));
+        }
+
+        [TestMethod]
+        public void AddNode2_GivenValidArguments_ReturnsCorrectPropertyNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName, updateMethodName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(addedNode.OwnerObject == building 
+                && addedNode.MemberName == memberName
+                && addedNode.UpdateMethod != null
+                && addedNode.UpdateMethod.Method.Name == updateMethodName);
+        }
+
+        [TestMethod]
+        public void AddNode2_GivenValidArguments_ReturnsCorrectMethodNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            MethodNode addedNode = graph.AddNode(building, memberName, updateMethodName) as MethodNode;
+
+            //Assert
+            Assert.IsTrue(addedNode.OwnerObject == building
+                && addedNode.MemberName == memberName
+                && addedNode.UpdateMethod != null
+                && addedNode.UpdateMethod.Method.Name == updateMethodName);
+        }
+
+        [TestMethod]
+        public void AddNode2_GivenNonExistingUpdateMethodName_ReturnsPropertyNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            string updateMethodName = "Update_Width";
+
+            //Act
+            PropertyNode addedNode = graph.AddNode(building, memberName, updateMethodName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(addedNode.UpdateMethod == null);
+        }
+
+        [TestMethod]
+        public void AddNode2_GivenInvalidOwnerObject_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -129,7 +322,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode2_GivenInvalidArguments2_ThrowsException()
+        public void AddNode2_GivenInvalidMemberName_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -141,18 +334,37 @@ namespace ReframeCoreTests
             Assert.ThrowsException<ReactiveNodeException>(() => graph.AddNode(building, memberName, updateMethodName));
         }
 
+        [TestMethod]
+        public void AddNode2_GivenAlreadyAddedNode_ReturnsExistingNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName, updateMethodName);
+            INode additionalNode = graph.AddNode(building, memberName, updateMethodName);
+
+            //Assert
+            Assert.AreEqual(addedNode, additionalNode);
+        }
+
+        #endregion
+
         #endregion
 
         #region ContainsNode
 
         [TestMethod]
-        public void ContainsNode_GivenAddedNode_ReturnsTrue()
+        public void ContainsNode_GivenAddedPropertyNode_ReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -163,13 +375,30 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode_GivenNotAddedNode_ReturnsFalse()
+        public void ContainsNode_GivenAddedMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool contains = graph.ContainsNode(node);
@@ -179,13 +408,29 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode1_GivenAddedNodeReturnsTrue()
+        public void ContainsNode_GivenNotAddedMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenAddedPropertyNodeReturnsTrue()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -196,13 +441,46 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void ContainsNode1_GivenNotAddedNode_ReturnsFalse()
+        public void ContainsNode1_GivenAddedMethodNodeReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = new MethodNode(building, memberName);
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(building, memberName);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
+
+            //Act
+            bool contains = graph.ContainsNode(building, memberName);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            INode node = new MethodNode(building, memberName);
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
@@ -284,7 +562,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -301,7 +579,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             INode n = graph.GetNode(node);
@@ -343,7 +621,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
 
             //Act
             bool removed = graph.RemoveNode(node);
@@ -360,8 +638,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new Node(building, memberName);
-            INode successorNode = new Node(building, memberName2);
+            INode predecessorNode = new PropertyNode(building, memberName);
+            INode successorNode = new PropertyNode(building, memberName2);
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -379,8 +657,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new Node(building, memberName);
-            INode successorNode = new Node(building, memberName2);
+            INode predecessorNode = new PropertyNode(building, memberName);
+            INode successorNode = new PropertyNode(building, memberName2);
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -397,7 +675,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new Node(building, memberName);
+            INode node = new PropertyNode(building, memberName);
             graph.AddNode(node);
 
             //Act
@@ -411,8 +689,23 @@ namespace ReframeCoreTests
 
         #region AddDependency
 
+        #region public void AddDependency(INode predecessor, INode successor)
+
         [TestMethod]
-        public void AddDependency_GivenValidAddedNodes_DependencyAdded()
+        public void AddDependency_GivenNullNodes_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+
+            INode predecessor = null;
+            INode successor = null;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddDependency(predecessor, successor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidButNotAddedNodes_NodesAdded()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -420,8 +713,49 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
+
+            //Act
+            graph.AddDependency(predecessor, successor);
+
+            //Assert
+            bool predecessorAdded = graph.GetNode(predecessor) != null;
+            bool successorAdded = graph.GetNode(successor) != null;
+
+            Assert.IsTrue(predecessorAdded == true && successorAdded == true);
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidButNotAddedNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+            string memberName2 = "Area";
+
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
+
+            //Act
+            graph.AddDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenValidAddedPropertyNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building00 = new Building00();
+            string memberName = "Width";
+            string memberName2 = "Area";
+
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -434,51 +768,41 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddDependency_GivenNullNodes_ThrowsException()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-
-            INode predecessor = null;
-            INode successor = null;
-
-            //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(()=> graph.AddDependency(predecessor, successor));
-        }
-
-        [TestMethod]
-        public void AddDependency_GivenValidButNotAddedNodes_NodesAdded()
+        public void AddDependency_GivenValidAddedMethodNodes_DependencyAdded()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building00 = new Building00();
-            string memberName = "Width";
-            string memberName2 = "Area";
+            string memberName = "Update_Area";
+            string memberName2 = "Update_Volume";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new MethodNode(building00, memberName);
+            INode successor = new MethodNode(building00, memberName2);
+
+            graph.AddNode(predecessor);
+            graph.AddNode(successor);
 
             //Act
             graph.AddDependency(predecessor, successor);
 
             //Assert
-            bool predecessorAdded = graph.GetNode(predecessor) != null;
-            bool successorAdded = graph.GetNode(successor) != null;
-
-            Assert.IsTrue(predecessorAdded == true && successorAdded==true);
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
         }
 
         [TestMethod]
-        public void AddDependency_GivenValidButNotAddedNodes_DependencyAdded()
+        public void AddDependency_GivenValidAddedPropertyAndMethodNodes_DependencyAdded()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building00 = new Building00();
-            string memberName = "Width";
-            string memberName2 = "Area";
+            string memberName = "Area";
+            string memberName2 = "Update_Volume";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new MethodNode(building00, memberName2);
+
+            graph.AddNode(predecessor);
+            graph.AddNode(successor);
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -497,8 +821,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
-            INode basementArea = new Node(basement, "Area");
+            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
+            INode basementArea = new PropertyNode(basement, "Area");
 
             //Act
             graph.AddDependency(basementArea, apartmentTotalArea);
@@ -507,14 +831,56 @@ namespace ReframeCoreTests
             Assert.IsTrue(apartmentTotalArea.HasPredecessor(basementArea) && basementArea.HasSuccessor(apartmentTotalArea));
         }
 
+        #endregion
+
+        #region public void AddDependency(object predecessorObject, string predecessorMember, object successorObject, string successorMember)
+
         [TestMethod]
-        public void AddDependency1_GivenValidAddedNodes_DependencyAdded()
+        public void AddDependency1_GivenValidAddedPropertyNodes_DependencyAdded()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string predecessorMember = "Width";
             string successorMember = "Area";
+
+            INode predecessor = graph.AddNode(building, predecessorMember);
+            INode successor = graph.AddNode(building, successorMember);
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenValidAddedMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Update_Area";
+            string successorMember = "Update_Volume";
+
+            INode predecessor = graph.AddNode(building, predecessorMember);
+            INode successor = graph.AddNode(building, successorMember);
+
+            //Act
+            graph.AddDependency(building, predecessorMember, building, successorMember);
+
+            //Assert
+            Assert.IsTrue(predecessor.HasSuccessor(successor) && successor.HasPredecessor(predecessor));
+        }
+
+        [TestMethod]
+        public void AddDependency1_GivenValidAddedPropertyAndMethodNodes_DependencyAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string predecessorMember = "Area";
+            string successorMember = "Update_Volume";
 
             INode predecessor = graph.AddNode(building, predecessorMember);
             INode successor = graph.AddNode(building, successorMember);
@@ -561,6 +927,8 @@ namespace ReframeCoreTests
 
         #endregion
 
+        #endregion
+
         #region RemoveDependency
 
         [TestMethod]
@@ -585,8 +953,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             //Act&Assert
             Assert.ThrowsException<ReactiveDependencyException>(() => graph.RemoveDependency(predecessor, successor));
@@ -601,8 +969,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -624,8 +992,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new Node(apartment01, "TotalArea");
-            INode basementArea = new Node(basement, "Area");
+            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
+            INode basementArea = new PropertyNode(basement, "Area");
 
             graph.AddDependency(basementArea, apartmentTotalArea);
 
@@ -645,8 +1013,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
 
             graph.AddDependency(predecessor, successor);
 
@@ -683,8 +1051,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddDependency(predecessor, successor);
 
             //Act
@@ -704,8 +1072,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddDependency(predecessor, successor);
             graph.AddNode(building00, memberName3);
 
@@ -726,8 +1094,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new Node(building00, memberName);
-            INode successor = new Node(building00, memberName2);
+            INode predecessor = new PropertyNode(building00, memberName);
+            INode successor = new PropertyNode(building00, memberName2);
             graph.AddNode(predecessor);
             graph.AddNode(successor);
             graph.AddNode(building00, memberName3);
@@ -737,569 +1105,6 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(numOfNodes, 3);
-        }
-
-        #endregion
-
-        #region PerformUpdate GENERAL
-
-        [TestMethod]
-        public void PerformUpdate_GivenNotInitializedGraph_ThrowsException()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
-
-            graph.AddDependency(widthNode, areaNode);
-            graph.AddDependency(lengthNode, areaNode);
-            graph.AddDependency(areaNode, volumeNode);
-            graph.AddDependency(heightNode, volumeNode);
-
-            INode initialNode = widthNode;
-
-            //Act&Assert
-            Assert.ThrowsException<DependencyGraphException>(()=> graph.PerformUpdate(initialNode));
-        }
-
-        [TestMethod]
-        public void PerformUpdate_GivenInitialNodeIsNull_ThrowsException()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
-
-            graph.AddDependency(widthNode, areaNode);
-            graph.AddDependency(lengthNode, areaNode);
-            graph.AddDependency(areaNode, volumeNode);
-            graph.AddDependency(heightNode, volumeNode);
-
-            graph.Initialize();
-
-            INode initialNode = null;
-
-            //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
-        }
-
-        [TestMethod]
-        public void PerformUpdate_GivenNonExistingInitialNode_ThrowsException()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume");
-
-            INode consumption = new Node(building, "Consumption");
-
-            graph.AddDependency(widthNode, areaNode);
-            graph.AddDependency(lengthNode, areaNode);
-            graph.AddDependency(areaNode, volumeNode);
-            graph.AddDependency(heightNode, volumeNode);
-
-            graph.Initialize();
-
-            INode initialNode = consumption;
-
-            //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(initialNode));
-        }
-
-        #endregion
-
-        #region PerformUpdate CASE 1
-
-        /*
-         * Simple dependency graph with 8 nodes and 8 reactive dependencies. All nodes and dependencies are from the same object.
-         * Dependencies are arranged so that there would be a glitch if there was no topological order.
-         */
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenWidthAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Width");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenLengthAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Length");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenHeightAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Height");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenHeightAsInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenConsumptionAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Consumption");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenAreaAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Area");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_AreaAsInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenTotalConsumptionPer_m3AsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "TotalConsumptionPer_m3");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-
-            Assert.AreEqual("", actualLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenWidthAsInitialNode_GivesCorrectResults()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Width");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Assert.IsTrue(building.Area == 90 && building.Volume == 360 && building.TotalConsumption == 1800 && building.TotalConsumptionPer_m3 == 5);
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_ChangingLength_GivesCorrectResults()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-            INode initialNode = graph.GetNode(building, "Width");
-            graph.PerformUpdate(initialNode);
-
-            building.Length = 10;
-            initialNode = graph.GetNode(building, "Length");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Assert.IsTrue(building.Area == 100 && building.Volume == 400 && building.TotalConsumption == 2000 && building.TotalConsumptionPer_m3 == 5);
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case1_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            CreateCase1(graph, building);
-
-            //Act
-            graph.PerformUpdate();
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenNoInitialNode(graph, building);
-
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
-        }
-
-        private void CreateCase1(DependencyGraph graph, Building00 building)
-        {
-            building.Width = 10;
-            building.Length = 9;
-            building.Height = 4;
-            building.Consumption = 20;
-
-            INode widthNode = new Node(building, "Width");
-            INode lengthNode = new Node(building, "Length");
-            INode areaNode = new Node(building, "Area", "Update_Area");
-            INode heightNode = new Node(building, "Height");
-            INode volumeNode = new Node(building, "Volume", "Update_Volume");
-            INode consumptionNode = new Node(building, "Consumption");
-            INode totalConsumptionNode = new Node(building, "TotalConsumption", "Update_TotalConsumption");
-            INode totalConsumptionPer_m3 = new Node(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3");
-
-            graph.AddDependency(widthNode, areaNode);
-            graph.AddDependency(lengthNode, areaNode);
-            graph.AddDependency(areaNode, volumeNode);
-            graph.AddDependency(areaNode, totalConsumptionNode);
-            graph.AddDependency(heightNode, volumeNode);
-            graph.AddDependency(consumptionNode, totalConsumptionNode);
-            graph.AddDependency(totalConsumptionNode, totalConsumptionPer_m3);
-            graph.AddDependency(volumeNode, totalConsumptionPer_m3);
-
-            graph.Initialize();
-        }
-
-        private Logger CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building00 building00)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case1_GivenHeightAsInitialNode(DependencyGraph graph, Building00 building)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(DependencyGraph graph, Building00 building)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case1_AreaAsInitialNode(DependencyGraph graph, Building00 building00)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case1_GivenNoInitialNode(DependencyGraph graph, Building00 building)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(building, "Consumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Height"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
-
-            return logger;
-        }
-
-        #endregion
-
-        #region PerformUpdate CASE2
-
-        /*
-         * Simple dependency graph with nodes from three objects of two different classes.
-         */
-
-        private void CreateCase2(DependencyGraph graph, Apartment01 apartment)
-        {
-            apartment.Basement = new AdditionalPart01 { Name = "Basement"};
-            apartment.Balcony = new AdditionalPart01 { Name = "Balcony" };
-
-            apartment.Width = 10;
-            apartment.Length = 7;
-            apartment.Height = 2.5;
-            apartment.Consumption = 6;
-
-            apartment.Basement.Width = 4;
-            apartment.Basement.Length = 2;
-            apartment.Basement.UtilCoeff = 0.6;
-
-            apartment.Balcony.Width = 1;
-            apartment.Balcony.Length = 3;
-            apartment.Balcony.UtilCoeff = 0.5;
-
-            graph.AddDependency(apartment.Balcony, "Width", apartment.Balcony, "Area");
-            graph.AddDependency(apartment.Balcony, "Length", apartment.Balcony, "Area");
-
-            graph.AddDependency(apartment.Basement, "Width", apartment.Basement, "Area");
-            graph.AddDependency(apartment.Basement, "Length", apartment.Basement, "Area");
-
-            graph.AddDependency(apartment, "Width", apartment, "HeatedArea");
-            graph.AddDependency(apartment, "Length", apartment, "HeatedArea");
-
-            graph.AddDependency(apartment, "Height", apartment, "HeatedVolume");
-            graph.AddDependency(apartment, "HeatedArea", apartment, "HeatedVolume");
-
-            graph.AddDependency(apartment, "Consumption", apartment, "TotalConsumption");
-            graph.AddDependency(apartment, "HeatedVolume", apartment, "TotalConsumption");
-
-            INode totalAreaNode = graph.AddNode(apartment, "TotalArea");
-            INode balconyUtilCoeffNode = graph.AddNode(apartment.Balcony, "UtilCoeff");
-            INode basementUtilCoeffNode = graph.AddNode(apartment.Basement, "UtilCoeff");
-
-            graph.AddDependency(apartment, "HeatedArea", apartment, "TotalArea");
-            graph.AddDependency(apartment.Balcony, "Area", apartment, "TotalArea");
-            graph.AddDependency(apartment.Basement, "Area", apartment, "TotalArea");
-            graph.AddDependency(apartment.Balcony, "UtilCoeff", apartment, "TotalArea");
-            graph.AddDependency(apartment.Basement, "UtilCoeff", apartment, "TotalArea");
-
-            graph.Initialize();
-        }
-
-        private Logger CreateExpectedLogger_Case2_GivenNoInitialNode(DependencyGraph graph, Apartment01 apartment)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "UtilCoeff"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "UtilCoeff"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Consumption"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Height"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case2_GivenWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
-
-            return logger;
-        }
-
-        private Logger CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
-        {
-            Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
-
-            return logger;
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case2_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Apartment01 apartment = new Apartment01 { Name = "Apartment 01"};
-
-            CreateCase2(graph, apartment);
-
-            //Act
-            graph.PerformUpdate();
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenNoInitialNode(graph, apartment);
-
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case2_GivenNoInitialNode_GivesCorrectResults()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
-
-            CreateCase2(graph, apartment);
-
-            //Act
-            graph.PerformUpdate();
-
-            //Assert
-            Assert.IsTrue(
-                apartment.Basement.Area == 8 &&
-                apartment.Balcony.Area == 3 &&
-                apartment.HeatedArea == 70 &&
-                apartment.TotalArea == 76.3 &&
-                apartment.HeatedVolume == 175 &&
-                apartment.TotalConsumption == 1050
-                );
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case2_GivenApartmentWidthAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
-
-            CreateCase2(graph, apartment);
-            INode initialNode = graph.GetNode(apartment, "Width");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenWidthAsInitialNode(graph, apartment);
-
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case2_GivenBalconyWidthAsInitialNode_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
-
-            CreateCase2(graph, apartment);
-            INode initialNode = graph.GetNode(apartment.Balcony, "Width");
-
-            //Act
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(graph, apartment);
-
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
-        }
-
-        [TestMethod]
-        public void PerformUpdate_Case2_ChangingApartmentLength_GivesCorrectResults()
-        {
-            //Arrange
-            DependencyGraph graph = new DependencyGraph("G1");
-            Apartment01 apartment = new Apartment01 { Name = "Apartment 01" };
-
-            CreateCase2(graph, apartment);
-            graph.PerformUpdate();
-
-            //Act
-            INode initialNode = graph.GetNode(apartment, "Length");
-            apartment.Length = 8;
-            graph.PerformUpdate(initialNode);
-
-            //Assert
-            //Assert
-            Assert.IsTrue(
-                apartment.Basement.Area == 8 &&
-                apartment.Balcony.Area == 3 &&
-                apartment.HeatedArea == 80 &&
-                apartment.TotalArea == 86.3 &&
-                apartment.HeatedVolume == 200 &&
-                apartment.TotalConsumption == 1200
-                );
         }
 
         #endregion

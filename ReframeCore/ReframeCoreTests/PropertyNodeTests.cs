@@ -7,7 +7,7 @@ using ReframeCore.Exceptions;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class NodeTests
+    public class PropertyNodeTests
     {
         #region NodeCreation
 
@@ -19,7 +19,7 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act
-            INode widthNode = new Node(building, memberName);
+            INode widthNode = new PropertyNode(building, memberName);
 
             //Assert
             Assert.IsInstanceOfType(widthNode, typeof(INode));
@@ -33,7 +33,7 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act
-            INode widthNode = new Node(building, memberName);
+            INode widthNode = new PropertyNode(building, memberName);
 
             //Assert
             Assert.IsTrue(widthNode.OwnerObject == building && widthNode.MemberName == memberName);
@@ -49,7 +49,8 @@ namespace ReframeCoreTests
             try
             {
                 //Act
-                INode widthNode = new Node(building, memberName);
+                INode widthNode = new PropertyNode(building, memberName);
+                widthNode.Update();
             }
             catch (Exception ex)
             {
@@ -67,10 +68,27 @@ namespace ReframeCoreTests
             string updateMethodName = "Update_Area";
 
             //Act
-            INode widthNode = new Node(building, memberName, updateMethodName);
+            INode widthNode = new PropertyNode(building, memberName, updateMethodName);
 
             //Assert
             Assert.IsInstanceOfType(widthNode, typeof(INode));
+        }
+
+        [TestMethod]
+        public void NodeCreation_CreatedNonSourceNode_HoldsProperData()
+        {
+            //Arrange
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethodName = "Update_Area";
+
+            //Act
+            PropertyNode widthNode = new PropertyNode(building, memberName, updateMethodName);
+
+            //Assert
+            Assert.IsTrue(widthNode.OwnerObject == building 
+                && widthNode.MemberName == memberName
+                && widthNode.UpdateMethod.Method.Name == updateMethodName);
         }
 
         [TestMethod]
@@ -81,7 +99,7 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new Node(building00, memberName));
+            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
         }
 
         [TestMethod]
@@ -92,7 +110,7 @@ namespace ReframeCoreTests
             string memberName = "NonexistantMember";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new Node(building00, memberName));
+            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
         }
 
         [TestMethod]
@@ -103,7 +121,7 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act
-            INode node = new Node(building00, memberName);
+            INode node = new PropertyNode(building00, memberName);
 
             //Assert
             Assert.AreNotEqual(default(uint), node.Identifier);
@@ -120,8 +138,8 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
             string memberName = "Width";
 
-            INode node1 = new Node(building00, memberName);
-            INode node2 = new Node(building00, memberName);
+            INode node1 = new PropertyNode(building00, memberName);
+            INode node2 = new PropertyNode(building00, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -137,7 +155,7 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
             string memberName = "Width";
 
-            INode node1 = new Node(building00, memberName);
+            INode node1 = new PropertyNode(building00, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(building00, memberName);
@@ -154,8 +172,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Length";
 
-            INode node1 = new Node(building00, memberName);
-            INode node2 = new Node(building00, memberName2);
+            INode node1 = new PropertyNode(building00, memberName);
+            INode node2 = new PropertyNode(building00, memberName2);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -172,7 +190,7 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Length";
 
-            INode node1 = new Node(building00, memberName);
+            INode node1 = new PropertyNode(building00, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(building00, memberName2);
@@ -190,8 +208,8 @@ namespace ReframeCoreTests
 
             string memberName = "Width";
 
-            INode node1 = new Node(building1, memberName);
-            INode node2 = new Node(building2, memberName);
+            INode node1 = new PropertyNode(building1, memberName);
+            INode node2 = new PropertyNode(building2, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -209,7 +227,7 @@ namespace ReframeCoreTests
 
             string memberName = "Width";
 
-            INode node1 = new Node(building1, memberName);
+            INode node1 = new PropertyNode(building1, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(building2, memberName);
@@ -232,8 +250,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
 
             //Act
             bool added = node.AddPredecessor(predecessorNode);
@@ -250,7 +268,7 @@ namespace ReframeCoreTests
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
             INode predecessorNode = null;
 
             //Act & Assert
@@ -265,7 +283,7 @@ namespace ReframeCoreTests
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
             INode predecessorNode = node;
 
             //Act & Assert
@@ -282,8 +300,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             node.AddPredecessor(predecessorNode);
 
             //Act
@@ -291,6 +309,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(added);
+        }
+
+        [TestMethod]
+        public void AddPredecessor_GivenValidMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+
+            INode node = new PropertyNode(building00, "Volume", "Update_Volume");
+            INode predecessorNode = new MethodNode(building00, "Update_Area");
+
+            //Act
+            bool added = node.AddPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(added);
         }
 
         #endregion
@@ -307,8 +342,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode successorNode = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             predecessorNode.AddSuccessor(successorNode);
 
             //Act
@@ -316,6 +351,26 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(hasPredecessor);
+        }
+
+        [TestMethod]
+        public void HasPredecessor_GivenNodeNotAddedAsSuccessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            string predecessorPropertyName = "Width";
+
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
+
+            //Act
+            bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsFalse(hasPredecessor);
         }
 
         [TestMethod]
@@ -328,8 +383,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode successorNode = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             predecessorNode.AddSuccessor(successorNode);
             predecessorNode.RemoveSuccessor(successorNode);
 
@@ -338,6 +393,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(hasPredecessor);
+        }
+
+        [TestMethod]
+        public void HasPredecessor_GivenMethodNodeAddedAsSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode predecessorNode = new PropertyNode(building00, "Volume", "Update_Volume");
+            INode successorNode = new MethodNode(building00, "Update_Area");
+            predecessorNode.AddSuccessor(successorNode);
+
+            //Act
+            bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(hasPredecessor);
         }
 
         #endregion
@@ -354,8 +426,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode successorNode = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             successorNode.AddPredecessor(predecessorNode);
 
             //Act
@@ -375,8 +447,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode successorNode = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             successorNode.AddPredecessor(predecessorNode);
             successorNode.RemovePredecessor(predecessorNode);
 
@@ -385,6 +457,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(hasSuccessor);
+        }
+
+        [TestMethod]
+        public void HasSuccessor_GivenMethodNodeAddedAsPredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode successorNode = new PropertyNode(building00, "Area", "Update_Area");
+            INode predecessorNode = new MethodNode(building00, "Update_Volume");
+            successorNode.AddPredecessor(predecessorNode);
+
+            //Act
+            bool hasSuccessor = predecessorNode.HasSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(hasSuccessor);
         }
 
         #endregion
@@ -401,8 +490,8 @@ namespace ReframeCoreTests
             string successorPropertyName = "Area";
             string successorUpdateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName);
-            INode successorNode = new Node(building00, successorPropertyName, successorUpdateMethodName);
+            INode node = new PropertyNode(building00, propertyName);
+            INode successorNode = new PropertyNode(building00, successorPropertyName, successorUpdateMethodName);
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -418,7 +507,7 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
-            INode node = new Node(building00, propertyName);
+            INode node = new PropertyNode(building00, propertyName);
             INode successorNode = null;
 
             //Act & Assert
@@ -432,7 +521,7 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
-            INode node = new Node(building00, propertyName);
+            INode node = new PropertyNode(building00, propertyName);
             INode successorNode = node;
 
             //Act & Assert
@@ -449,8 +538,8 @@ namespace ReframeCoreTests
             string successorPropertyName = "Area";
             string successorUpdateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName);
-            INode successorNode = new Node(building00, successorPropertyName, successorUpdateMethodName);
+            INode node = new PropertyNode(building00, propertyName);
+            INode successorNode = new PropertyNode(building00, successorPropertyName, successorUpdateMethodName);
             node.AddSuccessor(successorNode);
 
             //Act
@@ -458,6 +547,22 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(added);
+        }
+
+        [TestMethod]
+        public void AddSuccessor_GivenValidMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new MethodNode(building00, "Update_Area");
+            INode successorNode = new PropertyNode(building00, "Volume", "Update_Volume");
+
+            //Act
+            bool added = node.AddSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(added);
         }
 
         #endregion
@@ -474,8 +579,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
             node.AddPredecessor(predecessorNode);
 
             //Act
@@ -495,8 +600,8 @@ namespace ReframeCoreTests
 
             string predecessorPropertyName = "Width";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
-            INode predecessorNode = new Node(building00, predecessorPropertyName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
 
             //Act
             bool removed = node.RemovePredecessor(predecessorNode);
@@ -513,7 +618,7 @@ namespace ReframeCoreTests
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName, updateMethodName);
+            INode node = new PropertyNode(building00, propertyName, updateMethodName);
             INode predecessorNode = null;
 
             //Act
@@ -521,6 +626,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemovePredecessor_GivenValidMethodNodePredecessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new PropertyNode(building00, "Width", "Update_Width");
+            INode predecessorNode = new PropertyNode(building00, "Update_Area");
+            node.AddPredecessor(predecessorNode);
+
+            //Act
+            bool removed = node.RemovePredecessor(predecessorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
         }
 
         #endregion
@@ -538,8 +660,8 @@ namespace ReframeCoreTests
             string successorPropertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName);
-            INode successorNode = new Node(building00, successorPropertyName, updateMethodName);
+            INode node = new PropertyNode(building00, propertyName);
+            INode successorNode = new PropertyNode(building00, successorPropertyName, updateMethodName);
             node.AddSuccessor(successorNode);
 
             //Act
@@ -560,8 +682,8 @@ namespace ReframeCoreTests
             string successorPropertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            INode node = new Node(building00, propertyName);
-            INode successorNode = new Node(building00, successorPropertyName, updateMethodName);
+            INode node = new PropertyNode(building00, propertyName);
+            INode successorNode = new PropertyNode(building00, successorPropertyName, updateMethodName);
 
             //Act
             bool removed = node.RemoveSuccessor(successorNode);
@@ -577,7 +699,7 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
-            INode node = new Node(building00, propertyName);
+            INode node = new PropertyNode(building00, propertyName);
             INode successorNode = null;
 
             //Act
@@ -585,6 +707,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void RemoveSuccessor_GivenValidMethodNodeSuccessor_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+
+            INode node = new PropertyNode(building00, "Width");
+            INode successorNode = new MethodNode(building00, "Update_Area");
+            node.AddSuccessor(successorNode);
+
+            //Act
+            bool removed = node.RemoveSuccessor(successorNode);
+
+            //Assert
+            Assert.IsTrue(removed);
         }
 
         #endregion

@@ -8,75 +8,53 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    /// <summary>
-    /// Reactive node which encapsulates object's property that needs to be tracked.
-    /// </summary>
-    public class Node : INode
+    internal class Node
     {
         #region Properties
 
-        public uint Identifier { get; private set; }
+        /// <summary>
+        /// Node's unique identifier.
+        /// </summary>
+        public uint Identifier { get; set; }
 
         /// <summary>
-        /// The name of the class member (property or method) reactive node represents.
+        /// The name of the class member which reactive node represents.
         /// </summary>
-        public string MemberName { get; private set; }
+        public string MemberName { get; set; }
 
         /// <summary>
         /// An associated object which owns the member.
         /// </summary>
-        public object OwnerObject { get; private set; }
-
-        /// <summary>
-        /// Delegate to the update method.
-        /// </summary>
-        private Action UpdateMethod { get; set; }
+        public object OwnerObject { get; set; }
 
         /// <summary>
         /// List of reactive nodes that are predecessors to this reactive node.
         /// </summary>
-        public IList<INode> Predecessors { get; private set; }
+        public IList<INode> Predecessors { get; set; }
 
         /// <summary>
         /// List of reactive nodes that are successors to this reactive node.
         /// </summary>
-        public IList<INode> Successors { get; private set; }
+        public IList<INode> Successors { get; set; }
+
+        /// <summary>
+        /// Delegate to the update method.
+        /// </summary>
+        public Action UpdateMethod { get; set; }
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Instantiates new reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
         public Node(object ownerObject, string memberName)
         {
             Initialize(ownerObject, memberName, null);
         }
 
-        /// <summary>
-        /// Instantiates new reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethodName">Update method name.</param>
         public Node(object ownerObject, string memberName, string updateMethodName)
         {
             Action action = Reflector.CreateAction(ownerObject, updateMethodName);
             Initialize(ownerObject, memberName, action);
-        }
-
-        /// <summary>
-        /// Instantiates new reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethod">Delegate to the update method.</param>
-        public Node(object ownerObject, string memberName, Action updateMethod)
-        {
-            Initialize(ownerObject, memberName, updateMethod);
         }
 
         /// <summary>
@@ -106,7 +84,7 @@ namespace ReframeCore
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         private void ValidateArguments(object ownerObject, string memberName)
         {
-            if (ownerObject == null 
+            if (ownerObject == null
                 || Reflector.ContainsMember(ownerObject, memberName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
@@ -191,7 +169,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Reactive node which becomes predecessor.</param>
         /// <returns>True if predecessor is added, otherwise False.</returns>
-        public bool AddPredecessor(INode predecessor)
+        public bool AddPredecessor(INode predecessor, INode successor)
         {
             bool added = false;
 
@@ -208,7 +186,7 @@ namespace ReframeCore
             if (!HasPredecessor(predecessor))
             {
                 Predecessors.Add(predecessor);
-                predecessor.AddSuccessor(this);
+                predecessor.AddSuccessor(successor);
                 added = true;
             }
 
@@ -220,9 +198,9 @@ namespace ReframeCore
         /// </summary>
         /// <param name="predecessor">Predecessor reactive node which should be removed.</param>
         /// <returns>True if predecessor removed, otherwise false.</returns>
-        public bool RemovePredecessor(INode predecessor)
+        public bool RemovePredecessor(INode predecessor, INode successor)
         {
-            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(this);
+            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(successor);
         }
 
         /// <summary>
@@ -230,7 +208,7 @@ namespace ReframeCore
         /// </summary>
         /// <param name="successor">Reactive node which becomes sucessor.</param>
         /// <returns>True if successor is added, otherwise False.</returns>
-        public bool AddSuccessor(INode successor)
+        public bool AddSuccessor(INode predecessor, INode successor)
         {
             bool added = false;
 
@@ -247,7 +225,7 @@ namespace ReframeCore
             if (!HasSuccessor(successor))
             {
                 Successors.Add(successor);
-                successor.AddPredecessor(this);
+                successor.AddPredecessor(predecessor);
                 added = true;
             }
 
@@ -259,14 +237,9 @@ namespace ReframeCore
         /// </summary>
         /// <param name="successor">Successor reactive node which should be removed.</param>
         /// <returns>True if successor removed, otherwise false.</returns>
-        public bool RemoveSuccessor(INode successor)
+        public bool RemoveSuccessor(INode predecessor, INode successor)
         {
-            return Successors.Remove(successor) && successor.Predecessors.Remove(this);
-        }
-
-        public override string ToString()
-        {
-            return Identifier + "; " + OwnerObject.GetType().ToString() + ";" + MemberName;
+            return Successors.Remove(successor) && successor.Predecessors.Remove(predecessor);
         }
 
         #endregion
