@@ -926,6 +926,140 @@ namespace ReframeCoreTests
         }
 
         #endregion
+        #region public void AddDependency(INode predecessor, List<INode> successors)
+
+        [TestMethod]
+        public void AddDependency2_GivenNullNodes_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+
+            INode predecessor = null;
+            List<INode> successors = null;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddDependency(predecessor, successors));
+        }
+
+        [TestMethod]
+        public void AddDependency2_GivenValidButNotAddedNodes_NodesAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            GenericReactiveObject owner = new GenericReactiveObject();
+
+            //Act
+            INode predecessor = new PropertyNode(owner, "A");
+            List<INode> successors = new List<INode>();
+            successors.Add(new PropertyNode(owner, "B"));
+            successors.Add(new PropertyNode(owner, "C"));
+            successors.Add(new PropertyNode(owner, "D"));
+
+            graph.AddDependency(predecessor, successors);
+
+            //Assert
+            bool predecessorAdded = graph.GetNode(owner, "A") != null;
+            bool successorsAdded = graph.GetNode(owner, "B") != null && graph.GetNode(owner, "D") != null && graph.GetNode(owner, "D") != null;
+
+            Assert.IsTrue(predecessorAdded == true && successorsAdded == true);
+        }
+
+        [TestMethod]
+        public void AddDependency2_GivenValidNodes_DependenciesAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            GenericReactiveObject owner = new GenericReactiveObject();
+
+            //Act
+            INode predecessor = graph.AddNode(owner, "A");
+            List<INode> successors = new List<INode>();
+            successors.Add(graph.AddNode(owner, "B"));
+            successors.Add(graph.AddNode(owner, "C"));
+            successors.Add(graph.AddNode(owner, "D"));
+
+            graph.AddDependency(predecessor, successors);
+
+            //Assert
+            Assert.IsTrue(
+                predecessor.HasSuccessor(successors[0]) &&
+                predecessor.HasSuccessor(successors[1]) &&
+                predecessor.HasSuccessor(successors[2]) &&
+                successors[0].HasPredecessor(predecessor) &&
+                successors[1].HasPredecessor(predecessor) &&
+                successors[2].HasPredecessor(predecessor)
+                );
+        }
+
+        #endregion
+
+        #region public void AddDependency(List<INode> predecessors, INode successor)
+
+        [TestMethod]
+        public void AddDependency3_GivenNullNodes_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+
+            List<INode> predecessors = null;
+            INode successor = null;
+            
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.AddDependency(predecessors, successor));
+        }
+
+        [TestMethod]
+        public void AddDependency3_GivenValidButNotAddedNodes_NodesAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            GenericReactiveObject owner = new GenericReactiveObject();
+
+            //Act
+            INode successor = new PropertyNode(owner, "D");
+            List<INode> predecessors = new List<INode>();
+            predecessors.Add(new PropertyNode(owner, "A"));
+            predecessors.Add(new PropertyNode(owner, "B"));
+            predecessors.Add(new PropertyNode(owner, "C"));
+
+            graph.AddDependency(predecessors, successor);
+
+            //Assert
+            bool successorAdded = graph.GetNode(owner, "D") != null;
+            bool predecessorsAdded = graph.GetNode(owner, "A") != null && graph.GetNode(owner, "B") != null && graph.GetNode(owner, "C") != null;
+
+            Assert.IsTrue(predecessorsAdded == true && successorAdded == true);
+        }
+
+        [TestMethod]
+        public void AddDependency32_GivenValidNodes_DependenciesAdded()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            GenericReactiveObject owner = new GenericReactiveObject();
+
+            //Act
+            INode successor = new PropertyNode(owner, "D");
+            List<INode> predecessors = new List<INode>();
+            predecessors.Add(new PropertyNode(owner, "A"));
+            predecessors.Add(new PropertyNode(owner, "B"));
+            predecessors.Add(new PropertyNode(owner, "C"));
+
+            graph.AddDependency(predecessors, successor);
+
+            //Assert
+            Assert.IsTrue(
+                successor.HasPredecessor(predecessors[0]) &&
+                successor.HasPredecessor(predecessors[1]) &&
+                successor.HasPredecessor(predecessors[2]) &&
+                predecessors[0].HasSuccessor(successor) &&
+                predecessors[1].HasSuccessor(successor) &&
+                predecessors[2].HasSuccessor(successor)
+                );
+        }
+
+        #endregion
 
         #endregion
 
