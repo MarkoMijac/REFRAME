@@ -28,7 +28,7 @@ namespace ReframeCore.ReactiveCollections
         public object CollectionNode { get; set; }
     }
 
-    public class RCollection<T> : Collection<T>
+    public class ReactiveCollection<T> : Collection<T>
     {
         #region Methods
 
