@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCoreExamples.E02;
 using ReframeCore;
 using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
 
 namespace ReframeCoreTests
 {

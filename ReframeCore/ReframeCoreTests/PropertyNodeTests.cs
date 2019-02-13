@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCoreExamples.E00;
 using ReframeCore;
 using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
 
 namespace ReframeCoreTests
 {

@@ -8,6 +8,7 @@ using ReframeCoreExamples.E01;
 using ReframeCoreExamples.E02;
 using ReframeCoreExamples.E04;
 using ReframeCoreExamples.E06;
+using ReframeCore.Nodes;
 
 namespace ReframeCoreTests
 {

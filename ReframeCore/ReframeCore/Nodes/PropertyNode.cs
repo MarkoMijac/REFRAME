@@ -1,14 +1,18 @@
 ﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore.ReactiveCollections
+namespace ReframeCore.Nodes
 {
-    public class CollectionNode<T> : INode
+    /// <summary>
+    /// Reactive node which encapsulates object's property that needs to be tracked.
+    /// </summary>
+    public class PropertyNode : INode
     {
         #region Properties
 
@@ -19,7 +23,8 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public uint Identifier
         {
-            get; set;
+            get => DefaultImplementation.Identifier;
+            private set => DefaultImplementation.Identifier = value;
         }
 
         /// <summary>
@@ -27,7 +32,8 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public string MemberName
         {
-            get; set;
+            get => DefaultImplementation.MemberName;
+            private set => DefaultImplementation.MemberName = value;
         }
 
         /// <summary>
@@ -35,7 +41,17 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public object OwnerObject
         {
-            get; set;
+            get => DefaultImplementation.OwnerObject;
+            private set => DefaultImplementation.OwnerObject = value;
+        }
+
+        /// <summary>
+        /// Delegate to the update method.
+        /// </summary>
+        public Action UpdateMethod
+        {
+            get => DefaultImplementation.UpdateMethod;
+            set => DefaultImplementation.UpdateMethod = value;
         }
 
         /// <summary>
@@ -43,7 +59,8 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public IList<INode> Predecessors
         {
-            get; set;
+            get => DefaultImplementation.Predecessors;
+            private set => DefaultImplementation.Predecessors = value;
         }
 
         /// <summary>
@@ -51,7 +68,8 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public IList<INode> Successors
         {
-            get; set;
+            get => DefaultImplementation.Successors;
+            private set => DefaultImplementation.Successors = value;
         }
 
         #endregion
@@ -63,54 +81,25 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        public CollectionNode(ReactiveCollection<T> owner, string memberName)
+        public PropertyNode(object ownerObject, string memberName)
         {
-            Initialize(owner, memberName);
+            DefaultImplementation = new Node(ownerObject, memberName);
         }
 
-
         /// <summary>
-        /// Initializes reactive node's properties.
+        /// Instantiates new reactive node.
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethod">Delegate to the update method.</param>
-        private void Initialize(ReactiveCollection<T> owner, string memberName)
+        /// <param name="updateMethodName">Update method name.</param>
+        public PropertyNode(object ownerObject, string memberName, string updateMethodName)
         {
-            ValidateArguments(owner, memberName);
-
-            Predecessors = new List<INode>();
-            Successors = new List<INode>();
-
-            MemberName = memberName;
-            OwnerObject = owner;
-
-            Identifier = GetIdentifier();
+            DefaultImplementation = new Node(ownerObject, memberName, updateMethodName);
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Gets reactive node's unique identifier.
-        /// </summary>
-        /// <returns>Reactive node's unique identifier.</returns>
-        private uint GetIdentifier()
-        {
-            return GetIdentifier(OwnerObject, MemberName);
-        }
-
-        /// <summary>
-        /// Gets reactive node's unique identifier.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <returns>Reactive node's unique identifier.</returns>
-        private uint GetIdentifier(object ownerObject, string memberName)
-        {
-            return (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
-        }
 
         /// <summary>
         /// Checks if specified reactive node has the same identifier as this reactive node.
@@ -138,7 +127,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public void Update()
         {
-            
+            DefaultImplementation.Update();
         }
 
         /// <summary>
@@ -199,20 +188,6 @@ namespace ReframeCore.ReactiveCollections
         public bool RemoveSuccessor(INode successor)
         {
             return DefaultImplementation.RemoveSuccessor(this, successor);
-        }
-
-        /// <summary>
-        /// Validates arguments passed in order to create reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        private void ValidateArguments(ReactiveCollection<T> ownerObject, string memberName)
-        {
-            if (ownerObject == null
-                || Reflector.ContainsMember(ownerObject, memberName) == false)
-            {
-                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
-            }
         }
 
         #endregion

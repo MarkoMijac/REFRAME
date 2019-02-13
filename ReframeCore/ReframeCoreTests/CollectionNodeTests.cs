@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using ReframeCoreExamples.E07;
 using System;
