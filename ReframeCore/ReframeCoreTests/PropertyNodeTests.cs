@@ -115,6 +115,17 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void NodeCreation_GivenMethodNameInsteadPropertyName_ThrowsException()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string memberName = "Update_Area";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
+        }
+
+        [TestMethod]
         public void NodeCreation_CreatedReactiveNode_ObtainedIdentifier()
         {
             //Arrange
@@ -439,6 +450,26 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void HasSuccessor_GivenNodeNotAddedAsPredecessor_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area";
+
+            string predecessorPropertyName = "Width";
+
+            INode successorNode = new PropertyNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = new PropertyNode(building00, predecessorPropertyName);
+
+            //Act
+            bool hasSuccessor = predecessorNode.HasSuccessor(successorNode);
+
+            //Assert
+            Assert.IsFalse(hasSuccessor);
+        }
+
+        [TestMethod]
         public void HasSuccessor_GivenNodeRemovedAsPredecessor_ReturnsFalse()
         {
             //Arrange
@@ -636,7 +667,7 @@ namespace ReframeCoreTests
             Building00 building00 = new Building00();
 
             INode node = new PropertyNode(building00, "Width", "Update_Width");
-            INode predecessorNode = new PropertyNode(building00, "Update_Area");
+            INode predecessorNode = new MethodNode(building00, "Update_Area");
             node.AddPredecessor(predecessorNode);
 
             //Act

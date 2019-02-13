@@ -80,6 +80,17 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void NodeCreation_GivenPropertyNameInsteadMethodName_ThrowsException()
+        {
+            //Arrange
+            Building02 building = new Building02();
+            string memberName = "Area";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => new MethodNode(building, memberName));
+        }
+
+        [TestMethod]
         public void NodeCreation_GivenNonExistantMemberName_ThrowsException()
         {
             //Arrange

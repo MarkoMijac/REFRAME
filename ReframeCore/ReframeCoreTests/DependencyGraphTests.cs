@@ -480,7 +480,7 @@ namespace ReframeCoreTests
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
-            string memberName = "Width";
+            string memberName = "Update_Area";
             INode node = new MethodNode(building, memberName);
 
             //Act

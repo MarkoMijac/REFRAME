@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class Node : INode
+    public abstract class Node : INode
     {
         #region Properties
 
@@ -83,14 +83,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected virtual void ValidateArguments(object ownerObject, string memberName)
-        {
-            if (ownerObject == null
-                || Reflector.ContainsMember(ownerObject, memberName) == false)
-            {
-                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
-            }
-        }
+        protected abstract void ValidateArguments(object ownerObject, string memberName);
 
         #endregion
 

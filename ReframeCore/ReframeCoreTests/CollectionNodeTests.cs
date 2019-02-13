@@ -310,7 +310,7 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             INode node = new CollectionNode<Part>(whole.Parts, memberName);
-            INode predecessorNode = new MethodNode(whole, "A");
+            INode predecessorNode = new MethodNode(whole, "Update_A");
 
             //Act
             bool added = node.AddPredecessor(predecessorNode);
@@ -412,7 +412,7 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             INode node = new CollectionNode<Part>(whole.Parts, memberName);
-            INode successorNode = new MethodNode(whole, "A");
+            INode successorNode = new MethodNode(whole, "Update_A");
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -723,7 +723,7 @@ namespace ReframeCoreTests
             //Arrange
             Whole whole = new Whole();
             string memberName = "A";
-            string memberName2 = "A";
+            string memberName2 = "Update_A";
 
             INode node = new CollectionNode<Part>(whole.Parts, memberName);
             INode successorNode = new MethodNode(whole, memberName2);

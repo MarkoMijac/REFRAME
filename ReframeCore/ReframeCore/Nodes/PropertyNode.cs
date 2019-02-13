@@ -40,5 +40,22 @@ namespace ReframeCore.Nodes
         }
 
         #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Validates arguments passed in order to create reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        protected override void ValidateArguments(object ownerObject, string memberName)
+        {
+            if (ownerObject == null || Reflector.IsProperty(ownerObject, memberName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+            }
+        }
+
+        #endregion
     }
 }
