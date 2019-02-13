@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.ReactiveCollections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -69,6 +70,32 @@ namespace ReframeCore.Helpers
 
             return contains;
         }
+
+        /// <summary>
+        /// Checks if object contains member with specified name.
+        /// </summary>
+        /// <param name="obj">Object which contains the member.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <returns>True if object contains member with specified name, otherwise False.</returns>
+        public static bool ContainsMember<T>(ReactiveCollection<T> obj, string memberName)
+        {
+            bool contains = false;
+
+            if (obj != null && memberName != "")
+            {
+                Type genericType = obj.GetType().GenericTypeArguments[0];
+
+                MemberInfo[] infos = genericType.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (infos.Length > 0)
+                {
+                    contains = true;
+                }
+            }
+
+            return contains;
+        }
+
+
 
         /// <summary>
         /// Creates action delegate referencing specified method of the object.

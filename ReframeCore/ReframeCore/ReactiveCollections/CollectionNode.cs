@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +19,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public uint Identifier
         {
-            get => DefaultImplementation.Identifier;
-            private set => DefaultImplementation.Identifier = value;
+            get; set;
         }
 
         /// <summary>
@@ -26,8 +27,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public string MemberName
         {
-            get => DefaultImplementation.MemberName;
-            private set => DefaultImplementation.MemberName = value;
+            get; set;
         }
 
         /// <summary>
@@ -35,17 +35,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public object OwnerObject
         {
-            get => DefaultImplementation.OwnerObject;
-            private set => DefaultImplementation.OwnerObject = value;
-        }
-
-        /// <summary>
-        /// Delegate to the update method.
-        /// </summary>
-        public Action UpdateMethod
-        {
-            get => DefaultImplementation.UpdateMethod;
-            set => DefaultImplementation.UpdateMethod = value;
+            get; set;
         }
 
         /// <summary>
@@ -53,8 +43,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public IList<INode> Predecessors
         {
-            get => DefaultImplementation.Predecessors;
-            private set => DefaultImplementation.Predecessors = value;
+            get; set;
         }
 
         /// <summary>
@@ -62,8 +51,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public IList<INode> Successors
         {
-            get => DefaultImplementation.Successors;
-            private set => DefaultImplementation.Successors = value;
+            get; set;
         }
 
         #endregion
@@ -75,25 +63,54 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        public CollectionNode(object owner, string memberName)
+        public CollectionNode(ReactiveCollection<T> owner, string memberName)
         {
-            DefaultImplementation = new Node(owner, memberName);
+            Initialize(owner, memberName);
         }
 
+
         /// <summary>
-        /// Instantiates new reactive node.
+        /// Initializes reactive node's properties.
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethodName">Update method name.</param>
-        public CollectionNode(object owner, string memberName, string updateMethodName)
+        /// <param name="updateMethod">Delegate to the update method.</param>
+        private void Initialize(ReactiveCollection<T> owner, string memberName)
         {
-            DefaultImplementation = new Node(owner, memberName, updateMethodName);
+            ValidateArguments(owner, memberName);
+
+            Predecessors = new List<INode>();
+            Successors = new List<INode>();
+
+            MemberName = memberName;
+            OwnerObject = owner;
+
+            Identifier = GetIdentifier();
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets reactive node's unique identifier.
+        /// </summary>
+        /// <returns>Reactive node's unique identifier.</returns>
+        private uint GetIdentifier()
+        {
+            return GetIdentifier(OwnerObject, MemberName);
+        }
+
+        /// <summary>
+        /// Gets reactive node's unique identifier.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <returns>Reactive node's unique identifier.</returns>
+        private uint GetIdentifier(object ownerObject, string memberName)
+        {
+            return (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
+        }
 
         /// <summary>
         /// Checks if specified reactive node has the same identifier as this reactive node.
@@ -121,7 +138,7 @@ namespace ReframeCore.ReactiveCollections
         /// </summary>
         public void Update()
         {
-            DefaultImplementation.Update();
+            
         }
 
         /// <summary>
@@ -182,6 +199,20 @@ namespace ReframeCore.ReactiveCollections
         public bool RemoveSuccessor(INode successor)
         {
             return DefaultImplementation.RemoveSuccessor(this, successor);
+        }
+
+        /// <summary>
+        /// Validates arguments passed in order to create reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        private void ValidateArguments(ReactiveCollection<T> ownerObject, string memberName)
+        {
+            if (ownerObject == null
+                || Reflector.ContainsMember(ownerObject, memberName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+            }
         }
 
         #endregion
