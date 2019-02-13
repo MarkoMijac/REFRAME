@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    internal class Node
+    public class Node : INode
     {
         #region Properties
 
@@ -64,7 +64,7 @@ namespace ReframeCore.Nodes
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethod">Delegate to the update method.</param>
-        private void Initialize(object ownerObject, string memberName, Action updateMethod)
+        protected virtual void Initialize(object ownerObject, string memberName, Action updateMethod)
         {
             ValidateArguments(ownerObject, memberName);
 
@@ -83,7 +83,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        private void ValidateArguments(object ownerObject, string memberName)
+        protected virtual void ValidateArguments(object ownerObject, string memberName)
         {
             if (ownerObject == null
                 || Reflector.ContainsMember(ownerObject, memberName) == false)
@@ -100,7 +100,7 @@ namespace ReframeCore.Nodes
         /// Gets reactive node's unique identifier.
         /// </summary>
         /// <returns>Reactive node's unique identifier.</returns>
-        private uint GetIdentifier()
+        protected uint GetIdentifier()
         {
             return GetIdentifier(OwnerObject, MemberName);
         }
@@ -111,7 +111,7 @@ namespace ReframeCore.Nodes
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <returns>Reactive node's unique identifier.</returns>
-        private uint GetIdentifier(object ownerObject, string memberName)
+        protected uint GetIdentifier(object ownerObject, string memberName)
         {
             return (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
         }
@@ -170,7 +170,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="predecessor">Reactive node which becomes predecessor.</param>
         /// <returns>True if predecessor is added, otherwise False.</returns>
-        public bool AddPredecessor(INode predecessor, INode successor)
+        public bool AddPredecessor(INode predecessor)
         {
             bool added = false;
 
@@ -187,7 +187,7 @@ namespace ReframeCore.Nodes
             if (!HasPredecessor(predecessor))
             {
                 Predecessors.Add(predecessor);
-                predecessor.AddSuccessor(successor);
+                predecessor.AddSuccessor(this);
                 added = true;
             }
 
@@ -199,9 +199,9 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="predecessor">Predecessor reactive node which should be removed.</param>
         /// <returns>True if predecessor removed, otherwise false.</returns>
-        public bool RemovePredecessor(INode predecessor, INode successor)
+        public bool RemovePredecessor(INode predecessor)
         {
-            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(successor);
+            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(this);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="successor">Reactive node which becomes sucessor.</param>
         /// <returns>True if successor is added, otherwise False.</returns>
-        public bool AddSuccessor(INode predecessor, INode successor)
+        public bool AddSuccessor(INode successor)
         {
             bool added = false;
 
@@ -226,7 +226,7 @@ namespace ReframeCore.Nodes
             if (!HasSuccessor(successor))
             {
                 Successors.Add(successor);
-                successor.AddPredecessor(predecessor);
+                successor.AddPredecessor(this);
                 added = true;
             }
 
@@ -238,9 +238,9 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="successor">Successor reactive node which should be removed.</param>
         /// <returns>True if successor removed, otherwise false.</returns>
-        public bool RemoveSuccessor(INode predecessor, INode successor)
+        public bool RemoveSuccessor(INode successor)
         {
-            return Successors.Remove(successor) && successor.Predecessors.Remove(predecessor);
+            return Successors.Remove(successor) && successor.Predecessors.Remove(this);
         }
 
         #endregion
