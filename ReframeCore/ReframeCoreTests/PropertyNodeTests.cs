@@ -10,35 +10,7 @@ namespace ReframeCoreTests
     [TestClass]
     public class PropertyNodeTests
     {
-        #region NodeCreation
-
-        [TestMethod]
-        public void NodeCreation_GivenCorrectArguments_CreatesSourceNode()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Width";
-
-            //Act
-            INode widthNode = new PropertyNode(building, memberName);
-
-            //Assert
-            Assert.IsInstanceOfType(widthNode, typeof(INode));
-        }
-
-        [TestMethod]
-        public void NodeCreation_CreatedSourceNode_HoldsProperData()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Width";
-
-            //Act
-            INode widthNode = new PropertyNode(building, memberName);
-
-            //Assert
-            Assert.IsTrue(widthNode.OwnerObject == building && widthNode.MemberName == memberName);
-        }
+        #region UpdateInvoke
 
         [TestMethod]
         public void NodeCreation_SourceNodeUpdateInvoke_DoesNotBreak()
@@ -50,7 +22,7 @@ namespace ReframeCoreTests
             try
             {
                 //Act
-                INode widthNode = new PropertyNode(building, memberName);
+                INode widthNode = NodeFactory.CreateNode(building, memberName);
                 widthNode.Update();
             }
             catch (Exception ex)
@@ -60,70 +32,9 @@ namespace ReframeCoreTests
             }
         }
 
-        [TestMethod]
-        public void NodeCreation_GivenCorrectArguments_CreatesNonSourceNode()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Area";
-            string updateMethodName = "Update_Area";
+        #endregion
 
-            //Act
-            INode widthNode = new PropertyNode(building, memberName, updateMethodName);
-
-            //Assert
-            Assert.IsInstanceOfType(widthNode, typeof(INode));
-        }
-
-        [TestMethod]
-        public void NodeCreation_CreatedNonSourceNode_HoldsProperData()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Area";
-            string updateMethodName = "Update_Area";
-
-            //Act
-            PropertyNode widthNode = new PropertyNode(building, memberName, updateMethodName);
-
-            //Assert
-            Assert.IsTrue(widthNode.OwnerObject == building 
-                && widthNode.MemberName == memberName
-                && widthNode.UpdateMethod.Method.Name == updateMethodName);
-        }
-
-        [TestMethod]
-        public void NodeCreation_GivenNullObject_ThrowsException()
-        {
-            //Arrange
-            Building00 building00 = null;
-            string memberName = "Width";
-
-            //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
-        }
-
-        [TestMethod]
-        public void NodeCreation_GivenNonExistantMemberName_ThrowsException()
-        {
-            //Arrange
-            Building00 building00 = new Building00();
-            string memberName = "NonexistantMember";
-
-            //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
-        }
-
-        [TestMethod]
-        public void NodeCreation_GivenMethodNameInsteadPropertyName_ThrowsException()
-        {
-            //Arrange
-            Building00 building00 = new Building00();
-            string memberName = "Update_Area";
-
-            //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new PropertyNode(building00, memberName));
-        }
+        #region Identifier check
 
         [TestMethod]
         public void NodeCreation_CreatedReactiveNode_ObtainedIdentifier()
@@ -133,15 +44,11 @@ namespace ReframeCoreTests
             string memberName = "Width";
 
             //Act
-            INode node = new PropertyNode(building00, memberName);
+            INode node = NodeFactory.CreateNode(building00, memberName);
 
             //Assert
             Assert.AreNotEqual(default(uint), node.Identifier);
         }
-
-        #endregion
-
-        #region HasSameIdentifier
 
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember_ReturnsTrue()

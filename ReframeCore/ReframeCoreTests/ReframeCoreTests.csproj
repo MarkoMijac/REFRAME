@@ -56,6 +56,7 @@
     <Compile Include="ReflectorTests.cs" />
     <Compile Include="PropertyNodeTests.cs" />
     <Compile Include="DependencyGraphTests.PerformUpdate.cs" />
+    <Compile Include="NodeFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
