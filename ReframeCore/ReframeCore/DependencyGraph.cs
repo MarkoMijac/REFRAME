@@ -11,8 +11,6 @@ namespace ReframeCore
 {
     public enum DependencyGraphStatus { NotInitialized, Initialized, NotConsistent, Consistent}
 
-    internal enum NodeType { PropertyNode, MethodNode }
-
     /// <summary>
     /// Dependency graph containing reactive nodes.
     /// </summary>
