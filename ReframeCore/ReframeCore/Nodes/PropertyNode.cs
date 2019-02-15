@@ -48,11 +48,19 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected override void ValidateArguments(object ownerObject, string memberName)
+        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
         {
-            if (ownerObject == null || Reflector.IsProperty(ownerObject, memberName) == false)
+            if (ownerObject == null)
             {
-                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+                throw new ReactiveNodeException("Unable to create reactive node! Provided object is not valid!");
+            }
+            else if (Reflector.IsProperty(ownerObject, memberName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Provided member is not a valid property!");
+            }
+            else if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
             }
         }
 

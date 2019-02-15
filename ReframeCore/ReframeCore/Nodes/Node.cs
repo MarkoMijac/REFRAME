@@ -49,11 +49,13 @@ namespace ReframeCore.Nodes
 
         public Node(object ownerObject, string memberName)
         {
+            ValidateArguments(ownerObject, memberName, "");
             Initialize(ownerObject, memberName, null);
         }
 
         public Node(object ownerObject, string memberName, string updateMethodName)
         {
+            ValidateArguments(ownerObject, memberName, updateMethodName);
             Action action = Reflector.CreateAction(ownerObject, updateMethodName);
             Initialize(ownerObject, memberName, action);
         }
@@ -66,8 +68,6 @@ namespace ReframeCore.Nodes
         /// <param name="updateMethod">Delegate to the update method.</param>
         protected virtual void Initialize(object ownerObject, string memberName, Action updateMethod)
         {
-            ValidateArguments(ownerObject, memberName);
-
             OwnerObject = ownerObject;
             MemberName = memberName;
             UpdateMethod = updateMethod;
@@ -83,7 +83,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected abstract void ValidateArguments(object ownerObject, string memberName);
+        protected abstract void ValidateArguments(object ownerObject, string memberName, string updateMethodName);
 
         #endregion
 

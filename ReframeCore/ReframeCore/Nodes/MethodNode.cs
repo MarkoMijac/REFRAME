@@ -23,7 +23,7 @@ namespace ReframeCore.Nodes
 
         #region Methods
 
-        protected override void ValidateArguments(object ownerObject, string memberName)
+        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
         {
             if (ownerObject == null || Reflector.IsMethod(ownerObject, memberName) == false)
             {

@@ -33,8 +33,6 @@ namespace ReframeCore.Nodes
         /// <param name="updateMethod">Delegate to the update method.</param>
         protected override void Initialize(object owner, string memberName, Action updateMethod)
         {
-            ValidateArguments(owner, memberName);
-
             Predecessors = new List<INode>();
             Successors = new List<INode>();
 
@@ -48,7 +46,7 @@ namespace ReframeCore.Nodes
 
         #region Methods
 
-        protected override void ValidateArguments(object ownerObject, string memberName)
+        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
         {
             ReactiveCollection<T> collection = ownerObject as ReactiveCollection<T>;
 
