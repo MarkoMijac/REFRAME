@@ -14,95 +14,123 @@ namespace ReframeCoreTests
         public void CreateNode_GivenNullOwnerObject_ThrowsException()
         {
             //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
             Building00 building00 = null;
             string memberName = "Width";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => NodeFactory.CreateNode(building00, memberName));
+            Assert.ThrowsException<ReactiveNodeException>(() => nodeFactory.CreateNode(building00, memberName));
         }
 
         [TestMethod]
         public void CreateNode_GivenWrongMemberName_ThrowsException()
         {
             //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width_Wrong";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => NodeFactory.CreateNode(building00, memberName));
+            Assert.ThrowsException<ReactiveNodeException>(() => nodeFactory.CreateNode(building00, memberName));
         }
 
         #region PropertyNode
 
         [TestMethod]
-        public void CreateNode_GivenCorrectArguments_ReturnsSourcePropertyNode()
+        public void CreateNode_GivenWrongUpdateMethodIsProvided_ThrowsException()
         {
             //Arrange
-            Building00 building = new Building00();
-            string memberName = "Width";
+            NodeFactory nodeFactory = new NodeFactory();
+            Building00 building00 = new Building00();
+            string propertyName = "Area";
+            string updateMethodName = "Update_Area_Wrong";
 
-            //Act
-            INode node = NodeFactory.CreateNode(building, memberName);
-
-            //Assert
-            Assert.IsInstanceOfType(node, typeof(PropertyNode));
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => nodeFactory.CreateNode(building00, propertyName, updateMethodName));
         }
 
         [TestMethod]
-        public void CreateNode_GivenCorrectArguments_ReturnsSourcePropertyNodeWithCorrectData()
+        public void CreateNode_GivenCorrectUpdateMethodIsProvided_ReturnsPropertyNodeWithUpdateMethod()
         {
             //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
             Building00 building = new Building00();
-            string memberName = "Width";
-
-            //Act
-            INode widthNode = NodeFactory.CreateNode(building, memberName);
-
-            //Assert
-            Assert.IsTrue(widthNode.OwnerObject == building && widthNode.MemberName == memberName);
-        }
-
-        [TestMethod]
-        public void CreateNode_GivenCorrectArguments_ReturnsNONSourcePropertyNode()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Area";
+            string propertyName = "Area";
             string updateMethodName = "Update_Area";
 
             //Act
-            INode node = NodeFactory.CreateNode(building, memberName, updateMethodName);
-
-            //Assert
-            Assert.IsInstanceOfType(node, typeof(PropertyNode));
-        }
-
-        [TestMethod]
-        public void CreateNode_GivenCorrectArguments_ReturnsNONSourcePropertyNodeWithProperData()
-        {
-            //Arrange
-            Building00 building = new Building00();
-            string memberName = "Area";
-            string updateMethodName = "Update_Area";
-
-            //Act
-            PropertyNode node = NodeFactory.CreateNode(building, memberName, updateMethodName) as PropertyNode;
+            PropertyNode node = nodeFactory.CreateNode(building, propertyName, updateMethodName) as PropertyNode;
 
             //Assert
             Assert.IsTrue(node.OwnerObject == building
-                && node.MemberName == memberName
+                && node.MemberName == propertyName
                 && node.UpdateMethod.Method.Name == updateMethodName);
         }
 
         [TestMethod]
-        public void CreateNode_GivenMethodNameInsteadPropertyName_ThrowsException()
+        public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledAndExisting_ReturnsPropertyNodeWithDefaultUpdateMethod()
         {
             //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            Building00 building = new Building00();
+            string propertyName = "Area";
+
+            //Act
+            PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(node.OwnerObject == building
+                && node.MemberName == propertyName
+                && node.UpdateMethod.Method.Name == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsDisabled_ReturnsPropertyNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = false; //This is default option
+            Building00 building = new Building00();
+            string propertyName = "Area";
+
+            //Act
+            PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(node.OwnerObject == building
+                && node.MemberName == propertyName
+                && node.UpdateMethod == null);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledButNotExisting_ReturnsPropertyNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            Building00 building = new Building00();
+            string propertyName = "Width";
+
+            //Act
+            PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+
+            //Assert
+            Assert.IsTrue(node.OwnerObject == building
+                && node.MemberName == propertyName
+                && node.UpdateMethod==null);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenMethodNameInsteadOfPropertyName_ThrowsException()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
             Building00 building00 = new Building00();
-            string memberName = "Update_Area";
+            string propertyName = "Update_Area";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => NodeFactory.CreateNode(building00, memberName));
+            Assert.ThrowsException<ReactiveNodeException>(() => nodeFactory.CreateNode(building00, propertyName));
         }
 
         #endregion
