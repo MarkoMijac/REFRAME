@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,31 @@ namespace ReframeCore
 {
     internal enum NodeType { PropertyNode, MethodNode, Unknown }
 
-    public static class NodeFactory
+    public class NodeFactory
     {
-        public static INode CreateNode(object ownerObject, string memberName)
+        #region Properties
+
+        public NodeFactorySettings Settings { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        public NodeFactory()
+        {
+            Settings = new NodeFactorySettings();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public INode CreateNode(object ownerObject, string memberName)
         {
             return CreateNode(ownerObject, memberName, "");
         }
 
-        public static INode CreateNode(object ownerObject, string memberName, string updateMethod)
+        public INode CreateNode(object ownerObject, string memberName, string updateMethod)
         {
             NodeType nodeType = DetermineNodeType(ownerObject, memberName);
             switch (nodeType)
@@ -28,22 +46,79 @@ namespace ReframeCore
             }
         }
 
-        private static NodeType DetermineNodeType(object ownerObject, string memberName)
+        private NodeType DetermineNodeType(object ownerObject, string memberName)
         {
             return NodeType.PropertyNode;
         }
 
         #region PropertyNode
 
-        private static PropertyNode CreatePropertyNode(object ownerObject, string memberName)
+        /// <summary>
+        /// Gets update method name generated from default prefix and property name.
+        /// </summary>
+        /// <param name="propertyName">Property name represented by reactive node.</param>
+        /// <returns>Update method name generated from default prefix and property name.</returns>
+        public string GenerateDefaultUpdateMethodName(string propertyName)
         {
-            return new PropertyNode(ownerObject, memberName);
+            return Settings.UpdateMethodNamePrefix + propertyName;
         }
 
-        private static PropertyNode CreatePropertyNode(object ownerObject, string memberName, string updateMethod)
+        private PropertyNode CreatePropertyNode(object ownerObject, string propertyName, string updateMethod)
         {
-            return new PropertyNode(ownerObject, memberName, updateMethod);
+            PropertyNode propertyNode = null;
+
+            if (updateMethod == "")
+            {
+                if (ShouldDefaultUpdateMethodBeUsed(ownerObject, propertyName) == true)
+                {
+                    propertyNode = CreatePropertyNode_WithDefaultUpdateMethod(ownerObject, propertyName);
+                }
+                else
+                {
+                    propertyNode = CreatePropertyNode_WithoutUpdateMethod(ownerObject, propertyName);
+                }                
+            }
+            else
+            {
+                propertyNode = CreatePropertyNode_WithUpdateMethod(ownerObject, propertyName, updateMethod);
+            }
+
+            return propertyNode;
         }
+
+        private PropertyNode CreatePropertyNode_WithUpdateMethod(object ownerObject, string propertyName, string updateMethod)
+        {
+            return new PropertyNode(ownerObject, propertyName, updateMethod);
+        }
+
+        private PropertyNode CreatePropertyNode_WithoutUpdateMethod(object ownerObject, string propertyName)
+        {
+            return new PropertyNode(ownerObject, propertyName);
+        }
+
+        private PropertyNode CreatePropertyNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
+        {
+            string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
+            return new PropertyNode(ownerObject, propertyName, updateMethod);
+        }
+
+        private bool ShouldDefaultUpdateMethodBeUsed(object ownerObject, string propertyName)
+        {
+            bool should = false;
+
+            if (Settings.UseDefaultUpdateMethodNames == true)
+            {
+                string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
+                if (Reflector.IsMethod(ownerObject, updateMethod) == true)
+                {
+                    should = true;
+                }
+            }
+
+            return should;
+        }
+
+        #endregion
 
         #endregion
     }

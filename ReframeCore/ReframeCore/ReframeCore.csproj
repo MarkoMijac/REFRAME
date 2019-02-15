@@ -60,6 +60,7 @@
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="NodeFactory.cs" />
+    <Compile Include="NodeFactorySettings.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="ISort.cs" />
     <Compile Include="Nodes\MethodNode.cs" />
