@@ -41,6 +41,8 @@ namespace ReframeCore
             switch (nodeType)
             {
                 case NodeType.PropertyNode: return CreatePropertyNode(ownerObject, memberName, updateMethod);
+                case NodeType.MethodNode: return CreateMethodNode(ownerObject, memberName);
+                case NodeType.Unknown: throw new ReactiveNodeException("Unable to determine node type!");
                 default:
                     throw new ReactiveNodeException("Unable to create reactive node!");
             }
@@ -48,7 +50,18 @@ namespace ReframeCore
 
         private NodeType DetermineNodeType(object ownerObject, string memberName)
         {
-            return NodeType.PropertyNode;
+            NodeType nodeType = NodeType.Unknown;
+
+            if (Reflector.IsProperty(ownerObject, memberName) == true)
+            {
+                nodeType = NodeType.PropertyNode;
+            }
+            else if (Reflector.IsMethod(ownerObject, memberName) == true)
+            {
+                nodeType = NodeType.MethodNode;
+            }
+
+            return nodeType;
         }
 
         #region PropertyNode
@@ -116,6 +129,15 @@ namespace ReframeCore
             }
 
             return should;
+        }
+
+        #endregion
+
+        #region MethodNode
+
+        private INode CreateMethodNode(object ownerObject, string memberName)
+        {
+            return new MethodNode(ownerObject, memberName);
         }
 
         #endregion
