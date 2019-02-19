@@ -19,8 +19,8 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        public CollectionNode(ReactiveCollection<T> owner, string memberName)
-            :base(owner, memberName)
+        public CollectionNode(ReactiveCollection<T> collection, string memberName)
+            :base(collection, memberName)
         {
             
         }
@@ -31,13 +31,13 @@ namespace ReframeCore.Nodes
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethod">Delegate to the update method.</param>
-        protected override void Initialize(object owner, string memberName, Action updateMethod)
+        protected override void Initialize(object collection, string memberName, Action updateMethod)
         {
             Predecessors = new List<INode>();
             Successors = new List<INode>();
 
             MemberName = memberName;
-            OwnerObject = owner;
+            OwnerObject = collection;
 
             Identifier = GetIdentifier();
         }

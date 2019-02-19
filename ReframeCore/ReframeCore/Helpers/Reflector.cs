@@ -95,8 +95,6 @@ namespace ReframeCore.Helpers
             return contains;
         }
 
-
-
         /// <summary>
         /// Creates action delegate referencing specified method of the object.
         /// </summary>
@@ -170,6 +168,27 @@ namespace ReframeCore.Helpers
             }
 
             return isMethod;
+        }
+
+        /// <summary>
+        /// Checks if specified object is a generic reactive collection.
+        /// </summary>
+        /// <param name="obj">Possible reactive collection.</param>
+        /// <returns>True if the specified object is reactive collection, otherwise False.</returns>
+        public static bool IsGenericCollection(object obj)
+        {
+            bool isColl = false;
+
+            if (obj != null)
+            {
+                Type t = obj.GetType();
+                if (t.IsGenericType == true && t.GetGenericTypeDefinition() == typeof(ReactiveCollection<>))
+                {
+                    isColl = true;
+                }
+            }
+
+            return isColl;
         }
 
         /// <summary>

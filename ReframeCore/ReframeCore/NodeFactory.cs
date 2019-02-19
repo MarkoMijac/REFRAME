@@ -1,6 +1,7 @@
 ﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
 using ReframeCore.Nodes;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    internal enum NodeType { PropertyNode, MethodNode, Unknown }
+    internal enum NodeType { PropertyNode, MethodNode, CollectionNode, Unknown }
 
     public class NodeFactory
     {
@@ -48,6 +49,11 @@ namespace ReframeCore
             }
         }
 
+        public INode CreateNode<T>(ReactiveCollection<T> ownerObject, string memberName)
+        {
+            return CreateCollectionNode<T>(ownerObject, memberName);
+        }
+
         private NodeType DetermineNodeType(object ownerObject, string memberName)
         {
             NodeType nodeType = NodeType.Unknown;
@@ -59,6 +65,10 @@ namespace ReframeCore
             else if (Reflector.IsMethod(ownerObject, memberName) == true)
             {
                 nodeType = NodeType.MethodNode;
+            }
+            else if (Reflector.IsGenericCollection(ownerObject))
+            {
+                nodeType = NodeType.CollectionNode;
             }
 
             return nodeType;
@@ -135,9 +145,18 @@ namespace ReframeCore
 
         #region MethodNode
 
-        private INode CreateMethodNode(object ownerObject, string memberName)
+        private MethodNode CreateMethodNode(object ownerObject, string memberName)
         {
             return new MethodNode(ownerObject, memberName);
+        }
+
+        #endregion
+
+        #region CollectionNode
+
+        private CollectionNode<T> CreateCollectionNode<T>(ReactiveCollection<T> collection, string memberName)
+        {
+            return new CollectionNode<T>(collection, memberName);
         }
 
         #endregion
