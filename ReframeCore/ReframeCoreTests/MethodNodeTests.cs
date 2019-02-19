@@ -6,6 +6,7 @@ using ReframeCoreExamples.E02;
 using ReframeCore;
 using ReframeCore.Exceptions;
 using ReframeCore.Nodes;
+using ReframeCoreExamples.E00;
 
 namespace ReframeCoreTests
 {
@@ -18,46 +19,17 @@ namespace ReframeCoreTests
         #region NodeCreation
 
         [TestMethod]
-        public void NodeCreation_GivenCorrectArguments_CreatesMethodNode()
-        {
-            //Arrange
-            Building02 building = new Building02();
-            string memberName = "Update_Area";
-
-            //Act
-            INode updateAreaNode = new MethodNode(building, memberName);
-
-            //Assert
-            Assert.IsInstanceOfType(updateAreaNode, typeof(INode));
-        }
-
-        [TestMethod]
-        public void NodeCreation_CreatedMethodNode_HoldsProperData()
-        {
-            //Arrange
-            Building02 building = new Building02();
-            string memberName = "Update_Area";
-
-            //Act
-            MethodNode updateAreaNode = new MethodNode(building, memberName);
-
-            //Assert
-            Assert.IsTrue(updateAreaNode.OwnerObject == building 
-                && updateAreaNode.MemberName == memberName
-                && updateAreaNode.UpdateMethod.Method.Name == memberName);
-        }
-
-        [TestMethod]
         public void NodeCreation_MethodNodeUpdateInvoke_DoesNotBreak()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Update_Area";
 
             try
             {
                 //Act
-                INode updateAreaNode = new MethodNode(building, memberName);
+                MethodNode updateAreaNode = nodeFactory.CreateNode(building, memberName) as MethodNode;
                 updateAreaNode.Update();
             }
             catch (Exception ex)
@@ -65,24 +37,14 @@ namespace ReframeCoreTests
                 //Assert
                 Assert.Fail("Expected no exception, instead got:" + ex.Message);
             }
-        
+
         }
 
         [TestMethod]
-        public void NodeCreation_GivenNullObject_ThrowsException()
+        public void NodeCreation_GivenPropertyNameInsteadOfMethodName_ThrowsException()
         {
-            //Arrange
-            Building02 building02 = null;
-            string updateAreaNode = "Update_Area";
-
-            //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new MethodNode(building02, updateAreaNode));
-        }
-
-        [TestMethod]
-        public void NodeCreation_GivenPropertyNameInsteadMethodName_ThrowsException()
-        {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Area";
 
@@ -90,26 +52,20 @@ namespace ReframeCoreTests
             Assert.ThrowsException<ReactiveNodeException>(() => new MethodNode(building, memberName));
         }
 
-        [TestMethod]
-        public void NodeCreation_GivenNonExistantMemberName_ThrowsException()
-        {
-            //Arrange
-            Building02 building02 = new Building02();
-            string memberName = "NonexistantMember";
+        #endregion
 
-            //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => new MethodNode(building02, memberName));
-        }
+        #region Identifier Check
 
         [TestMethod]
         public void NodeCreation_CreatedMethodNode_ObtainedIdentifier()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building02 = new Building02();
             string memberName = "Update_Area";
 
             //Act
-            INode node = new MethodNode(building02, memberName);
+            MethodNode node = nodeFactory.CreateNode(building02, memberName) as MethodNode;
 
             //Assert
             Assert.AreNotEqual(default(uint), node.Identifier);
@@ -122,12 +78,13 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Update_Area";
 
-            INode node1 = new MethodNode(building, memberName);
-            INode node2 = new MethodNode(building, memberName);
+            MethodNode node1 = nodeFactory.CreateNode(building, memberName) as MethodNode;
+            MethodNode node2 = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -139,11 +96,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember1_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Update_Area";
 
-            INode node1 = new MethodNode(building, memberName);
+            MethodNode node1 = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(building, memberName);
@@ -155,13 +113,14 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Update_Area";
             string memberName2 = "Update_Volume";
 
-            INode node1 = new MethodNode(building, memberName);
-            INode node2 = new MethodNode(building, memberName2);
+            MethodNode node1 = nodeFactory.CreateNode(building, memberName) as MethodNode;
+            MethodNode node2 = nodeFactory.CreateNode(building, memberName2) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -173,12 +132,13 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember1_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
             string memberName = "Update_Area";
             string memberName2 = "Update_Volume";
 
-            INode node1 = new MethodNode(building, memberName);
+            MethodNode node1 = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(building, memberName2);
@@ -190,14 +150,15 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building1 = new Building02();
             Building02 building2 = new Building02();
 
             string memberName = "Update_Area";
 
-            INode node1 = new MethodNode(building1, memberName);
-            INode node2 = new MethodNode(building2, memberName);
+            MethodNode node1 = nodeFactory.CreateNode(building1, memberName) as MethodNode;
+            MethodNode node2 = nodeFactory.CreateNode(building2, memberName) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -209,13 +170,14 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember1_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building1 = new Building02();
             Building02 building2 = new Building02();
 
             string memberName = "Update_Area";
 
-            INode node1 = new MethodNode(building1, memberName);
+            MethodNode node1 = nodeFactory.CreateNode(building1, memberName) as MethodNode;
 
             //Act
             bool same = node1.HasSameIdentifier(building2, memberName);
@@ -231,11 +193,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddPredecessor_GivenAnotherValidMethodNode_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
 
             //Act
             bool added = node.AddPredecessor(predecessorNode);
@@ -247,11 +210,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddPredecessor_GivenAnotherValidPropertyNode_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new PropertyNode(building, "Area","Update_Area");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            PropertyNode predecessorNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
 
             //Act
             bool added = node.AddPredecessor(predecessorNode);
@@ -263,11 +227,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddPredecessor_GivenNullNode_ThrowsException()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = null;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode predecessorNode = null;
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => node.AddPredecessor(predecessorNode));
@@ -276,11 +241,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddPredecessor_GivenSameNode_ThrowsException()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = node;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode predecessorNode = node;
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => node.AddPredecessor(predecessorNode));
@@ -289,11 +255,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddPredecessor_GivenAlreadyAddedNode_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             node.AddPredecessor(predecessorNode);
 
             //Act
@@ -310,11 +277,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasPredecessor_GivenNodeAddedAsSuccessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             predecessorNode.AddSuccessor(successorNode);
 
             //Act
@@ -327,11 +295,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasPredecessor_GivenPropertyNodeAddedAsSuccessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new PropertyNode(building, "Volume", "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            PropertyNode successorNode = nodeFactory.CreateNode(building, "Volume", "Update_Volume") as PropertyNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             predecessorNode.AddSuccessor(successorNode);
 
             //Act
@@ -344,11 +313,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasPredecessor_GivenNodeNotAddedAsSuccessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
 
             //Act
             bool hasPredecessor = successorNode.HasPredecessor(predecessorNode);
@@ -360,11 +330,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasPredecessor_GivenNodeRemovedAsSuccessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             predecessorNode.AddSuccessor(successorNode);
             predecessorNode.RemoveSuccessor(successorNode);
 
@@ -382,11 +353,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSuccessor_GivenNodeAddedAsPredecessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             successorNode.AddPredecessor(predecessorNode);
 
             //Act
@@ -399,11 +371,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSuccessor_GivenPropertyNodeAddedAsPredecessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new PropertyNode(building, "Area", "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            PropertyNode predecessorNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
             successorNode.AddPredecessor(predecessorNode);
 
             //Act
@@ -416,11 +389,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSuccessor_GivenNodeNotAddedAsPredecessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
 
             //Act
             bool hasSuccessor = predecessorNode.HasSuccessor(successorNode);
@@ -432,11 +406,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void HasSuccessor_GivenNodeRemovedAsPredecessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode successorNode = new MethodNode(building, "Update_Volume");
-            INode predecessorNode = new MethodNode(building, "Update_Area");
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
             successorNode.AddPredecessor(predecessorNode);
             successorNode.RemovePredecessor(predecessorNode);
 
@@ -454,11 +429,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddSuccessor_GivenAnotherValidNode_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Volume");
-            INode successorNode = new MethodNode(building, "Update_Area");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -470,11 +446,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddSuccessor_GivenValidPropertyNode_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Volume");
-            INode successorNode = new PropertyNode(building, "Area", "Update_Area");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            PropertyNode successorNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -486,11 +463,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddSuccessor_GivenNullNode_ThrowsException()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = null;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = null;
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => node.AddSuccessor(successorNode));
@@ -499,11 +477,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddSuccessor_GivenSameNode_ThrowsException()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = node;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = node;
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => node.AddSuccessor(successorNode));
@@ -512,11 +491,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void AddSuccessor_GivenAlreadyAddedNode_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = new MethodNode(building, "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
             node.AddSuccessor(successorNode);
 
             //Act
@@ -533,11 +513,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemovePredecessor_GivenValidPredecessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = new MethodNode(building, "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
             node.AddPredecessor(predecessorNode);
 
             //Act
@@ -550,11 +531,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemovePredecessor_GivenValidPropertyNodePredecessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = new PropertyNode(building, "Volume", "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            PropertyNode predecessorNode = nodeFactory.CreateNode(building, "Volume", "Update_Volume") as PropertyNode;
             node.AddPredecessor(predecessorNode);
 
             //Act
@@ -567,11 +549,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemovePredecessor_GivenNonexistingPredecessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = new MethodNode(building, "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode predecessorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
 
             //Act
             bool removed = node.RemovePredecessor(predecessorNode);
@@ -583,11 +566,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemovePredecessor_GivenNullPredecessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode predecessorNode = null;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode predecessorNode = null;
 
             //Act
             bool removed = node.RemovePredecessor(predecessorNode);
@@ -603,11 +587,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemoveSuccessor_GivenValidSuccessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = new MethodNode(building, "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
             node.AddSuccessor(successorNode);
 
             //Act
@@ -620,11 +605,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemoveSuccessor_GivenValidPropertyNodeSuccessor_ReturnsTrue()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = new PropertyNode(building, "Volume", "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            PropertyNode successorNode = nodeFactory.CreateNode(building, "Volume", "Update_Volume") as PropertyNode;
             node.AddSuccessor(successorNode);
 
             //Act
@@ -637,11 +623,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemoveSuccessor_GivenNonexistingSuccessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = new MethodNode(building, "Update_Volume");
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
 
             //Act
             bool removed = node.RemoveSuccessor(successorNode);
@@ -653,11 +640,12 @@ namespace ReframeCoreTests
         [TestMethod]
         public void RemoveSuccessor_GivenNullSuccessor_ReturnsFalse()
         {
-            //Arrange
+            //Arrange 
+            NodeFactory nodeFactory = new NodeFactory();
             Building02 building = new Building02();
 
-            INode node = new MethodNode(building, "Update_Area");
-            INode successorNode = null;
+            MethodNode node = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode successorNode = null;
 
             //Act
             bool removed = node.RemoveSuccessor(successorNode);
