@@ -14,6 +14,8 @@ namespace ReframeCoreTests
     [TestClass]
     public partial class DependencyGraphTests
     {
+        private NodeFactory nodeFactory = new NodeFactory();
+
         #region AddNode
 
         #region public bool AddNode(INode node)
@@ -36,7 +38,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
             //Act
             INode addedNode = graph.AddNode(node);
@@ -52,7 +54,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             INode addedNode = graph.AddNode(node);
@@ -68,7 +70,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -85,7 +87,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
             graph.AddNode(node);
 
             //Act
@@ -294,7 +296,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode2_GivenNonExistingUpdateMethodName_ReturnsPropertyNodeWithoutUpdateMethod()
+        public void AddNode2_GivenNonExistingUpdateMethodName_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -302,11 +304,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string updateMethodName = "Update_Width";
 
-            //Act
-            PropertyNode addedNode = graph.AddNode(building, memberName, updateMethodName) as PropertyNode;
-
-            //Assert
-            Assert.IsTrue(addedNode.UpdateMethod == null);
+            //Act&Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => graph.AddNode(building, memberName, updateMethodName));
         }
 
         [TestMethod]
@@ -365,7 +364,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -382,7 +381,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
             graph.AddNode(node);
 
             //Act
@@ -399,7 +398,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
             //Act
             bool contains = graph.ContainsNode(node);
@@ -415,7 +414,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             bool contains = graph.ContainsNode(node);
@@ -431,7 +430,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -448,7 +447,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
             graph.AddNode(node);
 
             //Act
@@ -465,7 +464,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
@@ -481,7 +480,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Update_Area";
-            INode node = new MethodNode(building, memberName);
+            MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
@@ -563,7 +562,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -580,7 +579,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
             //Act
             INode n = graph.GetNode(node);
@@ -622,7 +621,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
             //Act
             bool removed = graph.RemoveNode(node);
@@ -639,8 +638,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new PropertyNode(building, memberName);
-            INode successorNode = new PropertyNode(building, memberName2);
+            PropertyNode predecessorNode = nodeFactory.CreateNode(building, memberName) as PropertyNode;
+            PropertyNode successorNode = nodeFactory.CreateNode(building, memberName2) as PropertyNode;
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -658,8 +657,8 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Width";
             string memberName2 = "Area";
-            INode predecessorNode = new PropertyNode(building, memberName);
-            INode successorNode = new PropertyNode(building, memberName2);
+            PropertyNode predecessorNode = nodeFactory.CreateNode(building, memberName) as PropertyNode;
+            PropertyNode successorNode = nodeFactory.CreateNode(building, memberName2) as PropertyNode;
             graph.AddNode(predecessorNode);
             graph.AddNode(successorNode);
 
@@ -676,7 +675,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
             string memberName = "Width";
-            INode node = new PropertyNode(building, memberName);
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -714,8 +713,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -736,8 +735,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             //Act
             graph.AddDependency(predecessor, successor);
@@ -755,8 +754,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -777,8 +776,8 @@ namespace ReframeCoreTests
             string memberName = "Update_Area";
             string memberName2 = "Update_Volume";
 
-            INode predecessor = new MethodNode(building00, memberName);
-            INode successor = new MethodNode(building00, memberName2);
+            MethodNode predecessor = nodeFactory.CreateNode(building00, memberName) as MethodNode;
+            MethodNode successor = nodeFactory.CreateNode(building00, memberName2) as MethodNode;
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -799,8 +798,8 @@ namespace ReframeCoreTests
             string memberName = "Area";
             string memberName2 = "Update_Volume";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new MethodNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            MethodNode successor = nodeFactory.CreateNode(building00, memberName2) as MethodNode;
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -822,8 +821,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
-            INode basementArea = new PropertyNode(basement, "Area");
+            PropertyNode apartmentTotalArea = nodeFactory.CreateNode(apartment01, "TotalArea") as PropertyNode;
+            PropertyNode basementArea = nodeFactory.CreateNode(basement, "Area") as PropertyNode;
 
             //Act
             graph.AddDependency(basementArea, apartmentTotalArea);
@@ -927,6 +926,7 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
         #region public void AddDependency(INode predecessor, List<INode> successors)
 
         [TestMethod]
@@ -950,11 +950,11 @@ namespace ReframeCoreTests
             GenericReactiveObject owner = new GenericReactiveObject();
 
             //Act
-            INode predecessor = new PropertyNode(owner, "A");
+            PropertyNode predecessor = nodeFactory.CreateNode(owner, "A") as PropertyNode;
             List<INode> successors = new List<INode>();
-            successors.Add(new PropertyNode(owner, "B"));
-            successors.Add(new PropertyNode(owner, "C"));
-            successors.Add(new PropertyNode(owner, "D"));
+            successors.Add(nodeFactory.CreateNode(owner, "B"));
+            successors.Add(nodeFactory.CreateNode(owner, "C"));
+            successors.Add(nodeFactory.CreateNode(owner, "D"));
 
             graph.AddDependency(predecessor, successors);
 
@@ -1018,11 +1018,11 @@ namespace ReframeCoreTests
             GenericReactiveObject owner = new GenericReactiveObject();
 
             //Act
-            INode successor = new PropertyNode(owner, "D");
+            PropertyNode successor = nodeFactory.CreateNode(owner, "D") as PropertyNode;
             List<INode> predecessors = new List<INode>();
-            predecessors.Add(new PropertyNode(owner, "A"));
-            predecessors.Add(new PropertyNode(owner, "B"));
-            predecessors.Add(new PropertyNode(owner, "C"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "A"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "B"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "C"));
 
             graph.AddDependency(predecessors, successor);
 
@@ -1041,11 +1041,11 @@ namespace ReframeCoreTests
             GenericReactiveObject owner = new GenericReactiveObject();
 
             //Act
-            INode successor = new PropertyNode(owner, "D");
+            PropertyNode successor = nodeFactory.CreateNode(owner, "D") as PropertyNode;
             List<INode> predecessors = new List<INode>();
-            predecessors.Add(new PropertyNode(owner, "A"));
-            predecessors.Add(new PropertyNode(owner, "B"));
-            predecessors.Add(new PropertyNode(owner, "C"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "A"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "B"));
+            predecessors.Add(nodeFactory.CreateNode(owner, "C"));
 
             graph.AddDependency(predecessors, successor);
 
@@ -1088,8 +1088,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             //Act&Assert
             Assert.ThrowsException<ReactiveDependencyException>(() => graph.RemoveDependency(predecessor, successor));
@@ -1104,8 +1104,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             graph.AddNode(predecessor);
             graph.AddNode(successor);
@@ -1127,8 +1127,8 @@ namespace ReframeCoreTests
             AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
             apartment01.Basement = basement;
 
-            INode apartmentTotalArea = new PropertyNode(apartment01, "TotalArea");
-            INode basementArea = new PropertyNode(basement, "Area");
+            PropertyNode apartmentTotalArea = nodeFactory.CreateNode(apartment01, "TotalArea") as PropertyNode;
+            PropertyNode basementArea = nodeFactory.CreateNode(basement, "Area") as PropertyNode;
 
             graph.AddDependency(basementArea, apartmentTotalArea);
 
@@ -1148,8 +1148,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
 
             graph.AddDependency(predecessor, successor);
 
@@ -1186,8 +1186,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             string memberName2 = "Area";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
             graph.AddDependency(predecessor, successor);
 
             //Act
@@ -1207,8 +1207,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
             graph.AddDependency(predecessor, successor);
             graph.AddNode(building00, memberName3);
 
@@ -1229,8 +1229,8 @@ namespace ReframeCoreTests
             string memberName2 = "Area";
             string memberName3 = "Length";
 
-            INode predecessor = new PropertyNode(building00, memberName);
-            INode successor = new PropertyNode(building00, memberName2);
+            PropertyNode predecessor = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            PropertyNode successor = nodeFactory.CreateNode(building00, memberName2) as PropertyNode;
             graph.AddNode(predecessor);
             graph.AddNode(successor);
             graph.AddNode(building00, memberName3);

@@ -23,11 +23,11 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new PropertyNode(building, "Width");
-            INode lengthNode = new PropertyNode(building, "Length");
-            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
-            INode heightNode = new PropertyNode(building, "Height");
-            INode volumeNode = new PropertyNode(building, "Volume");
+            PropertyNode widthNode = nodeFactory.CreateNode(building, "Width") as PropertyNode;
+            PropertyNode lengthNode = nodeFactory.CreateNode(building, "Length") as PropertyNode;
+            PropertyNode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
+            PropertyNode heightNode = nodeFactory.CreateNode(building, "Height") as PropertyNode;
+            PropertyNode volumeNode = nodeFactory.CreateNode(building, "Volume") as PropertyNode;
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -47,11 +47,11 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new PropertyNode(building, "Width");
-            INode lengthNode = new PropertyNode(building, "Length");
-            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
-            INode heightNode = new PropertyNode(building, "Height");
-            INode volumeNode = new PropertyNode(building, "Volume");
+            PropertyNode widthNode = nodeFactory.CreateNode(building, "Width") as PropertyNode;
+            PropertyNode lengthNode = nodeFactory.CreateNode(building, "Length") as PropertyNode;
+            PropertyNode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
+            PropertyNode heightNode = nodeFactory.CreateNode(building, "Height") as PropertyNode;
+            PropertyNode volumeNode = nodeFactory.CreateNode(building, "Volume") as PropertyNode;
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -73,13 +73,13 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = new Building00();
 
-            INode widthNode = new PropertyNode(building, "Width");
-            INode lengthNode = new PropertyNode(building, "Length");
-            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
-            INode heightNode = new PropertyNode(building, "Height");
-            INode volumeNode = new PropertyNode(building, "Volume");
+            PropertyNode widthNode = nodeFactory.CreateNode(building, "Width") as PropertyNode;
+            PropertyNode lengthNode = nodeFactory.CreateNode(building, "Length") as PropertyNode;
+            PropertyNode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
+            PropertyNode heightNode = nodeFactory.CreateNode(building, "Height") as PropertyNode;
+            PropertyNode volumeNode = nodeFactory.CreateNode(building, "Volume") as PropertyNode;
 
-            INode consumption = new PropertyNode(building, "Consumption");
+            PropertyNode consumption = nodeFactory.CreateNode(building, "Consumption") as PropertyNode;
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -286,14 +286,14 @@ namespace ReframeCoreTests
             building.Height = 4;
             building.Consumption = 20;
 
-            INode widthNode = new PropertyNode(building, "Width");
-            INode lengthNode = new PropertyNode(building, "Length");
-            INode areaNode = new PropertyNode(building, "Area", "Update_Area");
-            INode heightNode = new PropertyNode(building, "Height");
-            INode volumeNode = new PropertyNode(building, "Volume", "Update_Volume");
-            INode consumptionNode = new PropertyNode(building, "Consumption");
-            INode totalConsumptionNode = new PropertyNode(building, "TotalConsumption", "Update_TotalConsumption");
-            INode totalConsumptionPer_m3 = new PropertyNode(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3");
+            PropertyNode widthNode = nodeFactory.CreateNode(building, "Width") as PropertyNode;
+            PropertyNode lengthNode = nodeFactory.CreateNode(building, "Length") as PropertyNode;
+            PropertyNode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
+            PropertyNode heightNode = nodeFactory.CreateNode(building, "Height") as PropertyNode;
+            PropertyNode volumeNode = nodeFactory.CreateNode(building, "Volume", "Update_Volume") as PropertyNode;
+            PropertyNode consumptionNode = nodeFactory.CreateNode(building, "Consumption") as PropertyNode;
+            PropertyNode totalConsumptionNode = nodeFactory.CreateNode(building, "TotalConsumption", "Update_TotalConsumption") as PropertyNode;
+            PropertyNode totalConsumptionPer_m3 = nodeFactory.CreateNode(building, "TotalConsumptionPer_m3", "Update_TotalConsumptionPer_m3") as PropertyNode;
 
             graph.AddDependency(widthNode, areaNode);
             graph.AddDependency(lengthNode, areaNode);
@@ -727,10 +727,10 @@ namespace ReframeCoreTests
             building.Height = 4;
             building.Consumption = 20;
 
-            INode updateAreaNode = new MethodNode(building, "Update_Area");
-            INode updateVolumeNode = new MethodNode(building, "Update_Volume");
-            INode updateTotalConsumptionNode = new MethodNode(building, "Update_TotalConsumption");
-            INode updateTotalConsumptionPer_m3Node = new MethodNode(building, "Update_TotalConsumptionPer_m3");
+            MethodNode updateAreaNode = nodeFactory.CreateNode(building, "Update_Area") as MethodNode;
+            MethodNode updateVolumeNode = nodeFactory.CreateNode(building, "Update_Volume") as MethodNode;
+            MethodNode updateTotalConsumptionNode = nodeFactory.CreateNode(building, "Update_TotalConsumption") as MethodNode;
+            MethodNode updateTotalConsumptionPer_m3Node = nodeFactory.CreateNode(building, "Update_TotalConsumptionPer_m3") as MethodNode;
 
             graph.AddDependency(updateAreaNode, updateVolumeNode);
             graph.AddDependency(updateAreaNode, updateTotalConsumptionNode);
