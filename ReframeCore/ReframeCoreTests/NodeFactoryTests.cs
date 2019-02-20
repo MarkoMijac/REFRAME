@@ -194,8 +194,6 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsInstanceOfType(partsNode, typeof(CollectionNode));
         }
-
-
         
         [TestMethod]
         public void CreateNode_CreatedCollectionNode_HoldsProperData()

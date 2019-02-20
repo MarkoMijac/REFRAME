@@ -38,7 +38,7 @@ namespace ReframeCore
 
         public INode CreateNode(object ownerObject, string memberName, string updateMethod)
         {
-            NodeType nodeType = DetermineNodeType(ownerObject, memberName);
+            NodeType nodeType = DetermineNodeType(ownerObject, memberName, updateMethod);
             switch (nodeType)
             {
                 case NodeType.PropertyNode: return CreatePropertyNode(ownerObject, memberName, updateMethod);
@@ -50,21 +50,26 @@ namespace ReframeCore
             }
         }
 
-        private NodeType DetermineNodeType(object ownerObject, string memberName)
+        private NodeType DetermineNodeType(object ownerObject, string memberName, string updateMethodName)
         {
             NodeType nodeType = NodeType.Unknown;
 
-            if (Reflector.IsProperty(ownerObject, memberName) == true)
+            if (ownerObject != null)
             {
-                nodeType = NodeType.PropertyNode;
-            }
-            else if (Reflector.IsMethod(ownerObject, memberName) == true)
-            {
-                nodeType = NodeType.MethodNode;
-            }
-            else if (Reflector.IsGenericCollection(ownerObject))
-            {
-                nodeType = NodeType.CollectionNode;
+                if (Reflector.IsProperty(ownerObject, memberName) == true 
+                    && (updateMethodName == "" || Reflector.IsMethod(ownerObject, updateMethodName) == true))
+                {
+                    nodeType = NodeType.PropertyNode;
+                }
+                else if (Reflector.IsMethod(ownerObject, memberName) == true 
+                    && (updateMethodName == "" || updateMethodName == memberName))
+                {
+                    nodeType = NodeType.MethodNode;
+                }
+                else if (Reflector.IsGenericCollection(ownerObject))
+                {
+                    nodeType = NodeType.CollectionNode;
+                }
             }
 
             return nodeType;
