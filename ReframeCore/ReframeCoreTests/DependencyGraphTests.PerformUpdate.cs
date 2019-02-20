@@ -9,6 +9,7 @@ using ReframeCoreExamples.E02;
 using ReframeCoreExamples.E04;
 using ReframeCoreExamples.E06;
 using ReframeCore.Nodes;
+using ReframeCoreExamples.E07;
 
 namespace ReframeCoreTests
 {
@@ -1294,6 +1295,133 @@ namespace ReframeCoreTests
             expectedLogger.LogNodeToUpdate(graph.GetNode(cycle, "F"));
 
             Assert.AreEqual(actualLogger.ToString(), expectedLogger.ToString());
+        }
+
+        #endregion
+
+        #region PerformUpdate CASE 7
+
+        /*Simple Graph with reactive collections*/
+
+        private void CreateCase7(DependencyGraph graph, Whole whole)
+        {
+            INode a = graph.AddNode(whole, "A");
+            INode b = graph.AddNode(whole, "B");
+            INode c = graph.AddNode(whole, "C");
+
+            INode partsA = graph.AddNode(whole.Parts, "A");
+            INode partsB = graph.AddNode(whole.Parts, "B");
+            INode partsC = graph.AddNode(whole.Parts, "C");
+
+            graph.AddDependency(partsA, a);
+            graph.AddDependency(partsB, b);
+            graph.AddDependency(partsC, c);
+
+            graph.Initialize();
+        }
+
+        private Logger CreateExpectedLogger_Case7_GivenNoInitialNode(DependencyGraph graph, Whole whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case7_GivenAAsInitialNode(DependencyGraph graph, Whole whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
+
+            return logger;
+        }
+
+        private Logger CreateExpectedLogger_Case7_GivenBAsInitialNode(DependencyGraph graph, Whole whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_GivenNoInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            CreateCase7(graph, whole);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case7_GivenNoInitialNode(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_GivenNoInitialNode_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            CreateCase7(graph, whole);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(whole.A == 12 && whole.B == 15 && whole.C == 18);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_GivenAAsInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            CreateCase7(graph, whole);
+
+            //Act
+            INode initialNode = graph.GetNode(whole.Parts, "A");
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case7_GivenAAsInitialNode(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_GivenBAsInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            CreateCase7(graph, whole);
+
+            //Act
+            INode initialNode = graph.GetNode(whole.Parts, "B");
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case7_GivenBAsInitialNode(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
         #endregion
