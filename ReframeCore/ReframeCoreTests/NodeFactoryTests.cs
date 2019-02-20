@@ -181,7 +181,7 @@ namespace ReframeCoreTests
         #endregion
 
         #region CollectionNode
-
+        
         [TestMethod]
         public void CreateNode_GivenCorrectArguments_ReturnsCollectionNode()
         {
@@ -189,12 +189,14 @@ namespace ReframeCoreTests
             Whole whole = new Whole { Name = "Whole 1" };
 
             //Act
-            CollectionNode<Part> partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode<Part>;
+            CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode;
 
             //Assert
-            Assert.IsInstanceOfType(partsNode, typeof(CollectionNode<Part>));
+            Assert.IsInstanceOfType(partsNode, typeof(CollectionNode));
         }
 
+
+        
         [TestMethod]
         public void CreateNode_CreatedCollectionNode_HoldsProperData()
         {
@@ -203,12 +205,13 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> parts = whole.Parts;
 
             //Act
-            CollectionNode<Part> partsNode = defaultFactory.CreateNode(parts, "A") as CollectionNode<Part>;
+            CollectionNode partsNode = defaultFactory.CreateNode(parts, "A") as CollectionNode;
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == parts && partsNode.MemberName == "A");
         }
 
+        
         [TestMethod]
         public void CreateNode_SourceNodeUpdateInvoke_DoesNotBreak()
         {
@@ -218,7 +221,7 @@ namespace ReframeCoreTests
             try
             {
                 //Act
-                CollectionNode<Part> partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode<Part>;
+                CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode;
                 partsNode.Update();
             }
             catch (Exception ex)
@@ -236,7 +239,7 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> parts = null;
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionNode<Part>);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionNode);
         }
 
         [TestMethod]
@@ -246,7 +249,7 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
 
             //Act
-            CollectionNode<Part> node = defaultFactory.CreateNode(collection, "A") as CollectionNode<Part>;
+            CollectionNode node = defaultFactory.CreateNode(collection, "A") as CollectionNode;
 
             //Assert
             //Assert
@@ -260,9 +263,9 @@ namespace ReframeCoreTests
             Whole whole = new Whole { Name = "Whole 1" };
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionNode<Part>);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionNode);
         }
-
+        
         #endregion
     }
 }

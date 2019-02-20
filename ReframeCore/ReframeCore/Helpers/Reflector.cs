@@ -61,35 +61,31 @@ namespace ReframeCore.Helpers
 
             if (obj != null && memberName != "")
             {
-                MemberInfo[] infos = obj.GetType().GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                if (infos.Length > 0)
+                Type type;
+
+                if (IsGenericCollection(obj) == true)
                 {
-                    contains = true;
+                    type = obj.GetType().GenericTypeArguments[0];
                 }
+                else
+                {
+                    type = obj.GetType();
+                }
+
+                contains = ContainsMember(type, memberName);
             }
 
             return contains;
         }
 
-        /// <summary>
-        /// Checks if object contains member with specified name.
-        /// </summary>
-        /// <param name="obj">Object which contains the member.</param>
-        /// <param name="memberName">Name of the member.</param>
-        /// <returns>True if object contains member with specified name, otherwise False.</returns>
-        public static bool ContainsMember<T>(ReactiveCollection<T> obj, string memberName)
+        private static bool ContainsMember(Type type, string memberName)
         {
             bool contains = false;
 
-            if (obj != null && memberName != "")
+            MemberInfo[] infos = type.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (infos.Length > 0)
             {
-                Type genericType = obj.GetType().GenericTypeArguments[0];
-
-                MemberInfo[] infos = genericType.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                if (infos.Length > 0)
-                {
-                    contains = true;
-                }
+                contains = true;
             }
 
             return contains;

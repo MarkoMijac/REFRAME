@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class CollectionNode<T> : Node
+    public class CollectionNode : Node
     {
         #region Constructors
 
@@ -19,7 +19,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        public CollectionNode(ReactiveCollection<T> collection, string memberName)
+        public CollectionNode(object collection, string memberName)
             :base(collection, memberName)
         {
             
@@ -48,10 +48,8 @@ namespace ReframeCore.Nodes
 
         protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
         {
-            ReactiveCollection<T> collection = ownerObject as ReactiveCollection<T>;
-
-            if (collection == null
-                || Reflector.ContainsMember(collection, memberName) == false)
+            if (ownerObject == null
+                || Reflector.ContainsMember(ownerObject, memberName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
             }
