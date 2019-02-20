@@ -162,7 +162,7 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == settings.UpdateMethodNamePrefix + memberName);
+                && addedNode.UpdateMethod.Method.Name == settings.GenerateDefaultUpdateMethodName(memberName));
         }
 
         [TestMethod]

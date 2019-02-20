@@ -72,16 +72,6 @@ namespace ReframeCore
 
         #region PropertyNode
 
-        /// <summary>
-        /// Gets update method name generated from default prefix and property name.
-        /// </summary>
-        /// <param name="propertyName">Property name represented by reactive node.</param>
-        /// <returns>Update method name generated from default prefix and property name.</returns>
-        public string GenerateDefaultUpdateMethodName(string propertyName)
-        {
-            return Settings.UpdateMethodNamePrefix + propertyName;
-        }
-
         private PropertyNode CreatePropertyNode(object ownerObject, string propertyName, string updateMethod)
         {
             PropertyNode propertyNode = null;
@@ -117,7 +107,7 @@ namespace ReframeCore
 
         private PropertyNode CreatePropertyNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
         {
-            string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
+            string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
             return new PropertyNode(ownerObject, propertyName, updateMethod);
         }
 
@@ -127,7 +117,7 @@ namespace ReframeCore
 
             if (Settings.UseDefaultUpdateMethodNames == true)
             {
-                string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
+                string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
                 if (Reflector.IsMethod(ownerObject, updateMethod) == true)
                 {
                     should = true;

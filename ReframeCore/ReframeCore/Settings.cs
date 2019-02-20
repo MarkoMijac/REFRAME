@@ -5,6 +5,9 @@
     /// </summary>
     public class Settings
     {
+        /// <summary>
+        /// Determines if updates should be logged.
+        /// </summary>
         public bool LogUpdates { get; set; }
 
         public Settings()

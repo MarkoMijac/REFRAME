@@ -17,5 +17,15 @@ namespace ReframeCore
             UseDefaultUpdateMethodNames = true;
             UpdateMethodNamePrefix = "Update_";
         }
+
+        /// <summary>
+        /// Gets update method name generated from default prefix and property name.
+        /// </summary>
+        /// <param name="propertyName">Property name represented by reactive node.</param>
+        /// <returns>Update method name generated from default prefix and property name.</returns>
+        public string GenerateDefaultUpdateMethodName(string propertyName)
+        {
+            return UpdateMethodNamePrefix + propertyName;
+        }
     }
 }

@@ -83,7 +83,7 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod.Method.Name == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
+                && node.UpdateMethod.Method.Name == nodeFactory.Settings.GenerateDefaultUpdateMethodName(propertyName));
         }
 
         [TestMethod]
