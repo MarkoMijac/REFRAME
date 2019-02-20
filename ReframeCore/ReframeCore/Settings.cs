@@ -5,16 +5,10 @@
     /// </summary>
     public class Settings
     {
-        public string UpdateMethodNamePrefix { get; set; }
-
         public bool LogUpdates { get; set; }
-
-        public bool UseDefaultUpdateMethodNames { get; set; }
 
         public Settings()
         {
-            UseDefaultUpdateMethodNames = true;
-            UpdateMethodNamePrefix = "Update_";
             LogUpdates = true;
         }
     }

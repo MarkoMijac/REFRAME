@@ -18,7 +18,7 @@ namespace ReframeCore
     {
         #region Properties
 
-        private NodeFactory DefaultNodeFactory { get; set; }
+        public NodeFactory DefaultNodeFactory { get; private set; }
 
         /// <summary>
         /// Dependency graph unique identifier.
@@ -312,16 +312,6 @@ namespace ReframeCore
             }
 
             return p.RemoveSuccessor(s);
-        }
-
-        /// <summary>
-        /// Gets update method name generated from default prefix and property name.
-        /// </summary>
-        /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <returns>Update method name generated from default prefix and property name.</returns>
-        private string GetDefaultUpdateMethodName(string memberName)
-        {
-            return Settings.UpdateMethodNamePrefix + memberName;
         }
 
         /// <summary>
