@@ -18,6 +18,8 @@ namespace ReframeCore
     {
         #region Properties
 
+        private NodeFactory DefaultNodeFactory { get; set; }
+
         /// <summary>
         /// Dependency graph unique identifier.
         /// </summary>
@@ -58,6 +60,7 @@ namespace ReframeCore
             SortAlgorithm = new TopologicalSort2();
             Status = DependencyGraphStatus.NotInitialized;
             Logger = new Logger();
+            DefaultNodeFactory = new NodeFactory();
         }
 
         public void Initialize()
@@ -100,22 +103,7 @@ namespace ReframeCore
         /// <returns>Newly added or already existing node.</returns>
         public INode AddNode(object ownerObject, string memberName)
         {
-            string updateMethodName = "";
-            NodeType nodeType = GetNodeType(ownerObject, memberName);
-
-            if (nodeType == NodeType.PropertyNode)
-            {
-                if (Settings.UseDefaultUpdateMethodNames == true)
-                {
-                    updateMethodName = GetDefaultUpdateMethodName(memberName);
-                }
-            }
-            else if (nodeType == NodeType.MethodNode)
-            {
-                updateMethodName = memberName;
-            }
-
-            return AddNode(ownerObject, memberName, updateMethodName);
+            return AddNode(ownerObject, memberName, "");
         }
 
         /// <summary>
@@ -131,35 +119,11 @@ namespace ReframeCore
 
             if (nodeToAdd == null)
             {
-                NodeType nodeType = GetNodeType(ownerObject, memberName);
-
-                nodeToAdd = CreateNewNode(ownerObject, memberName, updateMethodName, nodeType);
+                nodeToAdd = DefaultNodeFactory.CreateNode(ownerObject, memberName, updateMethodName);
                 Nodes.Add(nodeToAdd);
             }
 
             return nodeToAdd;
-        }
-
-        /// <summary>
-        /// Checks the type of the node.
-        /// </summary>
-        /// <param name="ownerObject">Owner object associated with reactive node.</param>
-        /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <returns>Type of the node.</returns>
-        private static NodeType GetNodeType(object ownerObject, string memberName)
-        {
-            NodeType nodeType = NodeType.PropertyNode;
-
-            if (Reflector.IsProperty(ownerObject, memberName) == true)
-            {
-                nodeType = NodeType.PropertyNode;
-            }
-            else if (Reflector.IsMethod(ownerObject, memberName) == true)
-            {
-                nodeType = NodeType.MethodNode;
-            }
-
-            return nodeType;
         }
 
         /// <summary>
@@ -181,36 +145,6 @@ namespace ReframeCore
         public bool ContainsNode(object ownerObject, string memberName)
         {
             return GetNode(ownerObject, memberName) != null;
-        }
-
-        /// <summary>
-        /// Creates new reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Owner object associated with reactive node.</param>
-        /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <param name="updateMethod">Delegate of the update method.</param>
-        /// <returns>New reactive node.</returns>
-        private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName)
-        {
-            return new PropertyNode(ownerObject, memberName, updateMethodName);
-        }
-
-        /// <summary>
-        /// Creates new reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Owner object associated with reactive node.</param>
-        /// <param name="memberName">Member name represented by reactive node.</param>
-        /// <param name="updateMethod">Delegate of the update method.</param>
-        /// <param name="type">Type of the node to be created.</param>
-        /// <returns>New reactive node.</returns>
-        private INode CreateNewNode(object ownerObject, string memberName, string updateMethodName, NodeType type)
-        {
-            switch (type)
-            {
-                case NodeType.PropertyNode: return new PropertyNode(ownerObject, memberName, updateMethodName);
-                case NodeType.MethodNode: return new MethodNode(ownerObject, memberName);
-                default: throw new ReactiveNodeException("Unrecognized reactive node type!");
-            }
         }
 
         /// <summary>
