@@ -1301,7 +1301,7 @@ namespace ReframeCoreTests
 
         #region PerformUpdate CASE 7
 
-        /*Simple Graph with reactive collections*/
+        /*Simple Graph with Collection Node as a predecessor*/
 
         private void CreateCase7(DependencyGraph graph, Whole whole)
         {
@@ -1422,6 +1422,24 @@ namespace ReframeCoreTests
             Logger expectedLogger = CreateExpectedLogger_Case7_GivenBAsInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_ChangingA_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            CreateCase7(graph, whole);
+            graph.PerformUpdate();
+            INode initialNode = graph.GetNode(whole.Parts, "A");
+
+            //Act
+            whole.Parts[0].A = 8;
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(whole.A == 19 && whole.B == 15 && whole.C == 18);
         }
 
         #endregion
