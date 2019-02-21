@@ -3,6 +3,7 @@ using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,31 @@ namespace ReframeCore.Nodes
 {
     public class CollectionNode : Node
     {
+        private string _updateMethodName = "";
+
         #region Constructors
 
         /// <summary>
         /// Instantiates new reactive node.
         /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="collection">Collection of objects associated with the reactive node.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         public CollectionNode(object collection, string memberName)
-            :base(collection, memberName)
+            : base(collection, memberName)
         {
-            
+
+        }
+
+        /// <summary>
+        /// Instantiates new reactive node.
+        /// </summary>
+        /// <param name="collection">Collection of objects associated with the reactive node.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <param name="updateMethodName">Update method name.</param>
+        public CollectionNode(object collection, string memberName, string updateMethodName)
+            :base(collection, memberName, updateMethodName)
+        {
+            _updateMethodName = updateMethodName;
         }
 
         /// <summary>
@@ -52,6 +67,21 @@ namespace ReframeCore.Nodes
                 || Reflector.ContainsMember(ownerObject, memberName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+            }
+        }
+
+        public override void Update()
+        {
+            if (_updateMethodName != "")
+            {
+                IEnumerable collection = OwnerObject as IEnumerable;
+
+                Action updateMethod;
+                foreach (var obj in collection)
+                {
+                    updateMethod = Reflector.CreateAction(obj, _updateMethodName);
+                    updateMethod.Invoke();
+                }
             }
         }
 

@@ -43,7 +43,7 @@ namespace ReframeCore
             {
                 case NodeType.PropertyNode: return CreatePropertyNode(ownerObject, memberName, updateMethod);
                 case NodeType.MethodNode: return CreateMethodNode(ownerObject, memberName);
-                case NodeType.CollectionNode: return CreateCollectionNode(ownerObject, memberName);
+                case NodeType.CollectionNode: return CreateCollectionNode(ownerObject, memberName, updateMethod);
                 case NodeType.Unknown: throw new ReactiveNodeException("Unable to determine node type!");
                 default:
                     throw new ReactiveNodeException("Unable to create reactive node!");
@@ -148,6 +148,11 @@ namespace ReframeCore
         private CollectionNode CreateCollectionNode(object collection, string memberName)
         {
             return new CollectionNode(collection, memberName);
+        }
+
+        private CollectionNode CreateCollectionNode(object collection, string memberName, string updateMethodName)
+        {
+            return new CollectionNode(collection, memberName, updateMethodName);
         }
 
         #endregion

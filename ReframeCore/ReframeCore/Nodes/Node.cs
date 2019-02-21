@@ -133,7 +133,7 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// A method responsible for updating reactive node.
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             UpdateMethod?.Invoke();
         }
