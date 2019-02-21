@@ -59,6 +59,8 @@
     <Compile Include="E06\Cycle.cs" />
     <Compile Include="E07\Part.cs" />
     <Compile Include="E07\Whole.cs" />
+    <Compile Include="E07_1\Part2.cs" />
+    <Compile Include="E07_1\Whole2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
