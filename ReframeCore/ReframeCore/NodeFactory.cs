@@ -56,19 +56,22 @@ namespace ReframeCore
 
             if (ownerObject != null)
             {
-                if (Reflector.IsProperty(ownerObject, memberName) == true 
-                    && (updateMethodName == "" || Reflector.IsMethod(ownerObject, updateMethodName) == true))
-                {
-                    nodeType = NodeType.PropertyNode;
-                }
-                else if (Reflector.IsMethod(ownerObject, memberName) == true 
-                    && (updateMethodName == "" || updateMethodName == memberName))
-                {
-                    nodeType = NodeType.MethodNode;
-                }
-                else if (Reflector.IsGenericCollection(ownerObject))
+                if (Reflector.IsGenericCollection(ownerObject))
                 {
                     nodeType = NodeType.CollectionNode;
+                }
+                else
+                {
+                    if (Reflector.IsProperty(ownerObject, memberName) == true
+                    && (updateMethodName == "" || Reflector.IsMethod(ownerObject, updateMethodName) == true))
+                    {
+                        nodeType = NodeType.PropertyNode;
+                    }
+                    else if (Reflector.IsMethod(ownerObject, memberName) == true
+                    && (updateMethodName == "" || updateMethodName == memberName))
+                    {
+                        nodeType = NodeType.MethodNode;
+                    }
                 }
             }
 

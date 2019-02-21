@@ -14,20 +14,21 @@ namespace ReframeCore.Nodes
         #region Constructors
 
         public MethodNode(object ownerObject, string memberName)
-            : base(ownerObject, memberName, memberName)
+            : base(ownerObject, memberName)
         {
-           
+            ValidateArguments(ownerObject, memberName);
+            UpdateMethod = Reflector.CreateAction(ownerObject, memberName);
         }
 
         #endregion
 
         #region Methods
 
-        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
+        private void ValidateArguments(object ownerObject, string memberName)
         {
-            if (ownerObject == null || Reflector.IsMethod(ownerObject, memberName) == false)
+            if (Reflector.IsMethod(ownerObject, memberName) == false)
             {
-                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+                throw new ReactiveNodeException("Unable to create reactive node! Provided member is not a valid method!");
             }
         }
 

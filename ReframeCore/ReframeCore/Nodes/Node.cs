@@ -49,15 +49,8 @@ namespace ReframeCore.Nodes
 
         public Node(object ownerObject, string memberName)
         {
-            ValidateArguments(ownerObject, memberName, "");
-            Initialize(ownerObject, memberName, null);
-        }
-
-        public Node(object ownerObject, string memberName, string updateMethodName)
-        {
-            ValidateArguments(ownerObject, memberName, updateMethodName);
-            Action action = Reflector.CreateAction(ownerObject, updateMethodName);
-            Initialize(ownerObject, memberName, action);
+            ValidateArguments(ownerObject);
+            Initialize(ownerObject, memberName);
         }
 
         /// <summary>
@@ -66,11 +59,10 @@ namespace ReframeCore.Nodes
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethod">Delegate to the update method.</param>
-        protected virtual void Initialize(object ownerObject, string memberName, Action updateMethod)
+        protected virtual void Initialize(object ownerObject, string memberName)
         {
             OwnerObject = ownerObject;
             MemberName = memberName;
-            UpdateMethod = updateMethod;
 
             Predecessors = new List<INode>();
             Successors = new List<INode>();
@@ -83,7 +75,13 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected abstract void ValidateArguments(object ownerObject, string memberName, string updateMethodName);
+        protected virtual void ValidateArguments(object ownerObject)
+        {
+            if (ownerObject == null)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Provided object is not valid!");
+            }
+        }
 
         #endregion
 

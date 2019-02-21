@@ -25,7 +25,7 @@ namespace ReframeCore.Nodes
         public CollectionNode(object collection, string memberName)
             : base(collection, memberName)
         {
-
+            ValidateArguments(collection, memberName);
         }
 
         /// <summary>
@@ -35,8 +35,9 @@ namespace ReframeCore.Nodes
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethodName">Update method name.</param>
         public CollectionNode(object collection, string memberName, string updateMethodName)
-            :base(collection, memberName, updateMethodName)
+            :base(collection, memberName)
         {
+            ValidateArguments(collection, memberName, updateMethodName);
             _updateMethodName = updateMethodName;
         }
 
@@ -46,7 +47,7 @@ namespace ReframeCore.Nodes
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethod">Delegate to the update method.</param>
-        protected override void Initialize(object collection, string memberName, Action updateMethod)
+        protected override void Initialize(object collection, string memberName)
         {
             Predecessors = new List<INode>();
             Successors = new List<INode>();
@@ -61,12 +62,21 @@ namespace ReframeCore.Nodes
 
         #region Methods
 
-        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
+        private void ValidateArguments(object ownerObject, string memberName)
         {
-            if (ownerObject == null
-                || Reflector.ContainsMember(ownerObject, memberName) == false)
+            if (Reflector.ContainsMember(ownerObject, memberName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
+            }
+        }
+
+        protected void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
+        {
+            ValidateArguments(ownerObject, memberName);
+
+            if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
+            {
+                throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
             }
         }
 
