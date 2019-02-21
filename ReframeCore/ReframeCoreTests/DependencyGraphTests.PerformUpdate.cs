@@ -1519,6 +1519,85 @@ namespace ReframeCoreTests
                 && p3.A == 6 && p3.B == 12 && p3.C == 18);
         }
 
+        private Logger CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(DependencyGraph graph, Whole2 whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_1_GivenCoeffAAsInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole2 whole;
+            CreateCase7_1(graph, out whole);
+
+            //Act
+            INode initialNode = graph.GetNode(whole, "CoeffA");
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(DependencyGraph graph, Whole2 whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_1_GivenCoeffBAsInitialNode_SchedulesCorrectUpdateOrderOfAllNodes()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole2 whole;
+            CreateCase7_1(graph, out whole);
+
+            //Act
+            INode initialNode = graph.GetNode(whole, "CoeffB");
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Logger actualLogger = graph.Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case7_1_ChangingCoeffA_GivesCorrectResults()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole2 whole;
+            CreateCase7_1(graph, out whole);
+            graph.PerformUpdate();
+
+            //Act
+            INode initialNode = graph.GetNode(whole, "CoeffA");
+            whole.CoeffA = 3;
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Part2 p1 = whole.Parts[0];
+            Part2 p2 = whole.Parts[1];
+            Part2 p3 = whole.Parts[2];
+            Assert.IsTrue(p1.A == 3 && p1.B == 4 && p1.C == 6
+                && p2.A == 6 && p2.B == 8 && p2.C == 12
+                && p3.A == 9 && p3.B == 12 && p3.C == 18);
+        }
+
         #endregion
     }
 }
