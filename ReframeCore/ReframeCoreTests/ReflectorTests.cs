@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCoreTests.Helpers;
 using System.Reflection;
 using ReframeCore.Helpers;
+using ReframeCoreExamples.E07_1;
+using ReframeCoreExamples.E07;
+using ReframeCore.ReactiveCollections;
 
 namespace ReframeCoreTests
 {
@@ -240,5 +243,265 @@ namespace ReframeCoreTests
             //ASSERT
             Assert.IsTrue(action.Target == ex && action.Method == info);
         }
+
+        #region IsProperty(object obj, string memberName)
+
+        [TestMethod]
+        public void IsProperty_GivenNullObject_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = null;
+            string propertyName = "A";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(obj, propertyName);
+
+            //ASSERT
+            Assert.IsFalse(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenCorrectObjectAndNonExistingProperty_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string propertyName = "Update_ABC";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(obj, propertyName);
+
+            //ASSERT
+            Assert.IsFalse(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenCorrectObjectAndMethodInsteadOfProperty_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string propertyName = "Update_A";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(obj, propertyName);
+
+            //ASSERT
+            Assert.IsFalse(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenCorrectObjectAndExistingProperty_ReturnsTrue()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string propertyName = "A";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(obj, propertyName);
+
+            //ASSERT
+            Assert.IsTrue(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenCorrectCollectionObjectAndNonExistingProperty_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string propertyName = "ABC";
+
+            //ACT
+            bool isProperty = Reflector.IsMethod(obj.Parts, propertyName);
+
+            //ASSERT
+            Assert.IsFalse(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenEmptyCollectionObjectAndExistingProperty_ReturnsTrue()
+        {
+            //ARRANGE
+            ReactiveCollection<Part> parts = new ReactiveCollection<Part>();
+            string propertyName = "A";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(parts, propertyName);
+
+            //ASSERT
+            Assert.IsTrue(isProperty);
+        }
+
+        [TestMethod]
+        public void IsProperty_GivenCorrectCollectionObjectAndExistingProperty_ReturnsTrue()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string propertyName = "A";
+
+            //ACT
+            bool isProperty = Reflector.IsProperty(obj.Parts, propertyName);
+
+            //ASSERT
+            Assert.IsTrue(isProperty);
+        }
+
+        #endregion
+
+        #region IsMethod(object obj, string memberName)
+
+        [TestMethod]
+        public void IsMethod_GivenNullObject_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = null;
+            string methodName = "Update_A";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj, methodName);
+
+            //ASSERT
+            Assert.IsFalse(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenCorrectObjectAndNonExistingMethod_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string methodName = "Update_ABC";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj, methodName);
+
+            //ASSERT
+            Assert.IsFalse(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenCorrectObjectAndPropertyInsteadOfMethod_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string methodName = "A";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj, methodName);
+
+            //ASSERT
+            Assert.IsFalse(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenCorrectObjectAndExistingMethod_ReturnsTrue()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string methodName = "Update_A";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj, methodName);
+
+            //ASSERT
+            Assert.IsTrue(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenCorrectCollectionObjectAndNonExistingMethod_ReturnsFalse()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string methodName = "Update_ABC";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj.Parts, methodName);
+
+            //ASSERT
+            Assert.IsFalse(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenCorrectCollectionObjectAndExistingMethod_ReturnsTrue()
+        {
+            //ARRANGE
+            Whole obj = new Whole();
+            string methodName = "Update_A";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(obj.Parts, methodName);
+
+            //ASSERT
+            Assert.IsTrue(isMethod);
+        }
+
+        [TestMethod]
+        public void IsMethod_GivenEmptyCollectionObjectAndExistingMethod_ReturnsTrue()
+        {
+            //ARRANGE
+            ReactiveCollection<Part> parts = new ReactiveCollection<Part>();
+            string methodName = "Update_A";
+
+            //ACT
+            bool isMethod = Reflector.IsMethod(parts, methodName);
+
+            //ASSERT
+            Assert.IsTrue(isMethod);
+        }
+
+        #endregion
+
+        #region  IsGenericCollection(object obj)
+
+        [TestMethod]
+        public void IsGenericCollection_GivenNullCollection_ReturnsFalse()
+        {
+            //ARRANGE
+            ReactiveCollection<Part> parts = null;
+
+            //ACT
+            bool isGenericCollection = Reflector.IsGenericCollection(parts);
+
+            //ASSERT
+            Assert.IsFalse(isGenericCollection);
+        }
+
+        [TestMethod]
+        public void IsGenericCollection_GivenNonCollectionObject_ReturnsFalse()
+        {
+            //ARRANGE
+            Part part = new Part();
+
+            //ACT
+            bool isGenericCollection = Reflector.IsGenericCollection(part);
+
+            //ASSERT
+            Assert.IsFalse(isGenericCollection);
+        }
+
+        [TestMethod]
+        public void IsGenericCollection_GivenEmptyCollectionObject_ReturnsTrue()
+        {
+            //ARRANGE
+            ReactiveCollection<Part> parts = new ReactiveCollection<Part>();
+
+            //ACT
+            bool isGenericCollection = Reflector.IsGenericCollection(parts);
+
+            //ASSERT
+            Assert.IsTrue(isGenericCollection);
+        }
+
+        [TestMethod]
+        public void IsGenericCollection_GivenCollectionObject_ReturnsTrue()
+        {
+            //ARRANGE
+            Whole whole = new Whole();
+
+            //ACT
+            bool isGenericCollection = Reflector.IsGenericCollection(whole.Parts);
+
+            //ASSERT
+            Assert.IsTrue(isGenericCollection);
+        }
+
+        #endregion
     }
 }
