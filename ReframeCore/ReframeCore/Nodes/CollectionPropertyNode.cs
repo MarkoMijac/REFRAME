@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class CollectionNode : Node
+    public class CollectionPropertyNode : Node
     {
         private string _updateAllMethodName = "UpdateAll";
 
@@ -24,7 +24,7 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="collection">Collection of objects associated with the reactive node.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        public CollectionNode(object collection, string memberName)
+        public CollectionPropertyNode(object collection, string memberName)
             : base(collection, memberName)
         {
             ValidateArguments(collection, memberName);
@@ -36,7 +36,7 @@ namespace ReframeCore.Nodes
         /// <param name="collection">Collection of objects associated with the reactive node.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethodName">Update method name.</param>
-        public CollectionNode(object collection, string memberName, string updateMethodName)
+        public CollectionPropertyNode(object collection, string memberName, string updateMethodName)
             :base(collection, memberName)
         {
             ValidateArguments(collection, memberName, updateMethodName);
@@ -94,8 +94,6 @@ namespace ReframeCore.Nodes
                 {
                     updateMethod = Reflector.CreateAction(obj, UpdateMethodName);
                     updateMethod.Invoke();
-
-                    UpdateMethodName = updateMethod.Method.Name;
                 }
             }
         }
