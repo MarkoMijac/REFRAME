@@ -13,7 +13,9 @@ namespace ReframeCore.Nodes
 {
     public class CollectionNode : Node
     {
-        private string _updateMethodName = "";
+        private string _updateAllMethodName = "UpdateAll";
+
+        public string UpdateMethodName { get; private set; }
 
         #region Constructors
 
@@ -38,7 +40,8 @@ namespace ReframeCore.Nodes
             :base(collection, memberName)
         {
             ValidateArguments(collection, memberName, updateMethodName);
-            _updateMethodName = updateMethodName;
+            UpdateMethod = Reflector.CreateAction(this, _updateAllMethodName);
+            UpdateMethodName = updateMethodName;
         }
 
         /// <summary>
@@ -80,17 +83,19 @@ namespace ReframeCore.Nodes
             }
         }
 
-        public override void Update()
+        private void UpdateAll()
         {
-            if (_updateMethodName != "")
+            if (UpdateMethodName != "")
             {
                 IEnumerable collection = OwnerObject as IEnumerable;
 
                 Action updateMethod;
                 foreach (var obj in collection)
                 {
-                    updateMethod = Reflector.CreateAction(obj, _updateMethodName);
+                    updateMethod = Reflector.CreateAction(obj, UpdateMethodName);
                     updateMethod.Invoke();
+
+                    UpdateMethodName = updateMethod.Method.Name;
                 }
             }
         }

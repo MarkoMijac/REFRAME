@@ -148,14 +148,43 @@ namespace ReframeCore
 
         #region CollectionNode
 
-        private CollectionNode CreateCollectionNode(object collection, string memberName)
+        private CollectionNode CreateCollectionNode(object collection, string propertyName, string updateMethod)
         {
-            return new CollectionNode(collection, memberName);
+            CollectionNode collectionNode = null;
+
+            if (updateMethod == "")
+            {
+                if (ShouldDefaultUpdateMethodBeUsed(collection, propertyName) == true)
+                {
+                    collectionNode = CreateCollectionNode_WithDefaultUpdateMethod(collection, propertyName);
+                }
+                else
+                {
+                    collectionNode = CreateCollectionNode_WithoutUpdateMethod(collection, propertyName);
+                }
+            }
+            else
+            {
+                collectionNode = CreateCollectionNode_WithUpdateMethod(collection, propertyName, updateMethod);
+            }
+
+            return collectionNode;
         }
 
-        private CollectionNode CreateCollectionNode(object collection, string memberName, string updateMethodName)
+        private CollectionNode CreateCollectionNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
         {
-            return new CollectionNode(collection, memberName, updateMethodName);
+            string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
+            return new CollectionNode(ownerObject, propertyName, updateMethod);
+        }
+
+        private CollectionNode CreateCollectionNode_WithoutUpdateMethod(object ownerObject, string propertyName)
+        {
+            return new CollectionNode(ownerObject, propertyName);
+        }
+
+        private CollectionNode CreateCollectionNode_WithUpdateMethod(object ownerObject, string propertyName, string updateMethod)
+        {
+            return new CollectionNode(ownerObject, propertyName, updateMethod);
         }
 
         #endregion
