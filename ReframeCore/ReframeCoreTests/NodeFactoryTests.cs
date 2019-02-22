@@ -180,7 +180,7 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region CollectionNode
+        #region CollectionPropertyNode
 
         [TestMethod]
         public void CreateNode_GivenCollectionObjectIsNull_ThrowsException()
@@ -190,7 +190,7 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> parts = null;
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionNode);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionPropertyNode);
         }
 
         [TestMethod]
@@ -200,7 +200,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole { Name = "Whole 1" };
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionNode);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionPropertyNode);
         }
 
         [TestMethod]
@@ -212,7 +212,7 @@ namespace ReframeCoreTests
             string updateMethodName = "Update_AB";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionNode);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionPropertyNode);
         }
 
         [TestMethod]
@@ -222,10 +222,10 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
 
             //Act
-            CollectionNode node = defaultFactory.CreateNode(collection, "A") as CollectionNode;
+            CollectionPropertyNode node = defaultFactory.CreateNode(collection, "A") as CollectionPropertyNode;
 
             //Assert
-            Assert.IsInstanceOfType(node, typeof(CollectionNode));
+            Assert.IsInstanceOfType(node, typeof(CollectionPropertyNode));
         }
 
         [TestMethod]
@@ -237,7 +237,7 @@ namespace ReframeCoreTests
             string updateMethodName = "Update_A";
 
             //Act
-            CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionNode;
+            CollectionPropertyNode partsNode = defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
@@ -254,7 +254,7 @@ namespace ReframeCoreTests
             string propertyName = "A";
 
             //Act
-            CollectionNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionNode;
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
@@ -272,7 +272,7 @@ namespace ReframeCoreTests
             string propertyName = "A";
 
             //Act
-            CollectionNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionNode;
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
@@ -290,14 +290,70 @@ namespace ReframeCoreTests
             string propertyName = "D";
 
             //Act
-            CollectionNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionNode;
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
                 && partsNode.MemberName == propertyName
                 && partsNode.UpdateMethodName == null);
         }
-        
+
+        #endregion
+
+        #region CollectionMethodNode
+
+        [TestMethod]
+        public void CreateNode_GivenNullCollectionObjectAndValidMethodName_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            ReactiveCollection<Part> parts = null;
+            string methodName = "Update_A";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, methodName) as CollectionMethodNode);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenValidCollectionObjectAndInvalidMethodName_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_ABC";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, methodName) as CollectionMethodNode);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenCorrectArguments_ReturnsCollectionMethodNode()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_A";
+
+            //Act
+            INode node = defaultFactory.CreateNode(whole.Parts, methodName);
+
+            //Assert
+            Assert.IsInstanceOfType(node, typeof(CollectionMethodNode));
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenCorrectArguments_ReturnsCollectionMethodNodeWithCorrectData()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_A";
+
+            //Act
+            CollectionMethodNode node = defaultFactory.CreateNode(whole.Parts, methodName) as CollectionMethodNode;
+
+            //Assert
+            Assert.IsTrue(node.OwnerObject == whole.Parts
+                && node.MemberName == methodName);
+        }
+
         #endregion
     }
 }

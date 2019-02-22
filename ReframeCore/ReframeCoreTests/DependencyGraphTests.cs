@@ -71,7 +71,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             string memberName = "A";
-            CollectionNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Act
             INode addedNode = graph.AddNode(node);
@@ -121,7 +121,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             string memberName = "A";
-            CollectionNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
             graph.AddNode(node);
 
             //Act
@@ -177,7 +177,7 @@ namespace ReframeCoreTests
             INode addedNode = graph.AddNode(whole.Parts, memberName);
 
             //Assert
-            Assert.IsInstanceOfType(addedNode, typeof(CollectionNode));
+            Assert.IsInstanceOfType(addedNode, typeof(CollectionPropertyNode));
         }
 
         [TestMethod]
@@ -204,7 +204,7 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
@@ -219,14 +219,14 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidCollectionAndMethodName_ReturnsCorrectCollectionNode()
+        public void AddNode1_GivenValidCollectionAndMethodName_ReturnsCorrectCollectionMethodNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -234,7 +234,7 @@ namespace ReframeCoreTests
             string memberName = "Update_A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionMethodNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionMethodNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
