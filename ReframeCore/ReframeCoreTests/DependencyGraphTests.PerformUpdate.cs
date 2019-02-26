@@ -1448,6 +1448,8 @@ namespace ReframeCoreTests
 
         #region PerformUpdate CASE 7.1
 
+        /*Simple graph with Collection node as a successor */
+
         private void CreateCase7_1(DependencyGraph graph, out Whole2 whole)
         {
             whole = new Whole2();
