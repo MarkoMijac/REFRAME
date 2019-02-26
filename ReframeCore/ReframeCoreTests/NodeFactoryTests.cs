@@ -180,64 +180,39 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region CollectionNode
-        
-        [TestMethod]
-        public void CreateNode_GivenCorrectArguments_ReturnsCollectionNode()
-        {
-            //Arrange
-            Whole whole = new Whole { Name = "Whole 1" };
-
-            //Act
-            CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode;
-
-            //Assert
-            Assert.IsInstanceOfType(partsNode, typeof(CollectionNode));
-        }
-        
-        [TestMethod]
-        public void CreateNode_CreatedCollectionNode_HoldsProperData()
-        {
-            //Arrange
-            Whole whole = new Whole { Name = "Whole 1" };
-            ReactiveCollection<Part> parts = whole.Parts;
-
-            //Act
-            CollectionNode partsNode = defaultFactory.CreateNode(parts, "A") as CollectionNode;
-
-            //Assert
-            Assert.IsTrue(partsNode.OwnerObject == parts && partsNode.MemberName == "A");
-        }
-
-        
-        [TestMethod]
-        public void CreateNode_SourceNodeUpdateInvoke_DoesNotBreak()
-        {
-            //Arrange
-            Whole whole = new Whole { Name = "Whole 1" };
-
-            try
-            {
-                //Act
-                CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode;
-                partsNode.Update();
-            }
-            catch (Exception ex)
-            {
-                //Assert
-                Assert.Fail("Expected no exception, instead got: " + ex.Message);
-            }
-        }
+        #region CollectionPropertyNode
 
         [TestMethod]
-        public void CreateNode_GivenNullObject_ThrowsException()
+        public void CreateNode_GivenCollectionObjectIsNull_ThrowsException()
         {
             //Arrange
             Whole whole = new Whole { Name = "Whole 1" };
             ReactiveCollection<Part> parts = null;
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionNode);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, "A") as CollectionPropertyNode);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenWrongCollectionPropertyName_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionPropertyNode);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenWrongCollectionUpdateMethodIsProvided_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string propertyName = "A";
+            string updateMethodName = "Update_AB";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionPropertyNode);
         }
 
         [TestMethod]
@@ -247,23 +222,138 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
 
             //Act
-            CollectionNode node = defaultFactory.CreateNode(collection, "A") as CollectionNode;
+            CollectionPropertyNode node = defaultFactory.CreateNode(collection, "A") as CollectionPropertyNode;
 
             //Assert
-            //Assert
-            Assert.IsInstanceOfType(node, typeof(INode));
+            Assert.IsInstanceOfType(node, typeof(CollectionPropertyNode));
         }
 
         [TestMethod]
-        public void CreateNode_GivenNonExistantMemberName_ThrowsException()
+        public void CreateNode_GivenCorrectUpdateMethodIsProvidedForCollectionProperty_ReturnsCollectionNodeWithUpdateMethod()
         {
             //Arrange
             Whole whole = new Whole { Name = "Whole 1" };
+            string propertyName = "A";
+            string updateMethodName = "Update_A";
+
+            //Act
+            CollectionPropertyNode partsNode = defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionPropertyNode;
+
+            //Assert
+            Assert.IsTrue(partsNode.OwnerObject == whole.Parts
+                && partsNode.MemberName == propertyName && partsNode.UpdateMethod.Method.Name == "UpdateAll"); 
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledAndExisting_ReturnsCollectionNodeWithDefaultUpdateMethod()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            Whole whole = new Whole { Name = "Whole 1" };
+            string propertyName = "A";
+
+            //Act
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
+
+            //Assert
+            Assert.IsTrue(partsNode.OwnerObject == whole.Parts
+                && partsNode.MemberName == propertyName
+                && partsNode.UpdateMethodName == nodeFactory.Settings.GenerateDefaultUpdateMethodName(propertyName));
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsDisabled_ReturnsCollectionNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = false; //This is default option
+            Whole whole = new Whole { Name = "Whole 1" };
+            string propertyName = "A";
+
+            //Act
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
+
+            //Assert
+            Assert.IsTrue(partsNode.OwnerObject == whole.Parts
+                && partsNode.MemberName == propertyName
+                && partsNode.UpdateMethodName == null);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledButNotExisting_ReturnsCollectionNodeWithoutUpdateMethod()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            Whole whole = new Whole { Name = "Whole 1" };
+            string propertyName = "D";
+
+            //Act
+            CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
+
+            //Assert
+            Assert.IsTrue(partsNode.OwnerObject == whole.Parts
+                && partsNode.MemberName == propertyName
+                && partsNode.UpdateMethodName == null);
+        }
+
+        #endregion
+
+        #region CollectionMethodNode
+
+        [TestMethod]
+        public void CreateNode_GivenNullCollectionObjectAndValidMethodName_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            ReactiveCollection<Part> parts = null;
+            string methodName = "Update_A";
 
             //Act & Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, "AA") as CollectionNode);
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(parts, methodName) as CollectionMethodNode);
         }
-        
+
+        [TestMethod]
+        public void CreateNode_GivenValidCollectionObjectAndInvalidMethodName_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_ABC";
+
+            //Act & Assert
+            Assert.ThrowsException<ReactiveNodeException>(() => defaultFactory.CreateNode(whole.Parts, methodName) as CollectionMethodNode);
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenCorrectArguments_ReturnsCollectionMethodNode()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_A";
+
+            //Act
+            INode node = defaultFactory.CreateNode(whole.Parts, methodName);
+
+            //Assert
+            Assert.IsInstanceOfType(node, typeof(CollectionMethodNode));
+        }
+
+        [TestMethod]
+        public void CreateNode_GivenCorrectArguments_ReturnsCollectionMethodNodeWithCorrectData()
+        {
+            //Arrange
+            Whole whole = new Whole { Name = "Whole 1" };
+            string methodName = "Update_A";
+
+            //Act
+            CollectionMethodNode node = defaultFactory.CreateNode(whole.Parts, methodName) as CollectionMethodNode;
+
+            //Assert
+            Assert.IsTrue(node.OwnerObject == whole.Parts
+                && node.MemberName == methodName);
+        }
+
         #endregion
     }
 }

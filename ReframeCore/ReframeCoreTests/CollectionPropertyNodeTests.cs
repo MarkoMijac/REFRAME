@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class CollectionNodeTests
+    public class CollectionPropertyNodeTests
     {
         
         private NodeFactory defaultFactory = new NodeFactory();
@@ -27,7 +27,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole { Name = "Whole 1" };
 
             //Act
-            CollectionNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionNode;
+            CollectionPropertyNode partsNode = defaultFactory.CreateNode(whole.Parts, "A") as CollectionPropertyNode;
 
             //Assert
             Assert.AreNotEqual(default(uint), partsNode.Identifier);
@@ -43,8 +43,8 @@ namespace ReframeCoreTests
             //Arrange
             Whole whole = new Whole();
             const string memberName = "A";
-            INode node1 = new CollectionNode(whole.Parts, memberName);
-            INode node2 = new CollectionNode(whole.Parts, memberName);
+            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            INode node2 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -60,7 +60,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionNode(whole.Parts, memberName);
+            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole.Parts, memberName);
@@ -77,8 +77,8 @@ namespace ReframeCoreTests
             const string memberName = "A";
             const string memberName2 = "B";
 
-            INode node1 = new CollectionNode(whole.Parts, memberName);
-            INode node2 = new CollectionNode(whole.Parts, memberName2);
+            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            INode node2 = new CollectionPropertyNode(whole.Parts, memberName2);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -95,7 +95,7 @@ namespace ReframeCoreTests
             const string memberName = "A";
             const string memberName2 = "B";
 
-            INode node1 = new CollectionNode(whole.Parts, memberName);
+            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole.Parts, memberName2);
@@ -112,8 +112,8 @@ namespace ReframeCoreTests
             Whole whole2 = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionNode(whole1.Parts, memberName);
-            INode node2 = new CollectionNode(whole2.Parts, memberName);
+            INode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
+            INode node2 = new CollectionPropertyNode(whole2.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -130,7 +130,7 @@ namespace ReframeCoreTests
             Whole whole2 = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionNode(whole1.Parts, memberName);
+            INode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole2.Parts, memberName);
@@ -150,7 +150,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, "A") as PropertyNode;
 
             //Act
@@ -168,8 +168,8 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> parts = new ReactiveCollection<Part>();
             string memberName = "A";
 
-            INode node = new CollectionNode(wholes, memberName);
-            INode predecessorNode = new CollectionNode(parts, memberName);
+            INode node = new CollectionPropertyNode(wholes, memberName);
+            INode predecessorNode = new CollectionPropertyNode(parts, memberName);
 
             //Act
             bool added = node.AddPredecessor(predecessorNode);
@@ -185,7 +185,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode predecessorNode = null;
 
             //Act&Assert
@@ -199,7 +199,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode predecessorNode = node;
 
             //Act & Assert
@@ -213,7 +213,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, "A") as PropertyNode;
             node.AddPredecessor(predecessorNode);
 
@@ -231,7 +231,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode predecessorNode = defaultFactory.CreateNode(whole, "Update_A") as MethodNode;
 
             //Act
@@ -252,7 +252,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, "A") as PropertyNode;
 
             //Act
@@ -270,8 +270,8 @@ namespace ReframeCoreTests
             ReactiveCollection<Part> parts = new ReactiveCollection<Part>();
             string memberName = "A";
 
-            INode node = new CollectionNode(wholes, memberName);
-            INode successorNode = new CollectionNode(parts, memberName);
+            INode node = new CollectionPropertyNode(wholes, memberName);
+            INode successorNode = new CollectionPropertyNode(parts, memberName);
 
             //Act
             bool added = node.AddSuccessor(successorNode);
@@ -287,7 +287,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode successorNode = null;
 
             //Act&Assert
@@ -301,7 +301,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode successorNode = node;
 
             //Act & Assert
@@ -315,7 +315,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, "A") as PropertyNode;
             node.AddSuccessor(successorNode);
 
@@ -333,7 +333,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode successorNode = defaultFactory.CreateNode(whole, "Update_A") as MethodNode;
 
             //Act
@@ -355,7 +355,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode successorNode = new CollectionNode(whole.Parts, memberName);
+            INode successorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             predecessorNode.AddSuccessor(successorNode);
 
@@ -374,7 +374,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode successorNode = new CollectionNode(whole.Parts, memberName);
+            INode successorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
 
             //Act
@@ -392,7 +392,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode successorNode = new CollectionNode(whole.Parts, memberName);
+            INode successorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             predecessorNode.AddSuccessor(successorNode);
             predecessorNode.RemoveSuccessor(successorNode);
@@ -412,7 +412,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "Update_A";
 
-            INode successorNode = new CollectionNode(whole.Parts, memberName);
+            INode successorNode = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as MethodNode;
             predecessorNode.AddSuccessor(successorNode);
 
@@ -435,7 +435,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode predecessorNode = new CollectionNode(whole.Parts, memberName);
+            INode predecessorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             successorNode.AddPredecessor(predecessorNode);
 
@@ -454,7 +454,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode predecessorNode = new CollectionNode(whole.Parts, memberName);
+            INode predecessorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
 
             //Act
@@ -472,7 +472,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode predecessorNode = new CollectionNode(whole.Parts, memberName);
+            INode predecessorNode = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             successorNode.AddPredecessor(predecessorNode);
             successorNode.RemovePredecessor(predecessorNode);
@@ -492,7 +492,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "Update_A";
 
-            INode predecessorNode = new CollectionNode(whole.Parts, memberName);
+            INode predecessorNode = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode successorNode = defaultFactory.CreateNode(whole, memberName2) as MethodNode;
             successorNode.AddPredecessor(predecessorNode);
 
@@ -515,7 +515,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             node.AddPredecessor(predecessorNode);
 
@@ -534,7 +534,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
 
             //Act
@@ -551,7 +551,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             string memberName = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode predecessorNode = null;
 
             //Act
@@ -569,7 +569,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "Update_A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode predecessorNode = defaultFactory.CreateNode(whole, memberName2) as MethodNode;
             node.AddPredecessor(predecessorNode);
 
@@ -592,7 +592,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
             node.AddSuccessor(successorNode);
 
@@ -611,7 +611,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             PropertyNode successorNode = defaultFactory.CreateNode(whole, memberName2) as PropertyNode;
 
             //Act
@@ -629,7 +629,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             INode successorNode = null;
 
             //Act
@@ -647,7 +647,7 @@ namespace ReframeCoreTests
             string memberName = "A";
             string memberName2 = "Update_A";
 
-            INode node = new CollectionNode(whole.Parts, memberName);
+            INode node = new CollectionPropertyNode(whole.Parts, memberName);
             MethodNode successorNode = defaultFactory.CreateNode(whole, memberName2) as MethodNode;
             node.AddSuccessor(successorNode);
 

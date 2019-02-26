@@ -24,7 +24,7 @@ namespace ReframeCore.Nodes
         public PropertyNode(object ownerObject, string memberName) 
             :base(ownerObject, memberName)
         {
-            
+            ValidateArguments(ownerObject, memberName);
         }
 
         /// <summary>
@@ -34,9 +34,10 @@ namespace ReframeCore.Nodes
         /// <param name="memberName">The name of the class member reactive node represents.</param>
         /// <param name="updateMethodName">Update method name.</param>
         public PropertyNode(object ownerObject, string memberName, string updateMethodName)
-            :base(ownerObject, memberName, updateMethodName)
+            :base(ownerObject, memberName)
         {
-           
+            ValidateArguments(ownerObject, memberName, updateMethodName);
+            UpdateMethod = Reflector.CreateAction(ownerObject, updateMethodName);
         }
 
         #endregion
@@ -48,17 +49,24 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected override void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
+        private void ValidateArguments(object ownerObject, string memberName)
         {
-            if (ownerObject == null)
-            {
-                throw new ReactiveNodeException("Unable to create reactive node! Provided object is not valid!");
-            }
-            else if (Reflector.IsProperty(ownerObject, memberName) == false)
+            if (Reflector.IsProperty(ownerObject, memberName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided member is not a valid property!");
             }
-            else if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
+        }
+
+        /// <summary>
+        /// Validates arguments passed in order to create reactive node.
+        /// </summary>
+        /// <param name="ownerObject">Associated object which owns the member.</param>
+        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        private void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
+        {
+            ValidateArguments(ownerObject, memberName);
+
+            if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
             }

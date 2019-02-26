@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    internal enum NodeType { PropertyNode, MethodNode, CollectionNode, Unknown }
+    internal enum NodeType { PropertyNode, MethodNode, CollectionPropertyNode, CollectionMethodNode, Unknown }
 
     public class NodeFactory
     {
@@ -43,7 +43,8 @@ namespace ReframeCore
             {
                 case NodeType.PropertyNode: return CreatePropertyNode(ownerObject, memberName, updateMethod);
                 case NodeType.MethodNode: return CreateMethodNode(ownerObject, memberName);
-                case NodeType.CollectionNode: return CreateCollectionNode(ownerObject, memberName);
+                case NodeType.CollectionPropertyNode: return CreateCollectionPropertyNode(ownerObject, memberName, updateMethod);
+                case NodeType.CollectionMethodNode: return CreateCollectionMethodNode(ownerObject, memberName);
                 case NodeType.Unknown: throw new ReactiveNodeException("Unable to determine node type!");
                 default:
                     throw new ReactiveNodeException("Unable to create reactive node!");
@@ -56,19 +57,29 @@ namespace ReframeCore
 
             if (ownerObject != null)
             {
-                if (Reflector.IsProperty(ownerObject, memberName) == true 
+                if (Reflector.IsGenericCollection(ownerObject))
+                {
+                    if (Reflector.IsProperty(ownerObject, memberName) == true)
+                    {
+                        nodeType = NodeType.CollectionPropertyNode;
+                    }
+                    else if (Reflector.IsMethod(ownerObject, memberName) == true)
+                    {
+                        nodeType = NodeType.CollectionMethodNode;
+                    }
+                }
+                else
+                {
+                    if (Reflector.IsProperty(ownerObject, memberName) == true
                     && (updateMethodName == "" || Reflector.IsMethod(ownerObject, updateMethodName) == true))
-                {
-                    nodeType = NodeType.PropertyNode;
-                }
-                else if (Reflector.IsMethod(ownerObject, memberName) == true 
+                    {
+                        nodeType = NodeType.PropertyNode;
+                    }
+                    else if (Reflector.IsMethod(ownerObject, memberName) == true
                     && (updateMethodName == "" || updateMethodName == memberName))
-                {
-                    nodeType = NodeType.MethodNode;
-                }
-                else if (Reflector.IsGenericCollection(ownerObject))
-                {
-                    nodeType = NodeType.CollectionNode;
+                    {
+                        nodeType = NodeType.MethodNode;
+                    }
                 }
             }
 
@@ -143,11 +154,54 @@ namespace ReframeCore
 
         #endregion
 
-        #region CollectionNode
+        #region CollectionPropertyNode
 
-        private CollectionNode CreateCollectionNode(object collection, string memberName)
+        private CollectionPropertyNode CreateCollectionPropertyNode(object collection, string propertyName, string updateMethod)
         {
-            return new CollectionNode(collection, memberName);
+            CollectionPropertyNode collectionNode = null;
+
+            if (updateMethod == "")
+            {
+                if (ShouldDefaultUpdateMethodBeUsed(collection, propertyName) == true)
+                {
+                    collectionNode = CreateCollectionPropertyNode_WithDefaultUpdateMethod(collection, propertyName);
+                }
+                else
+                {
+                    collectionNode = CreateCollectionPropertyNode_WithoutUpdateMethod(collection, propertyName);
+                }
+            }
+            else
+            {
+                collectionNode = CreateCollectionPropertyNode_WithUpdateMethod(collection, propertyName, updateMethod);
+            }
+
+            return collectionNode;
+        }
+
+        private CollectionPropertyNode CreateCollectionPropertyNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
+        {
+            string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
+            return new CollectionPropertyNode(ownerObject, propertyName, updateMethod);
+        }
+
+        private CollectionPropertyNode CreateCollectionPropertyNode_WithoutUpdateMethod(object ownerObject, string propertyName)
+        {
+            return new CollectionPropertyNode(ownerObject, propertyName);
+        }
+
+        private CollectionPropertyNode CreateCollectionPropertyNode_WithUpdateMethod(object ownerObject, string propertyName, string updateMethod)
+        {
+            return new CollectionPropertyNode(ownerObject, propertyName, updateMethod);
+        }
+
+        #endregion
+
+        #region CollectionMethodNode
+
+        private INode CreateCollectionMethodNode(object collection, string methodName)
+        {
+            return new CollectionMethodNode(collection, methodName);
         }
 
         #endregion

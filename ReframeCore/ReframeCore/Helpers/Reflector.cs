@@ -78,6 +78,18 @@ namespace ReframeCore.Helpers
             return contains;
         }
 
+        private static Type GetGenericArgumentType(object obj)
+        {
+            Type type = null;
+
+            if (IsGenericCollection(obj) == true)
+            {
+                type = obj.GetType().GenericTypeArguments[0];
+            }
+
+            return type;
+        }
+
         private static bool ContainsMember(Type type, string memberName)
         {
             bool contains = false;
@@ -133,7 +145,29 @@ namespace ReframeCore.Helpers
 
             if (obj != null && memberName != "")
             {
-                MemberInfo[] infos = obj.GetType().GetMember(memberName, MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                Type type;
+                if (IsGenericCollection(obj) == true)
+                {
+                    type = GetGenericArgumentType(obj);
+                }
+                else
+                {
+                    type = obj.GetType();
+                }
+
+                isProperty = IsProperty(type, memberName);
+            }
+
+            return isProperty;
+        }
+
+        private static bool IsProperty(Type type, string memberName)
+        {
+            bool isProperty = false;
+
+            if (type != null && memberName != "")
+            {
+                MemberInfo[] infos = type.GetMember(memberName, MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 if (infos.Length > 0)
                 {
@@ -156,7 +190,35 @@ namespace ReframeCore.Helpers
 
             if (obj != null && memberName != "")
             {
-                MemberInfo[] infos = obj.GetType().GetMember(memberName, MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                Type type;
+                if (IsGenericCollection(obj) == true)
+                {
+                    type = GetGenericArgumentType(obj);
+                }
+                else
+                {
+                    type = obj.GetType();
+                }
+
+                isMethod = IsMethod(type, memberName);
+            }
+
+            return isMethod;
+        }
+
+        /// <summary>
+        /// Checks if specified member is a method.
+        /// </summary>
+        /// <param name="type">Type which specifies the member.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <returns>True if the member is a method, otherwise False.</returns>
+        private static bool IsMethod(Type type, string memberName)
+        {
+            bool isMethod = false;
+
+            if (type != null && memberName != "")
+            {
+                MemberInfo[] infos = type.GetMember(memberName, MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                 if (infos.Length > 0)
                 {
                     isMethod = true;
@@ -185,28 +247,6 @@ namespace ReframeCore.Helpers
             }
 
             return isColl;
-        }
-
-        /// <summary>
-        /// Gets the type of the member.
-        /// </summary>
-        /// <param name="obj">Object which contains the member.</param>
-        /// <param name="memberName">Name of the member.</param>
-        /// <returns>Type of the member.</returns>
-        public static MemberTypes GetMemberType(object obj, string memberName)
-        {
-            MemberTypes type = default(MemberTypes);
-
-            if (obj != null && memberName != "")
-            {
-                MemberInfo[] infos = obj.GetType().GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                if (infos.Length > 0)
-                {
-                    type = infos[0].MemberType;
-                }
-            }
-
-            return type;
         }
     }
 }

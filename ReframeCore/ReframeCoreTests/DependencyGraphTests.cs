@@ -65,19 +65,35 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode_GivenValidNonCollectionNode_ReturnsAddedNode()
+        public void AddNode_GivenValidCollectionPropertyNode_ReturnsAddedNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             string memberName = "A";
-            CollectionNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Act
             INode addedNode = graph.AddNode(node);
 
             //Assert
-            Assert.IsNotNull(addedNode);
+            Assert.IsInstanceOfType(addedNode, typeof(CollectionPropertyNode));
+        }
+
+        [TestMethod]
+        public void AddNode_GivenValidCollectionMethodNode_ReturnsAddedNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+
+            //Act
+            INode addedNode = graph.AddNode(node);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(CollectionMethodNode));
         }
 
         [TestMethod]
@@ -115,13 +131,30 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode_GivenAlreadyAddedCollectionNode_ReturnsNull()
+        public void AddNode_GivenAlreadyAddedCollectionPropertyNode_ReturnsNull()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             string memberName = "A";
-            CollectionNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
+            graph.AddNode(node);
+
+            //Act
+            INode addedNode = graph.AddNode(node);
+
+            //Assert
+            Assert.IsNull(addedNode);
+        }
+
+        [TestMethod]
+        public void AddNode_GivenAlreadyAddedCollectionMethodNode_ReturnsNull()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
             graph.AddNode(node);
 
             //Act
@@ -166,7 +199,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidArguments_ReturnsCollectionNode()
+        public void AddNode1_GivenValidArguments_ReturnsCollectionPropertyNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -177,7 +210,22 @@ namespace ReframeCoreTests
             INode addedNode = graph.AddNode(whole.Parts, memberName);
 
             //Assert
-            Assert.IsInstanceOfType(addedNode, typeof(CollectionNode));
+            Assert.IsInstanceOfType(addedNode, typeof(CollectionPropertyNode));
+        }
+
+        [TestMethod]
+        public void AddNode1_GivenValidArguments_ReturnsCollectionMethodNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+
+            //Act
+            INode addedNode = graph.AddNode(whole.Parts, memberName);
+
+            //Assert
+            Assert.IsInstanceOfType(addedNode, typeof(CollectionMethodNode));
         }
 
         [TestMethod]
@@ -204,14 +252,14 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidCollectionAndPropertyName_ReturnsCorrectCollectionNode()
+        public void AddNode1_GivenValidCollectionAndPropertyName_ReturnsCorrectCollectionPropertyNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -219,14 +267,14 @@ namespace ReframeCoreTests
             string memberName = "A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionPropertyNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionPropertyNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
         }
 
         [TestMethod]
-        public void AddNode1_GivenValidCollectionAndMethodName_ReturnsCorrectCollectionNode()
+        public void AddNode1_GivenValidCollectionAndMethodName_ReturnsCorrectCollectionMethodNode()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -234,7 +282,7 @@ namespace ReframeCoreTests
             string memberName = "Update_A";
 
             //Act
-            CollectionNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionNode;
+            CollectionMethodNode addedNode = graph.AddNode(whole.Parts, memberName) as CollectionMethodNode;
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == whole.Parts && addedNode.MemberName == memberName);
@@ -501,6 +549,40 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void ContainsNode_GivenAddedCollectionPropertyNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "A";
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode_GivenAddedCollectionMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
         public void ContainsNode_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
@@ -524,6 +606,38 @@ namespace ReframeCoreTests
             Building00 building = new Building00();
             string memberName = "Update_Area";
             MethodNode node = nodeFactory.CreateNode(building, memberName) as MethodNode;
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode_GivenNotAddedCollectionPropertyNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "A";
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
+
+            //Act
+            bool contains = graph.ContainsNode(node);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode_GivenNotAddedCollectionMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
 
             //Act
             bool contains = graph.ContainsNode(node);
@@ -567,6 +681,40 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void ContainsNode1_GivenAddedCollectionPropertyNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "A";
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(whole.Parts, memberName);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenAddedCollectionMethodNode_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+            graph.AddNode(node);
+
+            //Act
+            bool contains = graph.ContainsNode(whole.Parts, memberName);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
         public void ContainsNode1_GivenNotAddedPropertyNode_ReturnsFalse()
         {
             //Arrange
@@ -593,6 +741,38 @@ namespace ReframeCoreTests
 
             //Act
             bool contains = graph.ContainsNode(building, memberName);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedCollectionPropertyNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "A";
+            CollectionPropertyNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionPropertyNode;
+
+            //Act
+            bool contains = graph.ContainsNode(whole.Parts, memberName);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsNode1_GivenNotAddedCollectionMethodNode_ReturnsFalse()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+
+            //Act
+            bool contains = graph.ContainsNode(whole.Parts, memberName);
 
             //Assert
             Assert.IsFalse(contains);
