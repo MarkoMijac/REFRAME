@@ -20,7 +20,7 @@ namespace ReframeCoreTests
         #region PerformUpdate GENERAL
 
         [TestMethod]
-        public void PerformUpdate_GivenNotInitializedGraph_ThrowsException()
+        public void PerformUpdate_GivenNotInitializedGraph_PerformsNoUpdate()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -39,8 +39,11 @@ namespace ReframeCoreTests
 
             INode initialNode = widthNode;
 
-            //Act&Assert
-            Assert.ThrowsException<DependencyGraphException>(() => graph.PerformUpdate(initialNode));
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(graph.Logger.GetNodesToUpdate() == "");
         }
 
         [TestMethod]

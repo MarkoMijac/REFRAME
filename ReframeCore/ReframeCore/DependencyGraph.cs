@@ -354,10 +354,6 @@ namespace ReframeCore
 
                 Status = DependencyGraphStatus.Consistent;
             }
-            else
-            {
-                throw new DependencyGraphException("Dependency graph is not initialized!");
-            }
         }
 
         public void PerformUpdate(object ownerObject, string memberName)
@@ -393,10 +389,6 @@ namespace ReframeCore
                 }
 
                 Status = DependencyGraphStatus.Consistent;
-            }
-            else
-            {
-                throw new DependencyGraphException("Dependency graph is not initialized!");
             }
         }
 
