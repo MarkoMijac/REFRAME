@@ -174,6 +174,40 @@ namespace ReframeCoreTests
             Assert.IsFalse(same);
         }
 
+        [TestMethod]
+        public void HasSameIdentifier_NullObjectProvided_ReturnsFalse()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
+
+            //Act
+            bool same = node.HasSameIdentifier(null, "Width");
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_EmptyMemberNameProvided_ReturnsFalse()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
+
+            //Act
+            bool same = node.HasSameIdentifier(new Building00(), "");
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
         #endregion
 
         #region AddPredecessor

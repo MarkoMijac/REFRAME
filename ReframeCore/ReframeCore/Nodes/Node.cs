@@ -104,7 +104,14 @@ namespace ReframeCore.Nodes
         /// <returns>Reactive node's unique identifier.</returns>
         protected uint GetIdentifier(object ownerObject, string memberName)
         {
-            return (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
+            uint id = 0;
+
+            if (ownerObject != null && memberName != "")
+            {
+                id = (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
+            }
+
+            return id;
         }
 
         /// <summary>

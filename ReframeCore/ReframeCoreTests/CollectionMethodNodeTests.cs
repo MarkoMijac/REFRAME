@@ -139,6 +139,41 @@ namespace ReframeCoreTests
             Assert.IsFalse(same);
         }
 
+        [TestMethod]
+        public void HasSameIdentifier_NullObjectProvided_ReturnsFalse()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            Whole whole = new Whole();
+            string memberName = "Update_A";
+
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+
+            //Act
+            bool same = node.HasSameIdentifier(null, "A");
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
+        [TestMethod]
+        public void HasSameIdentifier_EmptyMemberNameProvided_ReturnsFalse()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            Whole whole = new Whole();
+            Whole whole2 = new Whole();
+            string memberName = "Update_A";
+
+            CollectionMethodNode node = nodeFactory.CreateNode(whole.Parts, memberName) as CollectionMethodNode;
+
+            //Act
+            bool same = node.HasSameIdentifier(whole2.Parts, "");
+
+            //Assert
+            Assert.IsFalse(same);
+        }
+
         #endregion
 
         #region AddPredecessor
