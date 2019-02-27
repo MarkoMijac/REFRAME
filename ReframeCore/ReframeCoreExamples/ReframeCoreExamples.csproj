@@ -61,6 +61,8 @@
     <Compile Include="E07\Whole.cs" />
     <Compile Include="E07_1\Part2.cs" />
     <Compile Include="E07_1\Whole2.cs" />
+    <Compile Include="E08\E1\Part_8_1.cs" />
+    <Compile Include="E08\E1\Whole_8_1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +74,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
