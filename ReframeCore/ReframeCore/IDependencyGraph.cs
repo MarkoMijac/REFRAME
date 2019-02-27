@@ -13,7 +13,21 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
-        void AddDependency(INode predecessor, INode successor);
         ISort SortAlgorithm { get; set; }
+
+        void Initialize();
+
+        INode AddNode(INode node);
+        INode AddNode(object ownerObject, string memberName);        
+
+        INode GetNode(INode node);
+        INode GetNode(object ownerObject, string memberName);
+
+        void AddDependency(INode predecessor, INode successor);
+
+        void PerformUpdate(INode initialNode, bool skipInitialNode);
+        void PerformUpdate(INode initialNode);
+        void PerformUpdate(object ownerObject, string memberName);
+        void PerformUpdate();
     }
 }

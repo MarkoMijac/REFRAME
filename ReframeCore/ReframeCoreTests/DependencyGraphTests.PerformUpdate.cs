@@ -107,6 +107,77 @@ namespace ReframeCoreTests
          */
 
         [TestMethod]
+        public void PerformUpdate1_Case1_GivenValidObjectAndMemberName_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            //Act
+            graph.PerformUpdate(building, "Width");
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph as DependencyGraph, building);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate1_Case1_GivenNullObject_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            //Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(null, "Width"));
+        }
+
+        [TestMethod]
+        public void PerformUpdate1_Case1_GivenEmptyMemberName_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            //Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(building, ""));
+        }
+
+        [TestMethod]
+        public void PerformUpdate1_Case1_GivenInvalidMemberName_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            //Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(building, "WidthInv"));
+        }
+
+        [TestMethod]
+        public void PerformUpdate1_Case1_GivenInvalidObject_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            //Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(new Building00(), "Width"));
+        }
+
+        [TestMethod]
         public void PerformUpdate_Case1_GivenWidthAsInitialNode_SchedulesCorrectUpdateOrder()
         {
             //Arrange

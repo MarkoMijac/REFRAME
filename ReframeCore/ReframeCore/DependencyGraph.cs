@@ -58,9 +58,9 @@ namespace ReframeCore
             Settings = new Settings();
             Nodes = new List<INode>();
             SortAlgorithm = new TopologicalSort2();
-            Status = DependencyGraphStatus.NotInitialized;
             Logger = new Logger();
             DefaultNodeFactory = new NodeFactory();
+            Status = DependencyGraphStatus.NotInitialized;
         }
 
         public void Initialize()
@@ -358,6 +358,12 @@ namespace ReframeCore
             {
                 throw new DependencyGraphException("Dependency graph is not initialized!");
             }
+        }
+
+        public void PerformUpdate(object ownerObject, string memberName)
+        {
+            INode initialNode = GetNode(ownerObject, memberName);
+            PerformUpdate(initialNode);
         }
 
         /// <summary>

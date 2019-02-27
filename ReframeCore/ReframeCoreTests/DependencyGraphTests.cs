@@ -830,12 +830,43 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetNode_GivenInvalidData_ReturnsNull()
+        public void GetNode_GivenInvalidObjectAndEmptyGraph_ReturnsNull()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             Building00 building = null;
-            string memberName = "";
+            string memberName = "Width";
+
+            //Act
+            INode node = graph.GetNode(building, memberName);
+
+            //Assert
+            Assert.IsNull(node);
+        }
+
+        [TestMethod]
+        public void GetNode_GivenInvalidMemberNameAndEmptyGraph_ReturnsNull()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "WidthINV";
+
+            //Act
+            INode node = graph.GetNode(building, memberName);
+
+            //Assert
+            Assert.IsNull(node);
+        }
+
+        [TestMethod]
+        public void GetNode_GivenInvalidObjectAndNonEmptyGraph_ReturnsNull()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            graph.AddNode(new Building00(), "Height");
+            Building00 building = null;
+            string memberName = "Width";
 
             //Act
             INode node = graph.GetNode(building, memberName);
