@@ -59,6 +59,7 @@
     <Compile Include="DependencyGraphTests.PerformUpdate.cs" />
     <Compile Include="NodeFactoryTests.cs" />
     <Compile Include="GraphFactoryTests.cs" />
+    <Compile Include="ReactiveCollectionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">

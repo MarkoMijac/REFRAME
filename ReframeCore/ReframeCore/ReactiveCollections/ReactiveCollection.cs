@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,25 +35,27 @@ namespace ReframeCore.ReactiveCollections
 
         public new void Add(T item)
         {
-            base.Add(item);
-
-            if (item is IReactiveItem)
+            if (item is ICollectionNodeItem<T>)
             {
-                (item as IReactiveItem).PropertyChanged += ReactiveCollection_PropertyChanged;
+                base.Add(item);
+                (item as ICollectionNodeItem<T>).UpdateTriggered += ReactiveCollection_UpdateTriggered;
+                List<T> addedItems = new List<T> { item };
+                OnItemAdded(addedItems);
+                OnCollectionChanged(addedItems, new List<T> { });
             }
-
-            List<T> addedItems = new List<T> { item };
-            OnItemAdded(addedItems);
-            OnCollectionChanged(addedItems, new List<T> { });
+            else
+            {
+                throw new ReactiveCollectionException("Only items implementing ICollectionNodeItem interface can be added to this collection!");
+            }
         }
 
         public new bool Remove(T item)
         {
             bool sucess = base.Remove(item);
 
-            if (item is IReactiveItem)
+            if (item is ICollectionNodeItem<T>)
             {
-                (item as IReactiveItem).PropertyChanged -= ReactiveCollection_PropertyChanged;
+                (item as ICollectionNodeItem<T>).UpdateTriggered -= ReactiveCollection_UpdateTriggered;
             }
 
             List<T> removedItems = new List<T> { item };
@@ -61,7 +64,7 @@ namespace ReframeCore.ReactiveCollections
             return sucess;
         }
 
-        private void ReactiveCollection_PropertyChanged(object sender, EventArgs e)
+        private void ReactiveCollection_UpdateTriggered(object sender, EventArgs e)
         {
             var eArgs = e as ReactiveCollectionItemEventArgs;
             eArgs.Collection = this;
