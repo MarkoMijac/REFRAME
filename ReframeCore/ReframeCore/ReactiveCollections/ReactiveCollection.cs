@@ -51,17 +51,17 @@ namespace ReframeCore.ReactiveCollections
 
         public new bool Remove(T item)
         {
-            bool sucess = base.Remove(item);
-
+            bool success = false;
             if (item is ICollectionNodeItem<T>)
             {
                 (item as ICollectionNodeItem<T>).UpdateTriggered -= ReactiveCollection_UpdateTriggered;
-            }
+                List<T> removedItems = new List<T> { item };
+                OnItemRemoved(removedItems);
+                OnCollectionChanged(new List<T> { }, removedItems);
 
-            List<T> removedItems = new List<T> { item };
-            OnItemRemoved(removedItems);
-            OnCollectionChanged(new List<T> { }, removedItems);
-            return sucess;
+                success = base.Remove(item);
+            }
+            return success;
         }
 
         private void ReactiveCollection_UpdateTriggered(object sender, EventArgs e)

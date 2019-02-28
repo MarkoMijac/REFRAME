@@ -18,12 +18,13 @@ namespace ReframeCoreTests
             //Arrange
             ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
             int initialCount = collection.Count;
+            Part p = new Part();
 
             //Act
-            collection.Add(new Part());
+            collection.Add(p);
 
             //Assert
-            Assert.AreEqual(initialCount + 1, collection.Count);
+            Assert.IsTrue(collection.Contains(p));
         }
 
         [TestMethod]
@@ -44,6 +45,53 @@ namespace ReframeCoreTests
 
             //Act&Assert
             Assert.ThrowsException<ReactiveCollectionException>(() => collection.Add(null));
+        }
+
+        #endregion
+
+        #region Remove
+
+        [TestMethod]
+        public void Remove_GivenNullObject_ReturnsFalse()
+        {
+            //Arrange
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+            collection.Add(new Part());
+
+            //Act
+            bool removed = collection.Remove(null);
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void Remove_GivenNonExistingObject_ReturnsFalse()
+        {
+            //Arrange
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+            collection.Add(new Part());
+
+            //Act
+            bool removed = collection.Remove(new Part());
+
+            //Assert
+            Assert.IsFalse(removed);
+        }
+
+        [TestMethod]
+        public void Remove_GivenExistingObject_ReturnsTrue()
+        {
+            //Arrange
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+            Part p = new Part();
+            collection.Add(p);
+
+            //Act
+            bool removed = collection.Remove(p);
+
+            //Assert
+            Assert.IsTrue(removed);
         }
 
         #endregion
