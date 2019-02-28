@@ -95,5 +95,174 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region Events
+
+        [TestMethod]
+        public void ItemAdded_GivenItemIsAdded_EventIsTriggered()
+        {
+            //Arrange
+            List<Part> addedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            collection.ItemAdded += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    addedItems.Add(item);
+                }
+            };
+
+            //Act
+            Part p1 = new Part { Name = "P1"};
+            Part p2 = new Part { Name = "P2" };
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            //Assert
+            Assert.IsTrue(addedItems.Contains(p1) && addedItems.Contains(p2));
+        }
+
+        [TestMethod]
+        public void ItemAdded_GivenItemIsRemoved_EventIsNotTriggered()
+        {
+            //Arrange
+            List<Part> addedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            Part p1 = new Part { Name = "P1" };
+            Part p2 = new Part { Name = "P2" };
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            collection.ItemAdded += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    addedItems.Add(item);
+                }
+            };
+
+            //Act
+            collection.Remove(p1);
+            collection.Remove(p2);
+
+            //Assert
+            Assert.IsTrue(addedItems.Count == 0);
+        }
+
+        [TestMethod]
+        public void ItemRemoved_GivenItemIsRemoved_EventIsTriggered()
+        {
+            //Arrange
+            List<Part> removedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            Part p1 = new Part { Name = "P1"};
+            Part p2 = new Part { Name = "P2"};
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            collection.ItemRemoved += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    removedItems.Add(item);
+                }
+            };
+
+            //Act
+            collection.Remove(p1);
+            collection.Remove(p2);
+
+            //Assert
+            Assert.IsTrue(removedItems.Contains(p1) == true && removedItems.Contains(p2) == true);
+        }
+
+        [TestMethod]
+        public void ItemRemoved_GivenItemIsAdded_EventIsNotTriggered()
+        {
+            //Arrange
+            List<Part> removedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            collection.ItemRemoved += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    removedItems.Add(item);
+                }
+            };
+
+            //Act
+            Part p1 = new Part { Name = "P1" };
+            Part p2 = new Part { Name = "P2" };
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            //Assert
+            Assert.IsTrue(removedItems.Count == 0);
+        }
+
+        [TestMethod]
+        public void CollectionChanged_GivenItemIsAdded_EventIsTriggered()
+        {
+            //Arrange
+            List<Part> addedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            collection.CollectionChanged += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    addedItems.Add(item);
+                }
+            };
+
+            //Act
+            Part p1 = new Part { Name = "P1" };
+            Part p2 = new Part { Name = "P2" };
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            //Assert
+            Assert.IsTrue(addedItems.Contains(p1) && addedItems.Contains(p2));
+        }
+
+        [TestMethod]
+        public void CollectionChanged_GivenItemIsRemoved_EventIsTriggered()
+        {
+            //Arrange
+            List<Part> removedItems = new List<Part>();
+            ReactiveCollection<Part> collection = new ReactiveCollection<Part>();
+
+            Part p1 = new Part { Name = "P1" };
+            Part p2 = new Part { Name = "P2" };
+
+            collection.Add(p1);
+            collection.Add(p2);
+
+            collection.CollectionChanged += delegate (object sender, ReactiveCollectionEventArgs<Part> e)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    removedItems.Add(item);
+                }
+            };
+
+            //Act
+            collection.Remove(p1);
+            collection.Remove(p2);
+
+            //Assert
+            Assert.IsTrue(removedItems.Contains(p1) == true && removedItems.Contains(p2) == true);
+        }
+
+        #endregion
     }
 }
