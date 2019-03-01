@@ -35,10 +35,10 @@ namespace ReframeCore.ReactiveCollections
 
         public new void Add(T item)
         {
-            if (item is ICollectionNodeItem<T>)
+            if (item is ICollectionNodeItem)
             {
                 base.Add(item);
-                (item as ICollectionNodeItem<T>).UpdateTriggered += ReactiveCollection_UpdateTriggered;
+                (item as ICollectionNodeItem).UpdateTriggered += ReactiveCollection_UpdateTriggered;
                 List<T> addedItems = new List<T> { item };
                 OnItemAdded(addedItems);
                 OnCollectionChanged(addedItems, new List<T> { });
@@ -52,9 +52,9 @@ namespace ReframeCore.ReactiveCollections
         public new bool Remove(T item)
         {
             bool success = false;
-            if (item is ICollectionNodeItem<T>)
+            if (item is ICollectionNodeItem)
             {
-                (item as ICollectionNodeItem<T>).UpdateTriggered -= ReactiveCollection_UpdateTriggered;
+                (item as ICollectionNodeItem).UpdateTriggered -= ReactiveCollection_UpdateTriggered;
                 List<T> removedItems = new List<T> { item };
                 OnItemRemoved(removedItems);
                 OnCollectionChanged(new List<T> { }, removedItems);

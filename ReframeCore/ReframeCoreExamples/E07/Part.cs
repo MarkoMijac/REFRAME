@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E07
 {
-    public class Part : ICollectionNodeItem<Part>
+    public class Part : ICollectionNodeItem
     {
-        public event ReactiveCollectionEventHandler<Part> UpdateTriggered;
+        public event EventHandler UpdateTriggered;
 
         #region Properties
 

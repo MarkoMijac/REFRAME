@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E08.E1
 {
-    public class Part_8_1 : ICollectionNodeItem<Part_8_1>
+    public class Part_8_1 : ICollectionNodeItem
     {
         private IDependencyGraph graph;
 
-        public event ReactiveCollectionEventHandler<Part_8_1> UpdateTriggered;
+        public event EventHandler UpdateTriggered;
 
         #region Properties
 
