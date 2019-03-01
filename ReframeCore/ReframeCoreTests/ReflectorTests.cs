@@ -6,6 +6,8 @@ using ReframeCore.Helpers;
 using ReframeCoreExamples.E07_1;
 using ReframeCoreExamples.E07;
 using ReframeCore.ReactiveCollections;
+using ReframeCoreExamples.E08.E1;
+using ReframeCore.Exceptions;
 
 namespace ReframeCoreTests
 {
@@ -500,6 +502,59 @@ namespace ReframeCoreTests
 
             //ASSERT
             Assert.IsTrue(isGenericCollection);
+        }
+
+        #endregion
+
+        #region RaiseEvent
+
+        [TestMethod]
+        public void RaiseEvent_GivenValidEvent_RaisesEvent()
+        {
+            //Arrange
+            Part_8_1 part = new Part_8_1();
+            bool eventRaised = false;
+            part.UpdateTriggered += delegate (object sender, EventArgs e)
+            {
+                eventRaised = true;
+            };
+
+            ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
+            eArgs.MemberName = "A";
+
+            //Act
+            Reflector.RaiseEvent(part, "UpdateTriggered", eArgs);
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public void RaiseEvent_GivenNullObject_DoesNotRaiseEvent()
+        {
+            //Arrange
+            Part_8_1 part = new Part_8_1();
+            part.UpdateTriggered += delegate (object sender, EventArgs e) { };
+
+            ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
+            eArgs.MemberName = "A";
+
+            //Act&Assert
+            Assert.ThrowsException<ReflectorException>(() => Reflector.RaiseEvent(null, "UpdateTriggered_Inv", eArgs));
+        }
+
+        [TestMethod]
+        public void RaiseEvent_GivenInvalidEvent_DoesNotRaiseEvent()
+        {
+            //Arrange
+            Part_8_1 part = new Part_8_1();
+            part.UpdateTriggered += delegate (object sender, EventArgs e) { };
+
+            ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
+            eArgs.MemberName = "A";
+
+            //Act&Assert
+            Assert.ThrowsException<ReflectorException>(() => Reflector.RaiseEvent(part, "UpdateTriggered_Inv", eArgs));
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace ReframeCore.ReactiveCollections
 
     public class ReactiveCollectionItemEventArgs : EventArgs
     {
-        public string PropertyName { get; set; }
+        public string MemberName { get; set; }
         public object Collection { get; set; }
         public object CollectionNode { get; set; }
     }
