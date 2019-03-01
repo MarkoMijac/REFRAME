@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Nodes;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,10 @@ namespace ReframeCore
         void Initialize();
 
         INode AddNode(INode node);
-        INode AddNode(object ownerObject, string memberName);        
+        INode AddNode(object ownerObject, string memberName);
+
+        bool ContainsNode(INode node);
+        bool ContainsNode(object ownerObject, string memberName);
 
         INode GetNode(INode node);
         INode GetNode(object ownerObject, string memberName);
@@ -28,6 +32,7 @@ namespace ReframeCore
         void PerformUpdate(INode initialNode, bool skipInitialNode);
         void PerformUpdate(INode initialNode);
         void PerformUpdate(object ownerObject, string memberName);
+        void PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         void PerformUpdate();
     }
 }

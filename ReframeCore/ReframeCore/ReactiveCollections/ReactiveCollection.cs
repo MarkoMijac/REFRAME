@@ -68,7 +68,7 @@ namespace ReframeCore.ReactiveCollections
         {
             var eArgs = e as ReactiveCollectionItemEventArgs;
             eArgs.Collection = this;
-            ItemPropertyChanged?.Invoke(sender, eArgs);
+            UpdateTriggered?.Invoke(sender, eArgs);
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace ReframeCore.ReactiveCollections
         public event ReactiveCollectionEventHandler<T> ItemAdded;
         public event ReactiveCollectionEventHandler<T> ItemRemoved;
         public event ReactiveCollectionEventHandler<T> CollectionChanged;
-        public event EventHandler ItemPropertyChanged;
+        public event EventHandler UpdateTriggered;
 
         private void OnItemAdded(IEnumerable<T> addedItems)
         {

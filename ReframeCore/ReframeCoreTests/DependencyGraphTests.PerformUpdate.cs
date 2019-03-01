@@ -139,7 +139,7 @@ namespace ReframeCoreTests
             CreateCase1(graph as DependencyGraph, building);
 
             //Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(null, "Width"));
+            Assert.ThrowsException<ReactiveNodeException>(() => graph.PerformUpdate(null, "Width"));
         }
 
         [TestMethod]

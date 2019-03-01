@@ -1,6 +1,7 @@
 ﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
 using ReframeCore.Nodes;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -360,6 +361,43 @@ namespace ReframeCore
         {
             INode initialNode = GetNode(ownerObject, memberName);
             PerformUpdate(initialNode);
+        }
+
+        public void PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
+        {
+            if (Status != DependencyGraphStatus.NotInitialized)
+            {
+                Status = DependencyGraphStatus.NotConsistent;
+
+                INode initialNode = AddTemporaryCollectionNodeItemAndItsDependencies(ownerObject, memberName);
+
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
+
+                Status = DependencyGraphStatus.Consistent;
+            }
+        }
+
+        private INode AddTemporaryCollectionNodeItemAndItsDependencies(ICollectionNodeItem ownerObject, string memberName)
+        {
+            IList<INode> temporaryNodes = new List<INode>();
+
+            INode node = GetNode(ownerObject, memberName);
+            if (node == null)
+            {
+                node = AddNode(ownerObject, memberName);
+                temporaryNodes.Add(node);
+
+                ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
+                eArgs.MemberName = node.MemberName;
+
+                Reflector.RaiseEvent(node.OwnerObject, "UpdateTrigger", eArgs);
+            }
+
+            return node;
         }
 
         /// <summary>
