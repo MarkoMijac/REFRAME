@@ -139,7 +139,7 @@ namespace ReframeCoreTests
             CreateCase1(graph as DependencyGraph, building);
 
             //Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => graph.PerformUpdate(null, "Width"));
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.PerformUpdate(null, "Width"));
         }
 
         [TestMethod]
@@ -1870,6 +1870,150 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(whole.A == 12 && whole.B == 42 && whole.C == 114 && whole.D == 156);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenAIsTriggered_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.A = 2;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenAIsTriggered(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_1_GivenAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenAIsTriggered_GivesCorrectResults()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.A = 2;
+
+            //Assert
+            Assert.IsTrue(whole.A == 13 && whole.B == 43 && whole.C == 97 && whole.D == 140);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenBIsTriggered_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.B = 3;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenBIsTriggered(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_1_GivenBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenBIsTriggered_GivesCorrectResults()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.B = 3;
+
+            //Assert
+            Assert.IsTrue(whole.A == 12 && whole.B == 44 && whole.C == 98 && whole.D == 142);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenCIsTriggered_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.C = 4;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCIsTriggered(graph, whole);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_1_GivenCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
+
+            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
+            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_1_GivenCIsTriggered_GivesCorrectResults()
+        {
+            //Arrange
+            Whole_8_1 whole = CreateCase_8_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph.PerformUpdate();
+
+            //Act
+            Part_8_1 p = whole.Parts[0];
+            p.C = 4;
+
+            //Assert
+            Assert.IsTrue(whole.A == 12 && whole.B == 42 && whole.C == 99 && whole.D == 141);
         }
 
         #endregion

@@ -269,56 +269,29 @@ namespace ReframeCoreTests
         public void UpdateTriggered_GivenCollectionItemTriggeredEvent_EventIsTriggered()
         {
             //Arrange
+            GraphFactory.Clear();
             var graph = GraphFactory.Create("GRAPH_CASE_8_1");
-            Whole_8_1 whole = new Whole_8_1();
 
-            Part_8_1 p1 = new Part_8_1 { Name = "P1" };
-            Part_8_1 p2 = new Part_8_1 { Name = "P2" };
+            ReactiveCollection<Part_8_1> parts = new ReactiveCollection<Part_8_1>();
+
+            parts.Add(new Part_8_1 { Name = "P1" });
+            parts.Add(new Part_8_1 { Name = "P2" });
+
+            graph.AddNode(parts, "A");
+            graph.Initialize();
 
             bool eventTriggered = false;
 
-            whole.Parts.UpdateTriggered += delegate (object sender, EventArgs e)
+            parts.UpdateTriggered += delegate (object sender, EventArgs e)
             {
                 eventTriggered = true;
             };
 
             //Act
-            p1.A = 3;
+            parts[0].A = 3;
 
             //Assert
             Assert.IsTrue(eventTriggered);
-        }
-
-        #endregion
-
-        #region PerformUpdate
-
-        [TestMethod]
-        public void PerformUpdate_GivenCollectionNodeItemIsNull_ThrowsException()
-        {
-            //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("GRAPH_CASE_8_1");
-            Whole_8_1 whole = new Whole_8_1();
-            Part_8_1 p1 = whole.Parts[0];
-
-            //Act&Assert
-            Assert.ThrowsException<ReactiveNodeException>(() => graph.PerformUpdate(null, "A"));
-        }
-
-        [TestMethod]
-        public void PerformUpdate_GivenNonExistingCollectionNodeItem_AddsTemporaryNode()
-        {
-            //Arrange
-            var graph = GraphFactory.Create("GRAPH_CASE_8_1");
-            Whole_8_1 whole = new Whole_8_1();
-
-            //Act
-            Part_8_1 p1 = whole.Parts[0];
-            graph.PerformUpdate(p1, "A");
-
-            //Assert
-            Assert.IsTrue(graph.ContainsNode(p1, "A"));
         }
 
         #endregion
