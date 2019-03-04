@@ -73,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Nodes\CollectionPropertyNode.cs" />
     <Compile Include="ReactiveCollections\ICollectionNodeItem.cs" />
+    <Compile Include="ReactiveCollections\IReactiveCollection.cs" />
     <Compile Include="ReactiveCollections\ReactiveCollection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TopologicalSort.cs" />

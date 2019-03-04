@@ -369,9 +369,9 @@ namespace ReframeCore
             {
                 Status = DependencyGraphStatus.NotConsistent;
 
-                INode initialNode = AddTemporaryCollectionNodeItemAndItsDependencies(ownerObject, memberName);
+                INode initialNode = GetCollectionNode(ownerObject, memberName);
 
-                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, false);
                 foreach (var node in nodesToUpdate)
                 {
                     node.Update();
@@ -381,23 +381,22 @@ namespace ReframeCore
             }
         }
 
-        private INode AddTemporaryCollectionNodeItemAndItsDependencies(ICollectionNodeItem ownerObject, string memberName)
+        private INode GetCollectionNode(ICollectionNodeItem ownerObject, string memberName)
         {
-            IList<INode> temporaryNodes = new List<INode>();
-
-            INode node = GetNode(ownerObject, memberName);
-            if (node == null)
+            if (ownerObject != null && memberName != "")
             {
-                node = AddNode(ownerObject, memberName);
-                temporaryNodes.Add(node);
-
                 ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
-                eArgs.MemberName = node.MemberName;
+                eArgs.MemberName = memberName;
 
-                Reflector.RaiseEvent(node.OwnerObject, "UpdateTrigger", eArgs);
+                Reflector.RaiseEvent(ownerObject, "UpdateTriggered", eArgs);
+
+                INode collectionNode = eArgs.CollectionNode as INode;
+                return collectionNode;
             }
-
-            return node;
+            else
+            {
+                throw new NodeNullReferenceException();
+            }
         }
 
         /// <summary>
