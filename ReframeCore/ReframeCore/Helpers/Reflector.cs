@@ -260,7 +260,7 @@ namespace ReframeCore.Helpers
             }
             catch (Exception)
             {
-                throw new ReflectorException("No delegate could not be obtained for provided arguments!");
+                throw new ReflectorException("No delegate could be obtained for provided arguments!");
             }
 
             return multicastDelegate;
