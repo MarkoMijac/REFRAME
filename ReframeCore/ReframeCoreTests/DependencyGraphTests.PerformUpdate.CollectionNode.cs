@@ -5,6 +5,7 @@ using ReframeCore.Nodes;
 using ReframeCoreExamples.E08.E2;
 using ReframeCoreExamples.E08.E3;
 using ReframeCoreExamples.E08.E4;
+using ReframeCoreExamples.E08.E5;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -308,6 +309,7 @@ namespace ReframeCoreTests
         #region PerformUpdate_CASE_8_4
 
         /*
+         * Example diagram file: CollectionNodeSimpleScenarios
          SCENARIJ S3
         ------------------------
         * Postoji kolekcijski čvor (npr. {Stavke, "Iznos"}).
@@ -479,6 +481,103 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(order.Items[0].Total == 8 && order.Items[1].Total == 16 && order.Items[2].Total == 24
                 && order.Total == 48 && order.TotalVAT == 60);
+        }
+
+        #endregion
+
+        #region PerformUpdate_CASE_8_5
+
+        /*
+         * Example diagram file: CollectionNodeAdvancedScenario1
+         SCENARIJ A1
+        ------------------------
+        * Postoji kolekcijski čvor (npr. {Stavke, "Iznos"}).
+        * Postoje i pojedinačni čvorovi za parove {Stavka, "Iznos"}
+        iz kolekcije
+        * Pojedinačni čvorovi  {Stavka, "Iznos"} su (virtualni) prethodnici isključivo kolekcijskom čvoru
+        * Kolekcijski čvor nema drugih prethodnika
+        * Kolekcijski čvor je među-čvor (ne može biti izvorišni čvor).
+        ------------------------
+        Kad korisnik unese "Kolicina" bilo koje stavke u kolekciji,
+        pokreće se proces ažuriranja sa {Stavka, "Kolicina"} čvorom kao početnim.
+        Kolekcijski čvor{Stavke, "Iznos"} sudjeluje u topološkom sortiranju, ali
+        kada dođe red na njega ne ažurira svoje objekte, jer su oni kao prethodnici
+        već ažurirani (moglo bi se pojednostaviti pa ipak ažurirati sve redundantno).
+        S obzirom da je pojedinačni čvor {Stavka, "Iznos"} samo virtualno prethodnik,
+        trebalo bi ga eksplicitno dodati kao prethodnika kolekcijskom čvoru tijekom
+        procesa ažuriranja.
+         */
+
+        private Order_8_5 CreateCase_8_5()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_8_5");
+
+            var order = new Order_8_5();
+            order.Items.Add(new OrderItem_8_5());
+            order.Items.Add(new OrderItem_8_5());
+
+            INode item1_amount = graph.AddNode(order.Items[0], "Amount");
+            INode item2_amount = graph.AddNode(order.Items[1], "Amount");
+
+            INode item1_unitPrice = graph.AddNode(order.Items[0], "UnitPrice");
+            INode item2_unitPrice = graph.AddNode(order.Items[1], "UnitPrice");
+
+            INode item1_total = graph.AddNode(order.Items[0], "Total");
+            INode item2_total = graph.AddNode(order.Items[1], "Total");
+
+            INode itemsTotal = graph.AddNode(order.Items, "Total");
+
+            INode orderTotal = graph.AddNode(order, "Total");
+            INode orderTotalVAT = graph.AddNode(order, "TotalVAT");
+
+            graph.AddDependency(item1_amount, item1_total);
+            graph.AddDependency(item1_unitPrice, item1_total);
+
+            graph.AddDependency(item2_amount, item2_total);
+            graph.AddDependency(item2_unitPrice, item2_total);
+
+            graph.AddDependency(itemsTotal, orderTotal);
+            graph.AddDependency(itemsTotal, orderTotalVAT);
+
+            graph.Initialize();
+
+            return order;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_PerformCompleteUpdate_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(IDependencyGraph graph, Order_8_5 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+
+            return logger;
         }
 
         #endregion

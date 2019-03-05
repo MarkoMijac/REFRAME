@@ -468,6 +468,39 @@ namespace ReframeCore
             return nodesToUpdate;
         }
 
+        private void TransformGraph()
+        {
+            IList<INode> temporaryNodes = new List<INode>();
+            Dictionary<INode, INode> temporaryDependencies = new Dictionary<INode, INode>();
+
+            foreach (var node in Nodes)
+            {
+                if (node.OwnerObject is ICollectionNodeItem)
+                {
+                    INode collectionNode = GetCollectionNode((ICollectionNodeItem)node.OwnerObject, node.MemberName);
+
+                    if (temporaryDependencies.ContainsKey(node) == false || temporaryDependencies[node] != collectionNode)
+                    {
+                        temporaryDependencies.Add(node, collectionNode);
+                    }
+
+                    if (collectionNode != null)
+                    {
+                        AddDependency(node, collectionNode);
+                    }
+                }
+
+                if (node is CollectionMethodNode || node is CollectionPropertyNode)
+                {
+
+                }
+                else
+                {
+                    temporaryNodes.Add(node);
+                }
+            }
+        }
+
         private void ValidateGraph(IList<INode> nodes)
         {
 
