@@ -63,6 +63,12 @@
     <Compile Include="E07_1\Whole2.cs" />
     <Compile Include="E08\E1\Part_8_1.cs" />
     <Compile Include="E08\E1\Whole_8_1.cs" />
+    <Compile Include="E08\E2\OrderItem_8_2.cs" />
+    <Compile Include="E08\E2\Order_8_2.cs" />
+    <Compile Include="E08\E3\OrderItem_8_3.cs" />
+    <Compile Include="E08\E3\Order_8_3.cs" />
+    <Compile Include="E08\E4\OrderItem_8_4.cs" />
+    <Compile Include="E08\E4\Order_8_4.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

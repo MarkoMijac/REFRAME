@@ -1895,8 +1895,6 @@ namespace ReframeCoreTests
         {
             Logger logger = new Logger();
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
-
             logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
             logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
             logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
@@ -1944,8 +1942,6 @@ namespace ReframeCoreTests
         {
             Logger logger = new Logger();
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
-
             logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
             logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
             logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
@@ -1991,8 +1987,6 @@ namespace ReframeCoreTests
         private Logger CreateExpectedLogger_Case_8_1_GivenCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
             Logger logger = new Logger();
-
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
 
             logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
             logger.LogNodeToUpdate(graph.GetNode(whole, "D"));

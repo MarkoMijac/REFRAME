@@ -371,7 +371,7 @@ namespace ReframeCore
 
                 INode initialNode = GetCollectionNode(ownerObject, memberName);
 
-                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, false);
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);
                 foreach (var node in nodesToUpdate)
                 {
                     node.Update();
