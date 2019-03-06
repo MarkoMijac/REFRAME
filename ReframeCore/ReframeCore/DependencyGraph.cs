@@ -369,11 +369,11 @@ namespace ReframeCore
             {
                 Status = DependencyGraphStatus.NotConsistent;
 
-                INode initialNode = GetCollectionNode(ownerObject, memberName);
+                INode initialNode = GetNode(ownerObject, memberName);
 
                 if (initialNode == null)
                 {
-                    initialNode = GetNode(ownerObject, memberName);
+                    initialNode = GetCollectionNode(ownerObject, memberName);
                 }
 
                 IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);

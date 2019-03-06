@@ -6,6 +6,7 @@ using ReframeCoreExamples.E08.E2;
 using ReframeCoreExamples.E08.E3;
 using ReframeCoreExamples.E08.E4;
 using ReframeCoreExamples.E08.E5;
+using ReframeCoreExamples.E08.E6;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -704,6 +705,185 @@ namespace ReframeCoreTests
             Assert.IsTrue(oItem1.Amount == 1 && oItem1.UnitPrice == 3.5 && oItem1.Total == 3.5 &&
                 oItem2.Amount == 2 && oItem2.UnitPrice == 5 && oItem2.Total == 10 &&
                 order.Total == 13.5 && order.TotalVAT == 16.875);
+        }
+
+        #endregion
+
+        #region PerformaUpdate_CASE_8_6
+
+        /*
+         * Example diagram file: CollectionNodeSimpleScenarios
+        SCENARIJ S4
+        ------------------------
+        * Postoji kolekcijski čvor (npr. {Stavke, "Iznos"}).
+        * Postoje pojedinačni čvorovi za parove {Stavka, "Iznos"}
+        iz kolekcije
+        * Pojedinačni čvorovi {Stavka, "Iznos"} su izvorišni (source) čvorovi
+        * Kolekcijski čvor je među-čvor (intermediary node)
+        ------------------------
+        Kada korisnik unese npr. {Stavka, "Iznos"} kolekcijski čvor
+        {Stavke, "Iznos"} sudjeluje u topološkom sortiranju te omogućava
+        ispravnu propagaciju ažuriranja prema ovisnim čvorovima.
+         */
+
+        private Order_8_6 CreateCase_8_6()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_8_6");
+
+            var order = new Order_8_6();
+            order.Items.Add(new OrderItem_8_6 { Total = 10 });
+            order.Items.Add(new OrderItem_8_6 { Total = 20 });
+
+            INode itemsTotal = graph.AddNode(order.Items, "Total");
+            INode oItem1_Total = graph.AddNode(order.Items[0], "Total");
+            INode oItem2_Total = graph.AddNode(order.Items[1], "Total");
+
+            INode orderTotal = graph.AddNode(order, "Total");
+            INode orderTotalVAT = graph.AddNode(order, "TotalVAT");
+
+
+            graph.AddDependency(itemsTotal, orderTotal);
+            graph.AddDependency(itemsTotal, orderTotalVAT);
+
+            graph.Initialize();
+
+            return order;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_PerformCompleteUpdate_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(IDependencyGraph graph, Order_8_6 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_PerformCompleteUpdate_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(order.Items[0].Total == 10 && order.Items[1].Total == 20
+                && order.Total == 30 && order.TotalVAT == 37.5);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_GivenItem1TotalIsChanged_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+            graph.PerformUpdate();
+
+            //Act
+            order.Items[0].Total = 15;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_GivenItem1TotalIsChanged_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+            graph.PerformUpdate();
+
+            //Act
+            order.Items[0].Total = 15;
+
+            //Assert
+            Assert.IsTrue(order.Items[0].Total == 15 && order.Items[1].Total == 20
+                && order.Total == 35 && order.TotalVAT == 43.75);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_GivenItem2TotalIsChanged_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+            graph.PerformUpdate();
+
+            //Act
+            order.Items[1].Total = 25;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_6_GivenItem2TotalIsChanged_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_6();
+            var graph = GraphFactory.Get("GRAPH_8_6");
+            graph.PerformUpdate();
+
+            //Act
+            order.Items[1].Total = 30;
+
+            //Assert
+            Assert.IsTrue(order.Items[0].Total == 10 && order.Items[1].Total == 30
+                && order.Total == 40 && order.TotalVAT == 50);
         }
 
         #endregion
