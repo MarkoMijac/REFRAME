@@ -34,6 +34,7 @@ namespace ReframeCore.Helpers
             data += node.Identifier + ";";
             data += node.MemberName + ";";
             data += node.OwnerObject.GetType().ToString() + ";";
+            data += node.OwnerObject.GetHashCode().ToString() + ";";
 
             return data;
         }
