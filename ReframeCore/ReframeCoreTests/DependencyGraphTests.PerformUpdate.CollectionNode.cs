@@ -7,6 +7,7 @@ using ReframeCoreExamples.E08.E3;
 using ReframeCoreExamples.E08.E4;
 using ReframeCoreExamples.E08.E5;
 using ReframeCoreExamples.E08.E6;
+using ReframeCoreExamples.E08.E7;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -709,7 +710,7 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region PerformaUpdate_CASE_8_6
+        #region PerformUpdate_CASE_8_6
 
         /*
          * Example diagram file: CollectionNodeSimpleScenarios
@@ -884,6 +885,108 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(order.Items[0].Total == 10 && order.Items[1].Total == 30
                 && order.Total == 40 && order.TotalVAT == 50);
+        }
+
+        #endregion
+
+        #region PerformUpdate_CASE_8_7
+
+        private Order_8_7 CreateCase_8_7()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_8_7");
+
+            var order = new Order_8_7() { DiscountA = 5, DiscountB = 10 };
+            order.Items.Add(new OrderItem_8_7(order) { Amount = 1, UnitPrice = (decimal)3.5 });
+            order.Items.Add(new OrderItem_8_7(order) { Amount = 2, UnitPrice = (decimal)4.5 });
+
+            INode item1_Amount = graph.AddNode(order.Items[0], "Amount");
+            INode item2_Amount = graph.AddNode(order.Items[1], "Amount");
+
+            INode item1_UnitPrice = graph.AddNode(order.Items[0], "UnitPrice");
+            INode item2_UnitPrice = graph.AddNode(order.Items[1], "UnitPrice");
+
+            INode item1_Total = graph.AddNode(order.Items[0], "Total");
+            INode item2_Total = graph.AddNode(order.Items[1], "Total");
+
+            INode itemsTotal = graph.AddNode(order.Items, "Total");
+
+
+            INode orderTotal = graph.AddNode(order, "Total");
+            INode orderTotalVAT = graph.AddNode(order, "TotalVAT");
+
+            INode orderDiscountA = graph.AddNode(order, "DiscountA");
+            INode orderDiscountB = graph.AddNode(order, "DiscountB");
+            INode orderTotalDiscount = graph.AddNode(order, "TotalDiscount");
+
+            graph.AddDependency(item1_Amount, item1_Total);
+            graph.AddDependency(item1_UnitPrice, item1_Total);
+            graph.AddDependency(item2_Amount, item2_Total);
+            graph.AddDependency(item2_UnitPrice, item2_Total);
+
+            graph.AddDependency(itemsTotal, orderTotal);
+            graph.AddDependency(itemsTotal, orderTotalVAT);
+
+            graph.AddDependency(orderDiscountA, orderTotalDiscount);
+            graph.AddDependency(orderDiscountB, orderTotalDiscount);
+            graph.AddDependency(orderTotalDiscount, itemsTotal);
+
+            graph.Initialize();
+
+            return order;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_7_PerformCompleteUpdate_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_7();
+            var graph = GraphFactory.Get("GRAPH_8_7");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(IDependencyGraph graph, Order_8_7 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountB"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountA"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalDiscount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_7_GivesCorrectResults_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_7();
+            var graph = GraphFactory.Get("GRAPH_8_7");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(order.Items[0].Amount == 1 && order.Items[0].UnitPrice == (decimal)3.5 && order.Items[0].Total == (decimal)2.975);
+            Assert.IsTrue(order.Items[1].Amount == 2 && order.Items[1].UnitPrice == (decimal)4.5 && order.Items[1].Total == (decimal)7.65);
+            Assert.IsTrue(order.DiscountA == 5 && order.DiscountB == 10 && order.TotalDiscount == 15 && order.Total == (decimal)10.625 && order.TotalVAT == (decimal)13.28125);
         }
 
         #endregion
