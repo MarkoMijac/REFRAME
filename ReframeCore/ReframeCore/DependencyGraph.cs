@@ -371,6 +371,11 @@ namespace ReframeCore
 
                 INode initialNode = GetCollectionNode(ownerObject, memberName);
 
+                if (initialNode == null)
+                {
+                    initialNode = GetNode(ownerObject, memberName);
+                }
+
                 IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);
                 foreach (var node in nodesToUpdate)
                 {
@@ -437,8 +442,6 @@ namespace ReframeCore
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
         private IList<INode> GetNodesToUpdate(INode node, bool skipInitialNode)
         {
-            IList<INode> nodesToUpdate = null;
-
             INode initialNode = GetNode(node);
 
             if (initialNode == null)
@@ -446,7 +449,9 @@ namespace ReframeCore
                 throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
             }
 
-            nodesToUpdate = SortAlgorithm.Sort(Nodes, n => n.Successors, initialNode, skipInitialNode);
+            Dictionary<INode, INode> tempDependencies = AddTemporaryDependencies(Nodes);
+            IList<INode> nodesToUpdate = GetSortedGraph(Nodes, initialNode, skipInitialNode);
+            RemoveTemporaryDependencies(tempDependencies);
 
             ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
@@ -460,12 +465,56 @@ namespace ReframeCore
         /// <returns>List of all nodes from dependency graph.</returns>
         private IList<INode> GetNodesToUpdate()
         {
-            IList<INode> nodesToUpdate = SortAlgorithm.Sort(Nodes, n => n.Successors);
+            Dictionary<INode, INode> tempDependencies = AddTemporaryDependencies(Nodes);
+            IList<INode> nodesToUpdate = GetSortedGraph(Nodes);
+            RemoveTemporaryDependencies(tempDependencies);
 
             ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
 
             return nodesToUpdate;
+        }
+
+        private IList<INode> GetSortedGraph(IList<INode> nodes)
+        {
+            return SortAlgorithm.Sort(nodes, n => n.Successors);
+        }
+
+        private IList<INode> GetSortedGraph(IList<INode> nodes, INode initialNode, bool skipInitialNode)
+        {
+            return SortAlgorithm.Sort(nodes, n => n.Successors, initialNode, skipInitialNode);
+        }
+
+        private Dictionary<INode, INode> AddTemporaryDependencies(IList<INode> nodes)
+        {
+            Dictionary<INode, INode> temporaryDependencies = new Dictionary<INode, INode>();
+
+            foreach (var node in nodes)
+            {
+                if (node.OwnerObject is ICollectionNodeItem)
+                {
+                    INode collectionNode = GetCollectionNode((ICollectionNodeItem)node.OwnerObject, node.MemberName);
+
+                    if (collectionNode != null)
+                    {
+                        if (temporaryDependencies.ContainsKey(node) == false || temporaryDependencies[node] != collectionNode)
+                        {
+                            temporaryDependencies.Add(node, collectionNode);
+                            AddDependency(node, collectionNode);
+                        }
+                    }
+                }
+            }
+
+            return temporaryDependencies;
+        }
+
+        private void RemoveTemporaryDependencies(Dictionary<INode, INode> temporaryDependencies)
+        {
+            foreach (var item in temporaryDependencies)
+            {
+                RemoveDependency(item.Key, item.Value);
+            }
         }
 
         private void TransformGraph()
