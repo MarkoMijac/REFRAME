@@ -514,8 +514,8 @@ namespace ReframeCoreTests
             var graph = GraphFactory.Create("GRAPH_8_5");
 
             var order = new Order_8_5();
-            order.Items.Add(new OrderItem_8_5());
-            order.Items.Add(new OrderItem_8_5());
+            order.Items.Add(new OrderItem_8_5() { Amount = 1, UnitPrice = 3.5 });
+            order.Items.Add(new OrderItem_8_5() { Amount = 2, UnitPrice = 4.5 });
 
             INode item1_amount = graph.AddNode(order.Items[0], "Amount");
             INode item2_amount = graph.AddNode(order.Items[1], "Amount");
@@ -566,18 +566,144 @@ namespace ReframeCoreTests
         {
             Logger logger = new Logger();
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
             logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
             logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_PerformCompleteUpdate_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            OrderItem_8_5 oItem1 = order.Items[0];
+            OrderItem_8_5 oItem2 = order.Items[1];
+
+            Assert.IsTrue(oItem1.Amount == 1 && oItem1.UnitPrice == 3.5 && oItem1.Total == 3.5 &&
+                oItem2.Amount == 2 && oItem2.UnitPrice == 4.5 && oItem2.Total == 9 &&
+                order.Total == 12.5 && order.TotalVAT == 15.625);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_GivenAmountIsChanged_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+            graph.PerformUpdate();
+
+            //Act
+            OrderItem_8_5 item = order.Items[0];
+            item.Amount = 2;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(IDependencyGraph graph, Order_8_5 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_GivenAmountIsChanged_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+            graph.PerformUpdate();
+
+            OrderItem_8_5 oItem1 = order.Items[0];
+            OrderItem_8_5 oItem2 = order.Items[1];
+
+            //Act
+            oItem1.Amount = 2;
+
+            //Assert
+            Assert.IsTrue(oItem1.Amount == 2 && oItem1.UnitPrice == 3.5 && oItem1.Total == 7 &&
+                oItem2.Amount == 2 && oItem2.UnitPrice == 4.5 && oItem2.Total == 9 &&
+                order.Total == 16 && order.TotalVAT == 20);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_GivenUnitPriceIsChanged_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+            graph.PerformUpdate();
+            OrderItem_8_5 item = order.Items[1];
+
+            //Act
+            item.UnitPrice = 5;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(IDependencyGraph graph, Order_8_5 order)
+        {
+            Logger logger = new Logger();
+
             logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
             logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
             logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+
 
             return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_5_GivenUnitPriceIsChanged_GivesCorrectResults()
+        {
+            //Arrange
+            var order = CreateCase_8_5();
+            var graph = GraphFactory.Get("GRAPH_8_5");
+            graph.PerformUpdate();
+
+            OrderItem_8_5 oItem1 = order.Items[0];
+            OrderItem_8_5 oItem2 = order.Items[1];
+
+            //Act
+            oItem2.UnitPrice = 5;
+
+            //Assert
+            Assert.IsTrue(oItem1.Amount == 1 && oItem1.UnitPrice == 3.5 && oItem1.Total == 3.5 &&
+                oItem2.Amount == 2 && oItem2.UnitPrice == 5 && oItem2.Total == 10 &&
+                order.Total == 13.5 && order.TotalVAT == 16.875);
         }
 
         #endregion
