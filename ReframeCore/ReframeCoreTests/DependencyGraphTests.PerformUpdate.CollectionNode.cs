@@ -989,6 +989,38 @@ namespace ReframeCoreTests
             Assert.IsTrue(order.DiscountA == 5 && order.DiscountB == 10 && order.TotalDiscount == 15 && order.Total == (decimal)10.625 && order.TotalVAT == (decimal)13.28125);
         }
 
+        [TestMethod]
+        public void PerformUpdate_Case_8_7_GivenDiscountAIsChanged_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_7();
+            var graph = GraphFactory.Get("GRAPH_8_7");
+            graph.PerformUpdate();
+
+            //Act
+            order.DiscountA = 10;
+
+            //Assert
+            Logger actualLogger = (graph as DependencyGraph).Logger;
+            Logger expectedLogger = CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(graph, order);
+
+            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+        }
+
+        private Logger CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_7 order)
+        {
+            Logger logger = new Logger();
+
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalDiscount"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
+            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            
+            return logger;
+        }
+
         #endregion
     }
 }
