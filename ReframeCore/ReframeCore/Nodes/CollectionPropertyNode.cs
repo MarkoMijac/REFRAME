@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class CollectionPropertyNode : Node
+    public class CollectionPropertyNode : CollectionNode
     {
         private string _updateAllMethodName = "UpdateAll";
 

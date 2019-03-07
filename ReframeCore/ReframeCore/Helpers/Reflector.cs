@@ -79,7 +79,7 @@ namespace ReframeCore.Helpers
             return contains;
         }
 
-        private static Type GetGenericArgumentType(object obj)
+        public static Type GetGenericArgumentType(object obj)
         {
             Type type = null;
 
