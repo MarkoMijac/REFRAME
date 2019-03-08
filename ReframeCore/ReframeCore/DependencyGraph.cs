@@ -5,8 +5,6 @@ using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReframeCore
 {
@@ -17,6 +15,14 @@ namespace ReframeCore
     /// </summary>
     public class DependencyGraph : IDependencyGraph
     {
+        #region Private Fields
+
+        private List<Tuple<INode, INode>> childCollectionDependenciesToAdd = new List<Tuple<INode, INode>>();
+        private List<Tuple<INode, INode>> redirectionDependencesToAdd = new List<Tuple<INode, INode>>();
+        private List<Tuple<INode, INode>> redirectionDependencesToRemove = new List<Tuple<INode, INode>>();
+
+        #endregion
+
         #region Properties
 
         public NodeFactory DefaultNodeFactory { get; private set; }
@@ -449,9 +455,9 @@ namespace ReframeCore
                 throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
             }
 
-            Dictionary<INode, INode> tempDependencies = AddTemporaryDependencies(Nodes);
+            MakeTemporaryAdjustmentsToGraph(Nodes, node, skipInitialNode);
             IList<INode> nodesToUpdate = GetSortedGraph(Nodes, initialNode, skipInitialNode);
-            RemoveTemporaryDependencies(tempDependencies);
+            ResetGraphToInitialState();
 
             ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
@@ -465,9 +471,9 @@ namespace ReframeCore
         /// <returns>List of all nodes from dependency graph.</returns>
         private IList<INode> GetNodesToUpdate()
         {
-            Dictionary<INode, INode> tempDependencies = AddTemporaryDependencies(Nodes);
+            MakeTemporaryAdjustmentsToGraph(Nodes);
             IList<INode> nodesToUpdate = GetSortedGraph(Nodes);
-            RemoveTemporaryDependencies(tempDependencies);
+            ResetGraphToInitialState();
 
             ValidateGraph(nodesToUpdate);
             LogNodesToUpdate(nodesToUpdate);
@@ -485,9 +491,31 @@ namespace ReframeCore
             return SortAlgorithm.Sort(nodes, n => n.Successors, initialNode, skipInitialNode);
         }
 
-        private Dictionary<INode, INode> AddTemporaryDependencies(IList<INode> nodes)
+        private void MakeTemporaryAdjustmentsToGraph(IList<INode> graph)
         {
-            Dictionary<INode, INode> temporaryDependencies = new Dictionary<INode, INode>();
+            AddTemporaryDependenciesBetweenChildNodesAndCollectionNode(graph);
+        }
+
+        private void MakeTemporaryAdjustmentsToGraph(IList<INode> graph, INode initialNode, bool skipInitialNode)
+        {
+            MakeTemporaryAdjustmentsToGraph(graph);
+            IList<INode> updatePath = GetSortedGraph(graph, initialNode, skipInitialNode);
+            MakeNecessaryRedirectionsInUpdatePath(updatePath);
+        }
+
+        private void AddTemporaryDependenciesBetweenChildNodesAndCollectionNode(IList<INode> graph)
+        {
+            childCollectionDependenciesToAdd = DetermineTemporaryDependenciesBetweenChildNodesAndCollectionNode(graph);
+
+            foreach (var item in childCollectionDependenciesToAdd)
+            {
+                AddDependency(item.Item1, item.Item2);
+            }
+        }
+
+        private List<Tuple<INode, INode>> DetermineTemporaryDependenciesBetweenChildNodesAndCollectionNode(IList<INode> nodes)
+        {
+            List<Tuple<INode, INode>> tempDependencies = new List<Tuple<INode, INode>>();
 
             foreach (var node in nodes)
             {
@@ -497,57 +525,167 @@ namespace ReframeCore
 
                     if (collectionNode != null)
                     {
-                        if (temporaryDependencies.ContainsKey(node) == false || temporaryDependencies[node] != collectionNode)
+                            tempDependencies.Add(new Tuple<INode, INode>(node, collectionNode));
+                    }
+                }
+            }
+
+            return tempDependencies;
+        }
+
+        private void ResetGraphToInitialState()
+        {
+            ResetTemporaryDependenciesBetweenChildNodesAndCollectionNode();
+            ResetRedirectionDependencies();
+        }
+
+        private void ResetTemporaryDependenciesBetweenChildNodesAndCollectionNode()
+        {
+            foreach (var item in childCollectionDependenciesToAdd)
+            {
+                RemoveDependency(item.Item1, item.Item2);
+            }
+
+            childCollectionDependenciesToAdd.Clear();
+        }
+
+        private void ResetRedirectionDependencies()
+        {
+            foreach (var d in redirectionDependencesToRemove)
+            {
+                AddDependency(d.Item1, d.Item2);
+            }
+
+            foreach (var d in redirectionDependencesToAdd)
+            {
+                RemoveDependency(d.Item1, d.Item2);
+            }
+
+            redirectionDependencesToRemove.Clear();
+            redirectionDependencesToAdd.Clear();
+        }
+
+        private void MakeNecessaryRedirectionsInUpdatePath(IList<INode> updatePath)
+        {
+            redirectionDependencesToAdd.Clear();
+            redirectionDependencesToRemove.Clear();
+
+            foreach (INode collectionNode in updatePath)
+            {
+                if (collectionNode is ICollectionNode)
+                {
+                    if (IsCollectionNodeTriggeredThroughItsChildPredecessors((ICollectionNode)collectionNode, updatePath) == false)
+                    {
+                        INode nonChildPredecessor = GetNearestNonChildPredecessorInUpdatePath((ICollectionNode)collectionNode, updatePath);
+                        if (nonChildPredecessor != null)
                         {
-                            temporaryDependencies.Add(node, collectionNode);
-                            AddDependency(node, collectionNode);
+                            DetermineRedirectionDependencies(nonChildPredecessor, (ICollectionNode)collectionNode);
                         }
                     }
                 }
+                
             }
 
-            return temporaryDependencies;
+            foreach (var d in redirectionDependencesToAdd)
+            {
+                AddDependency(d.Item1, d.Item2);
+            }
+
+            foreach (var d in redirectionDependencesToRemove)
+            {
+                RemoveDependency(d.Item1, d.Item2);
+            }
         }
 
-        private void RemoveTemporaryDependencies(Dictionary<INode, INode> temporaryDependencies)
+        private Dictionary<INode, INode> DetermineDependenciesToBeRemovedForRedirection(INode predecessor, INode collectionNode)
         {
-            foreach (var item in temporaryDependencies)
-            {
-                RemoveDependency(item.Key, item.Value);
-            }
+            Dictionary<INode, INode> dependenciesForRemoval = new Dictionary<INode, INode>();
+
+            dependenciesForRemoval.Add(predecessor, collectionNode);
+
+            return dependenciesForRemoval;
         }
 
-        private void TransformGraph()
+        private Dictionary<INode, INode> DetermineDependenciesToBeAddedForRedirection(INode predecessor, INode collectionNode)
         {
-            IList<INode> temporaryNodes = new List<INode>();
-            Dictionary<INode, INode> temporaryDependencies = new Dictionary<INode, INode>();
+            Dictionary<INode, INode> dependenciesForAddition = new Dictionary<INode, INode>();
 
-            foreach (var node in Nodes)
+            foreach (var p in collectionNode.Predecessors)
             {
-                if (node.OwnerObject is ICollectionNodeItem)
+                if ((collectionNode as ICollectionNode).ContainsChildNode(p))
                 {
-                    INode collectionNode = GetCollectionNode((ICollectionNodeItem)node.OwnerObject, node.MemberName);
-
-                    if (temporaryDependencies.ContainsKey(node) == false || temporaryDependencies[node] != collectionNode)
-                    {
-                        temporaryDependencies.Add(node, collectionNode);
-                    }
-
-                    if (collectionNode != null)
-                    {
-                        AddDependency(node, collectionNode);
-                    }
-                }
-
-                if (node is CollectionMethodNode || node is CollectionPropertyNode)
-                {
-
-                }
-                else
-                {
-                    temporaryNodes.Add(node);
+                    dependenciesForAddition.Add(predecessor, p);
                 }
             }
+
+            return dependenciesForAddition;
+        }
+
+        private void DetermineRedirectionDependencies(INode predecessor, ICollectionNode collectionNode)
+        {
+            redirectionDependencesToRemove.Add(new Tuple<INode, INode>(predecessor, (INode)collectionNode));
+
+            foreach (var p in (collectionNode as INode).Predecessors)
+            {
+                if ((collectionNode as ICollectionNode).ContainsChildNode(p))
+                {
+                    redirectionDependencesToAdd.Add(new Tuple<INode, INode>(predecessor, p));
+                }
+            }
+
+        }
+
+        private bool HasChildPredecessors(ICollectionNode collectionNode)
+        {
+            bool has = false;
+
+            foreach (var p in (collectionNode as INode).Predecessors)
+            {
+                if (collectionNode.ContainsChildNode(p))
+                {
+                    has = true;
+                    break;
+                }
+            }
+
+            return has;
+        }
+
+        private bool IsCollectionNodeTriggeredThroughItsChildPredecessors(ICollectionNode collectionNode, IList<INode> nodesToUpdate)
+        {
+            bool isTriggered = false;
+
+            if (HasChildPredecessors(collectionNode))
+            {
+                int collectionNodeIndex = GraphUtility.GetIndexPositionOfNodeInUpdatePath((INode)collectionNode, nodesToUpdate);
+                IList<INode> predecessorsFromUpdatePath = GraphUtility.GetNodeDirectPredecessorsFromUpdatePath(collectionNodeIndex, nodesToUpdate);
+
+                foreach (var p in predecessorsFromUpdatePath)
+                {
+                    if (GraphUtility.IsChildOfCollectionNode(p, collectionNode))
+                    {
+                        isTriggered = true;
+                        break;
+                    }
+                }
+            }
+
+            return isTriggered;
+        }
+
+        private INode GetNearestNonChildPredecessorInUpdatePath(ICollectionNode collectionNode, IList<INode> nodesToUpdate)
+        {
+            INode predecessor = null;
+
+            int collectionNodeIndex = GraphUtility.GetIndexPositionOfNodeInUpdatePath((INode)collectionNode, nodesToUpdate);
+            IList<INode> predecessorsFromUpdatePath = GraphUtility.GetNodeDirectPredecessorsFromUpdatePath(collectionNodeIndex, nodesToUpdate);
+
+            if (predecessorsFromUpdatePath.Count > 0)
+            {
+                predecessor = predecessorsFromUpdatePath[0];
+            }
+
+            return predecessor;
         }
 
         private void ValidateGraph(IList<INode> nodes)

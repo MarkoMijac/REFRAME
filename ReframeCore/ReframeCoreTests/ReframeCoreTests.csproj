@@ -60,6 +60,7 @@
     <Compile Include="NodeFactoryTests.cs" />
     <Compile Include="GraphFactoryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
+    <Compile Include="CollectionNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">

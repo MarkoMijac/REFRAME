@@ -59,12 +59,15 @@
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
     <Compile Include="GraphFactory.cs" />
+    <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="NodeFactory.cs" />
     <Compile Include="NodeFactorySettings.cs" />
     <Compile Include="Nodes\CollectionMethodNode.cs" />
+    <Compile Include="Nodes\CollectionNode.cs" />
+    <Compile Include="Nodes\ICollectionNode.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="ISort.cs" />
     <Compile Include="Nodes\MethodNode.cs" />

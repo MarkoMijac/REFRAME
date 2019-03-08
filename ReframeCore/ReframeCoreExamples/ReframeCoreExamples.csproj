@@ -73,6 +73,8 @@
     <Compile Include="E08\E5\Order_8_5.cs" />
     <Compile Include="E08\E6\OrderItem_8_6.cs" />
     <Compile Include="E08\E6\Order_8_6.cs" />
+    <Compile Include="E08\E7\OrderItem_8_7.cs" />
+    <Compile Include="E08\E7\Order_8_7.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
