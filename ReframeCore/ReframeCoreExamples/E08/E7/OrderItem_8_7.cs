@@ -41,9 +41,16 @@ namespace ReframeCoreExamples.E08.E7
 
         public decimal Total { get; set; }
 
+        public decimal TotalVAT { get; set; }
+
         private void Update_Total()
         {
             Total = (Amount * UnitPrice) * (1 - Order.TotalDiscount / (decimal)100);
+        }
+
+        private void Update_TotalVAT()
+        {
+            TotalVAT = Total * 1.25m;
         }
 
         public OrderItem_8_7(Order_8_7 order)
