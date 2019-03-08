@@ -689,5 +689,23 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region IsValueChanged
+
+        [TestMethod]
+        public void IsValueChanged_ReturnTrue()
+        {
+            //Arrange
+            Building00 building = new Building00();
+            MethodNode node = new MethodNode(building, "Update_Area");
+
+            //Act
+            bool isChanged = node.IsValueChanged();
+
+            //Assert
+            Assert.IsTrue(isChanged);
+        }
+
+        #endregion
     }
 }

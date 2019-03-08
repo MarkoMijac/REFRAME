@@ -26,6 +26,8 @@ namespace ReframeCore.Helpers
 
         public UpdateLogger Logger { get; private set; }
 
+        public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; }
+
         #endregion
 
         #region Constructor
@@ -39,6 +41,8 @@ namespace ReframeCore.Helpers
             SortAlgorithm = new TopologicalSort2();
             Logger = new UpdateLogger(graph);
             DependencyGraph = graph;
+
+            EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
         }
 
         #endregion
@@ -88,10 +92,18 @@ namespace ReframeCore.Helpers
 
         public void PerformUpdate(INode initialNode, bool skipInitialNode)
         {
-            IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, skipInitialNode);
-            foreach (var node in nodesToUpdate)
+            if (initialNode == null)
             {
-                node.Update();
+                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
+            }
+
+            if (SkipUpdate(initialNode) == false)
+            {
+                IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, skipInitialNode);
+                foreach (var node in nodesToUpdate)
+                {
+                    node.Update();
+                }
             }
         }
 
@@ -251,6 +263,11 @@ namespace ReframeCore.Helpers
             AddTemporaryDependenciesBetweenChildNodesAndCollectionNode(graph);
             IList<INode> updatePath = GetSortedGraph(graph, initialNode, skipInitialNode);
             MakeNecessaryRedirectionsInUpdatePath(updatePath);
+        }
+
+        private bool SkipUpdate(INode node)
+        {
+            return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
         }
 
         #endregion
