@@ -44,7 +44,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Assert.IsTrue(graph.Logger.GetNodesToUpdate() == "");
+            Assert.IsTrue(graph.UpdateScheduler.Logger.GetNodesToUpdate() == "");
         }
 
         [TestMethod]
@@ -123,8 +123,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(building, "Width");
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph as DependencyGraph, building);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph as DependencyGraph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -195,8 +195,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -215,8 +215,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -235,8 +235,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenHeightAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenHeightAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -255,8 +255,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -275,8 +275,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_AreaAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_AreaAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -295,7 +295,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
 
             Assert.AreEqual("", actualLogger.GetNodesToUpdate());
         }
@@ -351,8 +351,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case1_GivenNoInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenNoInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -385,61 +385,61 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building00 building00)
+        private UpdateLogger CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building00 building00)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building00, "Area"));
+            logger.Log(graph.GetNode(building00, "TotalConsumption"));
+            logger.Log(graph.GetNode(building00, "Volume"));
+            logger.Log(graph.GetNode(building00, "TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case1_GivenHeightAsInitialNode(DependencyGraph graph, Building00 building)
+        private UpdateLogger CreateExpectedLogger_Case1_GivenHeightAsInitialNode(DependencyGraph graph, Building00 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Volume"));
+            logger.Log(graph.GetNode(building, "TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(DependencyGraph graph, Building00 building)
+        private UpdateLogger CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(DependencyGraph graph, Building00 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "TotalConsumption"));
+            logger.Log(graph.GetNode(building, "TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case1_AreaAsInitialNode(DependencyGraph graph, Building00 building00)
+        private UpdateLogger CreateExpectedLogger_Case1_AreaAsInitialNode(DependencyGraph graph, Building00 building00)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building00, "TotalConsumption"));
+            logger.Log(graph.GetNode(building00, "Volume"));
+            logger.Log(graph.GetNode(building00, "TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case1_GivenNoInitialNode(DependencyGraph graph, Building00 building)
+        private UpdateLogger CreateExpectedLogger_Case1_GivenNoInitialNode(DependencyGraph graph, Building00 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Consumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Height"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Consumption"));
+            logger.Log(graph.GetNode(building, "Height"));
+            logger.Log(graph.GetNode(building, "Length"));
+            logger.Log(graph.GetNode(building, "Width"));
+            logger.Log(graph.GetNode(building, "Area"));
+            logger.Log(graph.GetNode(building, "TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Volume"));
+            logger.Log(graph.GetNode(building, "TotalConsumptionPer_m3"));
 
             return logger;
         }
@@ -498,48 +498,48 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case2_GivenNoInitialNode(DependencyGraph graph, Apartment01 apartment)
+        private UpdateLogger CreateExpectedLogger_Case2_GivenNoInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "UtilCoeff"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "UtilCoeff"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Consumption"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Height"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
+            logger.Log(graph.GetNode(apartment.Basement, "UtilCoeff"));
+            logger.Log(graph.GetNode(apartment.Balcony, "UtilCoeff"));
+            logger.Log(graph.GetNode(apartment, "Consumption"));
+            logger.Log(graph.GetNode(apartment, "Height"));
+            logger.Log(graph.GetNode(apartment, "Length"));
+            logger.Log(graph.GetNode(apartment, "Width"));
+            logger.Log(graph.GetNode(apartment, "HeatedArea"));
+            logger.Log(graph.GetNode(apartment, "HeatedVolume"));
+            logger.Log(graph.GetNode(apartment, "TotalConsumption"));
+            logger.Log(graph.GetNode(apartment.Basement, "Length"));
+            logger.Log(graph.GetNode(apartment.Basement, "Width"));
+            logger.Log(graph.GetNode(apartment.Basement, "Area"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Length"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Width"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Area"));
+            logger.Log(graph.GetNode(apartment, "TotalArea"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case2_GivenWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
+        private UpdateLogger CreateExpectedLogger_Case2_GivenWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalConsumption"));
+            logger.Log(graph.GetNode(apartment, "HeatedArea"));
+            logger.Log(graph.GetNode(apartment, "TotalArea"));
+            logger.Log(graph.GetNode(apartment, "HeatedVolume"));
+            logger.Log(graph.GetNode(apartment, "TotalConsumption"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
+        private UpdateLogger CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "TotalArea"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Area"));
+            logger.Log(graph.GetNode(apartment, "TotalArea"));
 
             return logger;
         }
@@ -557,8 +557,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenNoInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenNoInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -600,8 +600,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenWidthAsInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenWidthAsInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -620,8 +620,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -676,8 +676,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -696,8 +696,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -716,8 +716,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -736,8 +736,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -755,8 +755,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case3_GivenNoInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenNoInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -818,55 +818,55 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_Area"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case3_GivenNoInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case3_GivenNoInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_Area"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
@@ -910,41 +910,41 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case4_GivenNoInitialNode(DependencyGraph graph, Apartment04 apartment)
+        private UpdateLogger CreateExpectedLogger_Case4_GivenNoInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Update_Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Basement, "Update_UtilityArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(apartment.Basement, "Update_Area"));
+            logger.Log(graph.GetNode(apartment.Basement, "Update_UtilityArea"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Update_Area"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
+            logger.Log(graph.GetNode(apartment, "Update_HeatedArea"));
+            logger.Log(graph.GetNode(apartment, "Update_TotalArea"));
+            logger.Log(graph.GetNode(apartment, "Update_HeatedVolume"));
+            logger.Log(graph.GetNode(apartment, "Update_TotalConsumption"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
+        private UpdateLogger CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_Area"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Update_Area"));
+            logger.Log(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
+            logger.Log(graph.GetNode(apartment, "Update_TotalArea"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
+        private UpdateLogger CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalArea"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_HeatedVolume"));
-            logger.LogNodeToUpdate(graph.GetNode(apartment, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(apartment, "Update_HeatedArea"));
+            logger.Log(graph.GetNode(apartment, "Update_TotalArea"));
+            logger.Log(graph.GetNode(apartment, "Update_HeatedVolume"));
+            logger.Log(graph.GetNode(apartment, "Update_TotalConsumption"));
 
             return logger;
         }
@@ -962,8 +962,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case4_GivenNoInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenNoInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -1005,8 +1005,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -1025,8 +1025,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode, false);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(graph, apartment);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(graph, apartment);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -1094,50 +1094,50 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case5_GivenNoInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case5_GivenNoInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Consumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Height"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Length"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Width"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Consumption"));
+            logger.Log(graph.GetNode(building, "Height"));
+            logger.Log(graph.GetNode(building, "Length"));
+            logger.Log(graph.GetNode(building, "Width"));
+            logger.Log(graph.GetNode(building, "Area"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Area"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Area"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case5_GivenHeightAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case5_GivenHeightAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_Volume"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_Volume"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
+        private UpdateLogger CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumption"));
-            logger.LogNodeToUpdate(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
+            logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
             return logger;
         }
@@ -1155,8 +1155,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case5_GivenNoInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenNoInitialNode(graph, building);
 
             Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
         }
@@ -1191,8 +1191,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1211,8 +1211,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1231,8 +1231,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case5_GivenHeightAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenHeightAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1251,8 +1251,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(graph, building);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1367,9 +1367,9 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = new Logger();
-            expectedLogger.LogNodeToUpdate(graph.GetNode(cycle, "F"));
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = new UpdateLogger(graph);
+            expectedLogger.Log(graph.GetNode(cycle, "F"));
 
             Assert.AreEqual(actualLogger.ToString(), expectedLogger.ToString());
         }
@@ -1397,35 +1397,35 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case7_GivenNoInitialNode(DependencyGraph graph, Whole whole)
+        private UpdateLogger CreateExpectedLogger_Case7_GivenNoInitialNode(DependencyGraph graph, Whole whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+            logger.Log(graph.GetNode(whole.Parts, "C"));
+            logger.Log(graph.GetNode(whole.Parts, "B"));
+            logger.Log(graph.GetNode(whole.Parts, "A"));
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "A"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case7_GivenAAsInitialNode(DependencyGraph graph, Whole whole)
+        private UpdateLogger CreateExpectedLogger_Case7_GivenAAsInitialNode(DependencyGraph graph, Whole whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
+            logger.Log(graph.GetNode(whole, "A"));
 
             return logger;
         }
 
-        private Logger CreateExpectedLogger_Case7_GivenBAsInitialNode(DependencyGraph graph, Whole whole)
+        private UpdateLogger CreateExpectedLogger_Case7_GivenBAsInitialNode(DependencyGraph graph, Whole whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "B"));
 
             return logger;
         }
@@ -1442,8 +1442,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_GivenNoInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenNoInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1476,8 +1476,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_GivenAAsInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenAAsInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1495,8 +1495,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_GivenBAsInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenBAsInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1544,16 +1544,16 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private Logger CreateExpectedLogger_Case7_1_GivenNoInitialNode(DependencyGraph graph, Whole2 whole)
+        private UpdateLogger CreateExpectedLogger_Case7_1_GivenNoInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffC"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffB"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffA"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+            logger.Log(graph.GetNode(whole, "CoeffC"));
+            logger.Log(graph.GetNode(whole.Parts, "C"));
+            logger.Log(graph.GetNode(whole, "CoeffB"));
+            logger.Log(graph.GetNode(whole.Parts, "B"));
+            logger.Log(graph.GetNode(whole, "CoeffA"));
+            logger.Log(graph.GetNode(whole.Parts, "A"));
 
             return logger;
         }
@@ -1570,8 +1570,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_1_GivenNoInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenNoInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1596,11 +1596,11 @@ namespace ReframeCoreTests
                 && p3.A == 6 && p3.B == 12 && p3.C == 18);
         }
 
-        private Logger CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(DependencyGraph graph, Whole2 whole)
+        private UpdateLogger CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+            logger.Log(graph.GetNode(whole.Parts, "A"));
 
             return logger;
         }
@@ -1618,17 +1618,17 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(DependencyGraph graph, Whole2 whole)
+        private UpdateLogger CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
+            logger.Log(graph.GetNode(whole.Parts, "B"));
 
             return logger;
         }
@@ -1646,8 +1646,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Logger actualLogger = graph.Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(graph, whole);
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1690,23 +1690,23 @@ namespace ReframeCoreTests
             return whole;
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenNoInitialNode(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenNoInitialNode(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole.Parts, "A"));
+            logger.Log(graph.GetNode(whole.Parts, "C"));
+            logger.Log(graph.GetNode(whole.Parts, "B"));
+            logger.Log(graph.GetNode(whole.Parts, "A"));
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffC"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffB"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "CoeffA"));
+            logger.Log(graph.GetNode(whole, "CoeffC"));
+            logger.Log(graph.GetNode(whole, "CoeffB"));
+            logger.Log(graph.GetNode(whole, "CoeffA"));
 
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "A"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1722,8 +1722,8 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenNoInitialNode(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenNoInitialNode(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
@@ -1753,20 +1753,20 @@ namespace ReframeCoreTests
             whole.CoeffA = 2;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "A"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1798,19 +1798,19 @@ namespace ReframeCoreTests
             whole.CoeffB = 3;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1841,18 +1841,18 @@ namespace ReframeCoreTests
             whole.CoeffC = 4;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1885,20 +1885,20 @@ namespace ReframeCoreTests
             p.A = 2;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenAIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenAIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "A"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "A"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1932,19 +1932,19 @@ namespace ReframeCoreTests
             p.B = 3;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenBIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenBIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "B"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "B"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }
@@ -1978,18 +1978,18 @@ namespace ReframeCoreTests
             p.C = 4;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCIsTriggered(graph, whole);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCIsTriggered(graph, whole);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_1_GivenCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
+        private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(whole, "C"));
-            logger.LogNodeToUpdate(graph.GetNode(whole, "D"));
+            logger.Log(graph.GetNode(whole, "C"));
+            logger.Log(graph.GetNode(whole, "D"));
 
             return logger;
         }

@@ -39,6 +39,22 @@ namespace ReframeCore.Nodes
             return contains;
         }
 
+        public bool HasChildPredecessors()
+        {
+            bool has = false;
+
+            foreach (var p in Predecessors)
+            {
+                if (ContainsChildNode(p))
+                {
+                    has = true;
+                    break;
+                }
+            }
+
+            return has;
+        }
+
         public CollectionNode(object ownerObject, string memberName)
             :base(ownerObject, memberName)
         {

@@ -66,19 +66,19 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(IDependencyGraph graph, Order_8_2 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(IDependencyGraph graph, Order_8_2 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -109,18 +109,18 @@ namespace ReframeCoreTests
             order.Items[1].Total = 2;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_2_GivenItemTotalIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_GivenItemTotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_2_GivenItemTotalIsChanged(IDependencyGraph graph, Order_8_2 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_2_GivenItemTotalIsChanged(IDependencyGraph graph, Order_8_2 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -191,19 +191,19 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_3_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_3_PerformCompleteUpdate(IDependencyGraph graph, Order_8_3 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_3_PerformCompleteUpdate(IDependencyGraph graph, Order_8_3 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountB"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountA"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "DiscountB"));
+            logger.Log(graph.GetNode(order, "DiscountA"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
             return logger;
         }
@@ -234,17 +234,17 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountAIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_3_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_3 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_3_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_3 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
             return logger;
         }
@@ -276,17 +276,17 @@ namespace ReframeCoreTests
             order.DiscountB = 20;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountBIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountBIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_3_GivenDiscountBIsChanged(IDependencyGraph graph, Order_8_3 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_3_GivenDiscountBIsChanged(IDependencyGraph graph, Order_8_3 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
             return logger;
         }
@@ -361,21 +361,21 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_4_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_4_PerformCompleteUpdate(IDependencyGraph graph, Order_8_4 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_4_PerformCompleteUpdate(IDependencyGraph graph, Order_8_4 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountB"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountA"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order, "DiscountB"));
+            logger.Log(graph.GetNode(order, "DiscountA"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -407,19 +407,19 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountAIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_4_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_4 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_4_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_4 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -452,19 +452,19 @@ namespace ReframeCoreTests
             order.DiscountB = 20;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountBIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountBIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_4_GivenDiscountBIsChanged(IDependencyGraph graph, Order_8_4 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_4_GivenDiscountBIsChanged(IDependencyGraph graph, Order_8_4 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -558,26 +558,26 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(IDependencyGraph graph, Order_8_5 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(IDependencyGraph graph, Order_8_5 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "UnitPrice"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order.Items[1], "UnitPrice"));
+            logger.Log(graph.GetNode(order.Items[0], "UnitPrice"));
+            logger.Log(graph.GetNode(order.Items[1], "Amount"));
+            logger.Log(graph.GetNode(order.Items[1], "Total"));
+            logger.Log(graph.GetNode(order.Items[0], "Amount"));
+            logger.Log(graph.GetNode(order.Items[0], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
             
 
             return logger;
@@ -615,21 +615,21 @@ namespace ReframeCoreTests
             item.Amount = 2;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(IDependencyGraph graph, Order_8_5 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(IDependencyGraph graph, Order_8_5 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order.Items[0], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
 
             return logger;
@@ -668,21 +668,21 @@ namespace ReframeCoreTests
             item.UnitPrice = 5;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(IDependencyGraph graph, Order_8_5 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(IDependencyGraph graph, Order_8_5 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order.Items[1], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
 
             return logger;
@@ -763,21 +763,21 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(IDependencyGraph graph, Order_8_6 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(IDependencyGraph graph, Order_8_6 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items[1], "Total"));
+            logger.Log(graph.GetNode(order.Items[0], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -809,19 +809,19 @@ namespace ReframeCoreTests
             order.Items[0].Total = 15;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -854,19 +854,19 @@ namespace ReframeCoreTests
             order.Items[1].Total = 25;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(IDependencyGraph graph, Order_8_6 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
 
             return logger;
         }
@@ -951,30 +951,30 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(IDependencyGraph graph, Order_8_7 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(IDependencyGraph graph, Order_8_7 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountB"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "DiscountA"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalDiscount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "UnitPrice"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "UnitPrice"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Amount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "TotalVAT"));
+            logger.Log(graph.GetNode(order, "DiscountB"));
+            logger.Log(graph.GetNode(order, "DiscountA"));
+            logger.Log(graph.GetNode(order, "TotalDiscount"));
+            logger.Log(graph.GetNode(order.Items[1], "UnitPrice"));
+            logger.Log(graph.GetNode(order.Items[0], "UnitPrice"));
+            logger.Log(graph.GetNode(order.Items[1], "Amount"));
+            logger.Log(graph.GetNode(order.Items[1], "Total"));
+            logger.Log(graph.GetNode(order.Items[1], "TotalVAT"));
+            logger.Log(graph.GetNode(order.Items[0], "Amount"));
+            logger.Log(graph.GetNode(order.Items[0], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items[0], "TotalVAT"));
 
             return logger;
         }
@@ -1007,24 +1007,24 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            Logger actualLogger = (graph as DependencyGraph).Logger;
-            Logger expectedLogger = CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(graph, order);
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
         }
 
-        private Logger CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_7 order)
+        private UpdateLogger CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(IDependencyGraph graph, Order_8_7 order)
         {
-            Logger logger = new Logger();
+            UpdateLogger logger = new UpdateLogger(graph);
 
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalDiscount"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[1], "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "TotalVAT"));
-            logger.LogNodeToUpdate(graph.GetNode(order, "Total"));
-            logger.LogNodeToUpdate(graph.GetNode(order.Items[0], "TotalVAT"));
+            logger.Log(graph.GetNode(order, "TotalDiscount"));
+            logger.Log(graph.GetNode(order.Items[1], "Total"));
+            logger.Log(graph.GetNode(order.Items[1], "TotalVAT"));
+            logger.Log(graph.GetNode(order.Items[0], "Total"));
+            logger.Log(graph.GetNode(order.Items, "Total"));
+            logger.Log(graph.GetNode(order, "TotalVAT"));
+            logger.Log(graph.GetNode(order, "Total"));
+            logger.Log(graph.GetNode(order.Items[0], "TotalVAT"));
 
             return logger;
         }

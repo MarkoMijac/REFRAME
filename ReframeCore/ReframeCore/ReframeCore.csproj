@@ -60,8 +60,10 @@
     <Compile Include="Exceptions\ReframeException.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
-    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\GraphValidator.cs" />
+    <Compile Include="Helpers\UpdateLogger.cs" />
     <Compile Include="Helpers\Reflector.cs" />
+    <Compile Include="Helpers\UpdateScheduler.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="NodeFactory.cs" />
     <Compile Include="NodeFactorySettings.cs" />
