@@ -558,5 +558,43 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region GetPropertyValue
+
+        [TestMethod]
+        public void GetPropertyValue_GivenNullObjectArgument_ThrowsException()
+        {
+            //Arrange
+
+            //Act&Assert
+            Assert.ThrowsException<ReflectorException>(() => Convert.ToInt32(Reflector.GetPropertyValue(null, "A")));
+        }
+
+        [TestMethod]
+        public void GetPropertyValue_GivenWrongMemberNameArgument_ThrowsException()
+        {
+            //Arrange
+            Whole whole = new Whole();
+            Part p1 = whole.Parts[2];
+
+            //Act&Assert
+            Assert.ThrowsException<ReflectorException>(() => Convert.ToInt32(Reflector.GetPropertyValue(p1, "AA")));
+        }
+
+        [TestMethod]
+        public void GetPropertyValue_GivenValidArguments_ReturnsCorrectValue()
+        {
+            //Arrange
+            Whole whole = new Whole();
+            Part p1 = whole.Parts[2];
+
+            //Act
+            int v = Convert.ToInt32(Reflector.GetPropertyValue(p1, "A"));
+
+            //Assert
+            Assert.AreEqual(v, 7);
+        }
+
+        #endregion
     }
 }
