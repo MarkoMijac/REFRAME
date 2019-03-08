@@ -9,5 +9,6 @@ namespace ReframeCore.Nodes
     public interface ICollectionNode
     {
         bool ContainsChildNode(INode node);
+        bool HasChildPredecessors();
     }
 }

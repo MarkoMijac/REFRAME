@@ -1,4 +1,6 @@
-﻿using ReframeCore.Nodes;
+﻿using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,6 +52,61 @@ namespace ReframeCore.Helpers
             }
 
             return isChild;
+        }
+
+        public static INode GetCollectionNode(ICollectionNodeItem ownerObject, string memberName)
+        {
+            if (ownerObject != null && memberName != "")
+            {
+                ReactiveCollectionItemEventArgs eArgs = new ReactiveCollectionItemEventArgs();
+                eArgs.MemberName = memberName;
+
+                Reflector.RaiseEvent(ownerObject, "UpdateTriggered", eArgs);
+
+                INode collectionNode = eArgs.CollectionNode as INode;
+                return collectionNode;
+            }
+            else
+            {
+                throw new NodeNullReferenceException();
+            }
+        }
+
+        public static bool IsCollectionNodeTriggeredThroughItsChildPredecessors(ICollectionNode collectionNode, IList<INode> nodesToUpdate)
+        {
+            bool isTriggered = false;
+
+            if (collectionNode.HasChildPredecessors())
+            {
+                int collectionNodeIndex = GetIndexPositionOfNodeInUpdatePath((INode)collectionNode, nodesToUpdate);
+                IList<INode> predecessorsFromUpdatePath = GetNodeDirectPredecessorsFromUpdatePath(collectionNodeIndex, nodesToUpdate);
+
+                foreach (var p in predecessorsFromUpdatePath)
+                {
+                    if (IsChildOfCollectionNode(p, collectionNode))
+                    {
+                        isTriggered = true;
+                        break;
+                    }
+                }
+            }
+
+            return isTriggered;
+        }
+
+        public static INode GetNearestNonChildPredecessorInUpdatePath(ICollectionNode collectionNode, IList<INode> nodesToUpdate)
+        {
+            INode predecessor = null;
+
+            int collectionNodeIndex = GetIndexPositionOfNodeInUpdatePath((INode)collectionNode, nodesToUpdate);
+            IList<INode> predecessorsFromUpdatePath = GetNodeDirectPredecessorsFromUpdatePath(collectionNodeIndex, nodesToUpdate);
+
+            if (predecessorsFromUpdatePath.Count > 0)
+            {
+                predecessor = predecessorsFromUpdatePath[0];
+            }
+
+            return predecessor;
         }
     }
 }
