@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class CollectionPropertyNode : Node
+    public class CollectionPropertyNode : CollectionNode
     {
         private string _updateAllMethodName = "UpdateAll";
 
@@ -28,6 +28,16 @@ namespace ReframeCore.Nodes
             : base(collection, memberName)
         {
             ValidateArguments(collection, memberName);
+            (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
+        }
+
+        private void CollectionPropertyNode_UpdateTriggered(object sender, EventArgs e)
+        {
+            var eArgs = e as ReactiveCollectionItemEventArgs;
+            if (eArgs.MemberName == MemberName)
+            {
+                eArgs.CollectionNode = this;
+            }
         }
 
         /// <summary>
@@ -42,6 +52,8 @@ namespace ReframeCore.Nodes
             ValidateArguments(collection, memberName, updateMethodName);
             UpdateMethod = Reflector.CreateAction(this, _updateAllMethodName);
             UpdateMethodName = updateMethodName;
+
+            (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
         }
 
         /// <summary>

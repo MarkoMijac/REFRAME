@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E08.E1
 {
-    public class Part_8_1
+    public class Part_8_1 : ICollectionNodeItem
     {
         private IDependencyGraph graph;
+
+        public event EventHandler UpdateTriggered;
 
         #region Properties
 

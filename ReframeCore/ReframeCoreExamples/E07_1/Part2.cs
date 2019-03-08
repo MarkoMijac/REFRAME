@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.ReactiveCollections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E07_1
 {
-    public class Part2
+    public class Part2 : ICollectionNodeItem
     {
+        public event EventHandler UpdateTriggered;
+
         #region Properties
+
         public int Fixed { get; set; }
         public string Name { get; set; }
         public int A { get; set; }

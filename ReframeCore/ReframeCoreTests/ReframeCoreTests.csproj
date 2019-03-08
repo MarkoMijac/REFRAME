@@ -59,6 +59,8 @@
     <Compile Include="DependencyGraphTests.PerformUpdate.cs" />
     <Compile Include="NodeFactoryTests.cs" />
     <Compile Include="GraphFactoryTests.cs" />
+    <Compile Include="ReactiveCollectionTests.cs" />
+    <Compile Include="CollectionNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">
@@ -71,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyGraphTests.PerformUpdate.CollectionNode.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

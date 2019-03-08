@@ -7,18 +7,36 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Helpers
 {
-    public class Logger
+    public class UpdateLogger
     {
         private List<string> _nodesToUpdate = new List<string>();
+        private IDependencyGraph _dependencyGraph;
 
-        public Logger()
+        public UpdateLogger(IDependencyGraph dependencyGraph)
         {
             _nodesToUpdate = new List<string>();
+            _dependencyGraph = dependencyGraph;
         }
 
-        public void LogNodeToUpdate(INode node)
+        public void Log(INode node)
         {
             _nodesToUpdate.Add(ExtractData(node));
+        }
+
+        /// <summary>
+        /// Logs nodes to be updated.
+        /// </summary>
+        /// <param name="nodesToUpdate">Nodes to be updated.</param>
+        public void Log(IList<INode> nodesToUpdate)
+        {
+            if (_dependencyGraph.Settings.LogUpdates == true)
+            {
+                ClearNodesToUpdate();
+                foreach (var n in nodesToUpdate)
+                {
+                    Log(n);
+                }
+            }
         }
 
 
@@ -34,6 +52,7 @@ namespace ReframeCore.Helpers
             data += node.Identifier + ";";
             data += node.MemberName + ";";
             data += node.OwnerObject.GetType().ToString() + ";";
+            data += node.OwnerObject.GetHashCode().ToString() + ";";
 
             return data;
         }

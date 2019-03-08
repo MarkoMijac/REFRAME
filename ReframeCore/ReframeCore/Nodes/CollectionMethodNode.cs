@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public class CollectionMethodNode : Node
+    public class CollectionMethodNode : CollectionNode
     {
         private string _updateAllMethodName = "UpdateAll";
 
@@ -45,6 +45,8 @@ namespace ReframeCore.Nodes
                 updateMethod.Invoke();
             }
         }
+
+        
 
         #endregion
     }

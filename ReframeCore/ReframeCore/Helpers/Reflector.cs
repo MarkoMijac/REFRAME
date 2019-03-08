@@ -1,4 +1,5 @@
-﻿using ReframeCore.ReactiveCollections;
+﻿using ReframeCore.Exceptions;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +79,7 @@ namespace ReframeCore.Helpers
             return contains;
         }
 
-        private static Type GetGenericArgumentType(object obj)
+        public static Type GetGenericArgumentType(object obj)
         {
             Type type = null;
 
@@ -247,6 +248,35 @@ namespace ReframeCore.Helpers
             }
 
             return isColl;
+        }
+
+        private static MulticastDelegate GetMulticastDelegate(object obj, string eventName)
+        {
+            MulticastDelegate multicastDelegate = null;
+
+            try
+            {
+                multicastDelegate = (MulticastDelegate)obj.GetType().GetField(eventName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).GetValue(obj);
+            }
+            catch (Exception)
+            {
+                throw new ReflectorException("No delegate could be obtained for provided arguments!");
+            }
+
+            return multicastDelegate;
+        }
+
+        public static void RaiseEvent(object obj, string eventName, EventArgs e)
+        {
+            MulticastDelegate multicastDelegate = GetMulticastDelegate(obj, eventName);
+
+            if (multicastDelegate != null)
+            {
+                foreach (var del in multicastDelegate.GetInvocationList())
+                {
+                    del.Method.Invoke(del.Target, new object[] { obj, e });
+                }
+            }
         }
     }
 }

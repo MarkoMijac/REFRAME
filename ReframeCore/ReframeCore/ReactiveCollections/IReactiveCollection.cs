@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.ReactiveCollections
 {
-    public interface IReactiveItem
+    interface IReactiveCollection
     {
-        event EventHandler PropertyChanged;
+        event EventHandler UpdateTriggered;
     }
 }
