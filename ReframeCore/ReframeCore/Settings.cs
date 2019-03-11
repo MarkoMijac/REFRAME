@@ -8,11 +8,11 @@
         /// <summary>
         /// Determines if updates should be logged.
         /// </summary>
-        public bool LogUpdates { get; set; }
+        public bool EnableLogging { get; set; }
 
         public Settings()
         {
-            LogUpdates = true;
+            EnableLogging = true;
         }
     }
 }
