@@ -22,6 +22,7 @@ namespace ReframeCoreExamples.E00
         public int G { get; set; }
         public int H { get; set; }
         public int I { get; set; }
+        public int J { get; set; }
 
         #endregion
 
@@ -75,6 +76,11 @@ namespace ReframeCoreExamples.E00
         private void Update_I()
         {
             _graph.PerformUpdate(this, "Update_I");
+        }
+
+        private void Update_J()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

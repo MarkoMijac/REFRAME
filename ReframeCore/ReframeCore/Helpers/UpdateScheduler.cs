@@ -33,7 +33,8 @@ namespace ReframeCore.Helpers
 
         public IDependencyGraph DependencyGraph { get; set; }
 
-        public UpdateLogger Logger { get; private set; }
+        public UpdateLogger LoggerNodesForUpdate { get; private set; }
+        public UpdateLogger LoggerUpdatedNodes { get; private set; }
 
         public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; }
 
@@ -48,7 +49,8 @@ namespace ReframeCore.Helpers
             RedirectionDependencesToAdd = new List<Tuple<INode, INode>>();
 
             SortAlgorithm = new TopologicalSort2();
-            Logger = new UpdateLogger();
+            LoggerNodesForUpdate = new UpdateLogger();
+            LoggerUpdatedNodes = new UpdateLogger();
             DependencyGraph = graph;
 
             EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
@@ -85,8 +87,8 @@ namespace ReframeCore.Helpers
             GraphValidator.ValidateGraph(nodesForUpdate);
             if (DependencyGraph.Settings.EnableLogging == true)
             {
-                Logger.ClearLog();
-                Logger.Log(nodesForUpdate);
+                LoggerNodesForUpdate.ClearLog();
+                LoggerNodesForUpdate.Log(nodesForUpdate);
             }
 
             return nodesForUpdate;
@@ -118,8 +120,8 @@ namespace ReframeCore.Helpers
             GraphValidator.ValidateGraph(nodesForUpdate);
             if (DependencyGraph.Settings.EnableLogging == true)
             {
-                Logger.ClearLog();
-                Logger.Log(nodesForUpdate);
+                LoggerNodesForUpdate.ClearLog();
+                LoggerNodesForUpdate.Log(nodesForUpdate);
             }
 
             return nodesForUpdate;
@@ -180,9 +182,16 @@ namespace ReframeCore.Helpers
 
         private void Update(IList<INode> nodesForUpdate)
         {
+            LoggerUpdatedNodes.ClearLog();
+
             foreach (var node in nodesForUpdate)
             {
                 node.Update();
+
+                if (DependencyGraph.Settings.EnableLogging == true)
+                {
+                    LoggerUpdatedNodes.Log(node);
+                }
             }
         }
 
