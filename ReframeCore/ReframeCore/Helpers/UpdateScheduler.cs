@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Helpers
 {
+    internal enum UpdateProcessStatus
+    {
+        NotSet,
+        Started,
+        Ended
+    }
+
     public class UpdateScheduler
     {
         #region Properties
@@ -16,7 +23,9 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> ChildCollectionDependenciesToAdd { get; set; }
         private List<Tuple<INode, INode>> RedirectionDependencesToRemove { get; set; }
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; }
-        
+
+        private UpdateProcessStatus Status { get; set; }
+
         /// <summary>
         /// Algorithm for topological sorting.
         /// </summary>
@@ -43,6 +52,7 @@ namespace ReframeCore.Helpers
             DependencyGraph = graph;
 
             EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
+            Status = UpdateProcessStatus.NotSet;
         }
 
         #endregion
@@ -51,10 +61,14 @@ namespace ReframeCore.Helpers
 
         public void PerformUpdate()
         {
-            IList<INode> nodesForUpdate = GetNodesForUpdate();
-            foreach (var node in nodesForUpdate)
+            if (UpdateIsAllowed())
             {
-                node.Update();
+                MarkUpdateStart();
+
+                IList<INode> nodesForUpdate = GetNodesForUpdate();
+                Update(nodesForUpdate);
+
+                MarkUpdateEnd();
             }
         }
 
@@ -113,37 +127,72 @@ namespace ReframeCore.Helpers
 
         public void PerformUpdate(INode initialNode, bool skipInitialNode)
         {
-            if (initialNode == null)
+            if (UpdateIsAllowed())
             {
-                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
-            }
+                MarkUpdateStart();
 
-            IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
-            foreach (var node in nodesForUpdate)
-            {
-                node.Update();
+                ValidateInitialNode(initialNode);
+                IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
+                Update(nodesForUpdate);
+
+                MarkUpdateEnd();
             }
-    }
+        }
 
         public void PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
         {
-            INode initialNode = DependencyGraph.GetNode(ownerObject, memberName);
-
-            if (initialNode == null)
+            if (UpdateIsAllowed())
             {
-                initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
-            }
+                MarkUpdateStart();
 
-            IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, true);
-            foreach (var node in nodesForUpdate)
-            {
-                node.Update();
+                INode initialNode = DependencyGraph.GetNode(ownerObject, memberName);
+
+                if (initialNode == null)
+                {
+                    initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
+                }
+
+                IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, true);
+                Update(nodesForUpdate);
+
+                MarkUpdateEnd();
             }
         }
 
         #endregion
 
         #region Private methods
+
+        private bool UpdateIsAllowed()
+        {
+            return Status == UpdateProcessStatus.NotSet || Status == UpdateProcessStatus.Ended;
+        }
+
+        private void MarkUpdateStart()
+        {
+            Status = UpdateProcessStatus.Started;
+        }
+
+        private void MarkUpdateEnd()
+        {
+            Status = UpdateProcessStatus.Ended;
+        }
+
+        private void Update(IList<INode> nodesForUpdate)
+        {
+            foreach (var node in nodesForUpdate)
+            {
+                node.Update();
+            }
+        }
+
+        private void ValidateInitialNode(INode initialNode)
+        {
+            if (initialNode == null)
+            {
+                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
+            }
+        }
 
         private IList<INode> GetSortedGraph(IList<INode> nodes, INode initialNode, bool skipInitialNode)
         {
@@ -278,6 +327,8 @@ namespace ReframeCore.Helpers
         {
             return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
         }
+
+
 
         #endregion
     }
