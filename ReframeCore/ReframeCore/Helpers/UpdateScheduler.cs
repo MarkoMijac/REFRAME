@@ -26,6 +26,8 @@ namespace ReframeCore.Helpers
 
         public UpdateLogger Logger { get; private set; }
 
+        public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; }
+
         #endregion
 
         #region Constructor
@@ -37,28 +39,43 @@ namespace ReframeCore.Helpers
             RedirectionDependencesToAdd = new List<Tuple<INode, INode>>();
 
             SortAlgorithm = new TopologicalSort2();
-            Logger = new UpdateLogger(graph);
+            Logger = new UpdateLogger();
             DependencyGraph = graph;
+
+            EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
         }
 
         #endregion
 
         #region Public methods
 
+        public void PerformUpdate()
+        {
+            IList<INode> nodesForUpdate = GetNodesForUpdate();
+            foreach (var node in nodesForUpdate)
+            {
+                node.Update();
+            }
+        }
+
         /// <summary>
         /// Gets all nodes from dependency graph, arranged in order they should be updated.
         /// </summary>
         /// <returns>List of all nodes from dependency graph.</returns>
-        public IList<INode> GetNodesToUpdate()
+        public IList<INode> GetNodesForUpdate()
         {
             MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes);
-            IList<INode> nodesToUpdate = GetSortedGraph(DependencyGraph.Nodes);
+            IList<INode> nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes);
             ResetGraphToInitialState();
 
-            GraphValidator.ValidateGraph(nodesToUpdate);
-            Logger.Log(nodesToUpdate);
+            GraphValidator.ValidateGraph(nodesForUpdate);
+            if (DependencyGraph.Settings.EnableLogging == true)
+            {
+                Logger.ClearLog();
+                Logger.Log(nodesForUpdate);
+            }
 
-            return nodesToUpdate;
+            return nodesForUpdate;
         }
 
         /// <summary>
@@ -67,8 +84,9 @@ namespace ReframeCore.Helpers
         /// <param name="node">Initial node that triggered the update.</param>
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.</param>
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
-        public IList<INode> GetNodesToUpdate(INode node, bool skipInitialNode)
+        public IList<INode> GetNodesForUpdate(INode node, bool skipInitialNode)
         {
+            IList<INode> nodesForUpdate = null;
             INode initialNode = DependencyGraph.GetNode(node);
 
             if (initialNode == null)
@@ -76,24 +94,36 @@ namespace ReframeCore.Helpers
                 throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
             }
 
-            MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes, node, skipInitialNode);
-            IList<INode> nodesToUpdate = GetSortedGraph(DependencyGraph.Nodes, initialNode, skipInitialNode);
-            ResetGraphToInitialState();
+            if (SkipUpdate(initialNode) == false)
+            {
+                MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes, node, skipInitialNode);
+                nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes, initialNode, skipInitialNode);
+                ResetGraphToInitialState();
+            }
 
-            GraphValidator.ValidateGraph(nodesToUpdate);
-            Logger.Log(nodesToUpdate);
+            GraphValidator.ValidateGraph(nodesForUpdate);
+            if (DependencyGraph.Settings.EnableLogging == true)
+            {
+                Logger.ClearLog();
+                Logger.Log(nodesForUpdate);
+            }
 
-            return nodesToUpdate;
+            return nodesForUpdate;
         }
 
         public void PerformUpdate(INode initialNode, bool skipInitialNode)
         {
-            IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, skipInitialNode);
-            foreach (var node in nodesToUpdate)
+            if (initialNode == null)
+            {
+                throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
+            }
+
+            IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
+            foreach (var node in nodesForUpdate)
             {
                 node.Update();
             }
-        }
+    }
 
         public void PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
         {
@@ -104,17 +134,8 @@ namespace ReframeCore.Helpers
                 initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
             }
 
-            IList<INode> nodesToUpdate = GetNodesToUpdate(initialNode, true);
-            foreach (var node in nodesToUpdate)
-            {
-                node.Update();
-            }
-        }
-
-        public void PerformUpdate()
-        {
-            IList<INode> nodesToUpdate = GetNodesToUpdate();
-            foreach (var node in nodesToUpdate)
+            IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, true);
+            foreach (var node in nodesForUpdate)
             {
                 node.Update();
             }
@@ -251,6 +272,11 @@ namespace ReframeCore.Helpers
             AddTemporaryDependenciesBetweenChildNodesAndCollectionNode(graph);
             IList<INode> updatePath = GetSortedGraph(graph, initialNode, skipInitialNode);
             MakeNecessaryRedirectionsInUpdatePath(updatePath);
+        }
+
+        private bool SkipUpdate(INode node)
+        {
+            return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
         }
 
         #endregion

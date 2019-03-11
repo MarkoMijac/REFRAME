@@ -28,5 +28,7 @@ namespace ReframeCore.Nodes
         bool HasPredecessor(INode predecessor);
         bool HasSuccessor(INode successor);
 
+        bool IsValueChanged();
+
     }
 }

@@ -61,6 +61,8 @@
     <Compile Include="GraphFactoryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
     <Compile Include="CollectionNodeTests.cs" />
+    <Compile Include="UpdateLoggerTests.cs" />
+    <Compile Include="UpdateScheduler_GetNodesForUpdateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">

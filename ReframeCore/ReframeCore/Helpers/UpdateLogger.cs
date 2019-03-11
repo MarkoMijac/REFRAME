@@ -9,41 +9,74 @@ namespace ReframeCore.Helpers
 {
     public class UpdateLogger
     {
-        private List<string> _nodesToUpdate = new List<string>();
-        private IDependencyGraph _dependencyGraph;
+        #region Public methods
 
-        public UpdateLogger(IDependencyGraph dependencyGraph)
+        public int Count
         {
-            _nodesToUpdate = new List<string>();
-            _dependencyGraph = dependencyGraph;
+            get => _loggedNodes.Count;
+        }
+
+        public UpdateLogger()
+        {
+            _loggedNodes = new List<string>();
         }
 
         public void Log(INode node)
         {
-            _nodesToUpdate.Add(ExtractData(node));
+            if (node != null)
+            {
+                _loggedNodes.Add(ExtractData(node));
+            }
         }
 
         /// <summary>
         /// Logs nodes to be updated.
         /// </summary>
-        /// <param name="nodesToUpdate">Nodes to be updated.</param>
-        public void Log(IList<INode> nodesToUpdate)
+        /// <param name="nodesToLog">Nodes to be updated.</param>
+        public void Log(IList<INode> nodesToLog)
         {
-            if (_dependencyGraph.Settings.LogUpdates == true)
+            if (nodesToLog!=null)
             {
-                ClearNodesToUpdate();
-                foreach (var n in nodesToUpdate)
+                foreach (var n in nodesToLog)
                 {
                     Log(n);
                 }
             }
         }
 
-
-        public void ClearNodesToUpdate()
+        public void ClearLog()
         {
-            _nodesToUpdate.Clear();
+            _loggedNodes.Clear();
         }
+
+        public override string ToString()
+        {
+            return GetLoggedNodes();
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool equal = false;
+            var item = obj as UpdateLogger;
+
+            if (item != null)
+            {
+                equal = GetLoggedNodes() == item.GetLoggedNodes();
+            }
+
+            return equal;
+        }
+
+        public override int GetHashCode()
+        {
+            return GetLoggedNodes().GetHashCode();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private List<string> _loggedNodes = new List<string>();
 
         private string ExtractData(INode node)
         {
@@ -57,11 +90,11 @@ namespace ReframeCore.Helpers
             return data;
         }
 
-        public string GetNodesToUpdate()
+        private string GetLoggedNodes()
         {
             string data = "";
 
-            foreach (var d in _nodesToUpdate)
+            foreach (var d in _loggedNodes)
             {
                 data += d + Environment.NewLine;
             }
@@ -69,9 +102,6 @@ namespace ReframeCore.Helpers
             return data;
         }
 
-        public override string ToString()
-        {
-            return GetNodesToUpdate();
-        }
+        #endregion
     }
 }

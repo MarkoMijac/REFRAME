@@ -694,5 +694,19 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        [TestMethod]
+        public void IsValueChanged_ReturnsTrue()
+        {
+            //Arrange
+            Whole whole = new Whole();
+            CollectionPropertyNode node = new CollectionPropertyNode(whole.Parts, "A");
+
+            //Act
+            bool isChanged = node.IsValueChanged();
+
+            //Assert
+            Assert.IsTrue(isChanged);
+        }
     }
 }

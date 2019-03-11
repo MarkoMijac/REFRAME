@@ -14,6 +14,8 @@ namespace ReframeCore.Nodes
     /// </summary>
     public class PropertyNode : Node
     {
+        private object LastValue { get; set; }
+
         #region Constructors
 
         /// <summary>
@@ -25,6 +27,7 @@ namespace ReframeCore.Nodes
             :base(ownerObject, memberName)
         {
             ValidateArguments(ownerObject, memberName);
+            LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
         }
 
         /// <summary>
@@ -38,6 +41,7 @@ namespace ReframeCore.Nodes
         {
             ValidateArguments(ownerObject, memberName, updateMethodName);
             UpdateMethod = Reflector.CreateAction(ownerObject, updateMethodName);
+            LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
         }
 
         #endregion
@@ -70,6 +74,16 @@ namespace ReframeCore.Nodes
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
             }
+        }
+
+        public override bool IsValueChanged()
+        {
+            object currentValue = Reflector.GetPropertyValue(OwnerObject, MemberName);
+
+            Type type = currentValue.GetType();
+            bool isChanged = !currentValue.Equals(LastValue);
+
+            return isChanged;
         }
 
         #endregion

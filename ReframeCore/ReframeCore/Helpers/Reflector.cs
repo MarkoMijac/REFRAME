@@ -278,5 +278,22 @@ namespace ReframeCore.Helpers
                 }
             }
         }
+
+        public static object GetPropertyValue(object obj, string memberName)
+        {
+            object value = null;
+
+            if (IsProperty(obj, memberName))
+            {
+                PropertyInfo propertyInfo = GetPropertyInfo(obj, memberName);
+                value = propertyInfo.GetValue(obj);
+            }
+            else
+            {
+                throw new ReflectorException("Provided arguments do not match with valid property!");
+            }
+
+            return value;
+        }
     }
 }

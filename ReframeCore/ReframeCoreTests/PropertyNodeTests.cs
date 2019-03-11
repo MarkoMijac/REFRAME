@@ -4,6 +4,7 @@ using ReframeCoreExamples.E00;
 using ReframeCore;
 using ReframeCore.Exceptions;
 using ReframeCore.Nodes;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreTests
 {
@@ -741,6 +742,65 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(removed);
+        }
+
+        #endregion
+
+        #region IsValueChanged
+
+        [TestMethod]
+        public void IsValueChanged_GivenValueIsChanged_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building = new Building00() { Width = 10 };
+            INode node = new PropertyNode(building, "Width");
+
+            //Act
+            building.Width = 12;
+
+            //Assert
+            Assert.IsTrue(node.IsValueChanged());
+        }
+
+        [TestMethod]
+        public void IsValueChanged_GivenValueIsSame_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building = new Building00() { Width = 10 };
+            INode node = new PropertyNode(building, "Width");
+
+            //Act
+            building.Width = 10;
+
+            //Assert
+            Assert.IsFalse(node.IsValueChanged());
+        }
+
+        [TestMethod]
+        public void IsValueChanged_GivenNoLaterActionMade_ReturnsFalse()
+        {
+            //Arrange
+            Building00 building = new Building00() { Width = 10 };
+            INode node = new PropertyNode(building, "Width");
+
+            //Act
+
+            //Assert
+            Assert.IsFalse(node.IsValueChanged());
+        }
+
+        [TestMethod]
+        public void IsValueChanged_GivenNoInitialValueSet_ReturnsTrue()
+        {
+            //Arrange
+            Building00 building = new Building00() { };
+            INode node = new PropertyNode(building, "Width");
+
+            //Act
+            building.Width = 10;
+
+            //Assert
+            Assert.IsTrue(node.IsValueChanged());
         }
 
         #endregion

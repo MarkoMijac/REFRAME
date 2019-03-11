@@ -241,6 +241,11 @@ namespace ReframeCore.Nodes
             return Successors.Remove(successor) && successor.Predecessors.Remove(this);
         }
 
+        public virtual bool IsValueChanged()
+        {
+            return true;
+        }
+
         #endregion
     }
 }
