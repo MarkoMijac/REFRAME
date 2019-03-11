@@ -1682,7 +1682,7 @@ namespace ReframeCoreTests
 
         #region PerformUpdate CASE 8_1
 
-        /*Simple dependency graph with node triggering within classes*/
+        /*Simple dependency graph with property node triggering within classes*/
 
         private Whole_8_1 CreateCase_8_1()
         {
@@ -2011,6 +2011,134 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(whole.A == 12 && whole.B == 42 && whole.C == 99 && whole.D == 141);
+        }
+
+        #endregion
+
+        #region Perform Update CASE 9
+
+        /*Simple dependency graph with method node triggering within classes*/
+
+        private GenericReactiveObject2 CreateCase_9()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_CASE_9");
+            var obj = new GenericReactiveObject2();
+
+            INode updateA = graph.AddNode(obj, "Update_A");
+            INode updateB = graph.AddNode(obj, "Update_B");
+            INode updateC = graph.AddNode(obj, "Update_C");
+            INode updateD = graph.AddNode(obj, "Update_D");
+            INode updateE = graph.AddNode(obj, "Update_E");
+            INode updateF = graph.AddNode(obj, "Update_F");
+            INode updateG = graph.AddNode(obj, "Update_G");
+            INode updateH = graph.AddNode(obj, "Update_H");
+            INode updateI = graph.AddNode(obj, "Update_I");
+
+            graph.AddDependency(updateA, updateB);
+            graph.AddDependency(updateB, updateC);
+            graph.AddDependency(updateC, updateD);
+            graph.AddDependency(updateD, updateE);
+
+            graph.AddDependency(updateF, updateG);
+            graph.AddDependency(updateG, updateH);
+            graph.AddDependency(updateH, updateI);
+
+            graph.Initialize();
+
+            return obj;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_9_GivenNoInitialNode_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_9();
+            var graph = GraphFactory.Get("GRAPH_CASE_9");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_9_GivenNoInitialNode(graph, obj);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_9_GivenNoInitialNode(IDependencyGraph graph, GenericReactiveObject2 obj)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(obj, "Update_F"));
+            logger.Log(graph.GetNode(obj, "Update_G"));
+            logger.Log(graph.GetNode(obj, "Update_H"));
+            logger.Log(graph.GetNode(obj, "Update_I"));
+
+            logger.Log(graph.GetNode(obj, "Update_A"));
+            logger.Log(graph.GetNode(obj, "Update_B"));
+            logger.Log(graph.GetNode(obj, "Update_C"));
+            logger.Log(graph.GetNode(obj, "Update_D"));
+            logger.Log(graph.GetNode(obj, "Update_E"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_9_GivenNodeUpdateAIsTriggered_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_9();
+            var graph = GraphFactory.Get("GRAPH_CASE_9");
+
+            //Act
+            obj.Update_A();
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_9_GivenNodeUpdateAIsTriggered(graph, obj);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_9_GivenNodeUpdateAIsTriggered(IDependencyGraph graph, GenericReactiveObject2 obj)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(obj, "Update_B"));
+            logger.Log(graph.GetNode(obj, "Update_C"));
+            logger.Log(graph.GetNode(obj, "Update_D"));
+            logger.Log(graph.GetNode(obj, "Update_E"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_9_GivenNodeUpdateFIsTriggered_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_9();
+            var graph = GraphFactory.Get("GRAPH_CASE_9");
+
+            //Act
+            obj.Update_F();
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_9_GivenNodeUpdateFIsTriggered(graph, obj);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_9_GivenNodeUpdateFIsTriggered(IDependencyGraph graph, GenericReactiveObject2 obj)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(obj, "Update_G"));
+            logger.Log(graph.GetNode(obj, "Update_H"));
+            logger.Log(graph.GetNode(obj, "Update_I"));
+
+            return logger;
         }
 
         #endregion
