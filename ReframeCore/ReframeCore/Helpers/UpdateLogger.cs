@@ -10,12 +10,10 @@ namespace ReframeCore.Helpers
     public class UpdateLogger
     {
         private List<string> _nodesToUpdate = new List<string>();
-        private IDependencyGraph _dependencyGraph;
 
-        public UpdateLogger(IDependencyGraph dependencyGraph)
+        public UpdateLogger()
         {
             _nodesToUpdate = new List<string>();
-            _dependencyGraph = dependencyGraph;
         }
 
         public void Log(INode node)
@@ -29,18 +27,15 @@ namespace ReframeCore.Helpers
         /// <param name="nodesToUpdate">Nodes to be updated.</param>
         public void Log(IList<INode> nodesToUpdate)
         {
-            if (_dependencyGraph.Settings.LogUpdates == true)
+            ClearNodesToUpdate();
+            foreach (var n in nodesToUpdate)
             {
-                ClearNodesToUpdate();
-                foreach (var n in nodesToUpdate)
-                {
-                    Log(n);
-                }
+                Log(n);
             }
         }
 
 
-        public void ClearNodesToUpdate()
+        private void ClearNodesToUpdate()
         {
             _nodesToUpdate.Clear();
         }
@@ -57,7 +52,7 @@ namespace ReframeCore.Helpers
             return data;
         }
 
-        public string GetNodesToUpdate()
+        private string GetNodesToUpdate()
         {
             string data = "";
 
@@ -72,6 +67,24 @@ namespace ReframeCore.Helpers
         public override string ToString()
         {
             return GetNodesToUpdate();
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool equal = false;
+            var item = obj as UpdateLogger;
+
+            if (item != null)
+            {
+                equal = GetNodesToUpdate() == item.GetNodesToUpdate();
+            }
+
+            return equal;
+        }
+
+        public override int GetHashCode()
+        {
+            return GetNodesToUpdate().GetHashCode();
         }
     }
 }

@@ -44,7 +44,9 @@ namespace ReframeCoreTests
             graph.PerformUpdate(initialNode);
 
             //Assert
-            Assert.IsTrue(graph.UpdateScheduler.Logger.GetNodesToUpdate() == "");
+            UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -126,7 +128,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph as DependencyGraph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -198,7 +200,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -218,7 +220,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -238,7 +240,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenHeightAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -258,7 +260,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -278,7 +280,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_AreaAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -296,8 +298,9 @@ namespace ReframeCoreTests
 
             //Assert
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
+            UpdateLogger expectedLogger = new UpdateLogger();
 
-            Assert.AreEqual("", actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -354,7 +357,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case1_GivenNoInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private void CreateCase1(DependencyGraph graph, Building00 building)
@@ -387,7 +390,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building00 building00)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building00, "Area"));
             logger.Log(graph.GetNode(building00, "TotalConsumption"));
@@ -399,7 +402,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case1_GivenHeightAsInitialNode(DependencyGraph graph, Building00 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Volume"));
             logger.Log(graph.GetNode(building, "TotalConsumptionPer_m3"));
@@ -409,7 +412,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case1_GivenConsumptionAsInitialNode(DependencyGraph graph, Building00 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "TotalConsumption"));
             logger.Log(graph.GetNode(building, "TotalConsumptionPer_m3"));
@@ -419,7 +422,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case1_AreaAsInitialNode(DependencyGraph graph, Building00 building00)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building00, "TotalConsumption"));
             logger.Log(graph.GetNode(building00, "Volume"));
@@ -430,7 +433,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case1_GivenNoInitialNode(DependencyGraph graph, Building00 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Consumption"));
             logger.Log(graph.GetNode(building, "Height"));
@@ -500,7 +503,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case2_GivenNoInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment.Basement, "UtilCoeff"));
             logger.Log(graph.GetNode(apartment.Balcony, "UtilCoeff"));
@@ -524,7 +527,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case2_GivenWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment, "HeatedArea"));
             logger.Log(graph.GetNode(apartment, "TotalArea"));
@@ -536,7 +539,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(DependencyGraph graph, Apartment01 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment.Balcony, "Area"));
             logger.Log(graph.GetNode(apartment, "TotalArea"));
@@ -560,7 +563,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenNoInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -603,7 +606,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenWidthAsInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -623,7 +626,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case2_GivenBalconyWidthAsInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -679,7 +682,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -699,7 +702,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -719,7 +722,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -739,7 +742,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -758,7 +761,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case3_GivenNoInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -820,7 +823,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateAreaAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_Area"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
@@ -832,7 +835,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateVolumeAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_Volume"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
@@ -842,7 +845,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
@@ -852,7 +855,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case3_GivenUpdateTotalConsumptionPer_m3AsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
 
@@ -861,7 +864,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case3_GivenNoInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_Area"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
@@ -912,7 +915,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case4_GivenNoInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment.Basement, "Update_Area"));
             logger.Log(graph.GetNode(apartment.Basement, "Update_UtilityArea"));
@@ -928,7 +931,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment.Balcony, "Update_Area"));
             logger.Log(graph.GetNode(apartment.Balcony, "Update_UtilityArea"));
@@ -939,7 +942,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(DependencyGraph graph, Apartment04 apartment)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(apartment, "Update_HeatedArea"));
             logger.Log(graph.GetNode(apartment, "Update_TotalArea"));
@@ -965,7 +968,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenNoInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -1008,7 +1011,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenBalconyUpdateAreaAsInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -1028,7 +1031,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case4_GivenApartmentUpdateHeatedAreaAsInitialNode(graph, apartment);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -1096,7 +1099,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case5_GivenNoInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Consumption"));
             logger.Log(graph.GetNode(building, "Height"));
@@ -1112,7 +1115,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Area"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
@@ -1124,7 +1127,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case5_GivenHeightAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_Volume"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
@@ -1134,7 +1137,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(DependencyGraph graph, Building02 building)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(building, "Update_TotalConsumption"));
             logger.Log(graph.GetNode(building, "Update_TotalConsumptionPer_m3"));
@@ -1158,7 +1161,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenNoInitialNode(graph, building);
 
-            Assert.AreEqual(actualLogger.GetNodesToUpdate(), expectedLogger.GetNodesToUpdate());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         [TestMethod]
@@ -1194,7 +1197,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1214,7 +1217,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenWidthOrLengthAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1234,7 +1237,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenHeightAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1254,7 +1257,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case5_GivenConsumptionAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         #endregion
@@ -1368,10 +1371,10 @@ namespace ReframeCoreTests
 
             //Assert
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
-            UpdateLogger expectedLogger = new UpdateLogger(graph);
+            UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(cycle, "F"));
 
-            Assert.AreEqual(actualLogger.ToString(), expectedLogger.ToString());
+            Assert.AreEqual(actualLogger, expectedLogger);
         }
 
         #endregion
@@ -1399,7 +1402,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case7_GivenNoInitialNode(DependencyGraph graph, Whole whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole.Parts, "C"));
             logger.Log(graph.GetNode(whole.Parts, "B"));
@@ -1414,7 +1417,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case7_GivenAAsInitialNode(DependencyGraph graph, Whole whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "A"));
 
@@ -1423,7 +1426,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case7_GivenBAsInitialNode(DependencyGraph graph, Whole whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "B"));
 
@@ -1445,7 +1448,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenNoInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1479,7 +1482,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenAAsInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1498,7 +1501,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_GivenBAsInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1546,7 +1549,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case7_1_GivenNoInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "CoeffC"));
             logger.Log(graph.GetNode(whole.Parts, "C"));
@@ -1573,7 +1576,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenNoInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1598,7 +1601,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole.Parts, "A"));
 
@@ -1621,12 +1624,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffAAsInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(DependencyGraph graph, Whole2 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole.Parts, "B"));
 
@@ -1649,7 +1652,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = graph.UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case7_1_GivenCoeffBAsInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1692,7 +1695,7 @@ namespace ReframeCoreTests
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenNoInitialNode(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole.Parts, "C"));
             logger.Log(graph.GetNode(whole.Parts, "B"));
@@ -1725,7 +1728,7 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenNoInitialNode(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         [TestMethod]
@@ -1756,12 +1759,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "A"));
             logger.Log(graph.GetNode(whole, "B"));
@@ -1801,12 +1804,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "B"));
             logger.Log(graph.GetNode(whole, "C"));
@@ -1844,12 +1847,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCoeffCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "C"));
             logger.Log(graph.GetNode(whole, "D"));
@@ -1888,12 +1891,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenAIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenAIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "A"));
             logger.Log(graph.GetNode(whole, "B"));
@@ -1935,12 +1938,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenBIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenBIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "B"));
             logger.Log(graph.GetNode(whole, "C"));
@@ -1981,12 +1984,12 @@ namespace ReframeCoreTests
             UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.Logger;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_1_GivenCIsTriggered(graph, whole);
 
-            Assert.AreEqual(expectedLogger.GetNodesToUpdate(), actualLogger.GetNodesToUpdate());
+            Assert.AreEqual(expectedLogger, actualLogger);
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_1_GivenCIsTriggered(IDependencyGraph graph, Whole_8_1 whole)
         {
-            UpdateLogger logger = new UpdateLogger(graph);
+            UpdateLogger logger = new UpdateLogger();
 
             logger.Log(graph.GetNode(whole, "C"));
             logger.Log(graph.GetNode(whole, "D"));

@@ -1,4 +1,4 @@
-﻿using ReframeCore.Exceptions;
+using ReframeCore.Exceptions;
 using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
@@ -39,7 +39,7 @@ namespace ReframeCore.Helpers
             RedirectionDependencesToAdd = new List<Tuple<INode, INode>>();
 
             SortAlgorithm = new TopologicalSort2();
-            Logger = new UpdateLogger(graph);
+            Logger = new UpdateLogger();
             DependencyGraph = graph;
 
             EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
