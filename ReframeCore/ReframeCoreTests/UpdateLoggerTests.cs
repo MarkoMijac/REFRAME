@@ -145,5 +145,145 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsFalse(areEqual);
         }
+
+        [TestMethod]
+        public void Log_GivenNullNode_NodeIsNotLogged()
+        {
+            //Arrange
+            UpdateLogger logger = new UpdateLogger();
+            INode nullNode = null;
+
+            //Act
+            logger.Log(nullNode);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 0);
+        }
+
+        [TestMethod]
+        public void Log_GivenNullNodeList_NodeIsNotLogged()
+        {
+            //Arrange
+            UpdateLogger logger = new UpdateLogger();
+            IList<INode> nullNodeList = null;
+
+            //Act
+            logger.Log(nullNodeList);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 0);
+        }
+
+        [TestMethod]
+        public void Log_GivenEmptyNodeList_NodesAreNotLogged()
+        {
+            //Arrange
+            UpdateLogger logger = new UpdateLogger();
+            IList<INode> emptyList = new List<INode>();
+
+            //Act
+            logger.Log(emptyList);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 0);
+        }
+
+        [TestMethod]
+        public void Log_GivenValidNode_NodeIsLogged()
+        {
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            INode node = nodeFactory.CreateNode(obj, "A");
+            UpdateLogger logger = new UpdateLogger();
+
+            //Act
+            logger.Log(node);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 1);
+        }
+
+        [TestMethod]
+        public void Log_GivenNonEmptyNodeList_NodesAreLogged()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            List<INode> nodes = new List<INode>();
+            nodes.Add(nodeFactory.CreateNode(obj, "A"));
+            nodes.Add(nodeFactory.CreateNode(obj, "B"));
+            nodes.Add(nodeFactory.CreateNode(obj, "C"));
+            nodes.Add(nodeFactory.CreateNode(obj, "D"));
+
+            UpdateLogger logger = new UpdateLogger();
+
+            //Act
+            logger.Log(nodes);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 4);
+        }
+
+        [TestMethod]
+        public void Log_GivenNodeListContainsNullNode_OnlyNonNullNodesAreLogged()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            List<INode> nodes = new List<INode>();
+            nodes.Add(nodeFactory.CreateNode(obj, "A"));
+            nodes.Add(nodeFactory.CreateNode(obj, "B"));
+            nodes.Add(nodeFactory.CreateNode(obj, "C"));
+            nodes.Add(nodeFactory.CreateNode(obj, "D"));
+            INode nullNode = null;
+            nodes.Add(nullNode);
+
+            UpdateLogger logger = new UpdateLogger();
+
+            //Act
+            logger.Log(nodes);
+
+            //Assert
+            Assert.IsTrue(logger.Count == 4);
+        }
+
+        [TestMethod]
+        public void ClearLog_GivenLoggerAlreadyEmpty_LoggerRemainsEmpty()
+        {
+            //Arrange
+            UpdateLogger logger = new UpdateLogger();
+
+            //Act
+            logger.ClearLog();
+
+            //Assert
+            Assert.IsTrue(logger.Count == 0);
+        }
+
+        [TestMethod]
+        public void ClearLog_GivenLoggerNotEmpty_LoggerBecomesEmpty()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            List<INode> nodes = new List<INode>();
+            nodes.Add(nodeFactory.CreateNode(obj, "A"));
+            nodes.Add(nodeFactory.CreateNode(obj, "B"));
+            nodes.Add(nodeFactory.CreateNode(obj, "C"));
+            nodes.Add(nodeFactory.CreateNode(obj, "D"));
+
+            UpdateLogger logger = new UpdateLogger();
+            logger.Log(nodes);
+
+            //Act
+            logger.ClearLog();
+
+            //Assert
+            Assert.IsTrue(logger.Count == 0);
+        }
     }
 }
