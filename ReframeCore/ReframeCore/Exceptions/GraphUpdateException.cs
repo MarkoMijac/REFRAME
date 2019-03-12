@@ -9,6 +9,9 @@ namespace ReframeCore.Exceptions
 {
     public class GraphUpdateException : ReframeException
     {
+        public IDependencyGraph Graph { get; set; }
+        public INode FailedNode { get; set; }
+
         public GraphUpdateException()
             : base("Generic exception in graph update process.")
         {

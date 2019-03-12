@@ -29,13 +29,36 @@ namespace ReframeCore.Helpers
             }
         }
 
+        public void Log(KeyValuePair<INode, bool> node)
+        {
+            if (!node.Equals(default(KeyValuePair<INode, bool>)))
+            {
+                Log(node.Key);
+            }
+        }
+
         /// <summary>
-        /// Logs nodes to be updated.
+        /// Logs nodes.
         /// </summary>
-        /// <param name="nodesToLog">Nodes to be updated.</param>
+        /// <param name="nodesToLog">Nodes to be logged.</param>
         public void Log(IList<INode> nodesToLog)
         {
             if (nodesToLog!=null)
+            {
+                foreach (var n in nodesToLog)
+                {
+                    Log(n);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Logs nodes.
+        /// </summary>
+        /// <param name="nodesToLog">Nodes to be logged.</param>
+        public void Log(Dictionary<INode, bool> nodesToLog)
+        {
+            if (nodesToLog != null)
             {
                 foreach (var n in nodesToLog)
                 {

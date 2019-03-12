@@ -25,6 +25,7 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; }
 
         private UpdateProcessStatus Status { get; set; }
+        private Dictionary<INode, bool> NodesForUpdate;
 
         /// <summary>
         /// Algorithm for topological sorting.
@@ -67,8 +68,8 @@ namespace ReframeCore.Helpers
             {
                 MarkUpdateStart();
 
-                IList<INode> nodesForUpdate = GetNodesForUpdate();
-                Update(nodesForUpdate);
+                NodesForUpdate = GetNodesForUpdate();
+                Update();
 
                 MarkUpdateEnd();
             }
@@ -78,7 +79,7 @@ namespace ReframeCore.Helpers
         /// Gets all nodes from dependency graph, arranged in order they should be updated.
         /// </summary>
         /// <returns>List of all nodes from dependency graph.</returns>
-        public IList<INode> GetNodesForUpdate()
+        public Dictionary<INode, bool> GetNodesForUpdate()
         {
             MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes);
             IList<INode> nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes);
@@ -91,7 +92,21 @@ namespace ReframeCore.Helpers
                 LoggerNodesForUpdate.Log(nodesForUpdate);
             }
 
-            return nodesForUpdate;
+            return ConvertToDictionary(nodesForUpdate);
+        }
+
+        private static Dictionary<INode, bool> ConvertToDictionary(IList<INode> nodesForUpdate)
+        {
+            Dictionary<INode, bool> dictionary = new Dictionary<INode, bool>();
+            if (nodesForUpdate != null)
+            {
+                foreach (var n in nodesForUpdate)
+                {
+                    dictionary.Add(n, false);
+                }
+            }
+
+            return dictionary;
         }
 
         /// <summary>
@@ -100,7 +115,7 @@ namespace ReframeCore.Helpers
         /// <param name="node">Initial node that triggered the update.</param>
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.</param>
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
-        public IList<INode> GetNodesForUpdate(INode node, bool skipInitialNode)
+        public Dictionary<INode, bool> GetNodesForUpdate(INode node, bool skipInitialNode)
         {
             IList<INode> nodesForUpdate = null;
             INode initialNode = DependencyGraph.GetNode(node);
@@ -124,7 +139,7 @@ namespace ReframeCore.Helpers
                 LoggerNodesForUpdate.Log(nodesForUpdate);
             }
 
-            return nodesForUpdate;
+            return ConvertToDictionary(nodesForUpdate);
         }
 
         public void PerformUpdate(INode initialNode, bool skipInitialNode)
@@ -134,8 +149,8 @@ namespace ReframeCore.Helpers
                 MarkUpdateStart();
 
                 ValidateInitialNode(initialNode);
-                IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
-                Update(nodesForUpdate);
+                NodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
+                Update();
 
                 MarkUpdateEnd();
             }
@@ -154,8 +169,8 @@ namespace ReframeCore.Helpers
                     initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
                 }
 
-                IList<INode> nodesForUpdate = GetNodesForUpdate(initialNode, true);
-                Update(nodesForUpdate);
+                NodesForUpdate = GetNodesForUpdate(initialNode, true);
+                Update();
 
                 MarkUpdateEnd();
             }
@@ -180,28 +195,51 @@ namespace ReframeCore.Helpers
             Status = UpdateProcessStatus.Ended;
         }
 
-        private void Update(IList<INode> nodesForUpdate)
+        private void Update()
         {
             LoggerUpdatedNodes.ClearLog();
 
             try
             {
-                foreach (var node in nodesForUpdate)
+                foreach (var node in NodesForUpdate.Keys.ToList())
                 {
                     node.Update();
-
-                    if (DependencyGraph.Settings.EnableLogging == true)
-                    {
-                        LoggerUpdatedNodes.Log(node);
-                    }
+                    MarkAsUpdated(node);
                 }
             }
             catch (Exception e)
             {
-                throw new GraphUpdateException();
+                GraphUpdateException ex = new GraphUpdateException();
+                ex.Graph = DependencyGraph;
+                ex.FailedNode = GetFailedNode();
+                throw ex;
+            }
+        }
+
+        private INode GetFailedNode()
+        {
+            INode node = null;
+
+            foreach (var item in NodesForUpdate)
+            {
+                if (item.Value == false)
+                {
+                    node = item.Key;
+                    break;
+                }
             }
 
-            
+            return node;
+        }
+
+        private void MarkAsUpdated(INode node)
+        {
+            if (DependencyGraph.Settings.EnableLogging == true)
+            {
+                LoggerUpdatedNodes.Log(node);
+            }
+
+            NodesForUpdate[node] = true;
         }
 
         private void ValidateInitialNode(INode initialNode)
