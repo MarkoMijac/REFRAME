@@ -53,6 +53,7 @@
     <Compile Include="Exceptions\CyclicReactiveDependencyException.cs" />
     <Compile Include="Exceptions\DependencyGraphException.cs" />
     <Compile Include="Exceptions\NodeNullReferenceException.cs" />
+    <Compile Include="Exceptions\GraphUpdateException.cs" />
     <Compile Include="Exceptions\ReactiveCollectionException.cs" />
     <Compile Include="Exceptions\ReactiveDependencyException.cs" />
     <Compile Include="Exceptions\ReactiveNodeException.cs" />

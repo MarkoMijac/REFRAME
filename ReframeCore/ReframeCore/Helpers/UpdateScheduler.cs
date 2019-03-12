@@ -184,15 +184,24 @@ namespace ReframeCore.Helpers
         {
             LoggerUpdatedNodes.ClearLog();
 
-            foreach (var node in nodesForUpdate)
+            try
             {
-                node.Update();
-
-                if (DependencyGraph.Settings.EnableLogging == true)
+                foreach (var node in nodesForUpdate)
                 {
-                    LoggerUpdatedNodes.Log(node);
+                    node.Update();
+
+                    if (DependencyGraph.Settings.EnableLogging == true)
+                    {
+                        LoggerUpdatedNodes.Log(node);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                throw new GraphUpdateException();
+            }
+
+            
         }
 
         private void ValidateInitialNode(INode initialNode)
@@ -336,8 +345,6 @@ namespace ReframeCore.Helpers
         {
             return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
         }
-
-
 
         #endregion
     }
