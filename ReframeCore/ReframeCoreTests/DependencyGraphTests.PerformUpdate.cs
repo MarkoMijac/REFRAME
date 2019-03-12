@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeCoreExamples.E00;
@@ -2247,6 +2247,29 @@ namespace ReframeCoreTests
             return logger;
         }
 
+        [TestMethod]
+        public void PerformUpdate_GivenExceptionInClientCodeDuringUpdateProcess_ProvidesNodeWhichCausedException()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_10();
+            var graph = GraphFactory.Get("GRAPH_CASE_10");
+
+            INode errorNode = null;
+            INode jNode = graph.GetNode(obj, "Update_J");
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (GraphUpdateException e)
+            {
+                errorNode = e.FailedNode as INode;
+            }
+
+            //Assert
+            Assert.AreEqual(errorNode, jNode);
+        }
 
         #endregion
     }

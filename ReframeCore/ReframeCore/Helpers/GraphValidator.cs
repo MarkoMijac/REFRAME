@@ -13,5 +13,10 @@ namespace ReframeCore.Helpers
         {
 
         }
+
+        public static void ValidateGraph(Dictionary<INode, bool> nodes)
+        {
+
+        }
     }
 }
