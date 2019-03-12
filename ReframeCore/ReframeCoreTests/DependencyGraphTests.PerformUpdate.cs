@@ -2182,7 +2182,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void PerformUpdate_GivenExceptionInClientCodeDuringUpdateProcess_ThrowsException()
+        public void PerformUpdate_Case_10_GivenExceptionInClientCodeDuringUpdateProcess_ThrowsException()
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
@@ -2193,7 +2193,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void PerformUpdate_GivenExceptionInClientCodeDuringUpdateProcess_UpdateProcessIsAborted()
+        public void PerformUpdate_Case_10_GivenExceptionInClientCodeDuringUpdateProcess_UpdateProcessIsAborted()
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
@@ -2248,7 +2248,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void PerformUpdate_GivenExceptionInClientCodeDuringUpdateProcess_ProvidesNodeWhichCausedException()
+        public void PerformUpdate_Case_10_GivenExceptionInClientCodeDuringUpdateProcess_ProvidesNodeWhichCausedException()
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
@@ -2272,5 +2272,135 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region Perform Update CASE 10_1
+
+        /*Demonstration of exception happening during performing update process*/
+
+        private GenericReactiveObject2 CreateCase_10_1()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_CASE_10_1");
+            var obj = new GenericReactiveObject2();
+            obj.Graph = graph;
+
+            INode nodeA = graph.AddNode(obj, "A");
+            INode nodeB = graph.AddNode(obj, "B");
+            INode nodeC = graph.AddNode(obj, "C");
+            INode nodeD = graph.AddNode(obj, "D");
+            INode nodeE = graph.AddNode(obj, "E");
+            INode nodeF = graph.AddNode(obj, "F");
+            INode nodeG = graph.AddNode(obj, "G");
+            INode nodeH = graph.AddNode(obj, "H");
+            INode nodeI = graph.AddNode(obj, "I");
+            INode nodeJ = graph.AddNode(obj, "J");
+
+            graph.AddDependency(nodeA, nodeB);
+            graph.AddDependency(nodeB, nodeC);
+            graph.AddDependency(nodeC, nodeD);
+            graph.AddDependency(nodeD, nodeE);
+
+            graph.AddDependency(nodeF, nodeG);
+            graph.AddDependency(nodeG, nodeH);
+            graph.AddDependency(nodeH, nodeI);
+            graph.AddDependency(nodeI, nodeJ);
+
+            graph.Initialize();
+
+            return obj;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_10_1_GivenExceptionInClientCodeDuringUpdateProcess_ThrowsException()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_10_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_10_1");
+
+            //Act&Assert
+            Assert.ThrowsException<GraphUpdateException>(() => graph.PerformUpdate());
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_10_1_GivenExceptionInClientCodeDuringUpdateProcess_UpdateProcessIsAborted()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_10_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_10_1");
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (Exception) { }
+
+            //Assert
+            UpdateLogger nodesForUpdateLogger = CreateExpectedNodesForUpdateLogger_Case_10_1_GivenNoInitialNode(graph, obj);
+            UpdateLogger updatedNodesLogger = CreateExpectedUpdatedNodesLogger_Case_10_1_GivenNoInitialNode(graph, obj);
+
+            UpdateLogger actualNodesForUpdate = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualUpdatedNodes = (graph as DependencyGraph).UpdateScheduler.LoggerUpdatedNodes;
+
+            Assert.IsTrue(nodesForUpdateLogger.Equals(actualNodesForUpdate) && updatedNodesLogger.Equals(actualUpdatedNodes));
+        }
+
+        private UpdateLogger CreateExpectedNodesForUpdateLogger_Case_10_1_GivenNoInitialNode(IDependencyGraph graph, GenericReactiveObject2 obj)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(obj, "F"));
+            logger.Log(graph.GetNode(obj, "G"));
+            logger.Log(graph.GetNode(obj, "H"));
+            logger.Log(graph.GetNode(obj, "I"));
+            logger.Log(graph.GetNode(obj, "J"));
+
+            logger.Log(graph.GetNode(obj, "A"));
+            logger.Log(graph.GetNode(obj, "B"));
+            logger.Log(graph.GetNode(obj, "C"));
+            logger.Log(graph.GetNode(obj, "D"));
+            logger.Log(graph.GetNode(obj, "E"));
+
+            return logger;
+        }
+
+        private UpdateLogger CreateExpectedUpdatedNodesLogger_Case_10_1_GivenNoInitialNode(IDependencyGraph graph, GenericReactiveObject2 obj)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(obj, "F"));
+            logger.Log(graph.GetNode(obj, "G"));
+            logger.Log(graph.GetNode(obj, "H"));
+            logger.Log(graph.GetNode(obj, "I"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_10_1_GivenExceptionInClientCodeDuringUpdateProcess_ProvidesNodeWhichCausedException()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_10_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_10_1");
+
+            INode errorNode = null;
+            INode jNode = graph.GetNode(obj, "J");
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (GraphUpdateException e)
+            {
+                errorNode = e.FailedNode as INode;
+            }
+
+            //Assert
+            Assert.AreEqual(errorNode, jNode);
+        }
+
+        #endregion
+
     }
 }
