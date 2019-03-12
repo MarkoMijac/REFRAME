@@ -11,7 +11,7 @@ namespace ReframeCoreExamples.E00
     {
         #region Properties
 
-        private IDependencyGraph _graph;
+        public IDependencyGraph Graph { get; set; }
 
         public int A { get; set; }
         public int B { get; set; }
@@ -22,6 +22,7 @@ namespace ReframeCoreExamples.E00
         public int G { get; set; }
         public int H { get; set; }
         public int I { get; set; }
+        public int J { get; set; }
 
         #endregion
 
@@ -29,52 +30,57 @@ namespace ReframeCoreExamples.E00
 
         public GenericReactiveObject2()
         {
-            _graph = GraphFactory.Get("GRAPH_CASE_9");
+            Graph = GraphFactory.Get("GRAPH_CASE_9");
         }
 
         public void Update_A()
         {
-            _graph.PerformUpdate(this, "Update_A");
+            Graph.PerformUpdate(this, "Update_A");
         }
 
         private void Update_B()
         {
-            _graph.PerformUpdate(this, "Update_B");
+            Graph.PerformUpdate(this, "Update_B");
         }
 
         private void Update_C()
         {
-            _graph.PerformUpdate(this, "Update_C");
+            Graph.PerformUpdate(this, "Update_C");
         }
 
         private void Update_D()
         {
-            _graph.PerformUpdate(this, "Update_D");
+            Graph.PerformUpdate(this, "Update_D");
         }
 
         private void Update_E()
         {
-            _graph.PerformUpdate(this, "Update_E");
+            Graph.PerformUpdate(this, "Update_E");
         }
 
         public void Update_F()
         {
-            _graph.PerformUpdate(this, "Update_F");
+            Graph.PerformUpdate(this, "Update_F");
         }
 
         private void Update_G()
         {
-            _graph.PerformUpdate(this, "Update_G");
+            Graph.PerformUpdate(this, "Update_G");
         }
 
         private void Update_H()
         {
-            _graph.PerformUpdate(this, "Update_H");
+            Graph.PerformUpdate(this, "Update_H");
         }
 
         private void Update_I()
         {
-            _graph.PerformUpdate(this, "Update_I");
+            Graph.PerformUpdate(this, "Update_I");
+        }
+
+        private void Update_J()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
