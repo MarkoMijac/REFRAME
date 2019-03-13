@@ -43,6 +43,8 @@ namespace ReframeCore.Nodes
         /// </summary>
         public Action UpdateMethod { get; set; }
 
+        public IDependencyGraph Graph { get; set; }
+
         #endregion
 
         #region Constructors

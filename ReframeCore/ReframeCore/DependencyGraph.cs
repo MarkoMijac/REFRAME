@@ -86,6 +86,7 @@ namespace ReframeCore
             {
                 Nodes.Add(node);
                 addedNode = node;
+                RegisterGraphInNode(addedNode);
             }
 
             return addedNode;
@@ -117,9 +118,15 @@ namespace ReframeCore
             {
                 nodeToAdd = DefaultNodeFactory.CreateNode(ownerObject, memberName, updateMethodName);
                 Nodes.Add(nodeToAdd);
+                RegisterGraphInNode(nodeToAdd);
             }
 
             return nodeToAdd;
+        }
+
+        private void RegisterGraphInNode(INode node)
+        {
+            node.Graph = this;
         }
 
         #endregion
@@ -142,7 +149,11 @@ namespace ReframeCore
                 throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
             }
 
-            return Nodes.Remove(node);
+            bool removed = Nodes.Remove(node);
+            UnregisterGraphFromNode(node);
+
+            return removed;
+
         }
 
         /// <summary>
@@ -163,6 +174,14 @@ namespace ReframeCore
             }
 
             return numberOfRemovedNodes;
+        }
+
+        private void UnregisterGraphFromNode(INode node)
+        {
+            if (node.Graph == this)
+            {
+                node.Graph = null;
+            }
         }
 
         #endregion

@@ -11,6 +11,8 @@ namespace ReframeCore.Nodes
     /// </summary>
     public interface INode
     {
+        IDependencyGraph Graph { get; set; }
+
         uint Identifier { get; }
         string MemberName { get; }
         object OwnerObject { get; }

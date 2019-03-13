@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +32,12 @@ namespace ReframeCore.ReactiveCollections
 
     public class ReactiveCollection<T> : Collection<T>, IReactiveCollection
     {
+        #region Properties
+
+        public ICollectionNode CollectionNode { get; set; }
+
+        #endregion
+
         #region Methods
 
         public new void Add(T item)
@@ -42,6 +49,7 @@ namespace ReframeCore.ReactiveCollections
                 List<T> addedItems = new List<T> { item };
                 OnItemAdded(addedItems);
                 OnCollectionChanged(addedItems, new List<T> { });
+                InitiatePerformUpdate();
             }
             else
             {
@@ -60,6 +68,7 @@ namespace ReframeCore.ReactiveCollections
                 OnCollectionChanged(new List<T> { }, removedItems);
 
                 success = base.Remove(item);
+                InitiatePerformUpdate();
             }
             return success;
         }
@@ -69,6 +78,18 @@ namespace ReframeCore.ReactiveCollections
             var eArgs = e as ReactiveCollectionItemEventArgs;
             eArgs.Collection = this;
             UpdateTriggered?.Invoke(sender, eArgs);
+        }
+
+        private void InitiatePerformUpdate()
+        {
+            if (CollectionNode != null)
+            {
+                var graph = (CollectionNode as INode).Graph;
+                if (graph != null)
+                {
+                    graph.PerformUpdate();
+                }
+            }
         }
 
         #endregion

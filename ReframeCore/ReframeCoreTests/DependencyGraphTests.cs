@@ -164,6 +164,22 @@ namespace ReframeCoreTests
             Assert.IsNull(addedNode);
         }
 
+        [TestMethod]
+        public void AddNode_GivenAddedNode_GraphIsRegisteredToNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+            INode node = nodeFactory.CreateNode(building, memberName);
+
+            //Act
+            INode addedNode = graph.AddNode(node);
+
+            //Assert
+            Assert.IsTrue(addedNode.Graph == graph);
+        }
+
         #endregion
 
         #region public INode AddNode(object ownerObject, string memberName)
@@ -365,6 +381,21 @@ namespace ReframeCoreTests
             Assert.ThrowsException<ReactiveNodeException>(() => graph.AddNode(building, memberName));
         }
 
+        [TestMethod]
+        public void AddNode1_GivenAddedNode_GraphIsRegisteredToNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName);
+
+            //Assert
+            Assert.IsTrue(addedNode.Graph == graph);
+        }
+
         #endregion
 
         #region public INode AddNode(object ownerObject, string memberName, string updateMethodName)
@@ -506,6 +537,22 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(addedNode, additionalNode);
+        }
+
+        [TestMethod]
+        public void AddNode2_GivenAddedNode_GraphIsRegisteredToNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Area";
+            string updateMethod = "Update_Area";
+
+            //Act
+            INode addedNode = graph.AddNode(building, memberName, updateMethod);
+
+            //Assert
+            Assert.IsTrue(addedNode.Graph == graph);
         }
 
         #endregion
@@ -1003,6 +1050,23 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(removed);
+        }
+
+        [TestMethod]
+        public void RemoveNode_GivenRemovedNode_GraphIsUnregisteredFromNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
+            graph.AddNode(node);
+
+            //Act
+            bool removed = graph.RemoveNode(node);
+
+            //Assert
+            Assert.IsTrue(node.Graph == null);
         }
 
         #endregion

@@ -8,6 +8,7 @@ using ReframeCoreExamples.E08.E4;
 using ReframeCoreExamples.E08.E5;
 using ReframeCoreExamples.E08.E6;
 using ReframeCoreExamples.E08.E7;
+using ReframeCoreExamples.E08.E8;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1044,6 +1045,159 @@ namespace ReframeCoreTests
             Assert.IsTrue(order.Items[0].Amount == 1 && order.Items[0].UnitPrice == (decimal)3.5 && order.Items[0].Total == (decimal)2.8 && order.Items[0].TotalVAT == 3.5m);
             Assert.IsTrue(order.Items[1].Amount == 2 && order.Items[1].UnitPrice == (decimal)4.5 && order.Items[1].Total == (decimal)7.2 && order.Items[1].TotalVAT == 9);
             Assert.IsTrue(order.DiscountA == 10 && order.DiscountB == 10 && order.TotalDiscount == 20 && order.Total == (decimal)10 && order.TotalVAT == (decimal)12.5);
+        }
+
+        #endregion
+
+        #region PerformUpdate_CASE_8_8
+
+        /*Testing update process when items are added or removed from reactive collection*/
+
+        private Class_C_8_8 CreateCase_8_8()
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_8_8");
+
+            var objA1 = new Class_A_8_8() { Graph = graph, A = 1 };
+            var objA2 = new Class_A_8_8() { Graph = graph, A = 2 };
+
+            var objB1 = new Class_B_8_8() { Graph = graph, A = 1, PartA = objA1 };
+            var objB2 = new Class_B_8_8() { Graph = graph, A = 2, PartA = objA2 };
+
+            var objC = new Class_C_8_8() { Graph = graph, A = 3 };
+            objC.PartsB.Add(objB1);
+            objC.PartsB.Add(objB2);
+
+            INode a1_a = graph.AddNode(objA1, "A");
+            INode a1_b = graph.AddNode(objA1, "B");
+            INode a2_a = graph.AddNode(objA2, "A");
+            INode a2_b = graph.AddNode(objA2, "B");
+
+            graph.AddDependency(a1_a, a1_b);
+            graph.AddDependency(a2_a, a2_b);
+
+            INode b1_a = graph.AddNode(objB1, "A");
+            INode b1_b = graph.AddNode(objB1, "B");
+            INode b2_a = graph.AddNode(objB2, "A");
+            INode b2_b = graph.AddNode(objB2, "B");
+
+            graph.AddDependency(b1_a, b1_b);
+            graph.AddDependency(b2_a, b2_b);
+            graph.AddDependency(a1_a, b1_a);
+            graph.AddDependency(a1_b, b1_b);
+            graph.AddDependency(a2_a, b2_a);
+            graph.AddDependency(a2_b, b2_b);
+
+            INode c_a = graph.AddNode(objC, "A");
+            INode c_b = graph.AddNode(objC, "B");
+            INode c_partsB_A = graph.AddNode(objC.PartsB, "A");
+            INode c_partsB_B = graph.AddNode(objC.PartsB, "B");
+
+            graph.AddDependency(c_a, c_b);
+            graph.AddDependency(c_partsB_A, c_a);
+            graph.AddDependency(c_partsB_B, c_b);
+
+            graph.Initialize();
+
+            return objC;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_8_PerformCompleteUpdate_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var objC = CreateCase_8_8();
+            var graph = GraphFactory.Get("GRAPH_8_8");
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(IDependencyGraph graph, Class_C_8_8 objC)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "A"));
+            logger.Log(graph.GetNode(objC.PartsB, "A"));
+            logger.Log(graph.GetNode(objC, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "B"));
+            logger.Log(graph.GetNode(objC.PartsB, "B"));
+            logger.Log(graph.GetNode(objC, "B"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_8_GivenNewItemIsAddedToReactiveCollection_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var objC = CreateCase_8_8();
+            var graph = GraphFactory.Get("GRAPH_8_8");
+
+            //Act
+            Class_B_8_8 newB = new Class_B_8_8()
+            {
+                Graph = graph,
+                PartA = new Class_A_8_8()
+            };
+
+            objC.PartsB.Add(newB);
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_8_GivenExistingItemIsRemovedFromReactiveCollection_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var objC = CreateCase_8_8();
+            var graph = GraphFactory.Get("GRAPH_8_8");
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_RemovedItem(graph, objC);
+
+            //Act
+            objC.PartsB.Remove(objC.PartsB[1]);
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_8_8_RemovedItem(IDependencyGraph graph, Class_C_8_8 objC)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "A"));
+            logger.Log(graph.GetNode(objC.PartsB, "A"));
+            logger.Log(graph.GetNode(objC, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "B"));
+            logger.Log(graph.GetNode(objC.PartsB, "B"));
+            logger.Log(graph.GetNode(objC, "B"));
+
+            return logger;
         }
 
         #endregion

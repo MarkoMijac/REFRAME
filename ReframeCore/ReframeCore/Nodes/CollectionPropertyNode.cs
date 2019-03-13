@@ -29,15 +29,7 @@ namespace ReframeCore.Nodes
         {
             ValidateArguments(collection, memberName);
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
-        }
-
-        private void CollectionPropertyNode_UpdateTriggered(object sender, EventArgs e)
-        {
-            var eArgs = e as ReactiveCollectionItemEventArgs;
-            if (eArgs.MemberName == MemberName)
-            {
-                eArgs.CollectionNode = this;
-            }
+            (OwnerObject as IReactiveCollection).CollectionNode = this;
         }
 
         /// <summary>
@@ -54,6 +46,7 @@ namespace ReframeCore.Nodes
             UpdateMethodName = updateMethodName;
 
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
+            (OwnerObject as IReactiveCollection).CollectionNode = this;
         }
 
         /// <summary>
@@ -107,6 +100,15 @@ namespace ReframeCore.Nodes
                     updateMethod = Reflector.CreateAction(obj, UpdateMethodName);
                     updateMethod.Invoke();
                 }
+            }
+        }
+
+        private void CollectionPropertyNode_UpdateTriggered(object sender, EventArgs e)
+        {
+            var eArgs = e as ReactiveCollectionItemEventArgs;
+            if (eArgs.MemberName == MemberName)
+            {
+                eArgs.CollectionNode = this;
             }
         }
 

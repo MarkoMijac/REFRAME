@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,6 @@ namespace ReframeCore.ReactiveCollections
     interface IReactiveCollection
     {
         event EventHandler UpdateTriggered;
+        ICollectionNode CollectionNode { get; set; }
     }
 }
