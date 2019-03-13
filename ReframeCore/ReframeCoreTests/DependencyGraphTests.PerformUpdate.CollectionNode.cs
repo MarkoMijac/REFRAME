@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeCore.Helpers;
 using ReframeCore.Nodes;
@@ -1120,6 +1120,67 @@ namespace ReframeCoreTests
         }
 
         private UpdateLogger CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(IDependencyGraph graph, Class_C_8_8 objC)
+        {
+            UpdateLogger logger = new UpdateLogger();
+
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "A"));
+            logger.Log(graph.GetNode(objC.PartsB[1].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[1], "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "A"));
+            logger.Log(graph.GetNode(objC.PartsB, "A"));
+            logger.Log(graph.GetNode(objC, "A"));
+            logger.Log(graph.GetNode(objC.PartsB[0].PartA, "B"));
+            logger.Log(graph.GetNode(objC.PartsB[0], "B"));
+            logger.Log(graph.GetNode(objC.PartsB, "B"));
+            logger.Log(graph.GetNode(objC, "B"));
+
+            return logger;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_8_GivenNewItemIsAddedToReactiveCollection_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var objC = CreateCase_8_8();
+            var graph = GraphFactory.Get("GRAPH_8_8");
+
+            //Act
+            Class_B_8_8 newB = new Class_B_8_8()
+            {
+                Graph = graph,
+                PartA = new Class_A_8_8()
+            };
+
+            objC.PartsB.Add(newB);
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_8_8_GivenExistingItemIsRemovedFromReactiveCollection_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var objC = CreateCase_8_8();
+            var graph = GraphFactory.Get("GRAPH_8_8");
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_RemovedItem(graph, objC);
+
+            //Act
+            objC.PartsB.Remove(objC.PartsB[1]);
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        private UpdateLogger CreateExpectedLogger_Case_8_8_RemovedItem(IDependencyGraph graph, Class_C_8_8 objC)
         {
             UpdateLogger logger = new UpdateLogger();
 
