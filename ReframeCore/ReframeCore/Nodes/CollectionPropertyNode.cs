@@ -49,23 +49,6 @@ namespace ReframeCore.Nodes
             (OwnerObject as IReactiveCollection).CollectionNode = this;
         }
 
-        /// <summary>
-        /// Initializes reactive node's properties.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethod">Delegate to the update method.</param>
-        protected override void Initialize(object collection, string memberName)
-        {
-            Predecessors = new List<INode>();
-            Successors = new List<INode>();
-
-            MemberName = memberName;
-            OwnerObject = collection;
-
-            Identifier = GetIdentifier();
-        }
-
         #endregion
 
         #region Methods

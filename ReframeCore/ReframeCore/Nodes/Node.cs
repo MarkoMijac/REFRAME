@@ -23,10 +23,22 @@ namespace ReframeCore.Nodes
         /// </summary>
         public string MemberName { get; set; }
 
+        private WeakReference _weakOwnerObject;
+
         /// <summary>
         /// An associated object which owns the member.
         /// </summary>
-        public object OwnerObject { get; set; }
+        public object OwnerObject
+        {
+            get
+            {
+                if (_weakOwnerObject == null)
+                {
+                    return null;
+                }
+                return _weakOwnerObject.Target;
+            }
+        }
 
         /// <summary>
         /// List of reactive nodes that are predecessors to this reactive node.
@@ -63,7 +75,7 @@ namespace ReframeCore.Nodes
         /// <param name="updateMethod">Delegate to the update method.</param>
         protected virtual void Initialize(object ownerObject, string memberName)
         {
-            OwnerObject = ownerObject;
+            _weakOwnerObject = new WeakReference(ownerObject);
             MemberName = memberName;
 
             Predecessors = new List<INode>();

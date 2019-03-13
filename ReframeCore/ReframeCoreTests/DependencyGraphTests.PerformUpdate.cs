@@ -2402,5 +2402,74 @@ namespace ReframeCoreTests
 
         #endregion
 
+        #region Perform Update CASE 11
+
+        /*Demonstration of Garbage collector collecting weak references in dependency graph*/
+
+        private void CreateCase_11(GenericReactiveObject reactiveObject)
+        {
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("GRAPH_CASE_11");
+            NodeFactory nodeFactory = new NodeFactory();
+
+            INode nodeA = nodeFactory.CreateNode(reactiveObject, "A");
+            INode nodeB = nodeFactory.CreateNode(reactiveObject, "B");
+            INode nodeC = nodeFactory.CreateNode(reactiveObject, "C");
+            INode nodeD = nodeFactory.CreateNode(reactiveObject, "D");
+
+            graph.AddDependency(nodeA, nodeB);
+            graph.AddDependency(nodeB, nodeC);
+            graph.AddDependency(nodeC, nodeD);
+
+            graph.Initialize();
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenStrongReferencesToOwnerObjectExist_GivesCorrectUpdateOrder()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            CreateCase_11(obj);
+            DependencyGraph graph = GraphFactory.Get("GRAPH_CASE_11") as DependencyGraph;
+
+            //Act
+            graph.PerformUpdate();
+
+           // Assert
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(obj, "A"));
+            expectedLogger.Log(graph.GetNode(obj, "B"));
+            expectedLogger.Log(graph.GetNode(obj, "C"));
+            expectedLogger.Log(graph.GetNode(obj, "D"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenStrongReferencesToOwnerObjectDoNoExist_GivesCorrectUpdateOrder()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            CreateCase_11(obj);
+            DependencyGraph graph = GraphFactory.Get("GRAPH_CASE_11") as DependencyGraph;
+            obj = null;
+            GC.Collect();
+
+            //Act
+            graph.PerformUpdate();
+
+            // Assert
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(obj, "A"));
+            expectedLogger.Log(graph.GetNode(obj, "B"));
+            expectedLogger.Log(graph.GetNode(obj, "C"));
+            expectedLogger.Log(graph.GetNode(obj, "D"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        #endregion
     }
 }
