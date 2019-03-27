@@ -53,7 +53,13 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// Delegate to the update method.
         /// </summary>
-        public Action UpdateMethod { get; set; }
+        public Action UpdateMethod
+        {
+            get
+            {
+                return GetUpdateMethod();
+            }
+        }
 
         public IDependencyGraph Graph { get; set; }
 
@@ -285,6 +291,8 @@ namespace ReframeCore.Nodes
 
             return numOfRemoved;
         }
+
+        protected abstract Action GetUpdateMethod();
 
         #endregion
     }

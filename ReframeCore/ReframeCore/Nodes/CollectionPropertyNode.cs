@@ -42,7 +42,6 @@ namespace ReframeCore.Nodes
             :base(collection, memberName)
         {
             ValidateArguments(collection, memberName, updateMethodName);
-            UpdateMethod = Reflector.CreateAction(this, _updateAllMethodName);
             UpdateMethodName = updateMethodName;
 
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
@@ -93,6 +92,18 @@ namespace ReframeCore.Nodes
             {
                 eArgs.CollectionNode = this;
             }
+        }
+
+        protected override Action GetUpdateMethod()
+        {
+            Action action = null;
+
+            if (OwnerObject != null)
+            {
+                action = Reflector.CreateAction(this, _updateAllMethodName);
+            }
+
+            return action;
         }
 
         #endregion

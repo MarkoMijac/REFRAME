@@ -15,6 +15,7 @@ namespace ReframeCore.Nodes
     public class PropertyNode : Node
     {
         private object LastValue { get; set; }
+        private string _updateMethodName;
 
         #region Constructors
 
@@ -40,7 +41,7 @@ namespace ReframeCore.Nodes
             :base(ownerObject, memberName)
         {
             ValidateArguments(ownerObject, memberName, updateMethodName);
-            UpdateMethod = Reflector.CreateAction(ownerObject, updateMethodName);
+            _updateMethodName = updateMethodName;
             LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
         }
 
@@ -84,6 +85,18 @@ namespace ReframeCore.Nodes
             bool isChanged = !currentValue.Equals(LastValue);
 
             return isChanged;
+        }
+
+        protected override Action GetUpdateMethod()
+        {
+            Action action = null;
+
+            if (OwnerObject != null && _updateMethodName!=null && _updateMethodName != "")
+            {
+                action = Reflector.CreateAction(OwnerObject, _updateMethodName);
+            }
+
+            return action;
         }
 
         #endregion

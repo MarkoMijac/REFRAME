@@ -134,6 +134,24 @@ namespace ReframeCoreTests
             Assert.IsFalse(isAlive);
         }
 
-       
+        [TestMethod]
+        public void TestGarbageCollection()
+        {
+            //Arrange
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            PropertyNode p = nodeFactory.CreateNode(obj, "A") as PropertyNode;
+
+            Assert.IsTrue(p.OwnerObject != null);
+
+            //Act
+            obj = null;
+            GC.Collect();
+
+            //Assert
+            Assert.IsTrue(p.OwnerObject == null);
+
+        }
     }
 }
