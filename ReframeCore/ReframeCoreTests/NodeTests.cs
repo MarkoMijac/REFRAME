@@ -100,5 +100,40 @@ namespace ReframeCoreTests
             Assert.IsFalse(nodeB.Predecessors.Contains(nodeA));
             Assert.IsFalse(nodeC.Predecessors.Contains(nodeA));
         }
+
+        [TestMethod]
+        public void IsAlive_GivenStrongReferenceToObjectExists_WeakReferenceIsAlive()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj = new GenericReactiveObject();
+            INode node = nodeFactory.CreateNode(obj, "A");
+
+            //Act
+            bool isAlive = node.OwnerObject != null;
+
+            //Assert
+            Assert.IsTrue(isAlive);
+        }
+
+        [TestMethod]
+        public void IsAlive_GivenStrongReferenceToObjectDoesntExist_WeakReferenceIsNotAlive()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj = new GenericReactiveObject();
+            INode node = nodeFactory.CreateNode(obj, "A");
+
+            obj = null;
+            GC.Collect();
+
+            //Act
+            bool isAlive = node.OwnerObject != null;
+
+            //Assert
+            Assert.IsFalse(isAlive);
+        }
+
+       
     }
 }

@@ -2453,6 +2453,13 @@ namespace ReframeCoreTests
             GenericReactiveObject obj = new GenericReactiveObject();
             CreateCase_11(obj);
             DependencyGraph graph = GraphFactory.Get("GRAPH_CASE_11") as DependencyGraph;
+
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(obj, "A"));
+            expectedLogger.Log(graph.GetNode(obj, "B"));
+            expectedLogger.Log(graph.GetNode(obj, "C"));
+            expectedLogger.Log(graph.GetNode(obj, "D"));
+
             obj = null;
             GC.Collect();
 
@@ -2461,12 +2468,6 @@ namespace ReframeCoreTests
 
             // Assert
             UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
-            UpdateLogger expectedLogger = new UpdateLogger();
-            expectedLogger.Log(graph.GetNode(obj, "A"));
-            expectedLogger.Log(graph.GetNode(obj, "B"));
-            expectedLogger.Log(graph.GetNode(obj, "C"));
-            expectedLogger.Log(graph.GetNode(obj, "D"));
-
             Assert.IsTrue(expectedLogger.Equals(actualLogger));
         }
 

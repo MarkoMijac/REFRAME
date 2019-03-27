@@ -32,7 +32,7 @@ namespace ReframeCore.Nodes
         {
             get
             {
-                if (_weakOwnerObject == null)
+                if (_weakOwnerObject == null || _weakOwnerObject.IsAlive == false)
                 {
                     return null;
                 }

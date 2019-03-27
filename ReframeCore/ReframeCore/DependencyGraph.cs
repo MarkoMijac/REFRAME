@@ -1,4 +1,4 @@
-using ReframeCore.Exceptions;
+﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
@@ -202,6 +202,27 @@ namespace ReframeCore
             }
         }
 
+        private int RemoveNodesOfNonexistantObjects()
+        {
+            int numberOfRemovedNodes = 0;
+
+            for (int i = Nodes.Count - 1; i >= 0; i--)
+            {
+                if (CheckIfNodeHasNonexistantOwnerObject(Nodes[i]))
+                {
+                    RemoveNode(Nodes[i]);
+                    numberOfRemovedNodes++;
+                }
+            }
+
+            return numberOfRemovedNodes;
+        }
+
+        private bool CheckIfNodeHasNonexistantOwnerObject(INode node)
+        {
+            return node.OwnerObject == null;
+        }
+
         #endregion
 
         #region ContainsNode
@@ -402,6 +423,7 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate(initialNode, skipInitialNode);
                 Status = DependencyGraphStatus.Consistent;
             }
@@ -418,6 +440,7 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate(ownerObject, memberName);
                 Status = DependencyGraphStatus.Consistent;
             }
@@ -442,12 +465,18 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate();
                 Status = DependencyGraphStatus.Consistent;
             }
         }
 
         #endregion
+
+        private void CleanGraph()
+        {
+            RemoveNodesOfNonexistantObjects();
+        }
 
         #endregion
     }
