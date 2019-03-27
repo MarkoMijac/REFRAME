@@ -982,7 +982,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void RemoveNode_GivenNotAddedNode_ReturnsFalse()
+        public void RemoveNode_GivenNotAddedNode_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -990,11 +990,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
-            //Act
-            bool removed = graph.RemoveNode(node);
-
-            //Assert
-            Assert.IsFalse(removed);
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.RemoveNode(node));
         }
 
         [TestMethod]
@@ -1033,6 +1030,36 @@ namespace ReframeCoreTests
 
             //Act&Assert
             Assert.ThrowsException<ReactiveNodeException>(() => graph.RemoveNode(predecessorNode));
+        }
+
+        [TestMethod]
+        public void RemoveNode_GivenRemovalIsForcedEvenIfNodeHasSuccessorsAndPredecessors_ReturnsTrue()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            GenericReactiveObject obj = new GenericReactiveObject();
+
+            INode nodeA = nodeFactory.CreateNode(obj, "A");
+            INode nodeB = nodeFactory.CreateNode(obj, "B");
+            INode nodeC = nodeFactory.CreateNode(obj, "C");
+            INode nodeD = nodeFactory.CreateNode(obj, "D");
+            INode nodeE = nodeFactory.CreateNode(obj, "E");
+
+            graph.AddDependency(nodeA, nodeC);
+            graph.AddDependency(nodeB, nodeC);
+            graph.AddDependency(nodeC, nodeD);
+            graph.AddDependency(nodeC, nodeE);
+
+            //Act
+            bool removed = graph.RemoveNode(nodeC, true);
+
+            //Assert
+            Assert.IsTrue(removed);
+            Assert.IsFalse(nodeA.Successors.Contains(nodeC));
+            Assert.IsFalse(nodeB.Successors.Contains(nodeC));
+            Assert.IsFalse(nodeD.Predecessors.Contains(nodeC));
+            Assert.IsFalse(nodeE.Predecessors.Contains(nodeC));
         }
 
         [TestMethod]
