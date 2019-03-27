@@ -260,6 +260,32 @@ namespace ReframeCore.Nodes
             return true;
         }
 
+        public int ClearPredecessors()
+        {
+            int numOfRemoved = 0;
+
+            for (int i = Predecessors.Count - 1; i >= 0; i--)
+            {
+                RemovePredecessor(Predecessors[i]);
+                numOfRemoved++;
+            }
+
+            return numOfRemoved;
+        }
+
+        public int ClearSuccessors()
+        {
+            int numOfRemoved = 0;
+
+            for (int i = Successors.Count - 1; i >= 0; i--)
+            {
+                RemoveSuccessor(Successors[i]);
+                numOfRemoved++;
+            }
+
+            return numOfRemoved;
+        }
+
         #endregion
     }
 }
