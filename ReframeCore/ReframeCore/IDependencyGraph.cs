@@ -21,6 +21,7 @@ namespace ReframeCore
         Settings Settings { get; }
         INode AddNode(INode node);
         INode AddNode(object ownerObject, string memberName);
+        bool RemoveNode(INode node, bool forceRemoval);
 
         bool ContainsNode(INode node);
         bool ContainsNode(object ownerObject, string memberName);

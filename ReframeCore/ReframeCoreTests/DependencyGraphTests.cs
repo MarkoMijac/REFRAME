@@ -9,6 +9,7 @@ using ReframeCore.Helpers;
 using ReframeCoreExamples.E01;
 using ReframeCore.Nodes;
 using ReframeCoreExamples.E07;
+using ReframeCore.ReactiveCollections;
 
 namespace ReframeCoreTests
 {
@@ -982,7 +983,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void RemoveNode_GivenNotAddedNode_ReturnsFalse()
+        public void RemoveNode_GivenNotAddedNode_ThrowsException()
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
@@ -990,11 +991,8 @@ namespace ReframeCoreTests
             string memberName = "Width";
             PropertyNode node = nodeFactory.CreateNode(building, memberName) as PropertyNode;
 
-            //Act
-            bool removed = graph.RemoveNode(node);
-
-            //Assert
-            Assert.IsFalse(removed);
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => graph.RemoveNode(node));
         }
 
         [TestMethod]
@@ -1033,6 +1031,36 @@ namespace ReframeCoreTests
 
             //Act&Assert
             Assert.ThrowsException<ReactiveNodeException>(() => graph.RemoveNode(predecessorNode));
+        }
+
+        [TestMethod]
+        public void RemoveNode_GivenRemovalIsForcedEvenIfNodeHasSuccessorsAndPredecessors_ReturnsTrue()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+            GenericReactiveObject obj = new GenericReactiveObject();
+
+            INode nodeA = nodeFactory.CreateNode(obj, "A");
+            INode nodeB = nodeFactory.CreateNode(obj, "B");
+            INode nodeC = nodeFactory.CreateNode(obj, "C");
+            INode nodeD = nodeFactory.CreateNode(obj, "D");
+            INode nodeE = nodeFactory.CreateNode(obj, "E");
+
+            graph.AddDependency(nodeA, nodeC);
+            graph.AddDependency(nodeB, nodeC);
+            graph.AddDependency(nodeC, nodeD);
+            graph.AddDependency(nodeC, nodeE);
+
+            //Act
+            bool removed = graph.RemoveNode(nodeC, true);
+
+            //Assert
+            Assert.IsTrue(removed);
+            Assert.IsFalse(nodeA.Successors.Contains(nodeC));
+            Assert.IsFalse(nodeB.Successors.Contains(nodeC));
+            Assert.IsFalse(nodeD.Predecessors.Contains(nodeC));
+            Assert.IsFalse(nodeE.Predecessors.Contains(nodeC));
         }
 
         [TestMethod]
@@ -1624,6 +1652,206 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(numOfNodes, 3);
+        }
+
+        #endregion
+
+        #region RemoveNodesOfNonexistantObjects
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectsHaveStrongReferences_NoNodesAreRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj1 = new GenericReactiveObject();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            INode nodeA = nodeFactory.CreateNode(obj1, "A");
+            INode nodeB = nodeFactory.CreateNode(obj1, "B");
+            INode nodeC = nodeFactory.CreateNode(obj1, "C");
+
+            graph.AddNode(nodeA);
+            graph.AddNode(nodeB);
+            graph.AddNode(nodeC);
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int) privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(0, numOfRemoved);
+            Assert.AreEqual(3, graph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectDoesntHaveStrongReferences_NodesAreRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj1 = new GenericReactiveObject();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            INode nodeA = nodeFactory.CreateNode(obj1, "A");
+            INode nodeB = nodeFactory.CreateNode(obj1, "B");
+            INode nodeC = nodeFactory.CreateNode(obj1, "Update_C");
+
+            graph.AddNode(nodeA);
+            graph.AddNode(nodeB);
+            graph.AddNode(nodeC);
+
+            obj1 = null;
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int)privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(3, numOfRemoved);
+            Assert.AreEqual(0, graph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenMultipleOwnerObjectsDontHaveStrongReferences_NodesAreRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj1 = new GenericReactiveObject();
+            GenericReactiveObject obj2 = new GenericReactiveObject();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            INode node1A = nodeFactory.CreateNode(obj1, "A");
+            INode node1B = nodeFactory.CreateNode(obj1, "B");
+            INode node1C = nodeFactory.CreateNode(obj1, "C");
+
+            INode node2A = nodeFactory.CreateNode(obj2, "A");
+            INode node2B = nodeFactory.CreateNode(obj2, "B");
+            INode node2C = nodeFactory.CreateNode(obj2, "C");
+
+            graph.AddNode(node1A);
+            graph.AddNode(node1B);
+            graph.AddNode(node1C);
+
+            graph.AddNode(node2A);
+            graph.AddNode(node2B);
+            graph.AddNode(node2C);
+
+            obj1 = null;
+            obj2 = null;
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int)privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(6, numOfRemoved);
+            Assert.AreEqual(0, graph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenSomeOwnerObjectsDontHaveStrongReferences_NodesAreRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GenericReactiveObject obj1 = new GenericReactiveObject();
+            GenericReactiveObject obj2 = new GenericReactiveObject();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            INode node1A = nodeFactory.CreateNode(obj1, "A");
+            INode node1B = nodeFactory.CreateNode(obj1, "B");
+            INode node1C = nodeFactory.CreateNode(obj1, "C");
+
+            INode node2A = nodeFactory.CreateNode(obj2, "A");
+            INode node2B = nodeFactory.CreateNode(obj2, "B");
+            INode node2C = nodeFactory.CreateNode(obj2, "C");
+
+            graph.AddNode(node1A);
+            graph.AddNode(node1B);
+            graph.AddNode(node1C);
+
+            graph.AddNode(node2A);
+            graph.AddNode(node2B);
+            graph.AddNode(node2C);
+
+            graph.AddDependency(node1A, node2A);
+            graph.AddDependency(node1B, node2B);
+            graph.AddDependency(node1C, node2C);
+
+            obj1 = null;
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int)privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(3, numOfRemoved);
+            Assert.AreEqual(3, graph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenCollectionDoesntHaveStrongReferences_CollectionNodeIsRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            ReactiveCollection<GenericReactiveObject> reactiveCollection = new ReactiveCollection<GenericReactiveObject>();
+            reactiveCollection.Add(new GenericReactiveObject());
+            reactiveCollection.Add(new GenericReactiveObject());
+            reactiveCollection.Add(new GenericReactiveObject());
+            reactiveCollection.Add(new GenericReactiveObject());
+
+            INode collNode = nodeFactory.CreateNode(reactiveCollection, "A");
+            INode collNode2 = nodeFactory.CreateNode(reactiveCollection, "B");
+
+            graph.AddNode(collNode);
+            graph.AddNode(collNode2);
+
+            reactiveCollection = null;
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int)privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(2, numOfRemoved);
+            Assert.AreEqual(0, graph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectBelongsToCollectionWithNoStrongReferences_NodesAreRemoved()
+        {
+            //Arrange
+            NodeFactory nodeFactory = new NodeFactory();
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G1");
+
+            List<GenericReactiveObject> list = new List<GenericReactiveObject>();
+            list.Add(new GenericReactiveObject());
+            list.Add(new GenericReactiveObject());
+            list.Add(new GenericReactiveObject());
+
+            INode node1A = nodeFactory.CreateNode(list[0], "A");
+            INode node2A = nodeFactory.CreateNode(list[1], "A");
+            INode node3A = nodeFactory.CreateNode(list[2], "A");
+
+            graph.AddNode(node1A);
+            graph.AddNode(node2A);
+            graph.AddNode(node3A);
+
+            list = null;
+
+            //Act
+            PrivateObject privateGraph = new PrivateObject(graph);
+            int numOfRemoved = (int)privateGraph.Invoke("RemoveNodesOfNonexistantObjects");
+
+            //Assert
+            Assert.AreEqual(3, numOfRemoved);
+            Assert.AreEqual(0, graph.Nodes.Count);
         }
 
         #endregion

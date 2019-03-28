@@ -19,7 +19,6 @@ namespace ReframeCore.Nodes
             : base(collection, methodName)
         {
             ValidateArguments(collection, methodName);
-            UpdateMethod = Reflector.CreateAction(this, _updateAllMethodName);
         }
 
         #endregion
@@ -46,7 +45,17 @@ namespace ReframeCore.Nodes
             }
         }
 
-        
+        protected override Action GetUpdateMethod()
+        {
+            Action action = null;
+
+            if (OwnerObject != null)
+            {
+                action = Reflector.CreateAction(this, _updateAllMethodName);
+            }
+
+            return action;
+        }
 
         #endregion
     }

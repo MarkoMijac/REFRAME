@@ -17,7 +17,6 @@ namespace ReframeCore.Nodes
             : base(ownerObject, memberName)
         {
             ValidateArguments(ownerObject, memberName);
-            UpdateMethod = Reflector.CreateAction(ownerObject, memberName);
         }
 
         #endregion
@@ -30,6 +29,18 @@ namespace ReframeCore.Nodes
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided member is not a valid method!");
             }
+        }
+
+        protected override Action GetUpdateMethod()
+        {
+            Action action = null;
+
+            if (OwnerObject != null)
+            {
+                action = Reflector.CreateAction(OwnerObject, MemberName);
+            }
+
+            return action;
         }
 
         #endregion

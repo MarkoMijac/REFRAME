@@ -42,28 +42,10 @@ namespace ReframeCore.Nodes
             :base(collection, memberName)
         {
             ValidateArguments(collection, memberName, updateMethodName);
-            UpdateMethod = Reflector.CreateAction(this, _updateAllMethodName);
             UpdateMethodName = updateMethodName;
 
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
             (OwnerObject as IReactiveCollection).CollectionNode = this;
-        }
-
-        /// <summary>
-        /// Initializes reactive node's properties.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        /// <param name="updateMethod">Delegate to the update method.</param>
-        protected override void Initialize(object collection, string memberName)
-        {
-            Predecessors = new List<INode>();
-            Successors = new List<INode>();
-
-            MemberName = memberName;
-            OwnerObject = collection;
-
-            Identifier = GetIdentifier();
         }
 
         #endregion
@@ -90,7 +72,7 @@ namespace ReframeCore.Nodes
 
         private void UpdateAll()
         {
-            if (UpdateMethodName != "")
+            if (UpdateMethodName!=null && UpdateMethodName != "")
             {
                 IEnumerable collection = OwnerObject as IEnumerable;
 
@@ -110,6 +92,18 @@ namespace ReframeCore.Nodes
             {
                 eArgs.CollectionNode = this;
             }
+        }
+
+        protected override Action GetUpdateMethod()
+        {
+            Action action = null;
+
+            if (OwnerObject != null)
+            {
+                action = Reflector.CreateAction(this, _updateAllMethodName);
+            }
+
+            return action;
         }
 
         #endregion

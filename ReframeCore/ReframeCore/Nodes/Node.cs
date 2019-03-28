@@ -23,10 +23,22 @@ namespace ReframeCore.Nodes
         /// </summary>
         public string MemberName { get; set; }
 
+        private WeakReference _weakOwnerObject;
+
         /// <summary>
         /// An associated object which owns the member.
         /// </summary>
-        public object OwnerObject { get; set; }
+        public object OwnerObject
+        {
+            get
+            {
+                if (_weakOwnerObject == null || _weakOwnerObject.IsAlive == false)
+                {
+                    return null;
+                }
+                return _weakOwnerObject.Target;
+            }
+        }
 
         /// <summary>
         /// List of reactive nodes that are predecessors to this reactive node.
@@ -41,7 +53,13 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// Delegate to the update method.
         /// </summary>
-        public Action UpdateMethod { get; set; }
+        public Action UpdateMethod
+        {
+            get
+            {
+                return GetUpdateMethod();
+            }
+        }
 
         public IDependencyGraph Graph { get; set; }
 
@@ -63,7 +81,7 @@ namespace ReframeCore.Nodes
         /// <param name="updateMethod">Delegate to the update method.</param>
         protected virtual void Initialize(object ownerObject, string memberName)
         {
-            OwnerObject = ownerObject;
+            _weakOwnerObject = new WeakReference(ownerObject);
             MemberName = memberName;
 
             Predecessors = new List<INode>();
@@ -247,6 +265,34 @@ namespace ReframeCore.Nodes
         {
             return true;
         }
+
+        public int ClearPredecessors()
+        {
+            int numOfRemoved = 0;
+
+            for (int i = Predecessors.Count - 1; i >= 0; i--)
+            {
+                RemovePredecessor(Predecessors[i]);
+                numOfRemoved++;
+            }
+
+            return numOfRemoved;
+        }
+
+        public int ClearSuccessors()
+        {
+            int numOfRemoved = 0;
+
+            for (int i = Successors.Count - 1; i >= 0; i--)
+            {
+                RemoveSuccessor(Successors[i]);
+                numOfRemoved++;
+            }
+
+            return numOfRemoved;
+        }
+
+        protected abstract Action GetUpdateMethod();
 
         #endregion
     }

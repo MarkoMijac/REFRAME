@@ -85,7 +85,6 @@ namespace ReframeCore.Helpers
             IList<INode> nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes);
             ResetGraphToInitialState();
 
-            GraphValidator.ValidateGraph(nodesForUpdate);
             if (DependencyGraph.Settings.EnableLogging == true)
             {
                 LoggerNodesForUpdate.ClearLog();
@@ -132,7 +131,6 @@ namespace ReframeCore.Helpers
                 ResetGraphToInitialState();
             }
 
-            GraphValidator.ValidateGraph(nodesForUpdate);
             if (DependencyGraph.Settings.EnableLogging == true)
             {
                 LoggerNodesForUpdate.ClearLog();

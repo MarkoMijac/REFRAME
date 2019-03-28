@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.ReactiveCollections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E00
 {
-    public class GenericReactiveObject
+    public class GenericReactiveObject : ICollectionNodeItem
     {
         #region Properties
 
@@ -19,6 +20,8 @@ namespace ReframeCoreExamples.E00
         public int G { get; set; }
         public int H { get; set; }
         public int I { get; set; }
+
+        public event EventHandler UpdateTriggered;
 
         #endregion
 

@@ -137,23 +137,41 @@ namespace ReframeCore
         /// Removes reactive node from dependency graph if the node does not participate in any reactive dependencies (i.e. it doesn't have any predecessors or successors).
         /// </summary>
         /// <param name="node">Node which we want to remove from dependency graph.</param>
-        public bool RemoveNode(INode node)
+        /// <param name="forceRemoval">Indicates whether the node removal is forced, i.e. whether 
+        /// it will remove node along with all its dependencies with other nodes.</param>
+        public bool RemoveNode(INode node, bool forceRemoval = false)
         {
-            if (node == null)
-            {
-                throw new NodeNullReferenceException("Cannot remove reactive node which is null!");
-            }
+            ValidateNodeRemoval(node, forceRemoval);
 
-            if (node.Predecessors.Count > 0 || node.Successors.Count > 0)
-            {
-                throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
-            }
+            node.ClearPredecessors();
+            node.ClearSuccessors();
 
             bool removed = Nodes.Remove(node);
             UnregisterGraphFromNode(node);
 
             return removed;
 
+        }
+
+        private void ValidateNodeRemoval(INode node, bool forceRemoval)
+        {
+            if (node == null)
+            {
+                throw new NodeNullReferenceException("Cannot remove reactive node which is null!");
+            }
+
+            if (ContainsNode(node) == false)
+            {
+                throw new NodeNullReferenceException("Cannot remove reactive node which is not part of the graph!");
+            }
+
+            if (forceRemoval == false)
+            {
+                if (node.Predecessors.Count > 0 || node.Successors.Count > 0)
+                {
+                    throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
+                }
+            }
         }
 
         /// <summary>
@@ -182,6 +200,29 @@ namespace ReframeCore
             {
                 node.Graph = null;
             }
+        }
+
+        private int RemoveNodesOfNonexistantObjects()
+        {
+            GC.Collect();
+
+            int numberOfRemovedNodes = 0;
+
+            for (int i = Nodes.Count - 1; i >= 0; i--)
+            {
+                if (CheckIfNodeHasNonexistantOwnerObject(Nodes[i]))
+                {
+                    RemoveNode(Nodes[i], true);
+                    numberOfRemovedNodes++;
+                }
+            }
+
+            return numberOfRemovedNodes;
+        }
+
+        private bool CheckIfNodeHasNonexistantOwnerObject(INode node)
+        {
+            return node.OwnerObject == null;
         }
 
         #endregion
@@ -384,6 +425,7 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate(initialNode, skipInitialNode);
                 Status = DependencyGraphStatus.Consistent;
             }
@@ -400,6 +442,7 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate(ownerObject, memberName);
                 Status = DependencyGraphStatus.Consistent;
             }
@@ -424,12 +467,18 @@ namespace ReframeCore
             if (Status != DependencyGraphStatus.NotInitialized)
             {
                 Status = DependencyGraphStatus.NotConsistent;
+                CleanGraph();
                 UpdateScheduler.PerformUpdate();
                 Status = DependencyGraphStatus.Consistent;
             }
         }
 
         #endregion
+
+        private void CleanGraph()
+        {
+            RemoveNodesOfNonexistantObjects();
+        }
 
         #endregion
     }

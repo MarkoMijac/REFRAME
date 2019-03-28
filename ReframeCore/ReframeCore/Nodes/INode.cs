@@ -29,6 +29,8 @@ namespace ReframeCore.Nodes
         bool RemoveSuccessor(INode successor);
         bool HasPredecessor(INode predecessor);
         bool HasSuccessor(INode successor);
+        int ClearPredecessors();
+        int ClearSuccessors();
 
         bool IsValueChanged();
 
