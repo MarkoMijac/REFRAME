@@ -72,7 +72,7 @@ namespace ReframeCore.Nodes
 
         private void UpdateAll()
         {
-            if (UpdateMethodName != "")
+            if (UpdateMethodName!=null && UpdateMethodName != "")
             {
                 IEnumerable collection = OwnerObject as IEnumerable;
 
