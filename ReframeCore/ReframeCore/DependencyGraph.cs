@@ -210,7 +210,7 @@ namespace ReframeCore
             {
                 if (CheckIfNodeHasNonexistantOwnerObject(Nodes[i]))
                 {
-                    RemoveNode(Nodes[i]);
+                    RemoveNode(Nodes[i], true);
                     numberOfRemovedNodes++;
                 }
             }
