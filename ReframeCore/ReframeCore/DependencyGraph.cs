@@ -204,6 +204,8 @@ namespace ReframeCore
 
         private int RemoveNodesOfNonexistantObjects()
         {
+            GC.Collect();
+
             int numberOfRemovedNodes = 0;
 
             for (int i = Nodes.Count - 1; i >= 0; i--)

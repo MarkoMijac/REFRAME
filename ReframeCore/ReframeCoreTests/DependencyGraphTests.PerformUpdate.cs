@@ -2454,12 +2454,6 @@ namespace ReframeCoreTests
             CreateCase_11(obj);
             DependencyGraph graph = GraphFactory.Get("GRAPH_CASE_11") as DependencyGraph;
 
-            UpdateLogger expectedLogger = new UpdateLogger();
-            expectedLogger.Log(graph.GetNode(obj, "A"));
-            expectedLogger.Log(graph.GetNode(obj, "B"));
-            expectedLogger.Log(graph.GetNode(obj, "C"));
-            expectedLogger.Log(graph.GetNode(obj, "D"));
-
             obj = null;
             GC.Collect();
 
@@ -2467,6 +2461,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             // Assert
+            UpdateLogger expectedLogger = new UpdateLogger();
             UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
             Assert.IsTrue(expectedLogger.Equals(actualLogger));
         }
