@@ -14,6 +14,7 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
+        DependencyGraphStatus Status { get; }
 
         void Initialize();
 
@@ -32,10 +33,11 @@ namespace ReframeCore
         void AddDependency(INode predecessor, INode successor);
         bool RemoveDependency(INode predecessor, INode successor);
 
-        void PerformUpdate(INode initialNode, bool skipInitialNode);
-        void PerformUpdate(INode initialNode);
-        void PerformUpdate(object ownerObject, string memberName);
-        void PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
-        void PerformUpdate();
+        Task PerformUpdate(INode initialNode, bool skipInitialNode);
+        Task PerformUpdate(INode initialNode);
+        Task PerformUpdate(object ownerObject, string memberName);
+        Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
+        Task PerformUpdate();
+        void Clean();
     }
 }

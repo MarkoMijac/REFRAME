@@ -5,6 +5,7 @@ using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReframeCore
 {
@@ -420,32 +421,20 @@ namespace ReframeCore
         /// </summary>
         /// <param name="initialNode">Initial node that triggered the update.</param>
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
-        public void PerformUpdate(INode initialNode, bool skipInitialNode)
+        public Task PerformUpdate(INode initialNode, bool skipInitialNode)
         {
-            if (Status != DependencyGraphStatus.NotInitialized)
-            {
-                Status = DependencyGraphStatus.NotConsistent;
-                CleanGraph();
-                UpdateScheduler.PerformUpdate(initialNode, skipInitialNode);
-                Status = DependencyGraphStatus.Consistent;
-            }
+            return UpdateScheduler.PerformUpdate(initialNode, skipInitialNode);
         }
 
-        public void PerformUpdate(object ownerObject, string memberName)
+        public Task PerformUpdate(object ownerObject, string memberName)
         {
             INode initialNode = GetNode(ownerObject, memberName);
-            PerformUpdate(initialNode);
+            return PerformUpdate(initialNode);
         }
 
-        public void PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
+        public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
         {
-            if (Status != DependencyGraphStatus.NotInitialized)
-            {
-                Status = DependencyGraphStatus.NotConsistent;
-                CleanGraph();
-                UpdateScheduler.PerformUpdate(ownerObject, memberName);
-                Status = DependencyGraphStatus.Consistent;
-            }
+            return UpdateScheduler.PerformUpdate(ownerObject, memberName);
         }
 
         /// <summary>
@@ -454,28 +443,22 @@ namespace ReframeCore
         /// </summary>
         /// <param name="initialNode">Initial node that triggered the update.</param>
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
-        public void PerformUpdate(INode initialNode)
+        public Task PerformUpdate(INode initialNode)
         {
-            PerformUpdate(initialNode, true);
+            return PerformUpdate(initialNode, true);
         }
 
         /// <summary>
         /// Performs update of all nodes in dependency graph. Proper order of update is handled by topologically sorting dependend nodes.
         /// </summary>
-        public void PerformUpdate()
+        public Task PerformUpdate()
         {
-            if (Status != DependencyGraphStatus.NotInitialized)
-            {
-                Status = DependencyGraphStatus.NotConsistent;
-                CleanGraph();
-                UpdateScheduler.PerformUpdate();
-                Status = DependencyGraphStatus.Consistent;
-            }
+            return UpdateScheduler.PerformUpdate();
         }
 
         #endregion
 
-        private void CleanGraph()
+        public void Clean()
         {
             RemoveNodesOfNonexistantObjects();
         }

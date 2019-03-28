@@ -73,6 +73,24 @@ namespace ReframeCoreTests
             Assert.AreEqual(expectedLogger, actualLogger);
         }
 
+        [TestMethod]
+        public async Task PerformUpdate_Case_8_2_PerformCompleteUpdateInSeparateThread_SchedulesCorrectUpdateOrder()
+        {
+            //Arrange
+            var order = CreateCase_8_2();
+            DependencyGraph graph = GraphFactory.Get("GRAPH_8_2") as DependencyGraph;
+
+            //Act
+            graph.UpdateScheduler.PerformUpdateInSeparateThread = true;
+            await graph.PerformUpdate();
+
+            //Assert
+            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
+
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
         private UpdateLogger CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(IDependencyGraph graph, Order_8_2 order)
         {
             UpdateLogger logger = new UpdateLogger();

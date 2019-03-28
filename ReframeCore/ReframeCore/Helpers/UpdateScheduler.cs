@@ -38,6 +38,7 @@ namespace ReframeCore.Helpers
         public UpdateLogger LoggerUpdatedNodes { get; private set; }
 
         public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; }
+        public bool PerformUpdateInSeparateThread { get; set; }
 
         #endregion
 
@@ -55,6 +56,7 @@ namespace ReframeCore.Helpers
             DependencyGraph = graph;
 
             EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
+            PerformUpdateInSeparateThread = false;
             Status = UpdateProcessStatus.NotSet;
         }
 
@@ -62,10 +64,38 @@ namespace ReframeCore.Helpers
 
         #region Public methods
 
-        public void PerformUpdate()
+        private void CleanGraph()
+        {
+            DependencyGraph.Clean();
+        }
+
+        private void PrepareForUpdate()
+        {
+            CleanGraph();
+        }
+
+        public Task PerformUpdate()
+        {
+            Task task = null;
+
+            if (PerformUpdateInSeparateThread == true)
+            {
+                task = PerformUpdateAsync();
+            }
+            else
+            {
+                PerformUpdateSync();
+            }
+
+            return task;
+        }
+
+        private void PerformUpdateSync()
         {
             if (UpdateIsAllowed())
             {
+                PrepareForUpdate();
+
                 MarkUpdateStart();
 
                 NodesForUpdate = GetNodesForUpdate();
@@ -73,6 +103,11 @@ namespace ReframeCore.Helpers
 
                 MarkUpdateEnd();
             }
+        }
+
+        private Task PerformUpdateAsync()
+        {
+            return Task.Run(() => PerformUpdateSync());
         }
 
         /// <summary>
@@ -140,10 +175,28 @@ namespace ReframeCore.Helpers
             return ConvertToDictionary(nodesForUpdate);
         }
 
-        public void PerformUpdate(INode initialNode, bool skipInitialNode)
+        public Task PerformUpdate(INode initialNode, bool skipInitialNode)
+        {
+            Task task = null;
+
+            if (PerformUpdateInSeparateThread == true)
+            {
+                task = PerformUpdateAsync(initialNode, skipInitialNode);
+            }
+            else
+            {
+                PerformUpdateSync(initialNode, skipInitialNode);
+            }
+
+            return task;
+        }
+
+        private void PerformUpdateSync(INode initialNode, bool skipInitialNode)
         {
             if (UpdateIsAllowed())
             {
+                PrepareForUpdate();
+
                 MarkUpdateStart();
 
                 ValidateInitialNode(initialNode);
@@ -154,10 +207,33 @@ namespace ReframeCore.Helpers
             }
         }
 
-        public void PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
+        private Task PerformUpdateAsync(INode initialNode, bool skipInitialNode)
+        {
+            return Task.Run(() => PerformUpdateSync(initialNode, skipInitialNode));
+        }
+
+        public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
+        {
+            Task task = null;
+
+            if (PerformUpdateInSeparateThread == true)
+            {
+                task = PerformUpdateAsync(ownerObject, memberName);
+            }
+            else
+            {
+                PerformUpdateSync(ownerObject, memberName);
+            }
+
+            return task;
+        }
+
+        private void PerformUpdateSync(ICollectionNodeItem ownerObject, string memberName)
         {
             if (UpdateIsAllowed())
             {
+                PrepareForUpdate();
+
                 MarkUpdateStart();
 
                 INode initialNode = DependencyGraph.GetNode(ownerObject, memberName);
@@ -174,13 +250,19 @@ namespace ReframeCore.Helpers
             }
         }
 
+        private Task PerformUpdateAsync(ICollectionNodeItem ownerObject, string memberName)
+        {
+            return Task.Run(() => PerformUpdateSync(ownerObject, memberName));
+        }
+
         #endregion
 
         #region Private methods
 
         private bool UpdateIsAllowed()
         {
-            return Status == UpdateProcessStatus.NotSet || Status == UpdateProcessStatus.Ended;
+            return DependencyGraph.Status == DependencyGraphStatus.Initialized
+                && Status != UpdateProcessStatus.Started;
         }
 
         private void MarkUpdateStart()
