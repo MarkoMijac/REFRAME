@@ -13,6 +13,8 @@ namespace ReframeCore.Nodes
     {
         #region Properties
 
+        public int Level { get; set; }
+
         /// <summary>
         /// Node's unique identifier.
         /// </summary>

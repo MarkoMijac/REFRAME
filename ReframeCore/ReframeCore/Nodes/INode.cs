@@ -34,5 +34,6 @@ namespace ReframeCore.Nodes
 
         bool IsValueChanged();
 
+        int Level { get; set; }
     }
 }
