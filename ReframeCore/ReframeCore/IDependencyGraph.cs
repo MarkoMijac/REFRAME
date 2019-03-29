@@ -39,5 +39,11 @@ namespace ReframeCore
         Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         Task PerformUpdate();
         void Clean();
+
+        #region Events
+
+        event EventHandler UpdateCompleted;
+
+        #endregion
     }
 }
