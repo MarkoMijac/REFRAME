@@ -102,6 +102,7 @@ namespace ReframeCore.Helpers
                 Update();
 
                 MarkUpdateEnd();
+                OnUpdateCompleted();
             }
         }
 
@@ -204,6 +205,7 @@ namespace ReframeCore.Helpers
                 Update();
 
                 MarkUpdateEnd();
+                OnUpdateCompleted();
             }
         }
 
@@ -247,6 +249,7 @@ namespace ReframeCore.Helpers
                 Update();
 
                 MarkUpdateEnd();
+                OnUpdateCompleted();
             }
         }
 
@@ -462,6 +465,17 @@ namespace ReframeCore.Helpers
         private bool SkipUpdate(INode node)
         {
             return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
+        }
+
+        #endregion
+
+        #region Events
+
+        internal event EventHandler UpdateCompleted;
+
+        private void OnUpdateCompleted()
+        {
+            UpdateCompleted?.Invoke(this, null);
         }
 
         #endregion

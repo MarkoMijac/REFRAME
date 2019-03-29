@@ -55,6 +55,7 @@ namespace ReframeCore
 
             DefaultNodeFactory = new NodeFactory();
             UpdateScheduler = new UpdateScheduler(this);
+            UpdateScheduler.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
             Status = DependencyGraphStatus.NotInitialized;
         }
 
@@ -461,6 +462,17 @@ namespace ReframeCore
         public void Clean()
         {
             RemoveNodesOfNonexistantObjects();
+        }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler UpdateCompleted;
+
+        private void OnPerformUpdateCompleted()
+        {
+            UpdateCompleted?.Invoke(this, null);
         }
 
         #endregion

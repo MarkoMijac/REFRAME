@@ -105,6 +105,81 @@ namespace ReframeCoreTests
 
         #endregion
 
+        #region PerformUpdateCompleted
+
+        [TestMethod]
+        public void PerformUpdate_GivenSuccessfulCompleteUpdate_PerformUpdateCompletedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenSuccessfulUpdateWithInitialNode_PerformUpdateCompletedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            graph.PerformUpdate(building, "Width");
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenSuccessfulUpdateWithInitialNode1_PerformUpdateCompletedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate
+            {
+                eventRaised = true;
+            };
+
+            INode initialNode = graph.GetNode(building, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        #endregion
+
         #region PerformUpdate CASE 1
 
         /*

@@ -131,5 +131,65 @@ namespace ReframeCoreTests
 
             Assert.IsTrue(expectedLogger.Equals(logger));
         }
+
+        [TestMethod]
+        public async Task PerformUpdate_GivenSuccessfulCompleteUpdateInSeparateThread_PerformUpdateCompletedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G1") as DependencyGraph;
+            GenericReactiveObject o = new GenericReactiveObject();
+            graph.AddDependency(o, "A", o, "B");
+            graph.AddDependency(o, "B", o, "C");
+            graph.AddDependency(o, "C", o, "D");
+            graph.AddDependency(o, "D", o, "E");
+
+            graph.Initialize();
+            graph.UpdateScheduler.PerformUpdateInSeparateThread = true;
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate 
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            Task task = graph.PerformUpdate();
+            if (task != null) await task;
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public async Task PerformUpdate_GivenSuccessfulUpdateWithInitialNodeInSeparateThread_PerformUpdateCompletedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G1") as DependencyGraph;
+            GenericReactiveObject o = new GenericReactiveObject();
+            graph.AddDependency(o, "A", o, "B");
+            graph.AddDependency(o, "B", o, "C");
+            graph.AddDependency(o, "C", o, "D");
+            graph.AddDependency(o, "D", o, "E");
+
+            graph.Initialize();
+            graph.UpdateScheduler.PerformUpdateInSeparateThread = true;
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            Task task = graph.PerformUpdate(o, "C");
+            if (task != null) await task;
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
     }
 }
