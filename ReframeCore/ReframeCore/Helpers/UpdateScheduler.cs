@@ -119,6 +119,7 @@ namespace ReframeCore.Helpers
         {
             MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes);
             IList<INode> nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes);
+            SetNodeLevels(nodesForUpdate);
             ResetGraphToInitialState();
 
             if (DependencyGraph.Settings.EnableLogging == true)
@@ -164,6 +165,7 @@ namespace ReframeCore.Helpers
             {
                 MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes, node, skipInitialNode);
                 nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes, initialNode, skipInitialNode);
+                SetNodeLevels(nodesForUpdate);
                 ResetGraphToInitialState();
             }
 
@@ -465,6 +467,14 @@ namespace ReframeCore.Helpers
         private bool SkipUpdate(INode node)
         {
             return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
+        }
+
+        private void SetNodeLevels(IList<INode> nodes)
+        {
+            for (int i = nodes.Count-1; i >=0; i--)
+            {
+                nodes[i].DetermineLevel();
+            }
         }
 
         #endregion

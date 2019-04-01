@@ -63,28 +63,8 @@ namespace ReframeCore
                 }
 
                 visited[currentNode] = false;
-                currentNode.Level = DetermineNodeLevel(currentNode);
                 sorted.Add(currentNode);
             }
-        }
-
-        private int DetermineNodeLevel(INode node)
-        {
-            int maxLevel = GetMaxLevel(node.Successors);
-            return maxLevel + 1;
-        }
-
-        private int GetMaxLevel(IList<INode> nodes)
-        {
-            int maxLevel = -1;
-
-            if (nodes != null && nodes.Count>0)
-            {
-                maxLevel = nodes.Max(n => n.Level);
-            }
-
-            return maxLevel;
-            
         }
     }
 }

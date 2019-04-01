@@ -296,6 +296,25 @@ namespace ReframeCore.Nodes
 
         protected abstract Action GetUpdateMethod();
 
+        public void DetermineLevel()
+        {
+            int maxLevel = GetMaxLevel(Successors);
+            Level = maxLevel + 1;
+        }
+
+        private int GetMaxLevel(IList<INode> nodes)
+        {
+            int maxLevel = -1;
+
+            if (nodes != null && nodes.Count > 0)
+            {
+                maxLevel = nodes.Max(n => n.Level);
+            }
+
+            return maxLevel;
+
+        }
+
         #endregion
     }
 }

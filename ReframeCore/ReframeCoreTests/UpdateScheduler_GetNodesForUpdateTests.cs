@@ -200,7 +200,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetNodesForUpdate_CompleteGraph_GivesCorrectNodeLevels()
+        public void GetNodesForUpdate_Case1_CompleteGraph_GivesCorrectNodeLevels()
         {
             //Arrange
             GraphFactory.Clear();
@@ -232,6 +232,87 @@ namespace ReframeCoreTests
 
             Assert.AreEqual(5, graph.GetNode(o, "C").Level);
             Assert.AreEqual(5, graph.GetNode(o, "E").Level);
+        }
+
+        [TestMethod]
+        public void GetNodesForUpdate_Case1_InitialNode_GivesCorrectNodeLevels()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject o = new GenericReactiveObject();
+
+            CreateCase1(graph, o);
+            UpdateScheduler scheduler = (graph as DependencyGraph).UpdateScheduler;
+
+            //Act
+            scheduler.GetNodesForUpdate();
+
+            //Assert
+            Assert.AreEqual(0, graph.GetNode(o, "L").Level);
+            Assert.AreEqual(0, graph.GetNode(o, "M").Level);
+
+            Assert.AreEqual(1, graph.GetNode(o, "I").Level);
+            Assert.AreEqual(1, graph.GetNode(o, "J").Level);
+
+            Assert.AreEqual(2, graph.GetNode(o, "G").Level);
+            Assert.AreEqual(2, graph.GetNode(o, "H").Level);
+
+            Assert.AreEqual(3, graph.GetNode(o, "D").Level);
+        }
+
+        private void CreateCase2(IDependencyGraph graph, GenericReactiveObject obj)
+        {
+            INode aNode = graph.AddNode(obj, "A");
+            INode bNode = graph.AddNode(obj, "B");
+            INode cNode = graph.AddNode(obj, "C");
+            INode dNode = graph.AddNode(obj, "D");
+            INode eNode = graph.AddNode(obj, "E");
+            INode fNode = graph.AddNode(obj, "F");
+            INode gNode = graph.AddNode(obj, "G");
+            INode hNode = graph.AddNode(obj, "H");
+            INode iNode = graph.AddNode(obj, "I");
+
+            graph.AddDependency(aNode, bNode);
+            graph.AddDependency(bNode, cNode);
+            graph.AddDependency(cNode, dNode);
+            graph.AddDependency(dNode, eNode);
+            graph.AddDependency(aNode, fNode);
+            graph.AddDependency(fNode, gNode);
+            graph.AddDependency(gNode, hNode);
+            graph.AddDependency(hNode, iNode);
+
+            graph.Initialize();
+        }
+
+        [TestMethod]
+        public void GetNodesForUpdate_Case2_CompleteGraph_GivesCorrectNodeLevels()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject o = new GenericReactiveObject();
+
+            CreateCase2(graph, o);
+            UpdateScheduler scheduler = (graph as DependencyGraph).UpdateScheduler;
+
+            //Act
+            scheduler.GetNodesForUpdate();
+
+            //Assert
+            Assert.AreEqual(0, graph.GetNode(o, "E").Level);
+            Assert.AreEqual(0, graph.GetNode(o, "I").Level);
+
+            Assert.AreEqual(1, graph.GetNode(o, "D").Level);
+            Assert.AreEqual(1, graph.GetNode(o, "H").Level);
+
+            Assert.AreEqual(2, graph.GetNode(o, "C").Level);
+            Assert.AreEqual(2, graph.GetNode(o, "G").Level);
+
+            Assert.AreEqual(3, graph.GetNode(o, "B").Level);
+            Assert.AreEqual(3, graph.GetNode(o, "F").Level);
+
+            Assert.AreEqual(4, graph.GetNode(o, "A").Level);
         }
 
         #endregion
