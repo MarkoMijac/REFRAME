@@ -1,6 +1,7 @@
 ﻿using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace ReframeCore.Helpers
 {
     public class UpdateLogger
     {
+        private Stopwatch _stopwatch = new Stopwatch();
+
         #region Public methods
 
         public int Count
