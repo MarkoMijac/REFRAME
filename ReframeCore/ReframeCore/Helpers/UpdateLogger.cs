@@ -29,6 +29,7 @@ namespace ReframeCore.Helpers
             if (node != null)
             {
                 _loggedNodes.Add(ExtractData(node));
+                _loggedNodesDetails.Add(ExtractData(node, true));
             }
         }
 
@@ -103,16 +104,33 @@ namespace ReframeCore.Helpers
         #region Private methods
 
         private List<string> _loggedNodes = new List<string>();
+        private List<string> _loggedNodesDetails = new List<string>();
 
-        private string ExtractData(INode node)
+        private string ExtractData(INode node, bool detailedView = false)
         {
             string data = "";
 
-            data += node.Identifier + ";";
-            data += node.MemberName + ";";
-            data += node.OwnerObject.GetType().ToString() + ";";
-            data += node.OwnerObject.GetHashCode().ToString() + ";";
+            if (detailedView == false)
+            {
+                data += node.Identifier + ";";
+                data += node.MemberName + ";";
+                data += node.OwnerObject.GetType().ToString() + ";";
+                data += node.OwnerObject.GetHashCode().ToString() + ";";
+            }
+            else
+            {
+                data += string.Format("Node identifier: {0}"+Environment.NewLine, node.Identifier);
+                data += string.Format("Node member name: {0}" + Environment.NewLine, node.MemberName);
+                data += string.Format("Owner object type: {0}" + Environment.NewLine, node.OwnerObject.GetType().ToString());
+                data += string.Format("Owner object hash: {0}" + Environment.NewLine, node.OwnerObject.GetHashCode().ToString());
+                data += string.Format("Level: {0}" + Environment.NewLine, node.Level);
 
+                DateTime start = (node as ITimeInfoProvider).UpdateStartedAt;
+                data += string.Format("Update started at: {0}:{1}:{2}:{3}" + Environment.NewLine, start.Hour, start.Minute, start.Second, start.Millisecond);
+                DateTime finish = (node as ITimeInfoProvider).UpdateCompletedAt;
+                data += string.Format("Update completed: {0}:{1}:{2}:{3}" + Environment.NewLine, finish.Hour, finish.Minute, finish.Second, finish.Millisecond);
+                data += string.Format("Update duration: {0}" + Environment.NewLine, (node as ITimeInfoProvider).UpdateDuration);
+            }
             return data;
         }
 
@@ -123,6 +141,18 @@ namespace ReframeCore.Helpers
             foreach (var d in _loggedNodes)
             {
                 data += d + Environment.NewLine;
+            }
+
+            return data;
+        }
+
+        public string GetLoggedNodesDetails()
+        {
+            string data = "";
+
+            foreach (var d in _loggedNodesDetails)
+            {
+                data += d + Environment.NewLine + Environment.NewLine;
             }
 
             return data;

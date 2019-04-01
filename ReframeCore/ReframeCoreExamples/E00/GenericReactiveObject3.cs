@@ -10,7 +10,7 @@ namespace ReframeCoreExamples.E00
     public class GenericReactiveObject3
     : ICollectionNodeItem
     {
-        private int timeOut = 1000;
+        private int timeOut = 0;
 
         #region Properties
 

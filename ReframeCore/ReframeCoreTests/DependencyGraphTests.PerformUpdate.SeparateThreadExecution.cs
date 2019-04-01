@@ -249,7 +249,6 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_SchedulesCorrectUpdate()
         {
             //Arrange
-            Stopwatch sw = new Stopwatch();
             GraphFactory.Clear();
             DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -257,21 +256,33 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
 
             //Act
-            sw.Start();
             Task t = graph.PerformUpdate();
             if (t != null) await t;
-            sw.Stop();
 
             //Assert
-            string elapsedTime = sw.Elapsed.TotalMilliseconds.ToString();
-            Assert.IsTrue(true);
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(o, "E"));
+            expectedLogger.Log(graph.GetNode(o, "F"));
+            expectedLogger.Log(graph.GetNode(o, "K"));
+            expectedLogger.Log(graph.GetNode(o, "C"));
+            expectedLogger.Log(graph.GetNode(o, "B"));
+            expectedLogger.Log(graph.GetNode(o, "A"));
+            expectedLogger.Log(graph.GetNode(o, "D"));
+            expectedLogger.Log(graph.GetNode(o, "H"));
+            expectedLogger.Log(graph.GetNode(o, "J"));
+            expectedLogger.Log(graph.GetNode(o, "M"));
+            expectedLogger.Log(graph.GetNode(o, "G"));
+            expectedLogger.Log(graph.GetNode(o, "I"));
+            expectedLogger.Log(graph.GetNode(o, "L"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
         }
 
         [TestMethod]
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInSeparateThread_SchedulesCorrectUpdate()
         {
             //Arrange
-            Stopwatch sw = new Stopwatch();
             GraphFactory.Clear();
             DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -279,21 +290,33 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
 
             //Act
-            sw.Start();
             Task t = graph.PerformUpdate();
             if (t != null) await t;
-            sw.Stop();
 
             //Assert
-            string elapsedTime = sw.Elapsed.TotalMilliseconds.ToString();
-            Assert.IsTrue(true);
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(o, "E"));
+            expectedLogger.Log(graph.GetNode(o, "F"));
+            expectedLogger.Log(graph.GetNode(o, "K"));
+            expectedLogger.Log(graph.GetNode(o, "C"));
+            expectedLogger.Log(graph.GetNode(o, "B"));
+            expectedLogger.Log(graph.GetNode(o, "A"));
+            expectedLogger.Log(graph.GetNode(o, "D"));
+            expectedLogger.Log(graph.GetNode(o, "H"));
+            expectedLogger.Log(graph.GetNode(o, "J"));
+            expectedLogger.Log(graph.GetNode(o, "M"));
+            expectedLogger.Log(graph.GetNode(o, "G"));
+            expectedLogger.Log(graph.GetNode(o, "I"));
+            expectedLogger.Log(graph.GetNode(o, "L"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
         }
 
         [TestMethod]
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInParallel_SchedulesCorrectUpdate()
         {
             //Arrange
-            Stopwatch sw = new Stopwatch();
             GraphFactory.Clear();
             DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
@@ -303,14 +326,27 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
 
             //Act
-            sw.Start();
             Task t = graph.PerformUpdate();
             if (t != null) await t;
-            sw.Stop();
 
             //Assert
-            string elapsedTime = sw.Elapsed.TotalMilliseconds.ToString();
-            Assert.IsTrue(true);
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(o, "E"));
+            expectedLogger.Log(graph.GetNode(o, "C"));
+            expectedLogger.Log(graph.GetNode(o, "B"));
+            expectedLogger.Log(graph.GetNode(o, "A"));
+            expectedLogger.Log(graph.GetNode(o, "D"));
+            expectedLogger.Log(graph.GetNode(o, "F"));
+            expectedLogger.Log(graph.GetNode(o, "H"));
+            expectedLogger.Log(graph.GetNode(o, "G"));
+            expectedLogger.Log(graph.GetNode(o, "K"));
+            expectedLogger.Log(graph.GetNode(o, "I"));
+            expectedLogger.Log(graph.GetNode(o, "J"));
+            expectedLogger.Log(graph.GetNode(o, "L"));
+            expectedLogger.Log(graph.GetNode(o, "M"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
         }
 
         #endregion
