@@ -104,7 +104,6 @@ namespace ReframeCore.Helpers
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -209,7 +208,6 @@ namespace ReframeCore.Helpers
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -253,7 +251,6 @@ namespace ReframeCore.Helpers
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -276,13 +273,15 @@ namespace ReframeCore.Helpers
         {
             Status = UpdateProcessStatus.Started;
             LatestUpdateInfo = new UpdateInfo();
-            LatestUpdateInfo.StartUpdate();   
+            LatestUpdateInfo.StartUpdate();
+            OnUpdateStarted();
         }
 
         private void MarkUpdateEnd()
         {
             Status = UpdateProcessStatus.Ended;
             LatestUpdateInfo.EndUpdate();
+            OnUpdateCompleted();
         }
 
         private void Update(Dictionary<INode, bool> nodesForUpdate)
@@ -302,11 +301,19 @@ namespace ReframeCore.Helpers
             }
             catch (Exception e)
             {
-                LatestUpdateInfo.SaveErrorData(e, DependencyGraph, GetFailedNode(nodesForUpdate));
-
-                GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData);
-                throw ex;
+                INode failedNode = GetFailedNode(nodesForUpdate);
+                ManageError(e, failedNode);
             }
+        }
+
+        private void ManageError(Exception e, INode failedNode)
+        {
+            LatestUpdateInfo.SaveErrorData(e, DependencyGraph, failedNode);
+
+            OnUpdateFailed(LatestUpdateInfo.ErrorData);
+
+            GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData);
+            throw ex;
         }
 
         private void UpdateSequentially(Dictionary<INode, bool> nodesForUpdate)
@@ -541,6 +548,20 @@ namespace ReframeCore.Helpers
         private void OnUpdateCompleted()
         {
             UpdateCompleted?.Invoke(this, null);
+        }
+
+        internal event EventHandler UpdateStarted;
+
+        private void OnUpdateStarted()
+        {
+            UpdateStarted?.Invoke(this, null);
+        }
+
+        internal event EventHandler UpdateFailed;
+
+        private void OnUpdateFailed(UpdateError updateError)
+        {
+            UpdateFailed?.Invoke(updateError, null);
         }
 
         #endregion

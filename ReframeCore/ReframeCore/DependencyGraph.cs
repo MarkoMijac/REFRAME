@@ -56,7 +56,14 @@ namespace ReframeCore
             DefaultNodeFactory = new NodeFactory();
             UpdateScheduler = new UpdateScheduler(this);
             UpdateScheduler.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
+            UpdateScheduler.UpdateStarted += delegate { OnPerformUpdateStarted(); };
+            UpdateScheduler.UpdateFailed += UpdateScheduler_UpdateFailed;
             Status = DependencyGraphStatus.NotInitialized;
+        }
+
+        private void UpdateScheduler_UpdateFailed(object sender, EventArgs e)
+        {
+            OnPerformUpdateFailed(sender as UpdateError);
         }
 
         public void Initialize()
@@ -473,6 +480,20 @@ namespace ReframeCore
         private void OnPerformUpdateCompleted()
         {
             UpdateCompleted?.Invoke(this, null);
+        }
+
+        public event EventHandler UpdateStarted;
+
+        private void OnPerformUpdateStarted()
+        {
+            UpdateStarted?.Invoke(this, null);
+        }
+
+        public event EventHandler UpdateFailed;
+
+        private void OnPerformUpdateFailed(UpdateError updateError)
+        {
+            UpdateFailed?.Invoke(updateError, null);
         }
 
         #endregion
