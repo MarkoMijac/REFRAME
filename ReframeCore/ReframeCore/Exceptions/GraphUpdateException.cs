@@ -1,4 +1,5 @@
-﻿using ReframeCore.Nodes;
+﻿using ReframeCore.Helpers;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,18 @@ namespace ReframeCore.Exceptions
 {
     public class GraphUpdateException : ReframeException
     {
-        public IDependencyGraph Graph { get; set; }
-        public INode FailedNode { get; set; }
+        public UpdateError ErrorData { get; private set; }
 
-        public GraphUpdateException()
+        public GraphUpdateException(UpdateError error)
             : base("Generic exception in graph update process.")
         {
-
+            ErrorData = error;
         }
 
-        public GraphUpdateException(string message)
+        public GraphUpdateException(UpdateError error, string message)
             :base(message)
         {
-
+            ErrorData = error;
         }
     }
 }

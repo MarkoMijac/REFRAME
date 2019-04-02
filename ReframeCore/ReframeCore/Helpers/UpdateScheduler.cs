@@ -40,6 +40,7 @@ namespace ReframeCore.Helpers
         public bool EnableUpdateInSeparateThread { get; set; }
         public bool EnableParallelUpdate { get; set; }
 
+        public UpdateInfo LatestUpdateInfo { get; private set; }
 
         #endregion
 
@@ -274,11 +275,14 @@ namespace ReframeCore.Helpers
         private void MarkUpdateStart()
         {
             Status = UpdateProcessStatus.Started;
+            LatestUpdateInfo = new UpdateInfo();
+            LatestUpdateInfo.StartUpdate();   
         }
 
         private void MarkUpdateEnd()
         {
             Status = UpdateProcessStatus.Ended;
+            LatestUpdateInfo.EndUpdate();
         }
 
         private void Update(Dictionary<INode, bool> nodesForUpdate)
@@ -298,9 +302,9 @@ namespace ReframeCore.Helpers
             }
             catch (Exception e)
             {
-                GraphUpdateException ex = new GraphUpdateException();
-                ex.Graph = DependencyGraph;
-                ex.FailedNode = GetFailedNode(nodesForUpdate);
+                LatestUpdateInfo.SaveErrorData(e, DependencyGraph, GetFailedNode(nodesForUpdate));
+
+                GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData);
                 throw ex;
             }
         }

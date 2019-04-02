@@ -62,6 +62,8 @@
     <Compile Include="GraphFactory.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
+    <Compile Include="Helpers\UpdateError.cs" />
+    <Compile Include="Helpers\UpdateInfo.cs" />
     <Compile Include="Helpers\UpdateLogger.cs" />
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="Helpers\UpdateScheduler.cs" />

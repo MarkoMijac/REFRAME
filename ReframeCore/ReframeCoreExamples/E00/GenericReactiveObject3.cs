@@ -27,6 +27,7 @@ namespace ReframeCoreExamples.E00
         public int K { get; set; }
         public int L { get; set; }
         public int M { get; set; }
+        public int BadNode { get; set; }
 
         public event EventHandler UpdateTriggered;
 
@@ -97,6 +98,11 @@ namespace ReframeCoreExamples.E00
         private void Update_M()
         {
             Task.Delay(timeOut).Wait();
+        }
+
+        private void Update_BadNode()
+        {
+            throw new NullReferenceException();
         }
 
         #endregion
