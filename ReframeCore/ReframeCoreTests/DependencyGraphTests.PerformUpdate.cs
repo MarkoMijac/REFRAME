@@ -178,6 +178,182 @@ namespace ReframeCoreTests
             Assert.IsTrue(eventRaised);
         }
 
+        [TestMethod]
+        public void PerformUpdate_GivenUnsuccessfulUpdate_PerformUpdateCompletedIsNotRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            CreateCase12(graph, obj);
+            INode badNode = graph.AddNode(obj, "BadNode");
+            graph.AddDependency(graph.GetNode(obj, "B"), badNode);
+
+            bool eventRaised = false;
+
+            graph.UpdateCompleted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (Exception)
+            {
+            }
+
+            //Assert
+            Assert.IsFalse(eventRaised);
+        }
+
+        #endregion
+
+        #region PerformUpdateStarted
+
+        [TestMethod]
+        public void PerformUpdate_GivenCompleteUpdate_PerformUpdateStartedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateStarted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenUpdateWithInitialNode_PerformUpdateStartedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateStarted += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            graph.PerformUpdate(building, "Width");
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenUpdateWithInitialNode1_PerformUpdateStartedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            Building00 building = new Building00();
+            CreateCase1(graph as DependencyGraph, building);
+
+            bool eventRaised = false;
+
+            graph.UpdateStarted += delegate
+            {
+                eventRaised = true;
+            };
+
+            INode initialNode = graph.GetNode(building, "Width");
+
+            //Act
+            graph.PerformUpdate(initialNode);
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+        }
+
+        #endregion
+
+        #region PerformUpdateFailed
+
+        [TestMethod]
+        public void PerformUpdate_GivenUnsuccessfulUpdate_UpdateFailedIsRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            CreateCase12(graph, obj);
+            INode badNode = graph.AddNode(obj, "BadNode");
+            graph.AddDependency(graph.GetNode(obj, "B"), badNode);
+
+            bool eventRaised = false;
+            INode failedNode = null;
+            Exception thrownException = null;
+
+            graph.UpdateFailed += delegate(object sender, EventArgs e)
+            {
+                eventRaised = true;
+                failedNode = (sender as UpdateError).FailedNode;
+                thrownException = (sender as UpdateError).SourceException;
+            };
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (Exception)
+            {
+            }
+
+            //Assert
+            Assert.IsTrue(eventRaised);
+            Assert.AreEqual(badNode, failedNode);
+            Assert.IsInstanceOfType(thrownException, typeof(NullReferenceException));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenSuccessfulUpdate_UpdateFailedIsNotRaised()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G1");
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            CreateCase12(graph, obj);
+
+            bool eventRaised = false;
+
+            graph.UpdateFailed += delegate
+            {
+                eventRaised = true;
+            };
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (Exception)
+            {
+            }
+
+            //Assert
+            Assert.IsFalse(eventRaised);
+        }
+
         #endregion
 
         #region PerformUpdate CASE 1
@@ -2339,7 +2515,7 @@ namespace ReframeCoreTests
             }
             catch (GraphUpdateException e)
             {
-                errorNode = e.FailedNode as INode;
+                errorNode = e.ErrorData.FailedNode as INode;
             }
 
             //Assert
@@ -2468,11 +2644,35 @@ namespace ReframeCoreTests
             }
             catch (GraphUpdateException e)
             {
-                errorNode = e.FailedNode as INode;
+                errorNode = e.ErrorData.FailedNode as INode;
             }
 
             //Assert
             Assert.AreEqual(errorNode, jNode);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case_10_1_GivenExceptionInClientCodeDuringUpdateProcess_ProvidesSourceException()
+        {
+            //Arrange
+            GenericReactiveObject2 obj = CreateCase_10_1();
+            var graph = GraphFactory.Get("GRAPH_CASE_10_1");
+
+            INode jNode = graph.GetNode(obj, "J");
+            Exception ex = null;
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (GraphUpdateException e)
+            {
+                ex = e.ErrorData.SourceException;
+            }
+
+            //Assert
+            Assert.IsInstanceOfType(ex, typeof(NotImplementedException));
         }
 
         #endregion
@@ -2539,6 +2739,116 @@ namespace ReframeCoreTests
             UpdateLogger expectedLogger = new UpdateLogger();
             UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
             Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        #endregion
+
+        #region PerformUpdate CASE 12
+
+        /*Demonstrate collecting information on update process*/
+
+        private void CreateCase12(IDependencyGraph graph, GenericReactiveObject3 obj)
+        {
+            INode aNode = graph.AddNode(obj, "A");
+            INode bNode = graph.AddNode(obj, "B");
+            INode cNode = graph.AddNode(obj, "C");
+            INode dNode = graph.AddNode(obj, "D");
+            INode eNode = graph.AddNode(obj, "E");
+            INode fNode = graph.AddNode(obj, "F");
+            INode gNode = graph.AddNode(obj, "G");
+            INode hNode = graph.AddNode(obj, "H");
+            INode iNode = graph.AddNode(obj, "I");
+
+            INode jNode = graph.AddNode(obj, "J");
+            INode kNode = graph.AddNode(obj, "K");
+            INode lNode = graph.AddNode(obj, "L");
+            INode mNode = graph.AddNode(obj, "M");
+
+            graph.AddDependency(aNode, dNode);
+
+            graph.AddDependency(bNode, dNode);
+
+            graph.AddDependency(cNode, aNode);
+            graph.AddDependency(cNode, bNode);
+
+            graph.AddDependency(dNode, gNode);
+            graph.AddDependency(dNode, hNode);
+
+            graph.AddDependency(eNode, aNode);
+            graph.AddDependency(eNode, dNode);
+            graph.AddDependency(eNode, fNode);
+
+            graph.AddDependency(fNode, jNode);
+            graph.AddDependency(fNode, kNode);
+
+            graph.AddDependency(gNode, iNode);
+
+            graph.AddDependency(hNode, jNode);
+            graph.AddDependency(hNode, iNode);
+
+            graph.AddDependency(iNode, lNode);
+
+            graph.AddDependency(jNode, lNode);
+            graph.AddDependency(jNode, mNode);
+
+            graph.AddDependency(kNode, jNode);
+
+            graph.Initialize();
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenSuccessfulUpdate_ProvidesUpdateInfo()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G1") as DependencyGraph;
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            CreateCase12(graph, obj);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            UpdateInfo info = graph.UpdateScheduler.LatestUpdateInfo;
+            Assert.IsNotNull(info);
+            Assert.IsTrue(info.UpdateStartedAt != DateTime.MinValue);
+            Assert.IsTrue(info.UpdateEndedAt != DateTime.MinValue);
+            Assert.IsTrue(info.UpdateDuration != TimeSpan.Zero);
+            Assert.IsTrue(info.UpdateSuccessfull);
+            Assert.IsNull(info.ErrorData);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_GivenUnsuccessfulUpdate_ProvidesUpdateInfo()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G1") as DependencyGraph;
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            CreateCase12(graph, obj);
+            INode badNode = graph.AddNode(obj, "BadNode");
+            graph.AddDependency(graph.GetNode(obj, "B"), badNode);
+
+            //Act
+            try
+            {
+                graph.PerformUpdate();
+            }
+            catch (Exception)
+            {
+            }
+
+            //Assert
+            UpdateInfo info = graph.UpdateScheduler.LatestUpdateInfo;
+            Assert.IsNotNull(info);
+            Assert.IsTrue(info.UpdateStartedAt != DateTime.MinValue);
+            Assert.IsTrue(info.UpdateEndedAt == DateTime.MinValue);
+            Assert.IsTrue(info.UpdateDuration == TimeSpan.Zero);
+            Assert.IsFalse(info.UpdateSuccessfull);
+            Assert.IsNotNull(info.ErrorData);
+            Assert.AreEqual(info.ErrorData.Graph, graph);
+            Assert.AreEqual(info.ErrorData.FailedNode, badNode);
+            Assert.IsInstanceOfType(info.ErrorData.SourceException, typeof(NullReferenceException));
         }
 
         #endregion

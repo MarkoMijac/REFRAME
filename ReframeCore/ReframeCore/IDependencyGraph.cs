@@ -43,6 +43,8 @@ namespace ReframeCore
         #region Events
 
         event EventHandler UpdateCompleted;
+        event EventHandler UpdateStarted;
+        event EventHandler UpdateFailed;
 
         #endregion
     }

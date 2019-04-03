@@ -81,7 +81,7 @@ namespace ReframeCoreTests
             DependencyGraph graph = GraphFactory.Get("GRAPH_8_2") as DependencyGraph;
 
             //Act
-            graph.UpdateScheduler.PerformUpdateInSeparateThread = true;
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             await graph.PerformUpdate();
 
             //Assert

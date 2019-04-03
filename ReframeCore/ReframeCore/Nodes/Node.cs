@@ -3,15 +3,18 @@ using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public abstract class Node : INode
+    public abstract class Node : INode, ITimeInfoProvider
     {
         #region Properties
+
+        public int Level { get; set; }
 
         /// <summary>
         /// Node's unique identifier.
@@ -160,8 +163,21 @@ namespace ReframeCore.Nodes
         /// </summary>
         public void Update()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            UpdateStartedAt = DateTime.Now;
             UpdateMethod?.Invoke();
+            UpdateCompletedAt = DateTime.Now;
+            sw.Stop();
+
+            UpdateDuration = sw.Elapsed;
+            
         }
+
+        public TimeSpan UpdateDuration { get; private set; }
+        public DateTime UpdateStartedAt { get; private set; }
+        public DateTime UpdateCompletedAt { get; private set; }
+
 
         /// <summary>
         /// Checks if forwarded reactive node is a predecessor of this reactive node.
@@ -293,6 +309,25 @@ namespace ReframeCore.Nodes
         }
 
         protected abstract Action GetUpdateMethod();
+
+        public void DetermineLevel()
+        {
+            int maxLevel = GetMaxLevel(Successors);
+            Level = maxLevel + 1;
+        }
+
+        private int GetMaxLevel(IList<INode> nodes)
+        {
+            int maxLevel = -1;
+
+            if (nodes != null && nodes.Count > 0)
+            {
+                maxLevel = nodes.Max(n => n.Level);
+            }
+
+            return maxLevel;
+
+        }
 
         #endregion
     }

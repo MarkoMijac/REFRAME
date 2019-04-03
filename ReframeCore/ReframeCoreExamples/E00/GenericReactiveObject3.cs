@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace ReframeCoreExamples.E00
 {
-    public class GenericReactiveObject : ICollectionNodeItem
+    public class GenericReactiveObject3
+    : ICollectionNodeItem
     {
+        private int timeOut = 0;
+
         #region Properties
 
         public int A { get; set; }
@@ -24,6 +27,7 @@ namespace ReframeCoreExamples.E00
         public int K { get; set; }
         public int L { get; set; }
         public int M { get; set; }
+        public int BadNode { get; set; }
 
         public event EventHandler UpdateTriggered;
 
@@ -33,67 +37,85 @@ namespace ReframeCoreExamples.E00
 
         private void Update_A()
         {
-
+            Task.Delay(timeOut).Wait();
+            A = C + E;
         }
 
         private void Update_B()
         {
-
+            Task.Delay(timeOut).Wait();
+            B = C + 1;
         }
 
         private void Update_C()
         {
-
+            Task.Delay(timeOut).Wait();
+            C = 1;
         }
 
         private void Update_D()
         {
-
+            Task.Delay(timeOut).Wait();
+            D = A + B + E;
         }
 
         private void Update_E()
         {
-
+            Task.Delay(timeOut).Wait();
+            E = 1;
         }
 
         private void Update_F()
         {
-
+            Task.Delay(timeOut).Wait();
+            F = E + 1;
         }
 
         private void Update_G()
         {
-
+            Task.Delay(timeOut).Wait();
+            G = D + 1;
         }
 
         private void Update_H()
         {
-
+            Task.Delay(timeOut).Wait();
+            H = D + 1;
         }
 
         private void Update_I()
         {
-
+            Task.Delay(timeOut).Wait();
+            I = G + H;
         }
 
         private void Update_J()
         {
-
+            Task.Delay(timeOut).Wait();
+            J = F + K + H;
         }
 
         private void Update_K()
         {
-
+            Task.Delay(timeOut).Wait();
+            K = F + 1;
         }
 
         private void Update_L()
         {
-
+            Task.Delay(timeOut).Wait();
+            L = I + J;
         }
 
         private void Update_M()
         {
+            Task.Delay(timeOut).Wait();
+            M = J + 1;
+        }
 
+        private void Update_BadNode()
+        {
+            throw new NullReferenceException();
         }
 
         #endregion

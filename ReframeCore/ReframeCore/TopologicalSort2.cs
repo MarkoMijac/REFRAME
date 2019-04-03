@@ -40,7 +40,7 @@ namespace ReframeCore
             return sorted;
         }
 
-        private void Visit<INode>(INode currentNode, Dictionary<INode, bool> visited, Func<INode, IEnumerable<INode>> getDependents, List<INode> sorted)
+        private void Visit(INode currentNode, Dictionary<INode, bool> visited, Func<INode, IEnumerable<INode>> getDependents, List<INode> sorted)
         {
             bool inProcess;
             var alreadyVisited = visited.TryGetValue(currentNode, out inProcess);

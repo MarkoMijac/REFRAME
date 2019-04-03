@@ -25,7 +25,6 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; }
 
         private UpdateProcessStatus Status { get; set; }
-        private Dictionary<INode, bool> NodesForUpdate;
 
         /// <summary>
         /// Algorithm for topological sorting.
@@ -38,7 +37,10 @@ namespace ReframeCore.Helpers
         public UpdateLogger LoggerUpdatedNodes { get; private set; }
 
         public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; }
-        public bool PerformUpdateInSeparateThread { get; set; }
+        public bool EnableUpdateInSeparateThread { get; set; }
+        public bool EnableParallelUpdate { get; set; }
+
+        public UpdateInfo LatestUpdateInfo { get; private set; }
 
         #endregion
 
@@ -56,7 +58,7 @@ namespace ReframeCore.Helpers
             DependencyGraph = graph;
 
             EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
-            PerformUpdateInSeparateThread = false;
+            EnableUpdateInSeparateThread = false;
             Status = UpdateProcessStatus.NotSet;
         }
 
@@ -78,7 +80,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (PerformUpdateInSeparateThread == true)
+            if (EnableUpdateInSeparateThread == true)
             {
                 task = PerformUpdateAsync();
             }
@@ -98,11 +100,10 @@ namespace ReframeCore.Helpers
 
                 MarkUpdateStart();
 
-                NodesForUpdate = GetNodesForUpdate();
-                Update();
+                var nodesForUpdate = GetNodesForUpdate();
+                Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -119,6 +120,7 @@ namespace ReframeCore.Helpers
         {
             MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes);
             IList<INode> nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes);
+            SetNodeLevels(nodesForUpdate);
             ResetGraphToInitialState();
 
             if (DependencyGraph.Settings.EnableLogging == true)
@@ -164,6 +166,7 @@ namespace ReframeCore.Helpers
             {
                 MakeTemporaryAdjustmentsToGraph(DependencyGraph.Nodes, node, skipInitialNode);
                 nodesForUpdate = GetSortedGraph(DependencyGraph.Nodes, initialNode, skipInitialNode);
+                SetNodeLevels(nodesForUpdate);
                 ResetGraphToInitialState();
             }
 
@@ -180,7 +183,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (PerformUpdateInSeparateThread == true)
+            if (EnableUpdateInSeparateThread == true)
             {
                 task = PerformUpdateAsync(initialNode, skipInitialNode);
             }
@@ -201,11 +204,10 @@ namespace ReframeCore.Helpers
                 MarkUpdateStart();
 
                 ValidateInitialNode(initialNode);
-                NodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
-                Update();
+                var nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
+                Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -218,7 +220,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (PerformUpdateInSeparateThread == true)
+            if (EnableUpdateInSeparateThread == true)
             {
                 task = PerformUpdateAsync(ownerObject, memberName);
             }
@@ -245,11 +247,10 @@ namespace ReframeCore.Helpers
                     initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
                 }
 
-                NodesForUpdate = GetNodesForUpdate(initialNode, true);
-                Update();
+                var nodesForUpdate = GetNodesForUpdate(initialNode, true);
+                Update(nodesForUpdate);
 
                 MarkUpdateEnd();
-                OnUpdateCompleted();
             }
         }
 
@@ -271,39 +272,102 @@ namespace ReframeCore.Helpers
         private void MarkUpdateStart()
         {
             Status = UpdateProcessStatus.Started;
+            LatestUpdateInfo = new UpdateInfo();
+            LatestUpdateInfo.StartUpdate();
+            OnUpdateStarted();
         }
 
         private void MarkUpdateEnd()
         {
             Status = UpdateProcessStatus.Ended;
+            LatestUpdateInfo.EndUpdate();
+            OnUpdateCompleted();
         }
 
-        private void Update()
+        private void Update(Dictionary<INode, bool> nodesForUpdate)
         {
             LoggerUpdatedNodes.ClearLog();
 
             try
             {
-                foreach (var node in NodesForUpdate.Keys.ToList())
+                if (EnableUpdateInSeparateThread == true && EnableParallelUpdate == true)
                 {
-                    node.Update();
-                    MarkAsUpdated(node);
+                    UpdateInParallel(nodesForUpdate);
+                }
+                else
+                {
+                    UpdateSequentially(nodesForUpdate);
                 }
             }
             catch (Exception e)
             {
-                GraphUpdateException ex = new GraphUpdateException();
-                ex.Graph = DependencyGraph;
-                ex.FailedNode = GetFailedNode();
-                throw ex;
+                INode failedNode = GetFailedNode(nodesForUpdate);
+                ManageError(e, failedNode);
             }
         }
 
-        private INode GetFailedNode()
+        private void ManageError(Exception e, INode failedNode)
+        {
+            LatestUpdateInfo.SaveErrorData(e, DependencyGraph, failedNode);
+
+            OnUpdateFailed(LatestUpdateInfo.ErrorData);
+
+            GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData);
+            throw ex;
+        }
+
+        private void UpdateSequentially(Dictionary<INode, bool> nodesForUpdate)
+        {
+            foreach (var node in nodesForUpdate.Keys.ToList())
+            {
+                node.Update();
+                MarkAsUpdated(nodesForUpdate, node);
+            }
+        }
+
+        private void UpdateInParallel(Dictionary<INode, bool> nodesForUpdate)
+        {
+            IList<INode> list = nodesForUpdate.Keys.ToList();
+            int maxLevel = list[0].Level;
+
+            for (int i = maxLevel; i >= 0; i--)
+            {
+                UpdateLevel(nodesForUpdate, i).Wait();
+            }
+        }
+
+        private Task UpdateLevel(Dictionary<INode, bool> nodesForUpdate, int level)
+        {
+            IList<INode> nodesAtLevel = GetNodesAtLevel(nodesForUpdate.Keys.ToList(), level);
+            List<Task> tasks = new List<Task>();
+            foreach (var node in nodesAtLevel)
+            {
+                Task task = new Task(() => node.Update());
+                task.ContinueWith(t => MarkAsUpdated(nodesForUpdate, node));
+                tasks.Add(task);
+            }
+
+            Task groupTask = Task.WhenAll(tasks);
+
+            foreach (var task in tasks)
+            {
+                task.Start();
+            }
+
+            return groupTask;
+        }
+
+        private IList<INode> GetNodesAtLevel(IList<INode> allNodes, int level)
+        {
+            return allNodes.Where(n => n.Level == level).ToList();
+        }
+        
+
+        private INode GetFailedNode(Dictionary<INode, bool> nodesForUpdate)
         {
             INode node = null;
 
-            foreach (var item in NodesForUpdate)
+            foreach (var item in nodesForUpdate)
             {
                 if (item.Value == false)
                 {
@@ -315,14 +379,14 @@ namespace ReframeCore.Helpers
             return node;
         }
 
-        private void MarkAsUpdated(INode node)
+        private void MarkAsUpdated(Dictionary<INode, bool> nodesForUpdate, INode node)
         {
             if (DependencyGraph.Settings.EnableLogging == true)
             {
                 LoggerUpdatedNodes.Log(node);
             }
 
-            NodesForUpdate[node] = true;
+            nodesForUpdate[node] = true;
         }
 
         private void ValidateInitialNode(INode initialNode)
@@ -467,6 +531,14 @@ namespace ReframeCore.Helpers
             return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
         }
 
+        private void SetNodeLevels(IList<INode> nodes)
+        {
+            for (int i = nodes.Count-1; i >=0; i--)
+            {
+                nodes[i].DetermineLevel();
+            }
+        }
+
         #endregion
 
         #region Events
@@ -476,6 +548,20 @@ namespace ReframeCore.Helpers
         private void OnUpdateCompleted()
         {
             UpdateCompleted?.Invoke(this, null);
+        }
+
+        internal event EventHandler UpdateStarted;
+
+        private void OnUpdateStarted()
+        {
+            UpdateStarted?.Invoke(this, null);
+        }
+
+        internal event EventHandler UpdateFailed;
+
+        private void OnUpdateFailed(UpdateError updateError)
+        {
+            UpdateFailed?.Invoke(updateError, null);
         }
 
         #endregion
