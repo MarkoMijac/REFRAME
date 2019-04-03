@@ -15,6 +15,8 @@ namespace ReframeCoreTests
 {   
     public partial class DependencyGraphTests
     {
+        #region SeparateThreadExecution
+
         [TestMethod]
         public async Task PerformUpdate_GivenCompletePerformUpdateIsPerformedInSeparateThread_SchedulesCorrectUpdate()
         {
@@ -194,6 +196,8 @@ namespace ReframeCoreTests
             Assert.IsTrue(eventRaised);
         }
 
+        #endregion
+
         #region ParallelExecution
 
         private void CreateCase1(IDependencyGraph graph, GenericReactiveObject3 obj)
@@ -246,7 +250,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_SchedulesCorrectUpdate()
+        public void PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_SchedulesCorrectUpdate()
         {
             //Arrange
             GraphFactory.Clear();
@@ -256,8 +260,7 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
 
             //Act
-            Task t = graph.PerformUpdate();
-            if (t != null) await t;
+            graph.PerformUpdate();
 
             //Assert
             UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
@@ -277,6 +280,85 @@ namespace ReframeCoreTests
             expectedLogger.Log(graph.GetNode(o, "L"));
 
             Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+
+            CreateCase1(graph, o);
+
+            //Act
+            graph.PerformUpdate();
+
+            //Assert
+            Assert.IsTrue(ResultsAsExpected(o));
+        }
+
+        private bool ResultsAsExpected(GenericReactiveObject3 obj)
+        {
+            bool correct = false;
+
+            if (obj.C == 1 && obj.E == 1 && obj.A == 2 && obj.B == 2
+                && obj.D == 5 && obj.F ==2 && obj.K == 3 && obj.J == 11
+                && obj.G == 6 && obj.H == 6 && obj.I == 12 && obj.M == 12 && obj.L == 23)
+            {
+                correct = true;
+            }
+
+            return correct;
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenUpdatePerformedSynchronouslyWithInitialNodeH_SchedulesCorrectUpdate()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+
+            CreateCase1(graph, o);
+
+            //Act
+            graph.PerformUpdate(graph.GetNode(o, "H"), false);
+
+            //Assert
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(o, "H"));
+            expectedLogger.Log(graph.GetNode(o, "I"));
+            expectedLogger.Log(graph.GetNode(o, "J"));
+            expectedLogger.Log(graph.GetNode(o, "M"));
+            expectedLogger.Log(graph.GetNode(o, "L"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        [TestMethod]
+        public void PerformUpdate_Case1_GivenUpdatePerformedSynchronouslyWithInitialNodeH_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+
+            CreateCase1(graph, o);
+            graph.PerformUpdate();
+
+            //Act
+            o.H = 7;
+            graph.PerformUpdate(graph.GetNode(o, "H"));
+
+            //Assert
+            Assert.IsTrue(o.H == 7);
+            Assert.IsTrue(o.J == 12);
+            Assert.IsTrue(o.M == 13);
+            Assert.IsTrue(o.I == 13);
+            Assert.IsTrue(o.L == 25);
         }
 
         [TestMethod]
@@ -314,6 +396,76 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInSeparateThread_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            CreateCase1(graph, o);
+
+            //Act
+            Task t = graph.PerformUpdate();
+            if (t != null) await t;
+
+            //Assert
+            Assert.IsTrue(ResultsAsExpected(o));
+        }
+
+        [TestMethod]
+        public async Task PerformUpdate_Case1_GivenUpdatePerformedInSeparateThreadWithInitialNodeH_SchedulesCorrectUpdate()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            CreateCase1(graph, o);
+
+            //Act
+            Task t = graph.PerformUpdate(graph.GetNode(o, "H"), false);
+            if (t != null) await t;
+
+            //Assert
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            expectedLogger.Log(graph.GetNode(o, "H"));
+            expectedLogger.Log(graph.GetNode(o, "I"));
+            expectedLogger.Log(graph.GetNode(o, "J"));
+            expectedLogger.Log(graph.GetNode(o, "M"));
+            expectedLogger.Log(graph.GetNode(o, "L"));
+
+            Assert.IsTrue(expectedLogger.Equals(actualLogger));
+        }
+
+        [TestMethod]
+        public async Task PerformUpdate_Case1_GivenUpdatePerformedInSeparateThreadWithInitialNodeH_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            CreateCase1(graph, o);
+
+            Task tAll = graph.PerformUpdate();
+            if (tAll != null) await tAll;
+
+            //Act
+            o.H = 7;
+            Task t = graph.PerformUpdate(graph.GetNode(o, "H"));
+            if (t != null) await t;
+
+            //Assert
+            Assert.IsTrue(o.H == 7);
+            Assert.IsTrue(o.J == 12);
+            Assert.IsTrue(o.M == 13);
+            Assert.IsTrue(o.I == 13);
+            Assert.IsTrue(o.L == 25);
+        }
+
+        [TestMethod]
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInParallel_SchedulesCorrectUpdate()
         {
             //Arrange
@@ -330,23 +482,72 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
-            UpdateLogger expectedLogger = new UpdateLogger();
-            expectedLogger.Log(graph.GetNode(o, "E"));
-            expectedLogger.Log(graph.GetNode(o, "C"));
-            expectedLogger.Log(graph.GetNode(o, "B"));
-            expectedLogger.Log(graph.GetNode(o, "A"));
-            expectedLogger.Log(graph.GetNode(o, "D"));
-            expectedLogger.Log(graph.GetNode(o, "F"));
-            expectedLogger.Log(graph.GetNode(o, "H"));
-            expectedLogger.Log(graph.GetNode(o, "G"));
-            expectedLogger.Log(graph.GetNode(o, "K"));
-            expectedLogger.Log(graph.GetNode(o, "I"));
-            expectedLogger.Log(graph.GetNode(o, "J"));
-            expectedLogger.Log(graph.GetNode(o, "L"));
-            expectedLogger.Log(graph.GetNode(o, "M"));
+            Assert.AreEqual(5, graph.GetNode(o, "E").Level);
+            Assert.AreEqual(5, graph.GetNode(o, "C").Level);
 
-            Assert.IsTrue(expectedLogger.Equals(actualLogger));
+            Assert.AreEqual(4, graph.GetNode(o, "A").Level);
+            Assert.AreEqual(4, graph.GetNode(o, "B").Level);
+
+            Assert.AreEqual(3, graph.GetNode(o, "D").Level);
+            Assert.AreEqual(3, graph.GetNode(o, "F").Level);
+
+            Assert.AreEqual(2, graph.GetNode(o, "G").Level);
+            Assert.AreEqual(2, graph.GetNode(o, "H").Level);
+            Assert.AreEqual(2, graph.GetNode(o, "K").Level);
+
+            Assert.AreEqual(1, graph.GetNode(o, "I").Level);
+            Assert.AreEqual(1, graph.GetNode(o, "J").Level);
+
+            Assert.AreEqual(0, graph.GetNode(o, "L").Level);
+            Assert.AreEqual(0, graph.GetNode(o, "M").Level);
+        }
+
+        [TestMethod]
+        public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInParallel_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.UpdateScheduler.EnableParallelUpdate = true;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+
+            CreateCase1(graph, o);
+
+            //Act
+            Task t = graph.PerformUpdate();
+            if (t != null) await t;
+
+            //Assert
+            Assert.IsTrue(ResultsAsExpected(o));
+        }
+
+        [TestMethod]
+        public async Task PerformUpdate_Case1_GivenUpdatePerformedInParallelWidthInitialNodeH_GivesCorrectResults()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            DependencyGraph graph = GraphFactory.Create("G") as DependencyGraph;
+            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.UpdateScheduler.EnableParallelUpdate = true;
+            GenericReactiveObject3 o = new GenericReactiveObject3();
+
+            CreateCase1(graph, o);
+            Task tAll = graph.PerformUpdate();
+            if (tAll != null) await tAll;
+
+
+            //Act
+            o.H = 7;
+            Task t = graph.PerformUpdate(o, "H");
+            if (t != null) await t;
+
+            //Assert
+            Assert.IsTrue(o.H == 7);
+            Assert.IsTrue(o.J == 12);
+            Assert.IsTrue(o.M == 13);
+            Assert.IsTrue(o.I == 13);
+            Assert.IsTrue(o.L == 25);
         }
 
         #endregion
