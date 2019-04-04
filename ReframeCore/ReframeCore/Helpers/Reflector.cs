@@ -14,6 +14,18 @@ namespace ReframeCore.Helpers
     /// </summary>
     public static class Reflector
     {
+        public static MemberInfo GetMemberInfo(object obj, string memberName)
+        {
+            MemberInfo memberInfo = null;
+
+            if (obj != null && memberName != "")
+            {
+                memberInfo = obj.GetType().GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)[0];
+            }
+
+            return memberInfo;
+        }
+
         /// <summary>
         /// Gets info about method.
         /// </summary>
