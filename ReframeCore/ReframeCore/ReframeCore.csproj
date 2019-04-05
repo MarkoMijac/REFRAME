@@ -59,6 +59,10 @@
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
+    <Compile Include="FluentAPI\FluentException.cs" />
+    <Compile Include="FluentAPI\GraphExtension.cs" />
+    <Compile Include="FluentAPI\MemberReader.cs" />
+    <Compile Include="FluentAPI\TransferObject.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
@@ -91,6 +95,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
