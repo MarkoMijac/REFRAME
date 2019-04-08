@@ -209,6 +209,29 @@ namespace ReframeCoreTests
             Assert.IsFalse(same);
         }
 
+        [TestMethod]
+        public void GetIdentifier_GivenObjectChangesItsState_IdentifierRemainsTheSame()
+        {
+            //Arrange
+            Building00 b = new Building00();
+            NodeFactory nodeFactory = new NodeFactory();
+
+            b.Width = 100;
+            INode node = nodeFactory.CreateNode(b, "Width");
+
+            //Act
+            PrivateObject privateObject1 = new PrivateObject(node);
+            uint identifier1 = (uint)privateObject1.Invoke("GetIdentifier");
+
+            b.Width = 2000;
+            INode node2 = nodeFactory.CreateNode(b, "Width");
+            PrivateObject privateObject2 = new PrivateObject(node2);
+            uint identifier2 = (uint)privateObject2.Invoke("GetIdentifier");
+
+            //Assert
+            Assert.AreEqual(identifier1, identifier2);
+        }
+
         #endregion
 
         #region AddPredecessor
