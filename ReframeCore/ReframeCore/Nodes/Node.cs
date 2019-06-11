@@ -163,15 +163,26 @@ namespace ReframeCore.Nodes
         /// </summary>
         public void Update()
         {
+            Stopwatch sw = StartMeasuring();
+            UpdateMethod?.Invoke();
+            EndMeasuring(sw);
+        }
+
+        private Stopwatch StartMeasuring()
+        {
             Stopwatch sw = new Stopwatch();
             sw.Start();
             UpdateStartedAt = DateTime.Now;
-            UpdateMethod?.Invoke();
+
+            return sw;
+        }
+
+        private void EndMeasuring(Stopwatch sw)
+        {
             UpdateCompletedAt = DateTime.Now;
             sw.Stop();
 
             UpdateDuration = sw.Elapsed;
-            
         }
 
         public TimeSpan UpdateDuration { get; private set; }
