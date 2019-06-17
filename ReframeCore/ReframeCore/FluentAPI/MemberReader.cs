@@ -132,132 +132,161 @@ namespace ReframeCore.FluentAPI
             return GetMemberOwner(expression.Body);
         }
 
+        private static object GetMemberOwner(MemberExpression expression)
+        {
+            object owner = null;
+            MemberExpression ex = expression as MemberExpression;
+
+            string[] memberPath = GetMemberPath(expression);         
+            while (ex.Expression is MemberExpression)
+            {
+                ex = ex.Expression as MemberExpression;
+            }
+
+            var cEx = ex.Expression as ConstantExpression;
+
+            if (memberPath.Length > 2)
+            {
+                var t = cEx.Value.GetType().InvokeMember(memberPath[memberPath.Length - 1], BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public, null, cEx.Value, null);
+                return t;
+            }
+
+            owner = cEx.Value;
+
+            return owner;
+        }
+
+        private static object GetMemberOwner(UnaryExpression expression)
+        {
+            object owner = null;
+
+            string[] memberPath = GetMemberPath(expression);
+            var uex = expression as UnaryExpression;
+            var ex = uex.Operand as MemberExpression;
+            while (ex.Expression is MemberExpression)
+            {
+                ex = ex.Expression as MemberExpression;
+            }
+            var cEx = ex.Expression as ConstantExpression;
+
+            owner = cEx.Value;
+
+            if (memberPath.Length > 2)   //In case path contains Member, parent object, parent object's parent etc. E.g. if the expression is in the form of () => Project.Zone.Floor.Width.
+            {
+                int counter = memberPath.Length - 2;
+                while (counter > 0)
+                {
+                    owner = owner.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, owner, null);
+                    counter--;
+                }
+            }
+
+            return owner;
+        }
+
+        private static object GetMemberOwner(MethodCallExpression expression)
+        {
+            object owner = null;
+            string[] memberPath = GetMemberPath(expression);
+            var mex = expression as MethodCallExpression;
+            var ex = mex.Object as MemberExpression;
+
+            while (ex.Expression is MemberExpression)
+            {
+                ex = ex.Expression as MemberExpression;
+            }
+
+            var cEx = ex.Expression as ConstantExpression;
+            owner = cEx.Value;
+            if (memberPath.Length > 2)
+            {
+                int counter = memberPath.Length - 2;
+                while (counter > 0)
+                {
+                    owner = owner.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, owner, null);
+                    counter--;
+                }
+            }
+
+            return owner;
+        }
+
         private static object GetMemberOwner(Expression expression)
         {
             object owner = null;
 
             if (expression is MemberExpression)
             {
-                string[] memberPath = GetMemberPath(expression);
-
-                MemberExpression ex = expression as MemberExpression;
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                }
-
-                var cEx = ex.Expression as ConstantExpression;
-
-                if (memberPath.Length > 2)
-                {
-                    var t = cEx.Value.GetType().InvokeMember(memberPath[memberPath.Length-1], BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public, null, cEx.Value, null);
-                    return t;
-                }
-
-                owner = cEx.Value;
+                owner = GetMemberOwner(expression as MemberExpression);
             }
             else if (expression is UnaryExpression)
             {
-                object parentObject = null;
-
-                string[] memberPath = GetMemberPath(expression);
-                var uex = expression as UnaryExpression;
-                var ex = uex.Operand as MemberExpression;
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                }
-                var cEx = ex.Expression as ConstantExpression;
-
-                parentObject = cEx.Value;
-
-                if (memberPath.Length > 2)   //In case path contains Member, parent object, parent object's parent etc. E.g. if the expression is in the form of () => Project.Zone.Floor.Width.
-                {
-                    int counter = memberPath.Length - 2;
-                    while (counter > 0)
-                    {
-                        parentObject = parentObject.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, parentObject, null);
-                        counter--;
-                    }
-                }
-
-                owner = parentObject;
+                owner = GetMemberOwner(expression as UnaryExpression);
             }
             else if (expression is MethodCallExpression)
             {
-                object parentObject = null;
-                string[] memberPath = GetMemberPath(expression);
-                var mex = expression as MethodCallExpression;
-                var ex = mex.Object as MemberExpression;
-
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                }
-
-                var cEx = ex.Expression as ConstantExpression;
-                parentObject = cEx.Value;
-                if (memberPath.Length > 2)
-                {
-                    int counter = memberPath.Length - 2;
-                    while (counter > 0)
-                    {
-                        parentObject = parentObject.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, parentObject, null);
-                        counter--;
-                    }
-                }
-
-                owner = parentObject;
+                owner = GetMemberOwner(expression as MethodCallExpression);
             }
 
             return owner;
         }
 
-        private static string[] GetMemberPath(Expression expression)
+        #endregion
+
+        #region GetMemberPath
+
+        private static string[] GetMemberPath(MemberExpression expression)
         {
             List<string> path = new List<string>();
 
-            if (expression is MemberExpression)
+            MemberExpression ex = expression;
+            path.Add(ex.Member.Name);
+            while (ex.Expression is MemberExpression)
             {
-                MemberExpression ex = expression as MemberExpression;
+                ex = ex.Expression as MemberExpression;
                 path.Add(ex.Member.Name);
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                    path.Add(ex.Member.Name);
-                }
+            }
 
-                ConstantExpression cEx = ex.Expression as ConstantExpression;
-                path.Add(cEx.Type.Name);
-            }
-            else if (expression is UnaryExpression)
-            {
-                UnaryExpression uex = expression as UnaryExpression;
-                MemberExpression ex = uex.Operand as MemberExpression;
-                path.Add(ex.Member.Name);
+            ConstantExpression cEx = ex.Expression as ConstantExpression;
+            path.Add(cEx.Type.Name);
 
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                    path.Add(ex.Member.Name);
-                }
-                ConstantExpression cEx = ex.Expression as ConstantExpression;
-                path.Add(cEx.Type.Name);
-            }
-            else if (expression is MethodCallExpression)
+            return path.ToArray();
+        }
+
+        private static string[] GetMemberPath(UnaryExpression expression)
+        {
+            List<string> path = new List<string>();
+
+            UnaryExpression uex = expression as UnaryExpression;
+            MemberExpression ex = uex.Operand as MemberExpression;
+            path.Add(ex.Member.Name);
+
+            while (ex.Expression is MemberExpression)
             {
-                MethodCallExpression mex = expression as MethodCallExpression;
-                path.Add(mex.Method.Name);
-                MemberExpression ex = mex.Object as MemberExpression;
+                ex = ex.Expression as MemberExpression;
                 path.Add(ex.Member.Name);
-                while (ex.Expression is MemberExpression)
-                {
-                    ex = ex.Expression as MemberExpression;
-                    path.Add(ex.Member.Name);
-                }
-                ConstantExpression cEx = ex.Expression as ConstantExpression;
-                path.Add(cEx.Type.Name);
             }
+            ConstantExpression cEx = ex.Expression as ConstantExpression;
+            path.Add(cEx.Type.Name);
+
+            return path.ToArray();
+        }
+
+        private static string[] GetMemberPath(MethodCallExpression expression)
+        {
+            List<string> path = new List<string>();
+
+            MethodCallExpression mex = expression as MethodCallExpression;
+            path.Add(mex.Method.Name);
+            MemberExpression ex = mex.Object as MemberExpression;
+            path.Add(ex.Member.Name);
+            while (ex.Expression is MemberExpression)
+            {
+                ex = ex.Expression as MemberExpression;
+                path.Add(ex.Member.Name);
+            }
+            ConstantExpression cEx = ex.Expression as ConstantExpression;
+            path.Add(cEx.Type.Name);
 
             return path.ToArray();
         }
