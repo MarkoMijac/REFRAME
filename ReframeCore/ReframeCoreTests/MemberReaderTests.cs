@@ -182,6 +182,18 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void GetMemberOwner_GivenNestedObjectPropertyIsNull_ThrowsException()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = null;
+            Expression<Func<object>> lambda = () => obj.NestedObject.A;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberOwner(lambda));
+        }
+
+        [TestMethod]
         public void GetMemberOwner_GivenDoubleNestedObjectProperty_ReturnsOwner()
         {
             //Arrange
@@ -195,6 +207,20 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(obj.NestedObject.SomeObject, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenDoubleNestedObjectPropertyIsNull_ThrowsException()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
+            obj.NestedObject.SomeObject = new GenericReactiveObject2();
+            obj.NestedObject = null;
+            Expression<Func<object>> lambda = () => obj.NestedObject.SomeObject.A;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberOwner(lambda));
         }
 
         [TestMethod]
@@ -227,6 +253,20 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(obj.NestedObject.SomeObject, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenDoubleNestedObjectMethodIsNull_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
+            obj.NestedObject.SomeObject = null;
+
+            Expression<Action> lambda = () => obj.NestedObject.SomeObject.Update_A();
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberOwner(lambda));
         }
 
         [TestMethod]

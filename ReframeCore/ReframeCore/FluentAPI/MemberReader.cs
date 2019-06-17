@@ -178,6 +178,11 @@ namespace ReframeCore.FluentAPI
                 {
                     owner = owner.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, owner, null);
                     counter--;
+
+                    if (owner == null)
+                    {
+                        throw new FluentException($"Invoked member {memberPath[counter]} is null!");
+                    }
                 }
             }
 
@@ -205,6 +210,11 @@ namespace ReframeCore.FluentAPI
                 {
                     owner = owner.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, owner, null);
                     counter--;
+
+                    if (owner == null)
+                    {
+                        throw new FluentException($"Invoked member {memberPath[counter]} is null!");
+                    }
                 }
             }
 
