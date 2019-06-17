@@ -32,7 +32,7 @@ namespace ReframeCoreExamples.E00
 
         #region Methods
 
-        private void Update_A()
+        public void Update_A()
         {
 
         }
