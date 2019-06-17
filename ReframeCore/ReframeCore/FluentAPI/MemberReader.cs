@@ -112,7 +112,17 @@ namespace ReframeCore.FluentAPI
 
         #region GetMemberOwner
 
-        public static object GetMemberOwner<T>(Expression<Func<T>> expression)
+        public static object GetMemberOwner(Expression<Func<object>> expression)
+        {
+            if (expression == null)
+            {
+                throw new FluentException(expressionCannotBeNullMessage);
+            }
+
+            return GetMemberOwner(expression.Body);
+        }
+
+        public static object GetMemberOwner(Expression<Action> expression)
         {
             if (expression == null)
             {
@@ -140,7 +150,7 @@ namespace ReframeCore.FluentAPI
 
                 if (memberPath.Length > 2)
                 {
-                    var t = cEx.Value.GetType().InvokeMember(memberPath[1], BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public, null, cEx.Value, null);
+                    var t = cEx.Value.GetType().InvokeMember(memberPath[memberPath.Length-1], BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public, null, cEx.Value, null);
                     return t;
                 }
 
@@ -166,7 +176,33 @@ namespace ReframeCore.FluentAPI
                     int counter = memberPath.Length - 2;
                     while (counter > 0)
                     {
-                        parentObject = parentObject.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, parentObject, null);
+                        parentObject = parentObject.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, parentObject, null);
+                        counter--;
+                    }
+                }
+
+                owner = parentObject;
+            }
+            else if (expression is MethodCallExpression)
+            {
+                object parentObject = null;
+                string[] memberPath = GetMemberPath(expression);
+                var mex = expression as MethodCallExpression;
+                var ex = mex.Object as MemberExpression;
+
+                while (ex.Expression is MemberExpression)
+                {
+                    ex = ex.Expression as MemberExpression;
+                }
+
+                var cEx = ex.Expression as ConstantExpression;
+                parentObject = cEx.Value;
+                if (memberPath.Length > 2)
+                {
+                    int counter = memberPath.Length - 2;
+                    while (counter > 0)
+                    {
+                        parentObject = parentObject.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, parentObject, null);
                         counter--;
                     }
                 }
@@ -200,6 +236,20 @@ namespace ReframeCore.FluentAPI
                 MemberExpression ex = uex.Operand as MemberExpression;
                 path.Add(ex.Member.Name);
 
+                while (ex.Expression is MemberExpression)
+                {
+                    ex = ex.Expression as MemberExpression;
+                    path.Add(ex.Member.Name);
+                }
+                ConstantExpression cEx = ex.Expression as ConstantExpression;
+                path.Add(cEx.Type.Name);
+            }
+            else if (expression is MethodCallExpression)
+            {
+                MethodCallExpression mex = expression as MethodCallExpression;
+                path.Add(mex.Method.Name);
+                MemberExpression ex = mex.Object as MemberExpression;
+                path.Add(ex.Member.Name);
                 while (ex.Expression is MemberExpression)
                 {
                     ex = ex.Expression as MemberExpression;

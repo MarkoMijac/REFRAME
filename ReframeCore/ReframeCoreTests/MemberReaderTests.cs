@@ -83,6 +83,20 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void GetMemberName_GivenDoubleNestedReferenceProperty_ReturnsPropertyName()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            Expression<Func<object>> lambda = () => obj.NestedObject.SomeObject.A;
+
+            //Act
+            string memberName = MemberReader.GetMemberName(lambda);
+
+            //Assert
+            Assert.AreEqual("A", memberName);
+        }
+
+        [TestMethod]
         public void GetMemberName_GivenNestedReferenceMethod_ReturnsMethodName()
         {
             //Arrange
@@ -94,6 +108,20 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual("ToString", memberName);
+        }
+
+        [TestMethod]
+        public void GetMemberName_GivenDoubleNestedReferenceMethod_ReturnsMethodName()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            Expression<Action> lambda = () => obj.NestedObject.SomeObject.Update_A();
+
+            //Act
+            string memberName = MemberReader.GetMemberName(lambda);
+
+            //Assert
+            Assert.AreEqual("Update_A", memberName);
         }
 
         #endregion
@@ -125,10 +153,56 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetMemberName_GivenNestedObject_ReturnsOwner()
+        public void GetMemberOwner_GivenMethodMember_ReturnsOwner()
         {
             //Arrange
             GenericReactiveObject3 obj = new GenericReactiveObject3();
+            Expression<Action> lambda = () => obj.Update_A();
+
+            //Act
+            object owner = MemberReader.GetMemberOwner(lambda);
+
+            //Assert
+            Assert.AreEqual(obj, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenNestedObjectProperty_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
+            Expression<Func<object>> lambda = () => obj.NestedObject.A;
+
+            //Act
+            object owner = MemberReader.GetMemberOwner(lambda);
+
+            //Assert
+            Assert.AreEqual(obj.NestedObject, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenDoubleNestedObjectProperty_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
+            obj.NestedObject.SomeObject = new GenericReactiveObject2();
+            Expression<Func<object>> lambda = () => obj.NestedObject.SomeObject.A;
+
+            //Act
+            object owner = MemberReader.GetMemberOwner(lambda);
+
+            //Assert
+            Assert.AreEqual(obj.NestedObject.SomeObject, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenNestedObjectMethod_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
             Expression<Func<object>> lambda = () => obj.NestedObject.ToString();
 
             //Act
@@ -139,7 +213,24 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetMemberName_GivenInScopeProperty_ReturnsOwner()
+        public void GetMemberOwner_GivenDoubleNestedObjectMethod_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            obj.NestedObject = new GenericReactiveObject();
+            obj.NestedObject.SomeObject = new GenericReactiveObject2();
+
+            Expression<Action> lambda = () => obj.NestedObject.SomeObject.Update_A();
+
+            //Act
+            object owner = MemberReader.GetMemberOwner(lambda);
+
+            //Assert
+            Assert.AreEqual(obj.NestedObject.SomeObject, owner);
+        }
+
+        [TestMethod]
+        public void GetMemberOwner_GivenInScopeProperty_ReturnsOwner()
         {
             //Arrange
             GenericReactiveObject3 obj = new GenericReactiveObject3();

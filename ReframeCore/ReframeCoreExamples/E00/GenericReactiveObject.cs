@@ -26,6 +26,7 @@ namespace ReframeCoreExamples.E00
         public int M { get; set; }
 
         public event EventHandler UpdateTriggered;
+        public GenericReactiveObject2 SomeObject { get; set; }
 
         #endregion
 
