@@ -91,5 +91,72 @@ namespace ReframeCore.FluentAPI
                 throw new FluentException("Member name cannot be empty!");
             }
         }
+
+        public static void DependOn(this TransferObject instance, params Expression<Func<object>>[] expressions)
+        {
+            TransferObject transferObject = instance;
+            ValidateTransferObject(transferObject);
+
+            string memberName;
+            object ownerObject;
+            INode predecessor;
+
+            foreach (var successor in transferObject.Successors)
+            {
+                foreach (var expression in expressions)
+                {
+                    ownerObject = MemberReader.GetMemberOwner(expression);
+                    ValidateOwnerObject(ownerObject);
+                    memberName = MemberReader.GetMemberName(expression);
+                    ValidateMemberName(memberName);
+
+                    predecessor = transferObject.Graph.AddNode(ownerObject, memberName);
+                    transferObject.Graph.AddDependency(predecessor, successor);
+                }
+            }
+        }
+
+        public static void DependOn(this TransferObject instance, params Expression<Action>[] expressions)
+        {
+            TransferObject transferObject = instance;
+            ValidateTransferObject(transferObject);
+
+            string memberName;
+            object ownerObject;
+            INode predecessor;
+
+            foreach (var successor in transferObject.Successors)
+            {
+                foreach (var expression in expressions)
+                {
+                    ownerObject = MemberReader.GetMemberOwner(expression);
+                    ValidateOwnerObject(ownerObject);
+                    memberName = MemberReader.GetMemberName(expression);
+
+                    predecessor = transferObject.Graph.AddNode(ownerObject, memberName);
+                    transferObject.Graph.AddDependency(predecessor, successor);
+                }
+            }
+        }
+
+        private static void ValidateTransferObject(TransferObject transferObject)
+        {
+            if (transferObject == null)
+            {
+                throw new FluentException("Transfer object cannot be null!");
+            }
+            else if (transferObject.Graph == null)
+            {
+                throw new FluentException("Dependency graph cannot be null!");
+            }
+            else if (transferObject.Successors == null)
+            {
+                throw new FluentException("List of successor nodes cannot be null!");
+            }
+            else if (transferObject.Successors.Count == 0)
+            {
+                throw new FluentException("List of successor nodes cannot be empty!");
+            }
+        }
     }
 }

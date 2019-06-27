@@ -181,7 +181,7 @@ namespace ReframeCore.FluentAPI
 
                     if (owner == null)
                     {
-                        throw new FluentException($"Invoked member {memberPath[counter]} is null!");
+                        throw new FluentException($"Invoked owner of member {memberPath[counter]} is null!");
                     }
                 }
             }
@@ -213,7 +213,7 @@ namespace ReframeCore.FluentAPI
 
                     if (owner == null)
                     {
-                        throw new FluentException($"Invoked member {memberPath[counter]} is null!");
+                        throw new FluentException($"Invoked owner of member {memberPath[counter]} is null!");
                     }
                 }
             }

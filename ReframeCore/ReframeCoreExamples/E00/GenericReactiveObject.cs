@@ -37,7 +37,7 @@ namespace ReframeCoreExamples.E00
 
         }
 
-        private void Update_B()
+        public void Update_B()
         {
 
         }
