@@ -26,6 +26,7 @@ namespace ReframeCore
 
         bool ContainsNode(INode node);
         bool ContainsNode(object ownerObject, string memberName);
+        bool ContainsDependency(INode predecessor, INode successor);
 
         INode GetNode(INode node);
         INode GetNode(object ownerObject, string memberName);

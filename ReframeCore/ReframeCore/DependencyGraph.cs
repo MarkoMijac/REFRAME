@@ -466,6 +466,24 @@ namespace ReframeCore
 
         #endregion
 
+        public bool ContainsDependency(INode predecessor, INode successor)
+        {
+            if (predecessor == null || successor == null)
+            {
+                throw new NodeNullReferenceException();
+            }
+
+            bool contains = false;
+
+            if (predecessor.HasSuccessor(successor)
+                && successor.HasPredecessor(predecessor))
+            {
+                contains = true;
+            }
+
+            return contains;
+        }
+
         public void Clean()
         {
             RemoveNodesOfNonexistantObjects();
