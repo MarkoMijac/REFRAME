@@ -6,6 +6,7 @@ using ReframeCoreExamples.E00;
 using System.Reflection;
 using ReframeCore.Helpers;
 using ReframeCoreExamples.E01;
+using ReframeCoreExamples.E07;
 
 namespace ReframeCoreTests
 {
@@ -123,6 +124,35 @@ namespace ReframeCoreTests
             //Assert
             Assert.AreEqual("Update_A", memberName);
         }
+
+        [TestMethod]
+        public void GetMemberName_GivenReactiveCollectionItemProperty_ReturnsPropertyName()
+        {
+            //Arrange
+            Whole whole = new Whole();
+            Expression<Func<object>> lambda = () => whole.Parts[0].A;
+
+            //Act
+            string memberName = MemberReader.GetMemberName(lambda);
+
+            //Assert
+            Assert.AreEqual("A", memberName);
+        }
+
+        [TestMethod]
+        public void GetMemberName_GivenReactiveCollectionItemMethod_ReturnsMethodName()
+        {
+            //Arrange
+            Whole whole = new Whole();
+            Expression<Action> lambda = () => whole.Parts[0].Update_A();
+
+            //Act
+            string memberName = MemberReader.GetMemberName(lambda);
+
+            //Assert
+            Assert.AreEqual("Update_A", memberName);
+        }
+
 
         #endregion
 

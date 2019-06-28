@@ -91,7 +91,6 @@ namespace ReframeCore.FluentAPI
             else
             {
                 MemberExpression temp = (MemberExpression)unaryExpression.Operand;
-                MemberInfo memberInfo = (temp.Expression as MemberExpression).Member;
                 memberName = ((MemberExpression)unaryExpression.Operand).Member.Name;
             }
 
