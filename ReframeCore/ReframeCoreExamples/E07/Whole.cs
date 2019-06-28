@@ -30,7 +30,7 @@ namespace ReframeCoreExamples.E07
             Parts.Add(new Part { Name = "Part 3", A = 7, B = 8, C = 9 });
         }
 
-        private void Update_A()
+        public void Update_A()
         {
             A = 0;
             foreach (var p in Parts)

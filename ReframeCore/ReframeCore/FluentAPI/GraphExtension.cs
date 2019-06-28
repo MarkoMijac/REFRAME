@@ -1,5 +1,7 @@
 ﻿using ReframeCore.Nodes;
+using ReframeCore.ReactiveCollections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -132,10 +134,45 @@ namespace ReframeCore.FluentAPI
                     ownerObject = MemberReader.GetMemberOwner(expression);
                     ValidateOwnerObject(ownerObject);
                     memberName = MemberReader.GetMemberName(expression);
+                    ValidateMemberName(memberName);
 
                     predecessor = transferObject.Graph.AddNode(ownerObject, memberName);
                     transferObject.Graph.AddDependency(predecessor, successor);
                 }
+            }
+        }
+
+        public static void DependOn(this TransferObject instance, IReactiveCollection collection, Expression<Func<object>> expression)
+        {
+            TransferObject transferObject = instance;
+
+            ValidateTransferObject(transferObject);
+            ValidateReactiveCollection(collection);
+
+            string memberName = MemberReader.GetMemberName(expression);
+            ValidateMemberName(memberName);
+            INode predecessor = transferObject.Graph.AddNode(collection, memberName);
+
+            foreach (var successor in transferObject.Successors)
+            {
+                transferObject.Graph.AddDependency(predecessor, successor);
+            }
+        }
+
+        public static void DependOn(this TransferObject instance, IReactiveCollection collection, Expression<Action> expression)
+        {
+            TransferObject transferObject = instance;
+
+            ValidateTransferObject(transferObject);
+            ValidateReactiveCollection(collection);
+
+            string memberName = MemberReader.GetMemberName(expression);
+            ValidateMemberName(memberName);
+            INode predecessor = transferObject.Graph.AddNode(collection, memberName);
+
+            foreach (var successor in transferObject.Successors)
+            {
+                transferObject.Graph.AddDependency(predecessor, successor);
             }
         }
 
@@ -156,6 +193,14 @@ namespace ReframeCore.FluentAPI
             else if (transferObject.Successors.Count == 0)
             {
                 throw new FluentException("List of successor nodes cannot be empty!");
+            }
+        }
+
+        private static void ValidateReactiveCollection(IReactiveCollection collection)
+        {
+            if (collection == null)
+            {
+                throw new FluentException("Reactive collection object cannot be null!");
             }
         }
     }

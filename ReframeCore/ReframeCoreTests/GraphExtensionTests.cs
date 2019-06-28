@@ -5,6 +5,8 @@ using ReframeCoreExamples.E00;
 using ReframeCore.FluentAPI;
 using ReframeCore.Nodes;
 using System.Collections.Generic;
+using ReframeCoreExamples.E07;
+using ReframeCore.ReactiveCollections;
 
 namespace ReframeCoreTests
 {
@@ -343,6 +345,121 @@ namespace ReframeCoreTests
             INode successor = graph.GetNode(obj, "Update_A");
             INode predecessor = graph.GetNode(obj, "Update_B");
 
+            Assert.IsTrue(graph.ContainsDependency(predecessor, successor));
+        }
+
+        #endregion
+
+        #region DependOn Collection
+
+        [TestMethod]
+        [ExpectedException(typeof(FluentException))]
+        public void DependOnCollection_GivenTransferObjectIsNull_ThrowsException()
+        {
+            //Arrange
+            TransferObject transferObject = null;
+            Whole whole = new Whole();
+
+            //Act&Assert
+            transferObject.DependOn(whole.Parts, () => whole.Parts[0].A);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FluentException))]
+        public void DependOnCollection_GivenGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = null;
+            NodeFactory factory = new NodeFactory();
+            Whole whole = new Whole();
+
+            List<INode> successors = new List<INode>();
+            successors.Add(factory.CreateNode(whole, "A"));
+
+            TransferObject transferObject = new TransferObject(graph, successors);
+
+            //Act&Assert
+            transferObject.DependOn(whole.Parts, () => whole.Parts[0].A);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FluentException))]
+        public void DependOnCollection_GivenSuccessorsListIsNull_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = null;
+            NodeFactory factory = new NodeFactory();
+            Whole whole = new Whole();
+
+            List<INode> successors = null;
+
+            TransferObject transferObject = new TransferObject(graph, successors);
+
+            //Act&Assert
+            transferObject.DependOn(whole.Parts, () => whole.Parts[0].B);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FluentException))]
+        public void DependOnCollection_GivenSuccessorsListIsEmpty_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = null;
+            Whole whole = new Whole();
+
+            List<INode> successors = new List<INode>();
+
+            TransferObject transferObject = new TransferObject(graph, successors);
+
+            //Act&Assert
+            transferObject.DependOn(whole.Parts, () => whole.Parts[0].B);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FluentException))]
+        public void DependOnCollection_GivenCollectionIsNull_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            Whole whole = new Whole();
+            whole.Parts = null;
+
+            //Act
+            graph.Let(() => whole.A).DependOn(whole.Parts, () => whole.Parts[0].A);
+        }
+
+        [TestMethod]
+        public void DependOnCollection_GivenValidCollectionPropertyPredecessor_AddsDependency()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            Whole whole = new Whole();
+
+            //Act
+            graph.Let(() => whole.A).DependOn(whole.Parts, () => whole.Parts[0].A);
+
+            //Assert
+            INode predecessor = graph.GetNode(whole.Parts, "A");
+            INode successor = graph.GetNode(whole, "A");
+            Assert.IsTrue(graph.ContainsDependency(predecessor, successor));
+        }
+
+        [TestMethod]
+        public void DependOnCollection_GivenValidCollectionMethodPredecessor_AddsDependency()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            Whole whole = new Whole();
+
+            //Act
+            graph.Let(() => whole.Update_A()).DependOn(whole.Parts, () => whole.Parts[0].Update_A());
+
+            //Assert
+            INode predecessor = graph.GetNode(whole.Parts, "Update_A");
+            INode successor = graph.GetNode(whole, "Update_A");
             Assert.IsTrue(graph.ContainsDependency(predecessor, successor));
         }
 
