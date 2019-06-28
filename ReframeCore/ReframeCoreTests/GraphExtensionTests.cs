@@ -166,6 +166,65 @@ namespace ReframeCoreTests
 
         #endregion
 
+        #region Let Collection
+
+        [TestMethod]
+        public void LetCollection_GivenGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = null;
+            Whole whole = new Whole();
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => graph.Let(whole.Parts, () => whole.Parts[0].A));
+        }
+
+        [TestMethod]
+        public void LetCollection_GivenCollectionIsNull_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            IDependencyGraph graph = GraphFactory.Create("G");
+            Whole whole = new Whole();
+            whole.Parts = null;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => graph.Let(whole.Parts, () => whole.Parts[0].A));
+        }
+
+        [TestMethod]
+        public void LetCollection_GivenValidPropertyNode_ReturnsCorrectTransferObject()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            Whole obj = new Whole();
+
+            //Act
+            TransferObject to = graph.Let(obj.Parts, () => obj.Parts[0].A);
+
+            //Assert
+            Assert.IsTrue(to != null && to.Graph == graph && to.Successors.Exists(n => n.OwnerObject == obj.Parts && n.MemberName == "A"));
+        }
+
+        [TestMethod]
+        public void LetCollection_GivenValidMethodNode_ReturnsCorrectTransferObject()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            Whole obj = new Whole();
+
+            //Act
+            TransferObject to = graph.Let(obj.Parts, () => obj.Parts[0].Update_A());
+
+            //Assert
+            Assert.IsTrue(to != null && to.Graph == graph && to.Successors.Exists(n => n.OwnerObject == obj.Parts && n.MemberName == "Update_A"));
+        }
+
+        #endregion
+
         #region DependOn
 
         [TestMethod]

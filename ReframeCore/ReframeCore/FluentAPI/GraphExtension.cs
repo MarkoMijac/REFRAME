@@ -63,6 +63,38 @@ namespace ReframeCore.FluentAPI
             return to;
         }
 
+        public static TransferObject Let(this IDependencyGraph instance, IReactiveCollection collection, Expression<Func<object>> expression)
+        {
+            List<INode> addedNodes = new List<INode>();
+            ValidateGraphInstance(instance);
+            ValidateReactiveCollection(collection);
+
+            string memberName = MemberReader.GetMemberName(expression);
+            ValidateMemberName(memberName);
+            INode successor = instance.AddNode(collection, memberName);
+
+            addedNodes.Add(successor);
+            TransferObject to = new TransferObject(instance, addedNodes);
+
+            return to;
+        }
+
+        public static TransferObject Let(this IDependencyGraph instance, IReactiveCollection collection, Expression<Action> expression)
+        {
+            List<INode> addedNodes = new List<INode>();
+            ValidateGraphInstance(instance);
+            ValidateReactiveCollection(collection);
+
+            string memberName = MemberReader.GetMemberName(expression);
+            ValidateMemberName(memberName);
+            INode successor = instance.AddNode(collection, memberName);
+
+            addedNodes.Add(successor);
+            TransferObject to = new TransferObject(instance, addedNodes);
+
+            return to;
+        }
+
         private static void ValidateGraphInstance(IDependencyGraph instance)
         {
             if (instance == null)
