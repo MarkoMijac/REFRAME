@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="ReframeCoreTests.MemberReaderTests.GetMemberName_GivenExpressionIsNull_ThrowsException" /><Add Test="ReframeCoreTests.MemberReaderTests.GetMemberName_GivenMemberExpression_ReturnsPropertyName" /></Playlist>

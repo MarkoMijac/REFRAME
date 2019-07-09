@@ -1855,5 +1855,79 @@ namespace ReframeCoreTests
         }
 
         #endregion
+
+        #region ContainsDependency
+
+        [TestMethod]
+        [ExpectedException(typeof(NodeNullReferenceException))]
+        public void ContainsDependency_GivenPredecessorIsNull_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+            INode predecessor = null;
+            INode successor = nodeFactory.CreateNode(obj, "A");
+
+            //Act&Assert
+            graph.ContainsDependency(predecessor, successor);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NodeNullReferenceException))]
+        public void ContainsDependency_GivenSuccessorIsNull_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+            INode predecessor = nodeFactory.CreateNode(obj, "A");
+            INode successor = null;
+
+            //Act&Assert
+            graph.ContainsDependency(predecessor, successor);
+        }
+
+        [TestMethod]
+        public void ContainsDependency_GivenNoSuchDependency_ReturnsFalse()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+            INode predecessor = nodeFactory.CreateNode(obj, "A");
+            INode successor = nodeFactory.CreateNode(obj, "B");
+
+            //Act
+            bool contains = graph.ContainsDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsFalse(contains);
+        }
+
+        [TestMethod]
+        public void ContainsDependency_GivenThereIsSuchDependency_ReturnsTrue()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.Create("G");
+            GenericReactiveObject obj = new GenericReactiveObject();
+            NodeFactory nodeFactory = new NodeFactory();
+            INode predecessor = nodeFactory.CreateNode(obj, "A");
+            INode successor = nodeFactory.CreateNode(obj, "B");
+
+            graph.AddDependency(predecessor, successor);
+
+            //Act
+            bool contains = graph.ContainsDependency(predecessor, successor);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        #endregion
     }
 }

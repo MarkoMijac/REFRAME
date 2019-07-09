@@ -23,7 +23,7 @@ namespace ReframeCoreExamples.E07
 
         #region Methods
 
-        private void Update_A()
+        public void Update_A()
         {
 
         }

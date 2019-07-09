@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="ReframeCoreTests.GraphExtensionTests.Let_GivenGraphIsNull_ThrowsException" /><Add Test="ReframeCoreTests.GraphExtensionTests.Let_GivenValidGraphAndProperty_ReturnsTransferObject" /><Add Test="ReframeCoreTests.GraphExtensionTests.Let_GivenOwnerObjectIsNull_ThrowsException" /></Playlist>

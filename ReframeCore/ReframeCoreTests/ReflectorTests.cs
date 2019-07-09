@@ -20,6 +20,59 @@ namespace ReframeCoreTests
         private string _invalidMemberPropertyName = "NonexistantProperty";
 
         [TestMethod]
+        public void GetMemberInfo_GivenNullInstance_ReturnsNull()
+        {
+            //Arrange
+            ExampleClass obj = null;
+
+            //Act
+            MemberInfo memberInfo = Reflector.GetMemberInfo(obj, _validMemberPropertyName);
+
+            //Assert
+            Assert.IsNull(memberInfo);
+        }
+
+        [TestMethod]
+        public void GetMemberInfo_GivenEmptyMemberName_ReturnsNull()
+        {
+            //Arrange
+            ExampleClass obj = null;
+
+            //Act
+            MemberInfo memberInfo = Reflector.GetMemberInfo(obj, "");
+
+            //Assert
+            Assert.IsNull(memberInfo);
+        }
+
+        [TestMethod]
+        public void GetMemberInfo_GivenNonexistantMemberName_ReturnsNull()
+        {
+            //Arrange
+            ExampleClass obj = null;
+
+            //Act
+            MemberInfo memberInfo = Reflector.GetMemberInfo(obj, _invalidMemberPropertyName);
+
+            //Assert
+            Assert.IsNull(memberInfo);
+        }
+
+        [TestMethod]
+        public void GetMemberInfo_GivenValidInstanceAndMemberName_ReturnsCorrectMethodInfo()
+        {
+            //Arrange
+            ExampleClass obj = new ExampleClass();
+
+            //Act
+            MemberInfo memberInfo = Reflector.GetMemberInfo(obj, _validMemberPropertyName);
+
+            //Assert
+            Assert.IsTrue(memberInfo.DeclaringType == typeof(ExampleClass));
+            Assert.IsTrue(memberInfo.Name == _validMemberPropertyName);
+        }
+
+        [TestMethod]
         public void GetMethodInfo_NullInstance_ReturnsNull()
         {
             //ARRANGE

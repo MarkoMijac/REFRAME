@@ -63,6 +63,8 @@
     <Compile Include="GraphFactoryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
     <Compile Include="CollectionNodeTests.cs" />
+    <Compile Include="GraphExtensionTests.cs" />
+    <Compile Include="MemberReaderTests.cs" />
     <Compile Include="UpdateLoggerTests.cs" />
     <Compile Include="UpdateScheduler_GetNodesForUpdateTests.cs" />
   </ItemGroup>

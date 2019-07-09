@@ -31,11 +31,13 @@ namespace ReframeCoreExamples.E00
 
         public event EventHandler UpdateTriggered;
 
+        public GenericReactiveObject NestedObject { get; set; }
+
         #endregion
 
         #region Methods
 
-        private void Update_A()
+        public void Update_A()
         {
             Task.Delay(timeOut).Wait();
             A = C + E;

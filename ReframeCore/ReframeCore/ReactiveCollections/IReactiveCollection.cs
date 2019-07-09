@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.ReactiveCollections
 {
-    interface IReactiveCollection
+    public interface IReactiveCollection
     {
         event EventHandler UpdateTriggered;
         ICollectionNode CollectionNode { get; set; }
