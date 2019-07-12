@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore.Helpers
+namespace IPCServer
 {
     public class StreamString
     {

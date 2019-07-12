@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ReframeCore.Helpers
+namespace IPCServer
 {
     public static class PipeServer
     {
-        private static string communicationLog="";
+        public static List<ICommandRouter> CommandRouters { get; set; } = new List<ICommandRouter>();
+
+        public static string communicationLog="";
 
         private static Thread server = null;
         private static bool continueListening = true;
@@ -46,23 +48,40 @@ namespace ReframeCore.Helpers
         private static void CreatePipeServer()
         {
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
-
             pipeServer.WaitForConnection();
 
             try
             {
                 StreamString stream = new StreamString(pipeServer);
-                string incomingCommand = stream.ReadString();
-                string result = RouteCommand(incomingCommand);
+                string incomingStream = stream.ReadString();
+                ICommandRouter activeRouter = ExtractActiveRouter(incomingStream);
+                string command = ExtractCommand(incomingStream);
+                string result = activeRouter.RouteCommand(command);
                 stream.WriteString(result);
             }
             catch (IOException e)
             {
-                Debug.WriteLine("ERROR: {0}", e.Message);
+                Debug.WriteLine("Došlo je do greške: {0}", e.Message);
             }
 
             pipeServer.Close();
             WriteLogEntry("Server #" + Thread.CurrentThread.ManagedThreadId + " has terminated!");
+        }
+
+        private static ICommandRouter ExtractActiveRouter(string incommingStream)
+        {
+            ICommandRouter sender = null;
+
+            string identifier = incommingStream.Split(';')[0];
+            sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
+
+            return sender;
+        }
+
+        private static string ExtractCommand(string incommingStream)
+        {
+            string command = incommingStream.Split(';')[1];
+            return command;
         }
 
         private static string RouteCommand(string incomingCommand)
