@@ -16,11 +16,6 @@ namespace ReframeCore
     /// </summary>
     public class DependencyGraph : IDependencyGraph
     {
-        static DependencyGraph()
-        {
-            PipeServer.StartServer();
-        }
-
         #region Properties
 
         public NodeFactory DefaultNodeFactory { get; private set; }

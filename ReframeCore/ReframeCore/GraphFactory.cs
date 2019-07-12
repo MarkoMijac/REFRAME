@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace ReframeCore
 {
     public static class GraphFactory
     {
+        static GraphFactory()
+        {
+            PipeServer.StartServer();
+        }
+
         private static List<DependencyGraph> _graphs = new List<DependencyGraph>();
 
         /// <summary>
