@@ -1,9 +1,11 @@
 ﻿using ReframeCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ReframeAnalyzer
 {
@@ -11,15 +13,14 @@ namespace ReframeAnalyzer
     {
         public static string GetRegisteredGraphs()
         {
-            string graphs = "";
+            string xml = "";
 
             List<IDependencyGraph> registeredGraphs = GraphFactory.GetRegisteredGraphs();
-            foreach (var graph in registeredGraphs)
-            {
-                graphs += $"Identifier={graph.Identifier}; Status={graph.Status}; NodeCount={graph.Nodes.Count}"+Environment.NewLine;
-            }
+            XmlExporter exporter = new XmlExporter();
+            xml = exporter.ExportGraphs(registeredGraphs);
 
-            return graphs;
+            return xml;
         }
+
     }
 }
