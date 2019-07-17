@@ -1,27 +1,54 @@
 ﻿using IPCServer;
+using ReframeCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace ReframeAnalyzer
 {
-    public class AnalyzerRouter : ICommandRouter
+    public class AnalyzerRouter : CommandRouter
     {
-        public string Identifier => "AnalyzerRouter";
+        public AnalyzerRouter()
+        {
+            Identifier = "AnalyzerRouter";
+        }
 
-        public string RouteCommand(string command)
+        public override string RouteCommand(string commandXml)
         {
             string result = "";
 
-            switch (command)
+            try
             {
-                case "GetRegisteredGraphs": result = Analyzer.GetRegisteredGraphs(); break;
-                default:
-                    result = "No such command!";
-                    break;
+                XmlDocument doc = GetCommandXmlDocument(commandXml);
+                string commandName = GetCommandName(doc);
+                Dictionary<string, string> parameters = GetCommandParameters(doc);
+
+                switch (commandName)
+                {
+                    case "GetRegisteredGraphs": result = Analyzer.GetRegisteredGraphs(); break;
+                    case "GetGraphNodes":
+                        {
+                            string graphIdentifier = parameters["GraphIdentifier"];
+                            var graph = GraphFactory.Get(graphIdentifier);
+                            result = Analyzer.GetGraphNodes(graph); break;
+                        }
+                    default:
+                        result = "No such command!";
+                        break;
+                }
             }
+            catch (Exception e)
+            {
+
+                return "Error" + e.Message;
+            }
+
+            
+
+            
 
             return result;
         }

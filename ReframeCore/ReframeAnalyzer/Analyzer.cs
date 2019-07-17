@@ -16,8 +16,16 @@ namespace ReframeAnalyzer
             string xml = "";
 
             List<IDependencyGraph> registeredGraphs = GraphFactory.GetRegisteredGraphs();
-            XmlExporter exporter = new XmlExporter();
-            xml = exporter.ExportGraphs(registeredGraphs);
+            xml = XmlExporter.ExportGraphs(registeredGraphs);
+
+            return xml;
+        }
+
+        public static string GetGraphNodes(IDependencyGraph graph)
+        {
+            string xml = "";
+
+            xml = XmlExporter.ExportNodes(graph.Nodes);
 
             return xml;
         }
