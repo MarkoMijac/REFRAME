@@ -12,133 +12,161 @@ namespace ReframeAnalyzer
 {
     public class XmlExporter
     {
-        private XmlWriterSettings defaultXmlSettings;
+        private static XmlWriterSettings defaultXmlSettings;
 
-        public XmlExporter()
+        static XmlExporter()
         {
             SetDefaultSettings();
         }
 
-        private void SetDefaultSettings()
+        private static void SetDefaultSettings()
         {
             defaultXmlSettings = new XmlWriterSettings()
             {
-                Indent = true,
+                Indent = true
             };
         }
 
-        public string ExportGraphs(IList<IDependencyGraph> graphs)
+        public static string ExportGraphs(IList<IDependencyGraph> graphs)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
-            using (var sw = new StringWriter(sb))
-            using (var xw = XmlWriter.Create(sw, defaultXmlSettings))
+            using (var stringWriter = new StringWriter(builder))
+            using (var xmlWriter = XmlWriter.Create(stringWriter, defaultXmlSettings))
             {
-                xw.WriteStartDocument();
-                xw.WriteStartElement("Graphs");
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("Graphs");
 
                 foreach (var graph in graphs)
                 {
-                    xw.WriteStartElement("Graph");                  
+                    xmlWriter.WriteStartElement("Graph");                  
 
-                    xw.WriteStartElement("Identifier");         
-                    xw.WriteString(graph.Identifier.ToString());
-                    xw.WriteEndElement();
+                    xmlWriter.WriteStartElement("Identifier");         
+                    xmlWriter.WriteString(graph.Identifier.ToString());
+                    xmlWriter.WriteEndElement();
 
-                    xw.WriteStartElement("Status");             
-                    xw.WriteString(graph.Status.ToString());
-                    xw.WriteEndElement();
+                    xmlWriter.WriteStartElement("Status");             
+                    xmlWriter.WriteString(graph.Status.ToString());
+                    xmlWriter.WriteEndElement();
 
-                    xw.WriteStartElement("NodeCount");             
-                    xw.WriteString(graph.Nodes.Count.ToString());
-                    xw.WriteEndElement();
+                    xmlWriter.WriteStartElement("NodeCount");             
+                    xmlWriter.WriteString(graph.Nodes.Count.ToString());
+                    xmlWriter.WriteEndElement();
 
-                    xw.WriteStartElement("Settings");             
+                    xmlWriter.WriteStartElement("Settings");             
 
-                    xw.WriteStartElement("EnableLogging");
-                    xw.WriteString(graph.Settings.EnableLogging.ToString());
-                    xw.WriteEndElement();
+                    xmlWriter.WriteStartElement("EnableLogging");
+                    xmlWriter.WriteString(graph.Settings.EnableLogging.ToString());
+                    xmlWriter.WriteEndElement();
 
-                    xw.WriteEndElement();
+                    xmlWriter.WriteEndElement();
 
-                    xw.WriteEndElement();
+                    xmlWriter.WriteEndElement();
                 }
 
-                xw.WriteEndElement();
-                xw.WriteEndDocument();
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
             }
 
-            return sb.ToString();
+            return builder.ToString();
         }
 
-        private static XmlWriterSettings DefineDefaultSettings()
+        public static string ExportNodes(IList<INode> nodes)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Async = true;
-            settings.Indent = true;
+            StringBuilder builder = new StringBuilder();
 
-            return settings;
-        }
-
-        private static void WriteNode(INode node, XmlWriter writer, bool flag = true)
-        {
-            writer.WriteStartElement("node");
-
-            WriteNodeAttributes(node, writer);
-            if (flag == true)
+            using (var stringWriter = new StringWriter(builder))
+            using (var xmlWriter = XmlWriter.Create(stringWriter, defaultXmlSettings))
             {
-                WritePredecessors(node, writer);
-                WriteSuccessors(node, writer);
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("Nodes");
+
+                foreach (var node in nodes)
+                {
+                    WriteNode(node, xmlWriter);
+                }
+
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
             }
 
-            writer.WriteEndElement();
+            return builder.ToString();
         }
 
-        private static void WriteNodeAttributes(INode node, XmlWriter writer)
+        private static void WriteNode(INode node, XmlWriter xmlWriter, bool includePredecessors = true, bool includeSuccessors = true)
         {
-            writer.WriteAttributeString("identifier", node.Identifier.ToString());
-            writer.WriteAttributeString("memberName", node.MemberName);
+            xmlWriter.WriteStartElement("Node");
+
+            WriteNodeBasicData(node, xmlWriter);
+
+            if (includePredecessors == true)
+            {
+                WritePredecessors(node, xmlWriter);
+            }
+
+            if (includeSuccessors == true)
+            {
+                WriteSuccessors(node, xmlWriter);
+            }
+
+            xmlWriter.WriteEndElement();
         }
 
-        private static void WritePredecessors(INode node, XmlWriter writer)
+        private static void WriteNodeBasicData(INode node, XmlWriter xmlWriter)
         {
-            writer.WriteStartElement("predecessors");
+            xmlWriter.WriteStartElement("Identifier");
+            xmlWriter.WriteString(node.Identifier.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("MemberName");
+            xmlWriter.WriteString(node.MemberName);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("OwnerObject");
+            xmlWriter.WriteString(node.OwnerObject.GetType().ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Level");
+            xmlWriter.WriteString(node.Level.ToString());
+            xmlWriter.WriteEndElement();
+        }
+
+        private static void WritePredecessors(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Predecessors");
             foreach (INode predecessor in node.Predecessors)
             {
-                WriteNode(predecessor, writer, false);
+                WritePredecessor(predecessor, xmlWriter);
             }
-            writer.WriteEndElement();
+            xmlWriter.WriteEndElement();
         }
 
-        private static void WriteSuccessors(INode node, XmlWriter writer)
+        private static void WritePredecessor(INode predecessor, XmlWriter xmlWriter)
         {
-            writer.WriteStartElement("successors");
+            xmlWriter.WriteStartElement("Predecessor");
+
+            WriteNodeBasicData(predecessor, xmlWriter);
+
+            xmlWriter.WriteEndElement();
+        }
+
+        private static void WriteSuccessors(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Successors");
             foreach (INode successor in node.Successors)
             {
-                WriteNode(successor, writer, false);
+                WriteSuccessor(successor, xmlWriter);
             }
-            writer.WriteEndElement();
+            xmlWriter.WriteEndElement();
         }
 
-        public static void ExportGraph(IDependencyGraph graph)
+        private static void WriteSuccessor(INode successor, XmlWriter xmlWriter)
         {
-            XmlWriterSettings defaultSettings = DefineDefaultSettings();
+            xmlWriter.WriteStartElement("Successor");
 
-            XmlWriter writer = XmlWriter.Create("text.xml", defaultSettings);
-            writer.WriteStartDocument();
+            WriteNodeBasicData(successor, xmlWriter);
 
-            writer.WriteStartElement("Graph");
-            writer.WriteAttributeString("Identifier", graph.Identifier.ToString());
-
-            foreach (INode node in graph.Nodes)
-            {
-                WriteNode(node, writer);
-            }
-
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-
-            writer.Close();
+            xmlWriter.WriteEndElement();
         }
     }
 }
