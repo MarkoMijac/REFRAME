@@ -9,6 +9,6 @@ namespace IPCServer
     public interface ICommandRouter
     {
         string Identifier { get; }
-        string RouteCommand(string command);
+        string RouteCommand(string commandXml);
     }
 }

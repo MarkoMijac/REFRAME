@@ -49,62 +49,32 @@ namespace IPCServer
         {
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
             pipeServer.WaitForConnection();
-
+            StreamString stream = new StreamString(pipeServer);
+            string incomingStream;
             try
             {
-                StreamString stream = new StreamString(pipeServer);
-                string incomingStream = stream.ReadString();
-                ICommandRouter activeRouter = ExtractActiveRouter(incomingStream);
-                string command = ExtractCommand(incomingStream);
-                string result = activeRouter.RouteCommand(command);
+                incomingStream = stream.ReadString();
+                ICommandRouter activeRouter = GetActivatedRouter(incomingStream);
+                string result = activeRouter.RouteCommand(incomingStream);
                 stream.WriteString(result);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Debug.WriteLine("Došlo je do greške: {0}", e.Message);
+                stream.WriteString("Došlo je do greške:"+e.Message+"; StackTrace:"+e.StackTrace);
             }
 
             pipeServer.Close();
             WriteLogEntry("Server #" + Thread.CurrentThread.ManagedThreadId + " has terminated!");
         }
 
-        private static ICommandRouter ExtractActiveRouter(string incommingStream)
+        private static ICommandRouter GetActivatedRouter(string commandXml)
         {
             ICommandRouter sender = null;
 
-            string identifier = incommingStream.Split(';')[0];
+            string identifier = CommandRouter.GetRouterIdentifier(commandXml);
             sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
 
             return sender;
-        }
-
-        private static string ExtractCommand(string incommingStream)
-        {
-            string command = incommingStream.Split(';')[1];
-            return command;
-        }
-
-        private static string RouteCommand(string incomingCommand)
-        {
-            string result = "";
-            switch (incomingCommand)
-            {
-                case "WholeGraph": result = GenerateWholeGraph(); break;
-                case "PartialGraph": result = GeneratePartialGraph(); break;
-                default:
-                    break;
-            }
-            return result;
-        }
-
-        private static string GeneratePartialGraph()
-        {
-            return "This is generated PARTIAL GRAPH";
-        }
-
-        private static string GenerateWholeGraph()
-        {
-            return "This is generated WHOLE GRAPH";
         }
 
         private static void WriteLogEntry(string entry)
