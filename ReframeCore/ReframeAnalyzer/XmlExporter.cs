@@ -98,6 +98,7 @@ namespace ReframeAnalyzer
             xmlWriter.WriteStartElement("Node");
 
             WriteNodeBasicData(node, xmlWriter);
+            WriteNodeDetails(node, xmlWriter);
 
             if (includePredecessors == true)
             {
@@ -121,13 +122,32 @@ namespace ReframeAnalyzer
             xmlWriter.WriteStartElement("MemberName");
             xmlWriter.WriteString(node.MemberName);
             xmlWriter.WriteEndElement();
+        }
+
+        private static void WriteNodeDetails(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("OwnerClass");
+            xmlWriter.WriteString(node.OwnerObject.GetType().ToString());
+            xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("OwnerObject");
-            xmlWriter.WriteString(node.OwnerObject.GetType().ToString());
+            xmlWriter.WriteString(node.OwnerObject.GetHashCode().ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Level");
             xmlWriter.WriteString(node.Level.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("NodeType");
+            xmlWriter.WriteString(node.GetType().ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("PredecessorsCount");
+            xmlWriter.WriteString(node.Predecessors.Count.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("SuccessorsCount");
+            xmlWriter.WriteString(node.Successors.Count.ToString());
             xmlWriter.WriteEndElement();
         }
 
