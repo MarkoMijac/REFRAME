@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ReframeCore
 {
     public static class GraphFactory
     {
-        private static List<DependencyGraph> _graphs = new List<DependencyGraph>();
+        private static List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
 
         /// <summary>
         /// Creates and registers new dependency graph with unique identifier.
@@ -66,6 +67,11 @@ namespace ReframeCore
             }
 
             return graph;
+        }
+
+        public static List<IDependencyGraph> GetRegisteredGraphs()
+        {
+            return _graphs.ToList();
         }
 
         /// <summary>
