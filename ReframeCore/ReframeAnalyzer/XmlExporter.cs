@@ -188,5 +188,54 @@ namespace ReframeAnalyzer
 
             xmlWriter.WriteEndElement();
         }
+
+        public static string ExportClassNodes(IList<StaticNode> nodes)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            using (var stringWriter = new StringWriter(builder))
+            using (var xmlWriter = XmlWriter.Create(stringWriter, defaultXmlSettings))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("StaticNodes");
+
+                foreach (var node in nodes)
+                {
+                    WriteClassNode(node, xmlWriter);
+                }
+
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
+            }
+
+            return builder.ToString();
+        }
+
+        private static void WriteClassNode(StaticNode classNode, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("StaticNode");
+
+            xmlWriter.WriteStartElement("Identifier");
+            xmlWriter.WriteString(classNode.Identifier.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Name");
+            xmlWriter.WriteString(classNode.Name);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("FullName");
+            xmlWriter.WriteString(classNode.FullName);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Namespace");
+            xmlWriter.WriteString(classNode.Namespace);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Assembly");
+            xmlWriter.WriteString(classNode.Assembly);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndElement();
+        }
     }
 }

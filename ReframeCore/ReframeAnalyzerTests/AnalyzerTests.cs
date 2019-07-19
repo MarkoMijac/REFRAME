@@ -33,7 +33,6 @@ namespace ReframeAnalyzerTests
             GraphFactory.Clear();
             var graph = GraphFactory.GetOrCreate("G1");
 
-            NodeFactory factory = new NodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
 
             graph.Let(() =>obj.A).DependOn(() =>obj.B, () =>obj.C);
@@ -65,6 +64,25 @@ namespace ReframeAnalyzerTests
             string result = router.RouteCommand(xml);
 
             Assert.IsTrue(result != "");
+        }
+
+        [TestMethod]
+        public void GetClassNodes()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            var graph = GraphFactory.GetOrCreate("G1");
+
+            GenericReactiveObject obj = new GenericReactiveObject();
+
+            graph.Let(() => obj.A).DependOn(() => obj.B, () => obj.C);
+            graph.Let(() => obj.C).DependOn(() => obj.D, () => obj.E);
+
+            //Act
+            string xml = Analyzer.GetClassNodes(graph);
+
+            //Assert
+            Assert.AreNotEqual("", xml);
         }
     }
 }
