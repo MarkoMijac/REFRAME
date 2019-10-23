@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeDemonstration
 {
-    public static class GraphManager
+    public static class DependencyManager
     {
         public static IDependencyGraph DefaultGraph
         {
@@ -21,12 +21,16 @@ namespace ReframeDemonstration
 
         private static void CreateDependencies()
         {
-            //SurfaceArea = f(Width, Height)
             foreach (var cPart in Repository.ConstructionParts)
             {
-                DefaultGraph.Let(() => cPart.SurfaceArea).DependOn(() => cPart.Width, () => cPart.Height);
-                DefaultGraph.Let(() => cPart.Thickness).DependOn(cPart.Layers, () =>cPart.Layers[0].Thickness);
+                CreateDependencies(cPart);
             }
+        }
+
+        public static void CreateDependencies(ConstructionPart part)
+        {
+            DefaultGraph.Let(() => part.SurfaceArea).DependOn(() => part.Width, () => part.Height);
+            DefaultGraph.Let(() => part.Thickness).DependOn(part.Layers, () => part.Layers[0].Thickness);
         }
 
         public static void Initialize()

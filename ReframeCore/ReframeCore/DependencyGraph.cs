@@ -39,6 +39,8 @@ namespace ReframeCore
 
         public DependencyGraphStatus Status { get; private set; }
 
+        public bool UpdateSuspended { get; set; } = false;
+
         #endregion
 
         #region Constructors

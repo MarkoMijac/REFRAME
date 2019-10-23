@@ -60,7 +60,7 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphManager.cs" />
+    <Compile Include="DependencyManager.cs" />
     <Compile Include="GUIManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

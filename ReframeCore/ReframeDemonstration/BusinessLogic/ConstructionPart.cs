@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeDemonstration.BusinessLogic
 {
-    class ConstructionPart
+    public class ConstructionPart
     {
         public string Name { get; set; }
         private double height;
@@ -21,7 +21,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 height = value;
-                GraphManager.DefaultGraph.PerformUpdate(this, "Height");
+                DependencyManager.DefaultGraph.PerformUpdate(this, "Height");
             }
         }
 
@@ -33,7 +33,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 width = value;
-                GraphManager.DefaultGraph.PerformUpdate(this, "Width");
+                DependencyManager.DefaultGraph.PerformUpdate(this, "Width");
             }
         }
 

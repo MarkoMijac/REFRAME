@@ -266,7 +266,8 @@ namespace ReframeCore.Helpers
         private bool UpdateIsAllowed()
         {
             return DependencyGraph.Status == DependencyGraphStatus.Initialized
-                && Status != UpdateProcessStatus.Started;
+                && Status != UpdateProcessStatus.Started
+                && (DependencyGraph as DependencyGraph).UpdateSuspended == false;
         }
 
         private void MarkUpdateStart()

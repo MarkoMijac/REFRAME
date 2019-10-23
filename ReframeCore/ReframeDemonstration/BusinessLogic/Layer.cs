@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReframeDemonstration.BusinessLogic
 {
-    class Layer : ICollectionNodeItem
+    public class Layer : ICollectionNodeItem
     {
         public string Name { get; set; }
 
@@ -19,7 +19,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 thickness = value;
-                GraphManager.DefaultGraph.PerformUpdate(this, "Thickness");
+                DependencyManager.DefaultGraph.PerformUpdate(this, "Thickness");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using ReframeDemonstration.BusinessLogic;
+﻿using ReframeCore;
+using ReframeDemonstration.BusinessLogic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,9 +22,9 @@ namespace ReframeDemonstration
         private void FrmConstructionPartExample_Load(object sender, EventArgs e)
         {
             Repository.LoadData();
-            GraphManager.Initialize();
+            DependencyManager.Initialize();
             ShowConstructionParts();
-            GraphManager.DefaultGraph.UpdateCompleted += DefaultGraph_UpdateCompleted;
+            DependencyManager.DefaultGraph.UpdateCompleted += DefaultGraph_UpdateCompleted;
         }
 
         private void DefaultGraph_UpdateCompleted(object sender, EventArgs e)
@@ -46,6 +47,20 @@ namespace ReframeDemonstration
         {
             dgvConstructionParts.Refresh();
             GUIManager.MainPropertyGrid.Refresh();
+        }
+
+        private void btnAddConstructionPart_Click(object sender, EventArgs e)
+        {
+            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
+            ConstructionPart part = new ConstructionPart();
+            Repository.ConstructionParts.Add(part);
+            DependencyManager.CreateDependencies(part);
+            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
+
+            DependencyManager.DefaultGraph.PerformUpdate();
+
+            dgvConstructionParts.DataSource = null;
+            dgvConstructionParts.DataSource = Repository.ConstructionParts;
         }
     }
 }
