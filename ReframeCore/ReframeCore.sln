@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerStarter", "ServerStar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeAnalyzerTests", "ReframeAnalyzerTests\ReframeAnalyzerTests.csproj", "{CA38A380-8243-4D66-B6BE-61BFB7107185}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeDemonstration", "ReframeDemonstration\ReframeDemonstration.csproj", "{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
