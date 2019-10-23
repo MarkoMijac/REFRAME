@@ -89,7 +89,6 @@
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\PropertyNode.cs" />
     <Compile Include="Nodes\ITimeInfoProvider.cs" />
-    <Compile Include="Nodes\StaticNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Nodes\CollectionPropertyNode.cs" />
     <Compile Include="ReactiveCollections\ICollectionNodeItem.cs" />
