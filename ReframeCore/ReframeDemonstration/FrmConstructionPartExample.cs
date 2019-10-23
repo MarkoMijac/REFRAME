@@ -22,9 +22,10 @@ namespace ReframeDemonstration
         private void FrmConstructionPartExample_Load(object sender, EventArgs e)
         {
             Repository.LoadData();
-            DependencyManager.Initialize();
             ShowConstructionParts();
             DependencyManager.DefaultGraph.UpdateCompleted += DefaultGraph_UpdateCompleted;
+            DependencyManager.DefaultGraph.Initialize();
+            DependencyManager.DefaultGraph.PerformUpdate();
         }
 
         private void DefaultGraph_UpdateCompleted(object sender, EventArgs e)
@@ -54,9 +55,8 @@ namespace ReframeDemonstration
             (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
             ConstructionPart part = new ConstructionPart();
             Repository.ConstructionParts.Add(part);
-            DependencyManager.CreateDependencies(part);
-            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
 
+            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
             DependencyManager.DefaultGraph.PerformUpdate();
 
             dgvConstructionParts.DataSource = null;

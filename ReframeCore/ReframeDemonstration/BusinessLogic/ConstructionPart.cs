@@ -48,6 +48,8 @@ namespace ReframeDemonstration.BusinessLogic
             Layers.Add(new Layer() { Name="L1", Thickness = 2});
             Layers.Add(new Layer() { Name = "L2", Thickness = 3 });
             Layers.Add(new Layer() { Name = "L3", Thickness = 4 });
+
+            CreateDependencies();
         }
 
         private void Update_SurfaceArea()
@@ -64,6 +66,12 @@ namespace ReframeDemonstration.BusinessLogic
             }
 
             Thickness = result;
+        }
+
+        private void CreateDependencies()
+        {
+            DependencyManager.DefaultGraph.Let(() => SurfaceArea).DependOn(() => Width, () => Height);
+            DependencyManager.DefaultGraph.Let(() => Thickness).DependOn(Layers, () => Layers[0].Thickness);
         }
     }
 }
