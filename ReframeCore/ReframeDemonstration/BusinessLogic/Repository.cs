@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.ReactiveCollections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace ReframeDemonstration.BusinessLogic
     static class Repository
     {
         public static List<ConstructionPart> ConstructionParts { get; set; } = new List<ConstructionPart>();
+
+        public static ReactiveCollection<ConstructionPart> ConstructionPartsReact { get; set; } = new ReactiveCollection<ConstructionPart>();
 
         private static void LoadConstructionParts()
         {

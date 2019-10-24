@@ -37,19 +37,29 @@ namespace ReframeDemonstration.BusinessLogic
             }
         }
 
-
-
         public double SurfaceArea { get; set; }
 
         public double Thickness { get; set; }
 
         public ConstructionPart()
         {
-            Layers.Add(new Layer() { Name="L1", Thickness = 2});
-            Layers.Add(new Layer() { Name = "L2", Thickness = 3 });
-            Layers.Add(new Layer() { Name = "L3", Thickness = 4 });
-
             CreateDependencies();
+        }
+
+        public ConstructionPart(double w, double h)
+            : this()
+        {
+            width = w;
+            height = h;
+        }
+
+        public ConstructionPart(bool suspendUpdate)
+            : this()
+        {
+            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
+            Width = 5;
+            Height = 4.5;
+            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
         }
 
         private void Update_SurfaceArea()

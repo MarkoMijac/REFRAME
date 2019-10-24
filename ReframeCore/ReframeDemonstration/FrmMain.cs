@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeDemonstration.BusinessLogic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,13 +17,19 @@ namespace ReframeDemonstration
         {
             InitializeComponent();
             GUIManager.MainPropertyGrid = propertyGrid;
+            GUIManager.MdiForm = this;
         }
 
         private void constructionPartExampleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmConstructionPartExample form = new FrmConstructionPartExample();
-            form.MdiParent = this;
-            form.Show();
+            GUIManager.ShowForm(new FrmConstructionPartExample());
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            Repository.LoadData();
+            DependencyManager.DefaultGraph.Initialize();
+            DependencyManager.DefaultGraph.PerformUpdate();
         }
     }
 }

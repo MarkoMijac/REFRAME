@@ -25,5 +25,10 @@ namespace ReframeDemonstration.BusinessLogic
 
 
         public event EventHandler UpdateTriggered;
+
+        public Layer(double t)
+        {
+
+        }
     }
 }

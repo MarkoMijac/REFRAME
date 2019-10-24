@@ -54,6 +54,12 @@
     <Compile Include="FrmConstructionPartExample.Designer.cs">
       <DependentUpon>FrmConstructionPartExample.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmLayers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLayers.Designer.cs">
+      <DependentUpon>FrmLayers.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmConstructionPartExample.resx">
       <DependentUpon>FrmConstructionPartExample.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLayers.resx">
+      <DependentUpon>FrmLayers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
