@@ -235,5 +235,16 @@ namespace ReframeCore.FluentAPI
                 throw new FluentException("Reactive collection object cannot be null!");
             }
         }
+
+        public static void Update(this object instance, IDependencyGraph graph, [CallerMemberNameAttribute] string memberName = "")
+        {
+            graph.PerformUpdate(instance, memberName);
+        }
+
+        public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
+        {
+            var graph = GraphFactory.GetDefault();
+            graph.PerformUpdate(instance, memberName);
+        }
     }
 }

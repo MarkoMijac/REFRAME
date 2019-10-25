@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.FluentAPI;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace ReframeCoreExamples.E08.E4
             set
             {
                 _discountA = value;
-                _graph.PerformUpdate(this, "DiscountA");
+                this.Update(_graph);
             }
         }
 
