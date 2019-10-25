@@ -30,5 +30,10 @@ namespace ReframeDemonstration.BusinessLogic
         {
 
         }
+
+        public Layer()
+        {
+
+        }
     }
 }
