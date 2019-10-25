@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeCore.Exceptions;
+using System.Collections.Generic;
 
 namespace ReframeCoreTests
 {
@@ -57,6 +58,16 @@ namespace ReframeCoreTests
 
             //Act & Assert
             Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.Create(""));
+        }
+
+        [TestMethod]
+        public void Create_GivenDefaultIdentifierProvided_ThrowsException()
+        {
+            //Arrange
+            GraphFactory.Clear();
+
+            //Act & Assert
+            Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.Create(GraphFactory.DefaultGraphName));
         }
 
         #endregion
@@ -136,6 +147,67 @@ namespace ReframeCoreTests
 
             //Act & Assert
             Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.GetOrCreate(identifier));
+        }
+
+        #endregion
+
+        #region GetRegisteredGraphs
+
+        [TestMethod]
+        public void GetRegisteredGraphs_GivenNoGraphsManuallyAdded_ReturnsListWithDefaultGraph()
+        {
+            //Arrange
+            GraphFactory.Clear();
+
+            //Act
+            List<IDependencyGraph> graphs = GraphFactory.GetRegisteredGraphs();
+
+            //Assert
+            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+        }
+
+        [TestMethod]
+        public void GetRegisteredGraphs_GivenGraphIsManuallyAdded_ReturnsListAddedGraph()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            GraphFactory.Create("GraphONE");
+
+            //Act
+            List<IDependencyGraph> graphs = GraphFactory.GetRegisteredGraphs();
+
+            //Assert
+            Assert.IsTrue(graphs.Exists(g => g.Identifier == "GraphONE"));
+            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+        }
+
+        #endregion
+
+        #region Clear
+
+        [TestMethod]
+        public void Clear_GivenOnlyDefaultGraphExists_DefaultGraphIsNotRemoved()
+        {
+            GraphFactory.Clear();
+
+            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+        }
+
+        [TestMethod]
+        public void Clear_GivenMultipleGraphsExist_AllGraphsButDefaultOneAreRemoved()
+        {
+            //Arrange
+            GraphFactory.Clear();
+            GraphFactory.Create("GraphONE");
+            GraphFactory.Create("GraphTWO");
+            GraphFactory.Create("GraphTHREE");
+
+            //Act
+            GraphFactory.Clear();
+
+            //Assert
+            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Count == 1);
+            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
         }
 
         #endregion

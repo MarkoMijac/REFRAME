@@ -11,6 +11,17 @@ namespace ReframeCore
     public static class GraphFactory
     {
         private static List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
+        public const string DefaultGraphName = "DEFAULT";
+
+        static GraphFactory()
+        {
+            CreateDefaultGraph();
+        }
+
+        private static void CreateDefaultGraph()
+        {
+            _graphs.Add(new DependencyGraph(DefaultGraphName));
+        }
 
         /// <summary>
         /// Creates and registers new dependency graph with unique identifier.
@@ -69,6 +80,15 @@ namespace ReframeCore
             return graph;
         }
 
+        /// <summary>
+        /// Gets default graph.
+        /// </summary>
+        /// <returns></returns>
+        public static IDependencyGraph GetDefault()
+        {
+            return Get(DefaultGraphName);
+        }
+
         public static List<IDependencyGraph> GetRegisteredGraphs()
         {
             return _graphs.ToList();
@@ -79,7 +99,7 @@ namespace ReframeCore
         /// </summary>
         public static void Clear()
         {
-            _graphs.Clear();
+            _graphs.RemoveAll(g => g.Identifier != DefaultGraphName);
         }
     }
 }
