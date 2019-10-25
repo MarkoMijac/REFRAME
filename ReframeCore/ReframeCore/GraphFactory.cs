@@ -1,5 +1,6 @@
 ﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,16 @@ namespace ReframeCore
         public static IDependencyGraph Get(string identifier)
         {
             return _graphs.FirstOrDefault(g => g.Identifier == identifier);
+        }
+
+        /// <summary>
+        /// Returns registered graph which contains provided node.
+        /// </summary>
+        /// <param name="node">Reactive node</param>
+        /// <returns>Dependency graph if exists, otherwise null.</returns>
+        public static IDependencyGraph Get(INode node)
+        {
+            return _graphs.FirstOrDefault(g => g.ContainsNode(node));
         }
 
         /// <summary>
