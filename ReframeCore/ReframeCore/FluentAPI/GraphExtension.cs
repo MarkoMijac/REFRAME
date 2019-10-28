@@ -1,4 +1,5 @@
-﻿using ReframeCore.Nodes;
+﻿using ReframeCore.Exceptions;
+using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections;
@@ -234,6 +235,27 @@ namespace ReframeCore.FluentAPI
             {
                 throw new FluentException("Reactive collection object cannot be null!");
             }
+        }
+
+        public static void Update(this object instance, IDependencyGraph graph, [CallerMemberNameAttribute] string memberName = "")
+        {
+            if (graph == null)
+            {
+                throw new DependencyGraphException("Dependency graph is null!");
+            }
+
+            if (instance == null)
+            {
+                throw new NodeNullReferenceException("Owner object is null!");
+            }
+            graph.PerformUpdate(instance, memberName);
+        }
+
+        public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
+        {
+            
+            var graph = GraphFactory.GetDefault();
+            graph.PerformUpdate(instance, memberName);
         }
     }
 }

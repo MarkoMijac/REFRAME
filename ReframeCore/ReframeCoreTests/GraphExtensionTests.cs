@@ -7,6 +7,7 @@ using ReframeCore.Nodes;
 using System.Collections.Generic;
 using ReframeCoreExamples.E07;
 using ReframeCore.ReactiveCollections;
+using ReframeCore.Exceptions;
 
 namespace ReframeCoreTests
 {
@@ -520,6 +521,69 @@ namespace ReframeCoreTests
             INode predecessor = graph.GetNode(whole.Parts, "Update_A");
             INode successor = graph.GetNode(whole, "Update_A");
             Assert.IsTrue(graph.ContainsDependency(predecessor, successor));
+        }
+
+        #endregion
+
+        #region Update
+
+        [TestMethod]
+        public void Update_GivenProvidedGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = null;
+            Building00 b = new Building00();
+
+            //Act&Assert
+            Assert.ThrowsException<DependencyGraphException>(() => b.Update(graph, nameof(b.Width)));
+        }
+
+        [TestMethod]
+        public void Update_GivenProvidedOwnerIsNull_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = GraphFactory.GetDefault();
+            Building00 b = null;
+
+            //Act&Assert
+            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(graph, nameof(b.Width)));
+        }
+
+        [TestMethod]
+        public void Update_GivenProvidedNodeIsNotPartOfGraph_ThrowsException()
+        {
+            //Arrange
+            IDependencyGraph graph = GraphFactory.GetDefault();
+            graph.Initialize();
+            Building00 b = new Building00();
+
+            //Act&Asset
+            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(graph, nameof(b.Width)));
+        }
+
+        [TestMethod]
+        public void Update_GivenProvideIsPartOfGraph_PerformsUpdate()
+        {
+            //Arrange
+            IDependencyGraph graph = GraphFactory.GetDefault();
+            graph.Initialize();
+            Building00 b = new Building00();
+            NodeFactory nodeFactory = new NodeFactory();
+            INode width = nodeFactory.CreateNode(b, nameof(b.Width));
+            INode area = nodeFactory.CreateNode(b, nameof(b.Area));
+
+            bool updatePerformed = false;
+            graph.AddDependency(width, area);
+            graph.UpdateCompleted += delegate
+              {
+                  updatePerformed = true;
+              };
+
+            //Act
+            b.Update(graph, nameof(b.Width));
+
+            //Assert
+            Assert.IsTrue(updatePerformed);
         }
 
         #endregion

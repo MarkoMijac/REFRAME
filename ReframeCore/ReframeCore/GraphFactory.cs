@@ -1,5 +1,6 @@
 ﻿using ReframeCore.Exceptions;
 using ReframeCore.Helpers;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,17 @@ namespace ReframeCore
     public static class GraphFactory
     {
         private static List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
+        public const string DefaultGraphName = "DEFAULT";
+
+        static GraphFactory()
+        {
+            CreateDefaultGraph();
+        }
+
+        private static void CreateDefaultGraph()
+        {
+            _graphs.Add(new DependencyGraph(DefaultGraphName));
+        }
 
         /// <summary>
         /// Creates and registers new dependency graph with unique identifier.
@@ -54,6 +66,16 @@ namespace ReframeCore
         }
 
         /// <summary>
+        /// Returns registered graph which contains provided node.
+        /// </summary>
+        /// <param name="node">Reactive node</param>
+        /// <returns>Dependency graph if exists, otherwise null.</returns>
+        public static IDependencyGraph Get(INode node)
+        {
+            return _graphs.FirstOrDefault(g => g.ContainsNode(node));
+        }
+
+        /// <summary>
         /// Gets graph if there is one registered with provided identifier. Otherwise it creates one.
         /// </summary>
         /// <param name="identifier">Graph identifier.</param>
@@ -69,6 +91,15 @@ namespace ReframeCore
             return graph;
         }
 
+        /// <summary>
+        /// Gets default graph.
+        /// </summary>
+        /// <returns></returns>
+        public static IDependencyGraph GetDefault()
+        {
+            return Get(DefaultGraphName);
+        }
+
         public static List<IDependencyGraph> GetRegisteredGraphs()
         {
             return _graphs.ToList();
@@ -79,7 +110,7 @@ namespace ReframeCore
         /// </summary>
         public static void Clear()
         {
-            _graphs.Clear();
+            _graphs.RemoveAll(g => g.Identifier != DefaultGraphName);
         }
     }
 }
