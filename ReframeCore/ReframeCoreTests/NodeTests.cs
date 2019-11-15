@@ -18,7 +18,7 @@ namespace ReframeCoreTests
         public void ClearPredecessors_GivenNodeHasNoPredecessors_NoPredecessorsAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
 
@@ -36,7 +36,7 @@ namespace ReframeCoreTests
         public void ClearPredecessors_GivenNodeHasPredecessors_AllPredecessorsAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode nodeA = nodeFactory.CreateNode(obj, "A");
             INode nodeB = nodeFactory.CreateNode(obj, "B");
@@ -62,7 +62,7 @@ namespace ReframeCoreTests
         public void ClearSuccessors_GivenNodeHasNoSuccessors_NoSuccessorsAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
 
@@ -80,7 +80,7 @@ namespace ReframeCoreTests
         public void ClearSuccessors_GivenNodeHasSuccessors_AllSuccessorsAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode nodeA = nodeFactory.CreateNode(obj, "A");
             INode nodeB = nodeFactory.CreateNode(obj, "B");
@@ -106,7 +106,7 @@ namespace ReframeCoreTests
         public void IsAlive_GivenStrongReferenceToObjectExists_WeakReferenceIsAlive()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode node = nodeFactory.CreateNode(obj, "A");
 
@@ -121,7 +121,7 @@ namespace ReframeCoreTests
         public void IsAlive_GivenStrongReferenceToObjectDoesntExist_WeakReferenceIsNotAlive()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             INode node = nodeFactory.CreateNode(obj, "A");
 
@@ -140,7 +140,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
 
             PropertyNode p = nodeFactory.CreateNode(obj, "A") as PropertyNode;
 

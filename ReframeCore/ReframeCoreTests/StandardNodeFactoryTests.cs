@@ -12,9 +12,9 @@ using ReframeCore.Factories;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class NodeFactoryTests
+    public class StandardNodeFactoryTests
     {
-        private NodeFactory defaultFactory = new NodeFactory();
+        private NodeFactory defaultFactory = new StandardNodeFactory();
 
         #region PropertyNode
 
@@ -73,25 +73,28 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledAndExisting_ReturnsPropertyNodeWithDefaultUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
+            PrivateObject privateNodeFactory = new PrivateObject(nodeFactory);
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
             string propertyName = "Area";
+
 
             //Act
             PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
 
             //Assert
+            string generatedUpdateMethodName = privateNodeFactory.Invoke("GenerateDefaultUpdateMethodName", propertyName).ToString();
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod.Method.Name == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
+                && node.UpdateMethod.Method.Name == generatedUpdateMethodName);
         }
 
         [TestMethod]
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsDisabled_ReturnsPropertyNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Building00 building = new Building00();
             string propertyName = "Area";
@@ -109,7 +112,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledButNotExisting_ReturnsPropertyNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
             string propertyName = "Width";
@@ -249,7 +252,8 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledAndExisting_ReturnsCollectionNodeWithDefaultUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
+            PrivateObject privateNodeFactory = new PrivateObject(nodeFactory);
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "A";
@@ -258,16 +262,17 @@ namespace ReframeCoreTests
             CollectionPropertyNode partsNode = nodeFactory.CreateNode(whole.Parts, propertyName) as CollectionPropertyNode;
 
             //Assert
+            string generatedUpdateMethodName = privateNodeFactory.Invoke("GenerateDefaultUpdateMethodName", propertyName).ToString();
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
                 && partsNode.MemberName == propertyName
-                && partsNode.UpdateMethodName == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
+                && partsNode.UpdateMethodName == generatedUpdateMethodName);
         }
 
         [TestMethod]
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsDisabled_ReturnsCollectionNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "A";
@@ -285,7 +290,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledButNotExisting_ReturnsCollectionNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "D";

@@ -17,7 +17,7 @@ namespace ReframeCoreTests
     [TestClass]
     public partial class DependencyGraphTests
     {
-        private NodeFactory nodeFactory = new NodeFactory();
+        private NodeFactory nodeFactory = new StandardNodeFactory();
 
         #region AddNode
 
@@ -327,6 +327,7 @@ namespace ReframeCoreTests
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
             graph.DefaultNodeFactory.UseDefaultUpdateMethodNames = true;
+            PrivateObject privateObject = new PrivateObject(graph.DefaultNodeFactory);
 
             Building00 building = new Building00();
             string memberName = "Area";
@@ -335,8 +336,9 @@ namespace ReframeCoreTests
             PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
 
             //Assert
+            string generatedUpdateMethodName = privateObject.Invoke("GenerateDefaultUpdateMethodName", memberName).ToString();
             Assert.IsTrue(addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == graph.DefaultNodeFactory.GenerateDefaultUpdateMethodName(memberName));
+                && addedNode.UpdateMethod.Method.Name == generatedUpdateMethodName);
         }
 
         [TestMethod]
@@ -1661,7 +1663,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectsHaveStrongReferences_NoNodesAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G1");
@@ -1687,7 +1689,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectDoesntHaveStrongReferences_NodesAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G1");
@@ -1715,7 +1717,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenMultipleOwnerObjectsDontHaveStrongReferences_NodesAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
             GraphFactory.Clear();
@@ -1753,7 +1755,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenSomeOwnerObjectsDontHaveStrongReferences_NodesAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
             GraphFactory.Clear();
@@ -1794,7 +1796,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenCollectionDoesntHaveStrongReferences_CollectionNodeIsRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G1");
 
@@ -1825,7 +1827,7 @@ namespace ReframeCoreTests
         public void RemoveNodesOfNonexistantObjects_GivenOwnerObjectBelongsToCollectionWithNoStrongReferences_NodesAreRemoved()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G1");
 
@@ -1865,7 +1867,7 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = null;
             INode successor = nodeFactory.CreateNode(obj, "A");
 
@@ -1881,7 +1883,7 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
             INode successor = null;
 
@@ -1896,7 +1898,7 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
             INode successor = nodeFactory.CreateNode(obj, "B");
 
@@ -1914,7 +1916,7 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             var graph = GraphFactory.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
             INode successor = nodeFactory.CreateNode(obj, "B");
 

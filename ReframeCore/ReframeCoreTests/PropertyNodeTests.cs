@@ -29,7 +29,7 @@ namespace ReframeCoreTests
         public void NodeCreation_SourceNodeUpdateInvoke_DoesNotBreak()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building = new Building00();
             string memberName = "Width";
 
@@ -54,7 +54,7 @@ namespace ReframeCoreTests
         public void NodeCreation_CreatedReactiveNode_ObtainedIdentifier()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
 
@@ -69,7 +69,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
 
@@ -87,7 +87,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember1_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
 
@@ -104,7 +104,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
             string memberName2 = "Length";
@@ -123,7 +123,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtSameObjectAndDifferentMember1_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
             string memberName2 = "Length";
@@ -141,7 +141,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building1 = new Building00();
             Building00 building2 = new Building00();
 
@@ -161,7 +161,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtDifferentObjectAndSameMember1_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building1 = new Building00();
             Building00 building2 = new Building00();
 
@@ -180,7 +180,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NullObjectProvided_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building = new Building00();
             string memberName = "Width";
 
@@ -197,7 +197,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_EmptyMemberNameProvided_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building = new Building00();
             string memberName = "Width";
 
@@ -215,7 +215,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Building00 b = new Building00();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
 
             b.Width = 100;
             INode node = nodeFactory.CreateNode(b, "Width");
@@ -241,7 +241,7 @@ namespace ReframeCoreTests
         public void AddPredecessor_GivenAnotherValidNode_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -262,7 +262,7 @@ namespace ReframeCoreTests
         public void AddPredecessor_GivenNullNode_ThrowsException()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -278,7 +278,7 @@ namespace ReframeCoreTests
         public void AddPredecessor_GivenSameNode_ThrowsException()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -294,7 +294,7 @@ namespace ReframeCoreTests
         public void AddPredecessor_GivenAlreadyAddedNode_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -316,7 +316,7 @@ namespace ReframeCoreTests
         public void AddPredecessor_GivenValidMethodNode_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             PropertyNode node = nodeFactory.CreateNode(building00, "Volume", "Update_Volume") as PropertyNode;
@@ -337,7 +337,7 @@ namespace ReframeCoreTests
         public void HasPredecessor_GivenNodeAddedAsSuccessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -359,7 +359,7 @@ namespace ReframeCoreTests
         public void HasPredecessor_GivenNodeNotAddedAsSuccessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -380,7 +380,7 @@ namespace ReframeCoreTests
         public void HasPredecessor_GivenNodeRemovedAsSuccessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -403,7 +403,7 @@ namespace ReframeCoreTests
         public void HasPredecessor_GivenMethodNodeAddedAsSuccessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             PropertyNode predecessorNode = nodeFactory.CreateNode(building00, "Volume", "Update_Volume") as PropertyNode;
@@ -425,7 +425,7 @@ namespace ReframeCoreTests
         public void HasSuccessor_GivenNodeAddedAsPredecessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -447,7 +447,7 @@ namespace ReframeCoreTests
         public void HasSuccessor_GivenNodeNotAddedAsPredecessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -468,7 +468,7 @@ namespace ReframeCoreTests
         public void HasSuccessor_GivenNodeRemovedAsPredecessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -491,7 +491,7 @@ namespace ReframeCoreTests
         public void HasSuccessor_GivenMethodNodeAddedAsPredecessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             PropertyNode successorNode = nodeFactory.CreateNode(building00, "Area", "Update_Area") as PropertyNode;
@@ -513,7 +513,7 @@ namespace ReframeCoreTests
         public void AddSuccessor_GivenAnotherValidNode_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -534,7 +534,7 @@ namespace ReframeCoreTests
         public void AddSuccessor_GivenNullNode_ThrowsException()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -549,7 +549,7 @@ namespace ReframeCoreTests
         public void AddSuccessor_GivenSameNode_ThrowsException()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -564,7 +564,7 @@ namespace ReframeCoreTests
         public void AddSuccessor_GivenAlreadyAddedNode_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -586,7 +586,7 @@ namespace ReframeCoreTests
         public void AddSuccessor_GivenValidMethodNode_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             MethodNode node = nodeFactory.CreateNode(building00, "Update_Area") as MethodNode;
@@ -607,7 +607,7 @@ namespace ReframeCoreTests
         public void RemovePredecessor_GivenValidPredecessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -629,7 +629,7 @@ namespace ReframeCoreTests
         public void RemovePredecessor_GivenNonexistingPredecessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -650,7 +650,7 @@ namespace ReframeCoreTests
         public void RemovePredecessor_GivenNullPredecessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
@@ -669,7 +669,7 @@ namespace ReframeCoreTests
         public void RemovePredecessor_GivenValidMethodNodePredecessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             PropertyNode node = nodeFactory.CreateNode(building00, "Volume", "Update_Volume") as PropertyNode;
@@ -691,7 +691,7 @@ namespace ReframeCoreTests
         public void RemoveSuccessor_GivenValidSuccessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
             
@@ -714,7 +714,7 @@ namespace ReframeCoreTests
         public void RemoveSuccessor_GivenNonexistingSuccessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -736,7 +736,7 @@ namespace ReframeCoreTests
         public void RemoveSuccessor_GivenNullSuccessor_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string propertyName = "Width";
 
@@ -754,7 +754,7 @@ namespace ReframeCoreTests
         public void RemoveSuccessor_GivenValidMethodNodeSuccessor_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
 
             PropertyNode node = nodeFactory.CreateNode(building00, "Width") as PropertyNode;

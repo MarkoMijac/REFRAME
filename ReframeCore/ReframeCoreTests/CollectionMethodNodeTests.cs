@@ -16,7 +16,7 @@ namespace ReframeCoreTests
     [TestClass]
     public class CollectionMethodNodeTests
     {
-        private NodeFactory defaultFactory = new NodeFactory();
+        private NodeFactory defaultFactory = new StandardNodeFactory();
 
         #region NodeCreation
 
@@ -144,7 +144,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NullObjectProvided_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Whole whole = new Whole();
             string memberName = "Update_A";
 
@@ -161,7 +161,7 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_EmptyMemberNameProvided_ReturnsFalse()
         {
             //Arrange
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             Whole whole = new Whole();
             Whole whole2 = new Whole();
             string memberName = "Update_A";

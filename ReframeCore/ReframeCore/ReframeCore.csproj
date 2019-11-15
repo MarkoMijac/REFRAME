@@ -65,6 +65,7 @@
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
+    <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="FluentAPI\FluentException.cs" />
     <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="Helpers\UpdateScheduler.cs" />
     <Compile Include="IDependencyGraph.cs" />
-    <Compile Include="Factories\NodeFactory.cs" />
+    <Compile Include="Factories\StandardNodeFactory.cs" />
     <Compile Include="Nodes\CollectionMethodNode.cs" />
     <Compile Include="Nodes\CollectionNode.cs" />
     <Compile Include="Nodes\ICollectionNode.cs" />

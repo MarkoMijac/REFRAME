@@ -2686,7 +2686,7 @@ namespace ReframeCoreTests
         {
             GraphFactory.Clear();
             var graph = GraphFactory.Create("GRAPH_CASE_11");
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
 
             INode nodeA = nodeFactory.CreateNode(reactiveObject, "A");
             INode nodeB = nodeFactory.CreateNode(reactiveObject, "B");

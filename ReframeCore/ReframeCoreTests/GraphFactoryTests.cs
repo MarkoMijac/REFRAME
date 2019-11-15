@@ -12,6 +12,8 @@ namespace ReframeCoreTests
     [TestClass]
     public class GraphFactoryTests
     {
+        private NodeFactory factory = new StandardNodeFactory();
+
         #region Create
 
         [TestMethod]
@@ -124,7 +126,6 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             GraphFactory.Create("GraphONE");
 
-            NodeFactory factory = new NodeFactory();
             Building00 b = new Building00();
             INode node = factory.CreateNode(b, nameof(b.Area));
 
@@ -142,7 +143,6 @@ namespace ReframeCoreTests
             GraphFactory.Clear();
             GraphFactory.Create("GraphONE");
 
-            NodeFactory factory = new NodeFactory();
             Building00 b = new Building00();
             INode node = factory.CreateNode(b, nameof(b.Area));
             GraphFactory.GetDefault().AddNode(node);

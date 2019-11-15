@@ -15,12 +15,13 @@ namespace ReframeCoreTests
     [TestClass]
     public class UpdateLoggerTests
     {
+        private NodeFactory nodeFactory = new StandardNodeFactory();
+
         [TestMethod]
         public void Equals_GivenOneLoggerIsNull_ReturnsFalse()
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));
@@ -45,7 +46,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));
@@ -68,7 +68,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));
@@ -94,7 +93,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             INode aNode = nodeFactory.CreateNode(obj, "A");
             INode bNode = nodeFactory.CreateNode(obj, "B");
@@ -121,7 +119,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             INode aNode = nodeFactory.CreateNode(obj, "A");
             INode bNode = nodeFactory.CreateNode(obj, "B");
@@ -193,7 +190,6 @@ namespace ReframeCoreTests
         public void Log_GivenValidNode_NodeIsLogged()
         {
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             INode node = nodeFactory.CreateNode(obj, "A");
             UpdateLogger logger = new UpdateLogger();
@@ -210,7 +206,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));
@@ -232,7 +227,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));
@@ -269,7 +263,6 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
-            NodeFactory nodeFactory = new NodeFactory();
 
             List<INode> nodes = new List<INode>();
             nodes.Add(nodeFactory.CreateNode(obj, "A"));

@@ -247,7 +247,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             IDependencyGraph graph = null;
-            NodeFactory factory = new NodeFactory();
+            NodeFactory factory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
             
             List<INode> successors = new List<INode>();
@@ -265,7 +265,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             IDependencyGraph graph = null;
-            NodeFactory factory = new NodeFactory();
+            NodeFactory factory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
 
             List<INode> successors = null;
@@ -282,7 +282,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             IDependencyGraph graph = null;
-            NodeFactory factory = new NodeFactory();
+            NodeFactory factory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
 
             List<INode> successors = new List<INode>();
@@ -431,7 +431,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             IDependencyGraph graph = null;
-            NodeFactory factory = new NodeFactory();
+            NodeFactory factory = new StandardNodeFactory();
             Whole whole = new Whole();
 
             List<INode> successors = new List<INode>();
@@ -449,7 +449,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             IDependencyGraph graph = null;
-            NodeFactory factory = new NodeFactory();
+            NodeFactory factory = new StandardNodeFactory();
             Whole whole = new Whole();
 
             List<INode> successors = null;
@@ -569,7 +569,7 @@ namespace ReframeCoreTests
             IDependencyGraph graph = GraphFactory.GetDefault();
             graph.Initialize();
             Building00 b = new Building00();
-            NodeFactory nodeFactory = new NodeFactory();
+            NodeFactory nodeFactory = new StandardNodeFactory();
             INode width = nodeFactory.CreateNode(b, nameof(b.Width));
             INode area = nodeFactory.CreateNode(b, nameof(b.Area));
 

@@ -56,7 +56,7 @@ namespace ReframeCore
             Settings = new Settings();
             Nodes = new List<INode>();
 
-            DefaultNodeFactory = new NodeFactory();
+            DefaultNodeFactory = new StandardNodeFactory();
             UpdateScheduler = new UpdateScheduler(this);
             UpdateScheduler.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
             UpdateScheduler.UpdateStarted += delegate { OnPerformUpdateStarted(); };
