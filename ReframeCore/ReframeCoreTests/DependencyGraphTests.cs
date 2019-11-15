@@ -325,8 +325,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
-            NodeFactorySettings settings = graph.DefaultNodeFactory.Settings;
-            settings.UseDefaultUpdateMethodNames = true;
+            graph.DefaultNodeFactory.UseDefaultUpdateMethodNames = true;
 
             Building00 building = new Building00();
             string memberName = "Area";
@@ -336,7 +335,7 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == settings.GenerateDefaultUpdateMethodName(memberName));
+                && addedNode.UpdateMethod.Method.Name == graph.DefaultNodeFactory.GenerateDefaultUpdateMethodName(memberName));
         }
 
         [TestMethod]
@@ -344,8 +343,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
-            NodeFactorySettings settings = graph.DefaultNodeFactory.Settings;
-            settings.UseDefaultUpdateMethodNames = false;
+            graph.DefaultNodeFactory.UseDefaultUpdateMethodNames = false;
 
             Building00 building = new Building00();
             string memberName = "Area";

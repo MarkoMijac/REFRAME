@@ -16,7 +16,8 @@ namespace ReframeCore
     {
         #region Properties
 
-        public NodeFactorySettings Settings { get; set; }
+        public string UpdateMethodNamePrefix { get; set; }
+        public bool UseDefaultUpdateMethodNames { get; set; }
 
         #endregion
 
@@ -24,7 +25,8 @@ namespace ReframeCore
 
         public NodeFactory()
         {
-            Settings = new NodeFactorySettings();
+            UpdateMethodNamePrefix = "Update_";
+            UseDefaultUpdateMethodNames = true;
         }
 
         #endregion
@@ -86,6 +88,16 @@ namespace ReframeCore
             return nodeType;
         }
 
+        /// <summary>
+        /// Gets update method name generated from default prefix and property name.
+        /// </summary>
+        /// <param name="propertyName">Property name represented by reactive node.</param>
+        /// <returns>Update method name generated from default prefix and property name.</returns>
+        public string GenerateDefaultUpdateMethodName(string propertyName)
+        {
+            return UpdateMethodNamePrefix + propertyName;
+        }
+
         #region PropertyNode
 
         private PropertyNode CreatePropertyNode(object ownerObject, string propertyName, string updateMethod)
@@ -123,7 +135,7 @@ namespace ReframeCore
 
         private PropertyNode CreatePropertyNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
         {
-            string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
+            string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
             return new PropertyNode(ownerObject, propertyName, updateMethod);
         }
 
@@ -131,9 +143,9 @@ namespace ReframeCore
         {
             bool should = false;
 
-            if (Settings.UseDefaultUpdateMethodNames == true)
+            if (UseDefaultUpdateMethodNames == true)
             {
-                string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
+                string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
                 if (Reflector.IsMethod(ownerObject, updateMethod) == true)
                 {
                     should = true;
@@ -181,7 +193,7 @@ namespace ReframeCore
 
         private CollectionPropertyNode CreateCollectionPropertyNode_WithDefaultUpdateMethod(object ownerObject, string propertyName)
         {
-            string updateMethod = Settings.GenerateDefaultUpdateMethodName(propertyName);
+            string updateMethod = GenerateDefaultUpdateMethodName(propertyName);
             return new CollectionPropertyNode(ownerObject, propertyName, updateMethod);
         }
 

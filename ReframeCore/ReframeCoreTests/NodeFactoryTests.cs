@@ -73,7 +73,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
             string propertyName = "Area";
 
@@ -83,7 +83,7 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod.Method.Name == nodeFactory.Settings.GenerateDefaultUpdateMethodName(propertyName));
+                && node.UpdateMethod.Method.Name == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = false; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Building00 building = new Building00();
             string propertyName = "Area";
 
@@ -109,7 +109,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
             string propertyName = "Width";
 
@@ -249,7 +249,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "A";
 
@@ -259,7 +259,7 @@ namespace ReframeCoreTests
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
                 && partsNode.MemberName == propertyName
-                && partsNode.UpdateMethodName == nodeFactory.Settings.GenerateDefaultUpdateMethodName(propertyName));
+                && partsNode.UpdateMethodName == nodeFactory.GenerateDefaultUpdateMethodName(propertyName));
         }
 
         [TestMethod]
@@ -267,7 +267,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = false; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "A";
 
@@ -285,7 +285,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new NodeFactory();
-            nodeFactory.Settings.UseDefaultUpdateMethodNames = true; //This is default option
+            nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "D";
 
