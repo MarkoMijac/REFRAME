@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ReframeCore.Exceptions;
 using ReframeCoreExamples.E08.E1;
 using ReframeCore;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {

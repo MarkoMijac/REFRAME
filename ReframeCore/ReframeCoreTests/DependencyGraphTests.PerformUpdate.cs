@@ -13,6 +13,7 @@ using ReframeCoreExamples.E07;
 using ReframeCoreExamples.E07_1;
 using ReframeCore.ReactiveCollections;
 using ReframeCoreExamples.E08.E1;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {

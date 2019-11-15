@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
+using ReframeCore.Factories;
 using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using ReframeCoreExamples.E08.E2;

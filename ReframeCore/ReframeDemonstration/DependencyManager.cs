@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Factories;
 using ReframeCore.FluentAPI;
 using ReframeDemonstration.BusinessLogic;
 using System;

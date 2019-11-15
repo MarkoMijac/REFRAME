@@ -7,6 +7,7 @@ using ReframeCore;
 using ReframeCore.Exceptions;
 using ReframeCore.Nodes;
 using ReframeCoreExamples.E00;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {

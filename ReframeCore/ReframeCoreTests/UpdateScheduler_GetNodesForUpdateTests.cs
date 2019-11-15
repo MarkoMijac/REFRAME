@@ -6,6 +6,7 @@ using ReframeCore.Nodes;
 using ReframeCore.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {

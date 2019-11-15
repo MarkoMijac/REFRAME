@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore
+namespace ReframeCore.Factories
 {
     public static class GraphFactory
     {

@@ -69,7 +69,7 @@
     <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
     <Compile Include="FluentAPI\TransferObject.cs" />
-    <Compile Include="GraphFactory.cs" />
+    <Compile Include="Factories\GraphFactory.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
     <Compile Include="Helpers\UpdateError.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="Helpers\UpdateScheduler.cs" />
     <Compile Include="IDependencyGraph.cs" />
-    <Compile Include="NodeFactory.cs" />
+    <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Nodes\CollectionMethodNode.cs" />
     <Compile Include="Nodes\CollectionNode.cs" />
     <Compile Include="Nodes\ICollectionNode.cs" />

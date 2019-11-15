@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ReframeCoreExamples.E07;
 using ReframeCore.ReactiveCollections;
 using ReframeCore.Exceptions;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {

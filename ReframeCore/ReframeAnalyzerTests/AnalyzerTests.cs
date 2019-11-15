@@ -6,6 +6,7 @@ using ReframeAnalyzer;
 using ReframeCoreExamples.E00;
 using ReframeCore.FluentAPI;
 using IPCServer;
+using ReframeCore.Factories;
 
 namespace ReframeAnalyzerTests
 {

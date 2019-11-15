@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Factories;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
