@@ -19,7 +19,7 @@ namespace ReframeCore
     {
         #region Properties
 
-        public NodeFactory DefaultNodeFactory { get; private set; }
+        public NodeFactory NodeFactory { get; private set; }
 
         public UpdateScheduler UpdateScheduler { get; private set; }
 
@@ -56,7 +56,7 @@ namespace ReframeCore
             Settings = new Settings();
             Nodes = new List<INode>();
 
-            DefaultNodeFactory = new StandardNodeFactory();
+            NodeFactory = new StandardNodeFactory();
             UpdateScheduler = new UpdateScheduler(this);
             UpdateScheduler.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
             UpdateScheduler.UpdateStarted += delegate { OnPerformUpdateStarted(); };
@@ -128,7 +128,7 @@ namespace ReframeCore
 
             if (nodeToAdd == null)
             {
-                nodeToAdd = DefaultNodeFactory.CreateNode(ownerObject, memberName, updateMethodName);
+                nodeToAdd = NodeFactory.CreateNode(ownerObject, memberName, updateMethodName);
                 Nodes.Add(nodeToAdd);
                 RegisterGraphInNode(nodeToAdd);
             }

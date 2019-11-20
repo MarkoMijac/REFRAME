@@ -222,12 +222,12 @@ namespace ReframeCoreTests
 
             //Act
             PrivateObject privateObject1 = new PrivateObject(node);
-            uint identifier1 = (uint)privateObject1.Invoke("GetIdentifier");
+            uint identifier1 = (uint)privateObject1.Invoke("GenerateIdentifier");
 
             b.Width = 2000;
             INode node2 = nodeFactory.CreateNode(b, "Width");
             PrivateObject privateObject2 = new PrivateObject(node2);
-            uint identifier2 = (uint)privateObject2.Invoke("GetIdentifier");
+            uint identifier2 = (uint)privateObject2.Invoke("GenerateIdentifier");
 
             //Assert
             Assert.AreEqual(identifier1, identifier2);

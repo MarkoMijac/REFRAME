@@ -90,7 +90,7 @@ namespace ReframeCore.Nodes
             Predecessors = new List<INode>();
             Successors = new List<INode>();
 
-            Identifier = GetIdentifier();
+            Identifier = GenerateIdentifier();
         }
 
         /// <summary>
@@ -114,24 +114,24 @@ namespace ReframeCore.Nodes
         /// Gets reactive node's unique identifier.
         /// </summary>
         /// <returns>Reactive node's unique identifier.</returns>
-        protected uint GetIdentifier()
+        protected uint GenerateIdentifier()
         {
-            return GetIdentifier(OwnerObject, MemberName);
+            return GenerateIdentifier(OwnerObject, MemberName);
         }
 
         /// <summary>
         /// Gets reactive node's unique identifier.
         /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
+        /// <param name="owner">Associated object which owns the member.</param>
+        /// <param name="member">The name of the class member reactive node represents.</param>
         /// <returns>Reactive node's unique identifier.</returns>
-        protected uint GetIdentifier(object ownerObject, string memberName)
+        protected uint GenerateIdentifier(object owner, string member)
         {
             uint id = 0;
 
-            if (ownerObject != null && memberName != "")
+            if (owner != null && member != "")
             {
-                id = (uint)(ownerObject.GetHashCode() + memberName.GetHashCode());
+                id = (uint)(owner.GetHashCode() ^ member.GetHashCode());
             }
 
             return id;
@@ -145,7 +145,7 @@ namespace ReframeCore.Nodes
         /// <returns>True if specified reactive node has the same identifier as this reactive node.</returns>
         public bool HasSameIdentifier(object ownerObject, string memberName)
         {
-            return Identifier == GetIdentifier(ownerObject, memberName);
+            return Identifier == GenerateIdentifier(ownerObject, memberName);
         }
 
         /// <summary>
