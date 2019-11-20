@@ -116,6 +116,24 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void AddNode_GivenAlreadyAddedPropertyNodeAsDifferentInstance_ReturnsNull()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            INode node = nodeFactory.CreateNode(building, memberName);
+            graph.AddNode(node);
+            INode nodeToAdd = nodeFactory.CreateNode(building, memberName);
+
+            //Act
+            INode addedNode = graph.AddNode(nodeToAdd);
+
+            //Assert
+            Assert.IsNull(addedNode);
+        }
+
+        [TestMethod]
         public void AddNode_GivenAlreadyAddedMethodNode_ReturnsNull()
         {
             //Arrange
@@ -696,6 +714,25 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void ContainsNode_GivenAddedPropertyNode_ReturnsProperInstanceOfPropertyNode()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            INode node = nodeFactory.CreateNode(building, memberName);
+            graph.AddNode(node);
+
+            INode sameNode = nodeFactory.CreateNode(building, memberName);
+
+            //Act
+            bool contains = graph.ContainsNode(sameNode);
+
+            //Assert
+            Assert.IsTrue(contains);
+        }
+
+        [TestMethod]
         public void ContainsNode1_GivenAddedPropertyNodeReturnsTrue()
         {
             //Arrange
@@ -966,6 +1003,26 @@ namespace ReframeCoreTests
 
             //Act&Assert
             Assert.ThrowsException<NodeNullReferenceException>(() => graph.GetNode(node));
+        }
+
+        [TestMethod]
+        public void GetNode_GivenSuchNodeExistsButAsDifferentInstance_ReturnsInstanceFromDependencyGraph()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+
+            INode addedNode = nodeFactory.CreateNode(building, memberName);
+            graph.AddNode(addedNode);
+
+            INode sameNode = nodeFactory.CreateNode(building, memberName);
+
+            //Act
+            INode obtainedNode = graph.GetNode(sameNode);
+
+            //Assert
+            Assert.AreEqual(addedNode, obtainedNode);
         }
 
         #endregion
@@ -1242,6 +1299,42 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(apartmentTotalArea.HasPredecessor(basementArea) && basementArea.HasSuccessor(apartmentTotalArea));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenDependencyAlreadyExists_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment01 = new Apartment01 { Name = "AP-01" };
+
+            AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
+            apartment01.Basement = basement;
+
+            PropertyNode apartmentTotalArea = nodeFactory.CreateNode(apartment01, "TotalArea") as PropertyNode;
+            PropertyNode basementArea = nodeFactory.CreateNode(basement, "Area") as PropertyNode;
+            graph.AddDependency(basementArea, apartmentTotalArea);
+
+            //Act&Assert
+            Assert.ThrowsException<ReactiveDependencyException>(() => graph.AddDependency(basementArea, apartmentTotalArea));
+        }
+
+        [TestMethod]
+        public void AddDependency_GivenDirectCycleIsFormed_ThrowsException()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Apartment01 apartment01 = new Apartment01 { Name = "AP-01" };
+
+            AdditionalPart01 basement = new AdditionalPart01 { Name = "Basement" };
+            apartment01.Basement = basement;
+
+            PropertyNode apartmentTotalArea = nodeFactory.CreateNode(apartment01, "TotalArea") as PropertyNode;
+            PropertyNode basementArea = nodeFactory.CreateNode(basement, "Area") as PropertyNode;
+            graph.AddDependency(basementArea, apartmentTotalArea);
+
+            //Act&Assert
+            Assert.ThrowsException<ReactiveDependencyException>(() => graph.AddDependency(apartmentTotalArea, basementArea));
         }
 
         #endregion

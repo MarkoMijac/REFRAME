@@ -303,6 +303,17 @@ namespace ReframeCore
             return n;
         }
 
+        private INode GetOrCreateNode(INode node)
+        {
+            INode n = GetNode(node);
+            if (n == null)
+            {
+                n = AddNode(node);
+            }
+
+            return n;
+        }
+
         #endregion
 
         #region AddDependency
@@ -315,27 +326,39 @@ namespace ReframeCore
         /// <param name="successor">Reactive node acting as a successor in reactive dependency.</param>
         public void AddDependency(INode predecessor, INode successor)
         {
+            ValidateDependencyInputParameters(predecessor, successor);
+
+            INode p = GetOrCreateNode(predecessor);
+            INode s = GetOrCreateNode(successor);
+
+            ValidateDuplicateDependency(p, s);
+            ValidateDirectCycles(p, s);
+
+            p.AddSuccessor(s);
+        }
+
+        private static void ValidateDependencyInputParameters(INode predecessor, INode successor)
+        {
             if (predecessor == null || successor == null)
             {
                 throw new NodeNullReferenceException("Reactive dependency could not be added! At least one of the involved nodes is null!");
             }
+        }
 
-            INode p = GetNode(predecessor);
-            INode s = GetNode(successor);
-
-            if (p == null)
+        private static void ValidateDirectCycles(INode p, INode s)
+        {
+            if (p.HasPredecessor(s) && s.HasSuccessor(p))
             {
-                AddNode(predecessor);
-                p = predecessor;
+                throw new ReactiveDependencyException("No direct cycles in reactive dependencies are allowed between reactive nodes!");
             }
+        }
 
-            if (s == null)
+        private static void ValidateDuplicateDependency(INode p, INode s)
+        {
+            if (p.HasSuccessor(s) && s.HasPredecessor(p))
             {
-                AddNode(successor);
-                s = successor;
+                throw new ReactiveDependencyException("Reactive dependency cannot be added twice!");
             }
-
-            p.AddSuccessor(s);
         }
 
         /// <summary>

@@ -283,8 +283,8 @@ namespace ReframeCoreTests
             string propertyName = "Area";
             string updateMethodName = "Update_Area";
 
-            PropertyNode node = nodeFactory.CreateNode(building00, propertyName, updateMethodName) as PropertyNode;
-            PropertyNode predecessorNode = node;
+            INode node = nodeFactory.CreateNode(building00, propertyName, updateMethodName);
+            INode predecessorNode = nodeFactory.CreateNode(building00, propertyName, updateMethodName);
 
             //Act & Assert
             Assert.ThrowsException<ReactiveNodeException>(() => node.AddPredecessor(predecessorNode));
