@@ -22,8 +22,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenCompletePerformUpdateIsPerformedInSeparateThread_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -53,8 +53,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenPerformUpdateWithInitialNodeIsPerformedInSeparateThread_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -83,8 +83,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenPerformUpdateWithInitialNodeIsPerformedInSeparateThread1_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -112,8 +112,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenPerformUpdateWithInitialNodeIsPerformedInSeparateThread2_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -141,8 +141,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenSuccessfulCompleteUpdateInSeparateThread_PerformUpdateCompletedIsRaised()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -171,8 +171,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_GivenSuccessfulUpdateWithInitialNodeInSeparateThread_PerformUpdateCompletedIsRaised()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G1") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -254,8 +254,8 @@ namespace ReframeCoreTests
         public void PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -287,8 +287,8 @@ namespace ReframeCoreTests
         public void PerformUpdate_Case1_GivenCompletePerformUpdatePerformedSynchronously_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -318,8 +318,8 @@ namespace ReframeCoreTests
         public void PerformUpdate_Case1_GivenUpdatePerformedSynchronouslyWithInitialNodeH_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -343,8 +343,8 @@ namespace ReframeCoreTests
         public void PerformUpdate_Case1_GivenUpdatePerformedSynchronouslyWithInitialNodeH_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -366,8 +366,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInSeparateThread_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -400,8 +400,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInSeparateThread_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -418,8 +418,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenUpdatePerformedInSeparateThreadWithInitialNodeH_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -444,8 +444,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenUpdatePerformedInSeparateThreadWithInitialNodeH_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -470,8 +470,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInParallel_SchedulesCorrectUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -507,8 +507,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenCompletePerformUpdatePerformedInParallel_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -527,8 +527,8 @@ namespace ReframeCoreTests
         public async Task PerformUpdate_Case1_GivenUpdatePerformedInParallelWidthInitialNodeH_GivesCorrectResults()
         {
             //Arrange
-            GraphRegistry.Clear();
-            DependencyGraph graph = GraphRegistry.Create("G") as DependencyGraph;
+            GraphRegistry.Instance.Clear();
+            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();

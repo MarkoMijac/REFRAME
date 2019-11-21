@@ -61,8 +61,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateNotEnabled_SchedulesCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -83,8 +83,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateEnabled_ShouldBeZeroNodesForUpdate()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -105,8 +105,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueChangedAndSkippingUpdateNotEnabled_SchedulerCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -128,8 +128,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueChangedAndSkippingUpdateEnabled_SchedulerCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -204,8 +204,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case1_CompleteGraph_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -239,8 +239,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case1_InitialNode_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -290,8 +290,8 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case2_CompleteGraph_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("G");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase2(graph, o);

@@ -16,7 +16,7 @@ namespace ReframeDemonstration
         {
             get
             {
-                return GraphRegistry.GetOrCreate("DEFAULT_GRAPH");
+                return GraphRegistry.Instance.GetOrCreate("DEFAULT_GRAPH");
             }
         }
     }

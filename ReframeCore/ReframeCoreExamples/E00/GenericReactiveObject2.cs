@@ -31,7 +31,7 @@ namespace ReframeCoreExamples.E00
 
         public GenericReactiveObject2()
         {
-            Graph = GraphRegistry.Get("GRAPH_CASE_9");
+            Graph = GraphRegistry.Instance.Get("GRAPH_CASE_9");
         }
 
         public void Update_A()

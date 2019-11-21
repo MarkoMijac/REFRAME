@@ -70,7 +70,7 @@
     <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
     <Compile Include="FluentAPI\TransferObject.cs" />
-    <Compile Include="Factories\GraphFactory.cs" />
+    <Compile Include="Factories\GraphRegistry.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
     <Compile Include="Helpers\UpdateError.cs" />

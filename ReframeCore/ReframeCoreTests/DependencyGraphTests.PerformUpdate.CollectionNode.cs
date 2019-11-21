@@ -37,8 +37,8 @@ namespace ReframeCoreTests
 
         private Order_8_2 CreateCase_8_2()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_2");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_2");
 
             var order = new Order_8_2();
             order.Items.Add(new OrderItem_8_2());
@@ -62,7 +62,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_2();
-            var graph = GraphRegistry.Get("GRAPH_8_2");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_2");
 
             //Act
             graph.PerformUpdate();
@@ -79,7 +79,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_2();
-            DependencyGraph graph = GraphRegistry.Get("GRAPH_8_2") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.Get("GRAPH_8_2") as DependencyGraph;
 
             //Act
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
@@ -108,7 +108,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_2();
-            var graph = GraphRegistry.Get("GRAPH_8_2");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_2");
 
             //Act
             graph.PerformUpdate();
@@ -122,7 +122,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_2();
-            var graph = GraphRegistry.Get("GRAPH_8_2");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_2");
             graph.PerformUpdate();
 
             //Act
@@ -150,7 +150,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_2();
-            var graph = GraphRegistry.Get("GRAPH_8_2");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_2");
             graph.PerformUpdate();
 
             //Act
@@ -180,8 +180,8 @@ namespace ReframeCoreTests
 
         private Order_8_3 CreateCase_8_3()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_3");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_3");
 
             var order = new Order_8_3();
             order.Items.Add(new OrderItem_8_3(order) { FixedValue = 10});
@@ -205,7 +205,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
 
             //Act
             graph.PerformUpdate();
@@ -233,7 +233,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
 
             //Act
             graph.PerformUpdate();
@@ -247,7 +247,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
             graph.PerformUpdate();
 
             //Act
@@ -274,7 +274,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
             graph.PerformUpdate();
 
             //Act
@@ -289,7 +289,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
             graph.PerformUpdate();
 
             //Act
@@ -316,7 +316,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_3();
-            var graph = GraphRegistry.Get("GRAPH_8_3");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_3");
             graph.PerformUpdate();
 
             //Act
@@ -346,8 +346,8 @@ namespace ReframeCoreTests
 
         private Order_8_4 CreateCase_8_4()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_4");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_4");
 
             var order = new Order_8_4();
             order.Items.Add(new OrderItem_8_4(order) { FixedValue = 10});
@@ -375,7 +375,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
 
             //Act
             graph.PerformUpdate();
@@ -405,7 +405,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
 
             //Act
             graph.PerformUpdate();
@@ -420,7 +420,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
             graph.PerformUpdate();
 
             //Act
@@ -449,7 +449,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
             graph.PerformUpdate();
 
             //Act
@@ -465,7 +465,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
             graph.PerformUpdate();
 
             //Act
@@ -494,7 +494,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_4();
-            var graph = GraphRegistry.Get("GRAPH_8_4");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_4");
             graph.PerformUpdate();
 
             //Act
@@ -532,8 +532,8 @@ namespace ReframeCoreTests
 
         private Order_8_5 CreateCase_8_5()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_5");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_5");
 
             var order = new Order_8_5();
             order.Items.Add(new OrderItem_8_5() { Amount = 1, UnitPrice = 3.5 });
@@ -572,7 +572,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
 
             //Act
             graph.PerformUpdate();
@@ -608,7 +608,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
 
             //Act
             graph.PerformUpdate();
@@ -627,7 +627,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
             graph.PerformUpdate();
 
             //Act
@@ -660,7 +660,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
             graph.PerformUpdate();
 
             OrderItem_8_5 oItem1 = order.Items[0];
@@ -680,7 +680,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
             graph.PerformUpdate();
             OrderItem_8_5 item = order.Items[1];
 
@@ -713,7 +713,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_5();
-            var graph = GraphRegistry.Get("GRAPH_8_5");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_5");
             graph.PerformUpdate();
 
             OrderItem_8_5 oItem1 = order.Items[0];
@@ -749,8 +749,8 @@ namespace ReframeCoreTests
 
         private Order_8_6 CreateCase_8_6()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_6");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_6");
 
             var order = new Order_8_6();
             order.Items.Add(new OrderItem_8_6 { Total = 10 });
@@ -777,7 +777,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
 
             //Act
             graph.PerformUpdate();
@@ -807,7 +807,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
 
             //Act
             graph.PerformUpdate();
@@ -822,7 +822,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
             graph.PerformUpdate();
 
             //Act
@@ -851,7 +851,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
             graph.PerformUpdate();
 
             //Act
@@ -867,7 +867,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
             graph.PerformUpdate();
 
             //Act
@@ -896,7 +896,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_6();
-            var graph = GraphRegistry.Get("GRAPH_8_6");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_6");
             graph.PerformUpdate();
 
             //Act
@@ -913,8 +913,8 @@ namespace ReframeCoreTests
 
         private Order_8_7 CreateCase_8_7()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_7");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_7");
 
             var order = new Order_8_7() { DiscountA = 5, DiscountB = 10 };
             order.Items.Add(new OrderItem_8_7(order) { Amount = 1, UnitPrice = (decimal)3.5 });
@@ -965,7 +965,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_7();
-            var graph = GraphRegistry.Get("GRAPH_8_7");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_7");
 
             //Act
             graph.PerformUpdate();
@@ -1004,7 +1004,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_7();
-            var graph = GraphRegistry.Get("GRAPH_8_7");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_7");
 
             //Act
             graph.PerformUpdate();
@@ -1020,7 +1020,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_7();
-            var graph = GraphRegistry.Get("GRAPH_8_7");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_7");
             graph.PerformUpdate();
 
             //Act
@@ -1054,7 +1054,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var order = CreateCase_8_7();
-            var graph = GraphRegistry.Get("GRAPH_8_7");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_7");
             graph.PerformUpdate();
 
             //Act
@@ -1074,8 +1074,8 @@ namespace ReframeCoreTests
 
         private Class_C_8_8 CreateCase_8_8()
         {
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.Create("GRAPH_8_8");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.Create("GRAPH_8_8");
 
             var objA1 = new Class_A_8_8() { Graph = graph, A = 1 };
             var objA2 = new Class_A_8_8() { Graph = graph, A = 2 };
@@ -1126,7 +1126,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var objC = CreateCase_8_8();
-            var graph = GraphRegistry.Get("GRAPH_8_8");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_8");
 
             //Act
             graph.PerformUpdate();
@@ -1163,7 +1163,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var objC = CreateCase_8_8();
-            var graph = GraphRegistry.Get("GRAPH_8_8");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_8");
 
             //Act
             Class_B_8_8 newB = new Class_B_8_8()
@@ -1186,7 +1186,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var objC = CreateCase_8_8();
-            var graph = GraphRegistry.Get("GRAPH_8_8");
+            var graph = GraphRegistry.Instance.Get("GRAPH_8_8");
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_RemovedItem(graph, objC);
 
             //Act

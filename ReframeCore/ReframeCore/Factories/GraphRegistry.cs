@@ -9,17 +9,29 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Factories
 {
-    public static class GraphRegistry
+    public class GraphRegistry
     {
-        private static List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
+        private static GraphRegistry _instance = new GraphRegistry();
+
+        public static GraphRegistry Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+        private List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
         public const string DefaultGraphName = "DEFAULT";
 
-        static GraphRegistry()
+
+
+        private GraphRegistry()
         {
             CreateDefaultGraph();
         }
 
-        private static void CreateDefaultGraph()
+        private void CreateDefaultGraph()
         {
             _graphs.Add(new DependencyGraph(DefaultGraphName));
         }
@@ -29,7 +41,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph's unique identifier.</param>
         /// <returns>New dependency graph.</returns>
-        public static IDependencyGraph Create(string identifier)
+        public IDependencyGraph Create(string identifier)
         {
             ValidateIdentifier(identifier);
             
@@ -38,7 +50,7 @@ namespace ReframeCore.Factories
             return graph;
         }
 
-        private static void ValidateIdentifier(string identifier)
+        private void ValidateIdentifier(string identifier)
         {
             if (identifier == "")
             {
@@ -50,7 +62,7 @@ namespace ReframeCore.Factories
             }
         }
 
-        private static bool CheckIfGraphAlreadyExists(string identifier)
+        private bool CheckIfGraphAlreadyExists(string identifier)
         {
             return _graphs.Any(g => g.Identifier == identifier);
         }
@@ -60,7 +72,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph identifier.</param>
         /// <returns>Dependency graph if exists, otherwise null.</returns>
-        public static IDependencyGraph Get(string identifier)
+        public IDependencyGraph Get(string identifier)
         {
             return _graphs.FirstOrDefault(g => g.Identifier == identifier);
         }
@@ -70,7 +82,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="node">Reactive node</param>
         /// <returns>Dependency graph if exists, otherwise null.</returns>
-        public static IDependencyGraph Get(INode node)
+        public IDependencyGraph Get(INode node)
         {
             return _graphs.FirstOrDefault(g => g.ContainsNode(node));
         }
@@ -80,7 +92,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph identifier.</param>
         /// <returns>Existing or newly created dependency graph.</returns>
-        public static IDependencyGraph GetOrCreate(string identifier)
+        public IDependencyGraph GetOrCreate(string identifier)
         {
             var graph = Get(identifier);
             if (graph == null)
@@ -95,12 +107,12 @@ namespace ReframeCore.Factories
         /// Gets default graph.
         /// </summary>
         /// <returns></returns>
-        public static IDependencyGraph GetDefault()
+        public IDependencyGraph GetDefault()
         {
             return Get(DefaultGraphName);
         }
 
-        public static List<IDependencyGraph> GetRegisteredGraphs()
+        public List<IDependencyGraph> GetRegisteredGraphs()
         {
             return _graphs.ToList();
         }
@@ -108,7 +120,7 @@ namespace ReframeCore.Factories
         /// <summary>
         /// Clears all dependency graphs.
         /// </summary>
-        public static void Clear()
+        public void Clear()
         {
             _graphs.RemoveAll(g => g.Identifier != DefaultGraphName);
         }

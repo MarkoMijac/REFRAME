@@ -46,7 +46,7 @@ namespace ReframeCoreExamples.E08.E7
 
         public Order_8_7()
         {
-            _graph = GraphRegistry.Get("GRAPH_8_7");
+            _graph = GraphRegistry.Instance.Get("GRAPH_8_7");
             Items = new ReactiveCollection<OrderItem_8_7>();
         }
 

@@ -16,8 +16,8 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenProvidedArgumentIsNull_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
 
@@ -29,8 +29,8 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeIsChildNode_ReturnsTrue()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];
@@ -47,8 +47,8 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeIsNotChildNode_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = new Part();
@@ -65,8 +65,8 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeOwnerObjectDoesNotMatch_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             
@@ -83,8 +83,8 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeMemberNameDoesNotMatch_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];

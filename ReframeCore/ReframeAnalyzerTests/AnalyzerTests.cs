@@ -17,9 +17,9 @@ namespace ReframeAnalyzerTests
         public void GetRegisteredGraphs_GivenOneRegisteredGraph_ReturnsSerializedGraph()
         {
             //Arrange
-            GraphRegistry.Clear();
-            GraphRegistry.GetOrCreate("G1");
-            GraphRegistry.GetOrCreate("G2");
+            GraphRegistry.Instance.Clear();
+            GraphRegistry.Instance.GetOrCreate("G1");
+            GraphRegistry.Instance.GetOrCreate("G2");
             //Act
             string xml = Analyzer.GetRegisteredGraphs();
 
@@ -31,8 +31,8 @@ namespace ReframeAnalyzerTests
         public void GetGraphNodes_GivenValidGraph_ReturnsXmlWithNodes()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 
@@ -71,8 +71,8 @@ namespace ReframeAnalyzerTests
         public void GetClassNodes()
         {
             //Arrange
-            GraphRegistry.Clear();
-            var graph = GraphRegistry.GetOrCreate("G1");
+            GraphRegistry.Instance.Clear();
+            var graph = GraphRegistry.Instance.GetOrCreate("G1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 
