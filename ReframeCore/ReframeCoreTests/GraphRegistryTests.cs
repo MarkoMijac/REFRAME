@@ -10,7 +10,7 @@ using ReframeCore.Factories;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class GraphFactoryTests
+    public class GraphRegistryTests
     {
         private NodeFactory factory = new StandardNodeFactory();
 
@@ -20,11 +20,11 @@ namespace ReframeCoreTests
         public void Create_GivenNoOtherDependencyGraphsExist_CreatesNewDependencyGraph()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "G1";
 
             //Act
-            var graph = GraphFactory.Create(identifier);
+            var graph = GraphRegistry.Create(identifier);
 
             //Assert
             Assert.IsTrue(graph != null && graph.Identifier == identifier);
@@ -34,11 +34,11 @@ namespace ReframeCoreTests
         public void Create_GivenUniqueIdentifierProvided_CreatesNewDependencyGraph()
         {
             //Arrange
-            GraphFactory.Clear();
-            GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            GraphRegistry.Create("G1");
 
             //Act
-            var graph = GraphFactory.Create("G2");
+            var graph = GraphRegistry.Create("G2");
 
             //Assert
             Assert.IsNotNull(graph);
@@ -48,31 +48,31 @@ namespace ReframeCoreTests
         public void Create_GivenAlreadyTakenIdentifierProvided_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             //Act & Assert
-            Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.Create("G1"));
+            Assert.ThrowsException<DependencyGraphException>(() => GraphRegistry.Create("G1"));
         }
 
         [TestMethod]
         public void Create_GivenEmptyStringIdentifier_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
 
             //Act & Assert
-            Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.Create(""));
+            Assert.ThrowsException<DependencyGraphException>(() => GraphRegistry.Create(""));
         }
 
         [TestMethod]
         public void Create_GivenDefaultIdentifierProvided_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
 
             //Act & Assert
-            Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.Create(GraphFactory.DefaultGraphName));
+            Assert.ThrowsException<DependencyGraphException>(() => GraphRegistry.Create(GraphRegistry.DefaultGraphName));
         }
 
         #endregion
@@ -83,12 +83,12 @@ namespace ReframeCoreTests
         public void Get_GivenGraphWithProvidedIdentifierExists_ReturnsDependencyGraph()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "G1";
-            GraphFactory.Create(identifier);
+            GraphRegistry.Create(identifier);
 
             //Act
-            var graph = GraphFactory.Get(identifier);
+            var graph = GraphRegistry.Get(identifier);
 
             //Assert
             Assert.IsNotNull(graph);
@@ -98,13 +98,13 @@ namespace ReframeCoreTests
         public void Get_GivenGraphWithProvidedIdentifierDoesNotExist_ReturnsNull()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "G1";
             string nonexistant = "G2";
-            GraphFactory.Create(identifier);
+            GraphRegistry.Create(identifier);
 
             //Act
-            var graph = GraphFactory.Get(nonexistant);
+            var graph = GraphRegistry.Get(nonexistant);
 
             //Assert
             Assert.IsNull(graph);
@@ -116,21 +116,21 @@ namespace ReframeCoreTests
             //Arrange
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => GraphFactory.Get((INode)null));
+            Assert.ThrowsException<NodeNullReferenceException>(() => GraphRegistry.Get((INode)null));
         }
 
         [TestMethod]
         public void Get_GivenProvidedNodeNotAddedToAnyGraph_ReturnsNull()
         {
             //Arrange
-            GraphFactory.Clear();
-            GraphFactory.Create("GraphONE");
+            GraphRegistry.Clear();
+            GraphRegistry.Create("GraphONE");
 
             Building00 b = new Building00();
             INode node = factory.CreateNode(b, nameof(b.Area));
 
             //Act
-            var graph = GraphFactory.Get(node);
+            var graph = GraphRegistry.Get(node);
 
             //Assert
             Assert.IsNull(graph);
@@ -140,19 +140,19 @@ namespace ReframeCoreTests
         public void Get_GivenProvidedNodeIsAddedToGraph_ReturnsGraphContainigProvidedNode()
         {
             //Arrange
-            GraphFactory.Clear();
-            GraphFactory.Create("GraphONE");
+            GraphRegistry.Clear();
+            GraphRegistry.Create("GraphONE");
 
             Building00 b = new Building00();
             INode node = factory.CreateNode(b, nameof(b.Area));
-            GraphFactory.GetDefault().AddNode(node);
+            GraphRegistry.GetDefault().AddNode(node);
 
             //Act
-            var graph = GraphFactory.Get(node);
+            var graph = GraphRegistry.Get(node);
 
             //Assert
             Assert.IsNotNull(graph);
-            Assert.IsTrue(graph.Identifier == GraphFactory.DefaultGraphName);
+            Assert.IsTrue(graph.Identifier == GraphRegistry.DefaultGraphName);
         }
 
         #endregion
@@ -163,12 +163,12 @@ namespace ReframeCoreTests
         public void GetOrCreate_GivenGraphWithProvidedIdentifierExists_ReturnsExistingDependencyGraph()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "G1";
-            GraphFactory.Create(identifier);
+            GraphRegistry.Create(identifier);
 
             //Act
-            var graph = GraphFactory.GetOrCreate(identifier);
+            var graph = GraphRegistry.GetOrCreate(identifier);
 
             //Assert
             Assert.IsTrue(graph.Identifier == identifier);
@@ -178,11 +178,11 @@ namespace ReframeCoreTests
         public void GetOrCreate_GivenGraphWithProvidedIdentifierDoesNotExist_ReturnsNewDependencyGraph()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "G1";
 
             //Act
-            var graph = GraphFactory.GetOrCreate(identifier);
+            var graph = GraphRegistry.GetOrCreate(identifier);
 
             //Assert
             Assert.IsTrue(graph.Identifier == identifier);
@@ -192,11 +192,11 @@ namespace ReframeCoreTests
         public void GetOrCreate_GivenEmptyStringIdentifier_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             string identifier = "";
 
             //Act & Assert
-            Assert.ThrowsException<DependencyGraphException>(() => GraphFactory.GetOrCreate(identifier));
+            Assert.ThrowsException<DependencyGraphException>(() => GraphRegistry.GetOrCreate(identifier));
         }
 
         #endregion
@@ -207,28 +207,28 @@ namespace ReframeCoreTests
         public void GetRegisteredGraphs_GivenNoGraphsManuallyAdded_ReturnsListWithDefaultGraph()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
 
             //Act
-            List<IDependencyGraph> graphs = GraphFactory.GetRegisteredGraphs();
+            List<IDependencyGraph> graphs = GraphRegistry.GetRegisteredGraphs();
 
             //Assert
-            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphRegistry.DefaultGraphName));
         }
 
         [TestMethod]
         public void GetRegisteredGraphs_GivenGraphIsManuallyAdded_ReturnsListAddedGraph()
         {
             //Arrange
-            GraphFactory.Clear();
-            GraphFactory.Create("GraphONE");
+            GraphRegistry.Clear();
+            GraphRegistry.Create("GraphONE");
 
             //Act
-            List<IDependencyGraph> graphs = GraphFactory.GetRegisteredGraphs();
+            List<IDependencyGraph> graphs = GraphRegistry.GetRegisteredGraphs();
 
             //Assert
             Assert.IsTrue(graphs.Exists(g => g.Identifier == "GraphONE"));
-            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+            Assert.IsTrue(graphs.Exists(g => g.Identifier == GraphRegistry.DefaultGraphName));
         }
 
         #endregion
@@ -238,26 +238,26 @@ namespace ReframeCoreTests
         [TestMethod]
         public void Clear_GivenOnlyDefaultGraphExists_DefaultGraphIsNotRemoved()
         {
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
 
-            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+            Assert.IsTrue(GraphRegistry.GetRegisteredGraphs().Exists(g => g.Identifier == GraphRegistry.DefaultGraphName));
         }
 
         [TestMethod]
         public void Clear_GivenMultipleGraphsExist_AllGraphsButDefaultOneAreRemoved()
         {
             //Arrange
-            GraphFactory.Clear();
-            GraphFactory.Create("GraphONE");
-            GraphFactory.Create("GraphTWO");
-            GraphFactory.Create("GraphTHREE");
+            GraphRegistry.Clear();
+            GraphRegistry.Create("GraphONE");
+            GraphRegistry.Create("GraphTWO");
+            GraphRegistry.Create("GraphTHREE");
 
             //Act
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
 
             //Assert
-            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Count == 1);
-            Assert.IsTrue(GraphFactory.GetRegisteredGraphs().Exists(g => g.Identifier == GraphFactory.DefaultGraphName));
+            Assert.IsTrue(GraphRegistry.GetRegisteredGraphs().Count == 1);
+            Assert.IsTrue(GraphRegistry.GetRegisteredGraphs().Exists(g => g.Identifier == GraphRegistry.DefaultGraphName));
         }
 
         #endregion
@@ -270,10 +270,10 @@ namespace ReframeCoreTests
             //Arrange
 
             //Act
-            var graph = GraphFactory.GetDefault();
+            var graph = GraphRegistry.GetDefault();
 
             //Assert
-            Assert.IsTrue(graph.Identifier == GraphFactory.DefaultGraphName);
+            Assert.IsTrue(graph.Identifier == GraphRegistry.DefaultGraphName);
         }
 
 

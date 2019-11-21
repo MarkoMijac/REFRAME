@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Factories
 {
-    public static class GraphFactory
+    public static class GraphRegistry
     {
         private static List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
         public const string DefaultGraphName = "DEFAULT";
 
-        static GraphFactory()
+        static GraphRegistry()
         {
             CreateDefaultGraph();
         }

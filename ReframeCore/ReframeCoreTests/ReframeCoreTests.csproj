@@ -60,7 +60,7 @@
     <Compile Include="PropertyNodeTests.cs" />
     <Compile Include="DependencyGraphTests.PerformUpdate.cs" />
     <Compile Include="StandardNodeFactoryTests.cs" />
-    <Compile Include="GraphFactoryTests.cs" />
+    <Compile Include="GraphRegistryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
     <Compile Include="CollectionNodeTests.cs" />
     <Compile Include="GraphExtensionTests.cs" />

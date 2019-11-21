@@ -255,7 +255,7 @@ namespace ReframeCore.FluentAPI
         public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
         {
             
-            var graph = GraphFactory.GetDefault();
+            var graph = GraphRegistry.GetDefault();
             graph.PerformUpdate(instance, memberName);
         }
     }

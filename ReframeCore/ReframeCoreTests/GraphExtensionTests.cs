@@ -21,7 +21,7 @@ namespace ReframeCoreTests
         public void Let_GivenGraphIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             IDependencyGraph graph = null;
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
@@ -33,8 +33,8 @@ namespace ReframeCoreTests
         public void Let_GivenOwnerObjectIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = null;
 
             //Act&Assert
@@ -45,8 +45,8 @@ namespace ReframeCoreTests
         public void Let_GivenNestedOwnerObjectIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = null;
 
@@ -58,8 +58,8 @@ namespace ReframeCoreTests
         public void Let_GivenMemberNameEmpty_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = null;
 
             //Act&Assert
@@ -70,8 +70,8 @@ namespace ReframeCoreTests
         public void Let_GivenValidGraphAndProperty_ReturnsTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -85,8 +85,8 @@ namespace ReframeCoreTests
         public void Let_GivenValidPropertyNode_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -100,8 +100,8 @@ namespace ReframeCoreTests
         public void Let_GivenMultipleValidPropertyNodes_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject2 obj2 = new GenericReactiveObject2();
             GenericReactiveObject3 obj3 = new GenericReactiveObject3();
@@ -120,8 +120,8 @@ namespace ReframeCoreTests
         public void Let_GivenValidGraphAndMethod_ReturnsTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -135,8 +135,8 @@ namespace ReframeCoreTests
         public void Let_GivenValidMethodNode_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -150,8 +150,8 @@ namespace ReframeCoreTests
         public void Let_GivenMultipleValidMethodNodes_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject2 obj2 = new GenericReactiveObject2();
             GenericReactiveObject3 obj3 = new GenericReactiveObject3();
@@ -174,7 +174,7 @@ namespace ReframeCoreTests
         public void LetCollection_GivenGraphIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
+            GraphRegistry.Clear();
             IDependencyGraph graph = null;
             Whole whole = new Whole();
 
@@ -186,8 +186,8 @@ namespace ReframeCoreTests
         public void LetCollection_GivenCollectionIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             Whole whole = new Whole();
             whole.Parts = null;
 
@@ -199,8 +199,8 @@ namespace ReframeCoreTests
         public void LetCollection_GivenValidPropertyNode_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             Whole obj = new Whole();
 
             //Act
@@ -214,8 +214,8 @@ namespace ReframeCoreTests
         public void LetCollection_GivenValidMethodNode_ReturnsCorrectTransferObject()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             Whole obj = new Whole();
 
             //Act
@@ -298,8 +298,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenOwnerObjectIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = null;
 
@@ -312,8 +312,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenNestedOwnerObjectIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = null;
 
@@ -326,8 +326,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenMemberNameEmpty_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act&Assert
@@ -338,8 +338,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenValidPropertyPredecessor_AddsDependency()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -356,8 +356,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenValidNestedPropertyPredecessor_AddsDependency()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = new GenericReactiveObject();
 
@@ -375,8 +375,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenMultipleValidPropertyPredecessors_AddsDependencies()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -395,8 +395,8 @@ namespace ReframeCoreTests
         public void DependOn_GivenValidMethodPredecessor_AddsDependency()
         {
             //Arrange
-            GraphFactory.Clear();
-            IDependencyGraph graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            IDependencyGraph graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -481,8 +481,8 @@ namespace ReframeCoreTests
         public void DependOnCollection_GivenCollectionIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             Whole whole = new Whole();
             whole.Parts = null;
 
@@ -494,8 +494,8 @@ namespace ReframeCoreTests
         public void DependOnCollection_GivenValidCollectionPropertyPredecessor_AddsDependency()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             Whole whole = new Whole();
 
             //Act
@@ -511,8 +511,8 @@ namespace ReframeCoreTests
         public void DependOnCollection_GivenValidCollectionMethodPredecessor_AddsDependency()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             Whole whole = new Whole();
 
             //Act
@@ -543,7 +543,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvidedOwnerIsNull_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphFactory.GetDefault();
+            IDependencyGraph graph = GraphRegistry.GetDefault();
             Building00 b = null;
 
             //Act&Assert
@@ -554,7 +554,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvidedNodeIsNotPartOfGraph_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphFactory.GetDefault();
+            IDependencyGraph graph = GraphRegistry.GetDefault();
             graph.Initialize();
             Building00 b = new Building00();
 
@@ -566,7 +566,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvideIsPartOfGraph_PerformsUpdate()
         {
             //Arrange
-            IDependencyGraph graph = GraphFactory.GetDefault();
+            IDependencyGraph graph = GraphRegistry.GetDefault();
             graph.Initialize();
             Building00 b = new Building00();
             NodeFactory nodeFactory = new StandardNodeFactory();

@@ -1095,8 +1095,8 @@ namespace ReframeCoreTests
         public void RemoveNode_GivenRemovalIsForcedEvenIfNodeHasSuccessorsAndPredecessors_ReturnsTrue()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             INode nodeA = nodeFactory.CreateNode(obj, "A");
@@ -1758,8 +1758,8 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             INode nodeA = nodeFactory.CreateNode(obj1, "A");
             INode nodeB = nodeFactory.CreateNode(obj1, "B");
@@ -1784,8 +1784,8 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             INode nodeA = nodeFactory.CreateNode(obj1, "A");
             INode nodeB = nodeFactory.CreateNode(obj1, "B");
@@ -1813,8 +1813,8 @@ namespace ReframeCoreTests
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             INode node1A = nodeFactory.CreateNode(obj1, "A");
             INode node1B = nodeFactory.CreateNode(obj1, "B");
@@ -1851,8 +1851,8 @@ namespace ReframeCoreTests
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             INode node1A = nodeFactory.CreateNode(obj1, "A");
             INode node1B = nodeFactory.CreateNode(obj1, "B");
@@ -1890,8 +1890,8 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             ReactiveCollection<GenericReactiveObject> reactiveCollection = new ReactiveCollection<GenericReactiveObject>();
             reactiveCollection.Add(new GenericReactiveObject());
@@ -1921,8 +1921,8 @@ namespace ReframeCoreTests
         {
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G1");
 
             List<GenericReactiveObject> list = new List<GenericReactiveObject>();
             list.Add(new GenericReactiveObject());
@@ -1957,8 +1957,8 @@ namespace ReframeCoreTests
         public void ContainsDependency_GivenPredecessorIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = null;
@@ -1973,8 +1973,8 @@ namespace ReframeCoreTests
         public void ContainsDependency_GivenSuccessorIsNull_ThrowsException()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
@@ -1988,8 +1988,8 @@ namespace ReframeCoreTests
         public void ContainsDependency_GivenNoSuchDependency_ReturnsFalse()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
@@ -2006,8 +2006,8 @@ namespace ReframeCoreTests
         public void ContainsDependency_GivenThereIsSuchDependency_ReturnsTrue()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("G");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");

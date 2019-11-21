@@ -270,8 +270,8 @@ namespace ReframeCoreTests
         public void UpdateTriggered_GivenCollectionItemTriggeredEvent_EventIsTriggered()
         {
             //Arrange
-            GraphFactory.Clear();
-            var graph = GraphFactory.Create("GRAPH_CASE_8_1");
+            GraphRegistry.Clear();
+            var graph = GraphRegistry.Create("GRAPH_CASE_8_1");
 
             ReactiveCollection<Part_8_1> parts = new ReactiveCollection<Part_8_1>();
 

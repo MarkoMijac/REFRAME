@@ -33,7 +33,7 @@ namespace ReframeAnalyzer
                     case "GetGraphNodes":
                         {
                             string graphIdentifier = parameters["GraphIdentifier"];
-                            var graph = GraphFactory.Get(graphIdentifier);
+                            var graph = GraphRegistry.Get(graphIdentifier);
                             result = Analyzer.GetGraphNodes(graph); break;
                         }
                     default:

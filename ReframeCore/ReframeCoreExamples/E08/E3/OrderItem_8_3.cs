@@ -39,7 +39,7 @@ namespace ReframeCoreExamples.E08.E3
 
         public OrderItem_8_3(Order_8_3 order)
         {
-            _graph = GraphFactory.Get("GRAPH_8_3");
+            _graph = GraphRegistry.Get("GRAPH_8_3");
             Order = order;
         }
 

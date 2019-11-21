@@ -69,7 +69,7 @@ namespace ReframeCoreExamples.E08.E1
 
         public Whole_8_1()
         {
-            graph = GraphFactory.Get("GRAPH_CASE_8_1");
+            graph = GraphRegistry.Get("GRAPH_CASE_8_1");
 
             CoeffA = 1;
             CoeffB = 2;
