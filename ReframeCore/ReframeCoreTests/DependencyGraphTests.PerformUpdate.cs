@@ -113,7 +113,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -136,7 +136,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -159,7 +159,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -184,7 +184,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             CreateCase12(graph, obj);
             INode badNode = graph.AddNode(obj, "BadNode");
@@ -219,7 +219,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -242,7 +242,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -265,7 +265,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -294,7 +294,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             CreateCase12(graph, obj);
             INode badNode = graph.AddNode(obj, "BadNode");
@@ -331,7 +331,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G1");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             CreateCase12(graph, obj);
 
@@ -369,7 +369,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -388,7 +388,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -401,7 +401,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -414,7 +414,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -427,7 +427,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             Building00 building = new Building00();
             CreateCase1(graph as DependencyGraph, building);
 
@@ -1939,7 +1939,7 @@ namespace ReframeCoreTests
         private Whole_8_1 CreateCase_8_1()
         {
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_8_1");
             var whole = new Whole_8_1();
 
             return whole;
@@ -1971,7 +1971,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
 
             //Act
             graph.PerformUpdate();
@@ -1988,7 +1988,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
 
             //Act
             graph.PerformUpdate();
@@ -2002,7 +2002,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
 
             //Act
             whole.CoeffA = 2;
@@ -2031,7 +2031,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2047,7 +2047,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
 
             //Act
             whole.CoeffB = 3;
@@ -2075,7 +2075,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2090,7 +2090,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
 
             //Act
             whole.CoeffC = 4;
@@ -2117,7 +2117,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2132,7 +2132,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2163,7 +2163,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2179,7 +2179,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2209,7 +2209,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2225,7 +2225,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2254,7 +2254,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             Whole_8_1 whole = CreateCase_8_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
             graph.PerformUpdate();
 
             //Act
@@ -2274,7 +2274,7 @@ namespace ReframeCoreTests
         private GenericReactiveObject2 CreateCase_9()
         {
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_9");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_9");
             var obj = new GenericReactiveObject2();
             obj.Graph = graph;
 
@@ -2307,7 +2307,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_9();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_9");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_9");
 
             //Act
             graph.PerformUpdate();
@@ -2342,7 +2342,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_9();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_9");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_9");
 
             //Act
             obj.Update_A();
@@ -2371,7 +2371,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_9();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_9");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_9");
 
             //Act
             obj.Update_F();
@@ -2403,7 +2403,7 @@ namespace ReframeCoreTests
         private GenericReactiveObject2 CreateCase_10()
         {
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_10");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_10");
             var obj = new GenericReactiveObject2();
             obj.Graph = graph;
 
@@ -2438,7 +2438,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10");
 
             //Act&Assert
             Assert.ThrowsException<GraphUpdateException>(() => graph.PerformUpdate());
@@ -2449,7 +2449,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10");
 
             //Act
             try
@@ -2504,7 +2504,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10");
 
             INode errorNode = null;
             INode jNode = graph.GetNode(obj, "Update_J");
@@ -2532,7 +2532,7 @@ namespace ReframeCoreTests
         private GenericReactiveObject2 CreateCase_10_1()
         {
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_10_1");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_10_1");
             var obj = new GenericReactiveObject2();
             obj.Graph = graph;
 
@@ -2567,7 +2567,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10_1");
 
             //Act&Assert
             Assert.ThrowsException<GraphUpdateException>(() => graph.PerformUpdate());
@@ -2578,7 +2578,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10_1");
 
             //Act
             try
@@ -2633,7 +2633,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10_1");
 
             INode errorNode = null;
             INode jNode = graph.GetNode(obj, "J");
@@ -2657,7 +2657,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GenericReactiveObject2 obj = CreateCase_10_1();
-            var graph = GraphRegistry.Instance.Get("GRAPH_CASE_10_1");
+            var graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_10_1");
 
             INode jNode = graph.GetNode(obj, "J");
             Exception ex = null;
@@ -2685,7 +2685,7 @@ namespace ReframeCoreTests
         private void CreateCase_11(GenericReactiveObject reactiveObject)
         {
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_11");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_11");
             NodeFactory nodeFactory = new StandardNodeFactory();
 
             INode nodeA = nodeFactory.CreateNode(reactiveObject, "A");
@@ -2706,7 +2706,7 @@ namespace ReframeCoreTests
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
             CreateCase_11(obj);
-            DependencyGraph graph = GraphRegistry.Instance.Get("GRAPH_CASE_11") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_11") as DependencyGraph;
 
             //Act
             graph.PerformUpdate();
@@ -2728,7 +2728,7 @@ namespace ReframeCoreTests
             //Arrange
             GenericReactiveObject obj = new GenericReactiveObject();
             CreateCase_11(obj);
-            DependencyGraph graph = GraphRegistry.Instance.Get("GRAPH_CASE_11") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_11") as DependencyGraph;
 
             obj = null;
             GC.Collect();
@@ -2802,7 +2802,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             CreateCase12(graph, obj);
 
@@ -2824,7 +2824,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             CreateCase12(graph, obj);
             INode badNode = graph.AddNode(obj, "BadNode");

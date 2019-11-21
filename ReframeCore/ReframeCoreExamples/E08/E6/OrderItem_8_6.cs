@@ -28,7 +28,7 @@ namespace ReframeCoreExamples.E08.E6
 
         public OrderItem_8_6()
         {
-            _graph = GraphRegistry.Instance.Get("GRAPH_8_6");
+            _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_6");
         }
 
     }

@@ -23,7 +23,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -54,7 +54,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -84,7 +84,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -113,7 +113,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -142,7 +142,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -172,7 +172,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G1") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
             GenericReactiveObject o = new GenericReactiveObject();
             graph.AddDependency(o, "A", o, "B");
             graph.AddDependency(o, "B", o, "C");
@@ -255,7 +255,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -288,7 +288,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -319,7 +319,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -344,7 +344,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -367,7 +367,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -401,7 +401,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -419,7 +419,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -445,7 +445,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
@@ -471,7 +471,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -508,7 +508,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
@@ -528,7 +528,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.Create("G") as DependencyGraph;
+            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
             graph.UpdateScheduler.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();

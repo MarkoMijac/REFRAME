@@ -62,7 +62,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -84,7 +84,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -106,7 +106,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -129,7 +129,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
@@ -205,7 +205,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -240,7 +240,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -291,7 +291,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase2(graph, o);

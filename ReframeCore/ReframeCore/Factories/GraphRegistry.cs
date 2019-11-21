@@ -41,7 +41,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph's unique identifier.</param>
         /// <returns>New dependency graph.</returns>
-        public IDependencyGraph Create(string identifier)
+        public IDependencyGraph CreateGraph(string identifier)
         {
             ValidateIdentifier(identifier);
             
@@ -72,7 +72,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph identifier.</param>
         /// <returns>Dependency graph if exists, otherwise null.</returns>
-        public IDependencyGraph Get(string identifier)
+        public IDependencyGraph GetGraph(string identifier)
         {
             return _graphs.FirstOrDefault(g => g.Identifier == identifier);
         }
@@ -82,7 +82,7 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="node">Reactive node</param>
         /// <returns>Dependency graph if exists, otherwise null.</returns>
-        public IDependencyGraph Get(INode node)
+        public IDependencyGraph GetGraph(INode node)
         {
             return _graphs.FirstOrDefault(g => g.ContainsNode(node));
         }
@@ -92,12 +92,12 @@ namespace ReframeCore.Factories
         /// </summary>
         /// <param name="identifier">Graph identifier.</param>
         /// <returns>Existing or newly created dependency graph.</returns>
-        public IDependencyGraph GetOrCreate(string identifier)
+        public IDependencyGraph GetOrCreateGraph(string identifier)
         {
-            var graph = Get(identifier);
+            var graph = GetGraph(identifier);
             if (graph == null)
             {
-                graph = Create(identifier);
+                graph = CreateGraph(identifier);
             }
 
             return graph;
@@ -107,12 +107,12 @@ namespace ReframeCore.Factories
         /// Gets default graph.
         /// </summary>
         /// <returns></returns>
-        public IDependencyGraph GetDefault()
+        public IDependencyGraph GetDefaultGraph()
         {
-            return Get(DefaultGraphName);
+            return GetGraph(DefaultGraphName);
         }
 
-        public List<IDependencyGraph> GetRegisteredGraphs()
+        public List<IDependencyGraph> GetGraphs()
         {
             return _graphs.ToList();
         }

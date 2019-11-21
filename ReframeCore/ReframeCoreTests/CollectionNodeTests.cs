@@ -17,7 +17,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
 
@@ -30,7 +30,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];
@@ -48,7 +48,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = new Part();
@@ -66,7 +66,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             
@@ -84,7 +84,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];
