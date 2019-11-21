@@ -1096,7 +1096,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             INode nodeA = nodeFactory.CreateNode(obj, "A");
@@ -1759,7 +1759,7 @@ namespace ReframeCoreTests
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             INode nodeA = nodeFactory.CreateNode(obj1, "A");
             INode nodeB = nodeFactory.CreateNode(obj1, "B");
@@ -1785,7 +1785,7 @@ namespace ReframeCoreTests
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             INode nodeA = nodeFactory.CreateNode(obj1, "A");
             INode nodeB = nodeFactory.CreateNode(obj1, "B");
@@ -1814,7 +1814,7 @@ namespace ReframeCoreTests
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             INode node1A = nodeFactory.CreateNode(obj1, "A");
             INode node1B = nodeFactory.CreateNode(obj1, "B");
@@ -1852,7 +1852,7 @@ namespace ReframeCoreTests
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = new GenericReactiveObject();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             INode node1A = nodeFactory.CreateNode(obj1, "A");
             INode node1B = nodeFactory.CreateNode(obj1, "B");
@@ -1891,7 +1891,7 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             ReactiveCollection<GenericReactiveObject> reactiveCollection = new ReactiveCollection<GenericReactiveObject>();
             reactiveCollection.Add(new GenericReactiveObject());
@@ -1922,7 +1922,7 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             List<GenericReactiveObject> list = new List<GenericReactiveObject>();
             list.Add(new GenericReactiveObject());
@@ -1958,7 +1958,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = null;
@@ -1974,7 +1974,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
@@ -1989,7 +1989,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");
@@ -2007,7 +2007,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
             NodeFactory nodeFactory = new StandardNodeFactory();
             INode predecessor = nodeFactory.CreateNode(obj, "A");

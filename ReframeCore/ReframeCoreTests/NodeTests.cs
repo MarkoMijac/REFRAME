@@ -23,7 +23,7 @@ namespace ReframeCoreTests
             INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
 
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             //Act
             int numOfRemovedPredecessors = nodeA.ClearPredecessors();
@@ -43,7 +43,7 @@ namespace ReframeCoreTests
             INode nodeC = nodeFactory.CreateNode(obj, "C");
 
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             graph.AddDependency(nodeB, nodeA);
             graph.AddDependency(nodeC, nodeA);
@@ -67,7 +67,7 @@ namespace ReframeCoreTests
             INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
 
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             //Act
             int numOfRemovedSuccessors = nodeA.ClearSuccessors();
@@ -87,7 +87,7 @@ namespace ReframeCoreTests
             INode nodeC = nodeFactory.CreateNode(obj, "C");
 
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G1");
+            var graph = GraphRegistry.Instance.CreateGraph("G1");
 
             graph.AddDependency(nodeA, nodeB);
             graph.AddDependency(nodeA, nodeC);

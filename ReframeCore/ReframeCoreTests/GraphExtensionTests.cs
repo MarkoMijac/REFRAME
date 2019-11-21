@@ -34,7 +34,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = null;
 
             //Act&Assert
@@ -46,7 +46,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = null;
 
@@ -59,7 +59,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = null;
 
             //Act&Assert
@@ -71,7 +71,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -86,7 +86,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -101,7 +101,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject2 obj2 = new GenericReactiveObject2();
             GenericReactiveObject3 obj3 = new GenericReactiveObject3();
@@ -121,7 +121,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -136,7 +136,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
 
             //Act
@@ -151,7 +151,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject2 obj2 = new GenericReactiveObject2();
             GenericReactiveObject3 obj3 = new GenericReactiveObject3();
@@ -187,7 +187,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             Whole whole = new Whole();
             whole.Parts = null;
 
@@ -200,7 +200,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             Whole obj = new Whole();
 
             //Act
@@ -215,7 +215,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             Whole obj = new Whole();
 
             //Act
@@ -299,7 +299,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj1 = new GenericReactiveObject();
             GenericReactiveObject obj2 = null;
 
@@ -313,7 +313,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = null;
 
@@ -327,7 +327,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act&Assert
@@ -339,7 +339,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -357,7 +357,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject3 obj = new GenericReactiveObject3();
             obj.NestedObject = new GenericReactiveObject();
 
@@ -376,7 +376,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -396,7 +396,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            IDependencyGraph graph = GraphRegistry.Instance.Create("G");
+            IDependencyGraph graph = GraphRegistry.Instance.CreateGraph("G");
             GenericReactiveObject obj = new GenericReactiveObject();
 
             //Act
@@ -482,7 +482,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             Whole whole = new Whole();
             whole.Parts = null;
 
@@ -495,7 +495,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             Whole whole = new Whole();
 
             //Act
@@ -512,7 +512,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("G");
+            var graph = GraphRegistry.Instance.CreateGraph("G");
             Whole whole = new Whole();
 
             //Act
@@ -543,7 +543,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvidedOwnerIsNull_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefault();
+            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
             Building00 b = null;
 
             //Act&Assert
@@ -554,7 +554,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvidedNodeIsNotPartOfGraph_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefault();
+            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
             graph.Initialize();
             Building00 b = new Building00();
 
@@ -566,7 +566,7 @@ namespace ReframeCoreTests
         public void Update_GivenProvideIsPartOfGraph_PerformsUpdate()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefault();
+            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
             graph.Initialize();
             Building00 b = new Building00();
             NodeFactory nodeFactory = new StandardNodeFactory();

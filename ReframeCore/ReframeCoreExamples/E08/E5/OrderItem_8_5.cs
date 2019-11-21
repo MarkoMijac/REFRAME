@@ -47,7 +47,7 @@ namespace ReframeCoreExamples.E08.E5
 
         public OrderItem_8_5()
         {
-            _graph = GraphRegistry.Instance.Get("GRAPH_8_5");
+            _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_5");
         }
     }
 }

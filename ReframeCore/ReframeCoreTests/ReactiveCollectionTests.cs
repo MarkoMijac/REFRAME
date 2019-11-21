@@ -271,7 +271,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.Create("GRAPH_CASE_8_1");
+            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_8_1");
 
             ReactiveCollection<Part_8_1> parts = new ReactiveCollection<Part_8_1>();
 

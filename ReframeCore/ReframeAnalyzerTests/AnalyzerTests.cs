@@ -18,8 +18,8 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            GraphRegistry.Instance.GetOrCreate("G1");
-            GraphRegistry.Instance.GetOrCreate("G2");
+            GraphRegistry.Instance.GetOrCreateGraph("G1");
+            GraphRegistry.Instance.GetOrCreateGraph("G2");
             //Act
             string xml = Analyzer.GetRegisteredGraphs();
 
@@ -32,7 +32,7 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 
@@ -72,7 +72,7 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreate("G1");
+            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 

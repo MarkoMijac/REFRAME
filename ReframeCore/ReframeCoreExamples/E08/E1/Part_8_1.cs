@@ -62,7 +62,7 @@ namespace ReframeCoreExamples.E08.E1
 
         public Part_8_1()
         {
-            graph = GraphRegistry.Instance.Get("GRAPH_CASE_8_1");
+            graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
         }
 
         #endregion
