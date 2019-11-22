@@ -51,6 +51,37 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
+        public void PerformUpdate_GivenUpdateIsSuspended_PerformsNoUpdate()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            PropertyNode widthNode = nodeFactory.CreateNode(building, "Width") as PropertyNode;
+            PropertyNode lengthNode = nodeFactory.CreateNode(building, "Length") as PropertyNode;
+            PropertyNode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area") as PropertyNode;
+            PropertyNode heightNode = nodeFactory.CreateNode(building, "Height") as PropertyNode;
+            PropertyNode volumeNode = nodeFactory.CreateNode(building, "Volume") as PropertyNode;
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            INode initialNode = widthNode;
+            graph.Initialize();
+            //Act
+            graph.UpdateSuspended = true;
+            graph.PerformUpdate(initialNode);
+            graph.UpdateSuspended = false;
+
+            //Assert
+            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger expectedLogger = new UpdateLogger();
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        [TestMethod]
         public void PerformUpdate_GivenInitialNodeIsNull_ThrowsException()
         {
             //Arrange
