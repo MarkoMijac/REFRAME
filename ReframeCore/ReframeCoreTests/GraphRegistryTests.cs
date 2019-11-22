@@ -214,7 +214,7 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region GetDefault()
+        #region GetDefaultGraph()
 
         [TestMethod]
         public void GetDefaultGraph_ReturnsDefaultGraph()

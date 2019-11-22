@@ -24,8 +24,6 @@ namespace ReframeCore.Factories
         private List<IDependencyGraph> _graphs = new List<IDependencyGraph>();
         public const string DefaultGraphName = "DEFAULT";
 
-
-
         private GraphRegistry()
         {
             CreateDefaultGraph();
