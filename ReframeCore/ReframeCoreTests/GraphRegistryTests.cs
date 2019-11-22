@@ -14,10 +14,10 @@ namespace ReframeCoreTests
     {
         private NodeFactory factory = new StandardNodeFactory();
 
-        #region Create
+        #region CreateGraph
 
         [TestMethod]
-        public void Create_GivenNoOtherDependencyGraphsExist_CreatesNewDependencyGraph()
+        public void CreateGraph_GivenNoOtherDependencyGraphsExist_CreatesNewDependencyGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -31,7 +31,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void Create_GivenUniqueIdentifierProvided_CreatesNewDependencyGraph()
+        public void CreateGraph_GivenUniqueIdentifierProvided_CreatesNewDependencyGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -45,7 +45,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void Create_GivenAlreadyTakenIdentifierProvided_ThrowsException()
+        public void CreateGraph_GivenAlreadyTakenIdentifierProvided_ThrowsException()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -56,7 +56,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void Create_GivenEmptyStringIdentifier_ThrowsException()
+        public void CreateGraph_GivenEmptyStringIdentifier_ThrowsException()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -66,7 +66,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void Create_GivenDefaultIdentifierProvided_ThrowsException()
+        public void CreateGraph_GivenDefaultIdentifierProvided_ThrowsException()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -77,10 +77,10 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region Get
+        #region GetGraph
 
         [TestMethod]
-        public void Get_GivenGraphWithProvidedIdentifierExists_ReturnsDependencyGraph()
+        public void GetGraph_GivenGraphWithProvidedIdentifierExists_ReturnsDependencyGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -95,7 +95,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void Get_GivenGraphWithProvidedIdentifierDoesNotExist_ReturnsNull()
+        public void GetGraph_GivenGraphWithProvidedIdentifierDoesNotExist_ThrowsException()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -103,64 +103,16 @@ namespace ReframeCoreTests
             string nonexistant = "G2";
             GraphRegistry.Instance.CreateGraph(identifier);
 
-            //Act
-            var graph = GraphRegistry.Instance.GetGraph(nonexistant);
-
-            //Assert
-            Assert.IsNull(graph);
-        }
-
-        [TestMethod]
-        public void Get_GivenProvidedNodeIsNull_ReturnsNull()
-        {
-            //Arrange
-
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => GraphRegistry.Instance.GetGraph((INode)null));
-        }
-
-        [TestMethod]
-        public void Get_GivenProvidedNodeNotAddedToAnyGraph_ReturnsNull()
-        {
-            //Arrange
-            GraphRegistry.Instance.Clear();
-            GraphRegistry.Instance.CreateGraph("GraphONE");
-
-            Building00 b = new Building00();
-            INode node = factory.CreateNode(b, nameof(b.Area));
-
-            //Act
-            var graph = GraphRegistry.Instance.GetGraph(node);
-
-            //Assert
-            Assert.IsNull(graph);
-        }
-
-        [TestMethod]
-        public void Get_GivenProvidedNodeIsAddedToGraph_ReturnsGraphContainigProvidedNode()
-        {
-            //Arrange
-            GraphRegistry.Instance.Clear();
-            GraphRegistry.Instance.CreateGraph("GraphONE");
-
-            Building00 b = new Building00();
-            INode node = factory.CreateNode(b, nameof(b.Area));
-            GraphRegistry.Instance.GetDefaultGraph().AddNode(node);
-
-            //Act
-            var graph = GraphRegistry.Instance.GetGraph(node);
-
-            //Assert
-            Assert.IsNotNull(graph);
-            Assert.IsTrue(graph.Identifier == GraphRegistry.DefaultGraphName);
+            Assert.ThrowsException<DependencyGraphException>(() =>GraphRegistry.Instance.GetGraph(nonexistant));
         }
 
         #endregion
 
-        #region GetOrCreate
+        #region GetOrCreateGraph
 
         [TestMethod]
-        public void GetOrCreate_GivenGraphWithProvidedIdentifierExists_ReturnsExistingDependencyGraph()
+        public void GetOrCreateGraph_GivenGraphWithProvidedIdentifierExists_ReturnsExistingDependencyGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -175,7 +127,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetOrCreate_GivenGraphWithProvidedIdentifierDoesNotExist_ReturnsNewDependencyGraph()
+        public void GetOrCreateGraph_GivenGraphWithProvidedIdentifierDoesNotExist_ReturnsNewDependencyGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -189,7 +141,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetOrCreate_GivenEmptyStringIdentifier_ThrowsException()
+        public void GetOrCreateGraph_GivenEmptyStringIdentifier_ThrowsException()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -201,10 +153,10 @@ namespace ReframeCoreTests
 
         #endregion
 
-        #region GetRegisteredGraphs
+        #region GetGraphs
 
         [TestMethod]
-        public void GetRegisteredGraphs_GivenNoGraphsManuallyAdded_ReturnsListWithDefaultGraph()
+        public void GetGraphs_GivenNoGraphsManuallyAdded_ReturnsListWithDefaultGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -217,7 +169,7 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetRegisteredGraphs_GivenGraphIsManuallyAdded_ReturnsListAddedGraph()
+        public void GetGraphs_GivenGraphIsManuallyAdded_ReturnsListAddedGraph()
         {
             //Arrange
             GraphRegistry.Instance.Clear();
@@ -265,7 +217,7 @@ namespace ReframeCoreTests
         #region GetDefault()
 
         [TestMethod]
-        public void GetDefault_ReturnsDefaultGraph()
+        public void GetDefaultGraph_ReturnsDefaultGraph()
         {
             //Arrange
 

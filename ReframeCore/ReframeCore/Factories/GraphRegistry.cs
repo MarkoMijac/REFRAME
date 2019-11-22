@@ -56,13 +56,13 @@ namespace ReframeCore.Factories
             {
                 throw new DependencyGraphException("Identifier for dependency graph cannot be empty!");
             }
-            else if (CheckIfGraphAlreadyExists(identifier))
+            else if (CheckIfGraphExists(identifier))
             {
                 throw new DependencyGraphException("Dependency graph cannot be created! Dependency graph with identifier " + identifier + " already exists!");
             }
         }
 
-        private bool CheckIfGraphAlreadyExists(string identifier)
+        private bool CheckIfGraphExists(string identifier)
         {
             return _graphs.Any(g => g.Identifier == identifier);
         }
@@ -74,17 +74,14 @@ namespace ReframeCore.Factories
         /// <returns>Dependency graph if exists, otherwise null.</returns>
         public IDependencyGraph GetGraph(string identifier)
         {
-            return _graphs.FirstOrDefault(g => g.Identifier == identifier);
-        }
-
-        /// <summary>
-        /// Returns registered graph which contains provided node.
-        /// </summary>
-        /// <param name="node">Reactive node</param>
-        /// <returns>Dependency graph if exists, otherwise null.</returns>
-        public IDependencyGraph GetGraph(INode node)
-        {
-            return _graphs.FirstOrDefault(g => g.ContainsNode(node));
+            if (CheckIfGraphExists(identifier) == true)
+            {
+                return _graphs.FirstOrDefault(g => g.Identifier == identifier);
+            }
+            else
+            {
+                throw new DependencyGraphException($"Graph with identifier {identifier} does not exist in registry!");
+            }
         }
 
         /// <summary>
@@ -94,13 +91,14 @@ namespace ReframeCore.Factories
         /// <returns>Existing or newly created dependency graph.</returns>
         public IDependencyGraph GetOrCreateGraph(string identifier)
         {
-            var graph = GetGraph(identifier);
-            if (graph == null)
+            if (CheckIfGraphExists(identifier) == true)
             {
-                graph = CreateGraph(identifier);
+                return _graphs.FirstOrDefault(g => g.Identifier == identifier);
             }
-
-            return graph;
+            else
+            {
+                return CreateGraph(identifier);
+            }
         }
 
         /// <summary>
