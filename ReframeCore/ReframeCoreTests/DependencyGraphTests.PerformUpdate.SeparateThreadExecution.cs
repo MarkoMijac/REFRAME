@@ -31,14 +31,14 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             //Act
             Task task = graph.PerformUpdate();
             if (task != null) await task;
            
             //Assert
-            UpdateLogger logger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger logger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "A"));
             expectedLogger.Log(graph.GetNode(o, "B"));
@@ -62,14 +62,14 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             //Act
             Task task = graph.PerformUpdate(graph.GetNode(o, "B"), false);
             if (task != null) await task;
 
             //Assert
-            UpdateLogger logger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger logger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "B"));
             expectedLogger.Log(graph.GetNode(o, "C"));
@@ -92,14 +92,14 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             //Act
             Task task = graph.PerformUpdate(graph.GetNode(o, "B"));
             if (task != null) await task;
 
             //Assert
-            UpdateLogger logger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger logger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "C"));
             expectedLogger.Log(graph.GetNode(o, "D"));
@@ -121,14 +121,14 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             //Act
             Task task = graph.PerformUpdate(o, "B");
             if (task != null) await task;
 
             //Assert
-            UpdateLogger logger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger logger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "C"));
             expectedLogger.Log(graph.GetNode(o, "D"));
@@ -150,7 +150,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             bool eventRaised = false;
 
@@ -180,7 +180,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             graph.Initialize();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
 
             bool eventRaised = false;
 
@@ -264,7 +264,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger actualLogger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "E"));
             expectedLogger.Log(graph.GetNode(o, "F"));
@@ -328,7 +328,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate(graph.GetNode(o, "H"), false);
 
             //Assert
-            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger actualLogger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "H"));
             expectedLogger.Log(graph.GetNode(o, "I"));
@@ -369,7 +369,7 @@ namespace ReframeCoreTests
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
 
             //Act
@@ -377,7 +377,7 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger actualLogger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "E"));
             expectedLogger.Log(graph.GetNode(o, "F"));
@@ -403,7 +403,7 @@ namespace ReframeCoreTests
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
 
             //Act
@@ -421,7 +421,7 @@ namespace ReframeCoreTests
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
 
             //Act
@@ -429,7 +429,7 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            UpdateLogger actualLogger = graph.UpdateScheduler.LoggerUpdatedNodes;
+            UpdateLogger actualLogger = graph.Updater.NodeLog;
             UpdateLogger expectedLogger = new UpdateLogger();
             expectedLogger.Log(graph.GetNode(o, "H"));
             expectedLogger.Log(graph.GetNode(o, "I"));
@@ -447,7 +447,7 @@ namespace ReframeCoreTests
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
             GenericReactiveObject3 o = new GenericReactiveObject3();
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
             CreateCase1(graph, o);
 
             Task tAll = graph.PerformUpdate();
@@ -472,8 +472,8 @@ namespace ReframeCoreTests
             //Arrange
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
-            graph.UpdateScheduler.EnableParallelUpdate = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -509,8 +509,8 @@ namespace ReframeCoreTests
             //Arrange
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
-            graph.UpdateScheduler.EnableParallelUpdate = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);
@@ -529,8 +529,8 @@ namespace ReframeCoreTests
             //Arrange
             GraphRegistry.Instance.Clear();
             DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G") as DependencyGraph;
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
-            graph.UpdateScheduler.EnableParallelUpdate = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableParallelUpdate = true;
             GenericReactiveObject3 o = new GenericReactiveObject3();
 
             CreateCase1(graph, o);

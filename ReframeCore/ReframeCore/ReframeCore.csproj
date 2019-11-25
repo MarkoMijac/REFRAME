@@ -80,7 +80,7 @@
     <Compile Include="Helpers\UpdateInfo.cs" />
     <Compile Include="Helpers\UpdateLogger.cs" />
     <Compile Include="Helpers\Reflector.cs" />
-    <Compile Include="Helpers\UpdateScheduler.cs" />
+    <Compile Include="Helpers\Updater.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="Factories\StandardNodeFactory.cs" />
     <Compile Include="Nodes\CollectionMethodNode.cs" />

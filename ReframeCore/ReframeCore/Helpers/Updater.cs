@@ -16,41 +16,32 @@ namespace ReframeCore.Helpers
         Ended
     }
 
-    public class UpdateScheduler
+    public class Updater : ILoggable
     {
         #region Properties
 
         private UpdateProcessStatus Status { get; set; }
 
-        /// <summary>
-        /// Algorithm for topological sorting.
-        /// </summary>
-        public ISorter SortAlgorithm { get; set; }
-
         public IDependencyGraph DependencyGraph { get; set; }
-
-        public UpdateLogger LoggerNodesForUpdate { get; private set; }
-        public UpdateLogger LoggerUpdatedNodes { get; private set; }
+        public UpdateLogger NodeLog { get; private set; }
 
         public bool EnableUpdateInSeparateThread { get; set; }
         public bool EnableParallelUpdate { get; set; }
 
         public UpdateInfo LatestUpdateInfo { get; private set; }
 
-        public Scheduler Scheduler { get; set; }
+        public IScheduler Scheduler { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public UpdateScheduler(IDependencyGraph graph)
+        public Updater(IDependencyGraph graph, IScheduler scheduler)
         {
-            SortAlgorithm = new DFS_Sorter();
-            LoggerNodesForUpdate = new UpdateLogger();
-            LoggerUpdatedNodes = new UpdateLogger();
+            NodeLog = new UpdateLogger();
             DependencyGraph = graph;
 
-            Scheduler = new Scheduler(graph, SortAlgorithm);
+            Scheduler = scheduler;
 
             EnableUpdateInSeparateThread = false;
             Status = UpdateProcessStatus.NotSet;
@@ -94,7 +85,7 @@ namespace ReframeCore.Helpers
 
                 MarkUpdateStart();
 
-                var nodesForUpdate = GetNodesForUpdate();
+                var nodesForUpdate = GetUpdateSchedule();
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
@@ -110,19 +101,13 @@ namespace ReframeCore.Helpers
         /// Gets all nodes from dependency graph, arranged in order they should be updated.
         /// </summary>
         /// <returns>List of all nodes from dependency graph.</returns>
-        public Dictionary<INode, bool> GetNodesForUpdate()
+        private Dictionary<INode, bool> GetUpdateSchedule()
         {
             IList<INode> nodesForUpdate = Scheduler.GetNodesForUpdate();
-
-            if (DependencyGraph.Settings.EnableLogging == true)
-            {
-                LoggerNodesForUpdate = ((ILoggable)Scheduler).NodeLog;
-            }
-
             return ConvertToDictionary(nodesForUpdate);
         }
 
-        private static Dictionary<INode, bool> ConvertToDictionary(IList<INode> nodesForUpdate)
+        private Dictionary<INode, bool> ConvertToDictionary(IList<INode> nodesForUpdate)
         {
             Dictionary<INode, bool> dictionary = new Dictionary<INode, bool>();
             if (nodesForUpdate != null)
@@ -142,15 +127,9 @@ namespace ReframeCore.Helpers
         /// <param name="node">Initial node that triggered the update.</param>
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.</param>
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
-        public Dictionary<INode, bool> GetNodesForUpdate(INode node, bool skipInitialNode)
+        private Dictionary<INode, bool> GetUpdateSchedule(INode node, bool skipInitialNode)
         {
             IList<INode> nodesForUpdate = Scheduler.GetNodesForUpdate(node, skipInitialNode);
-
-            if (DependencyGraph.Settings.EnableLogging == true)
-            {
-                LoggerNodesForUpdate = ((ILoggable)Scheduler).NodeLog;
-            }
-
             return ConvertToDictionary(nodesForUpdate);
         }
 
@@ -179,7 +158,7 @@ namespace ReframeCore.Helpers
                 MarkUpdateStart();
 
                 ValidateInitialNode(initialNode);
-                var nodesForUpdate = GetNodesForUpdate(initialNode, skipInitialNode);
+                var nodesForUpdate = GetUpdateSchedule(initialNode, skipInitialNode);
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
@@ -222,7 +201,7 @@ namespace ReframeCore.Helpers
                     initialNode = GraphUtility.GetCollectionNode(ownerObject, memberName);
                 }
 
-                var nodesForUpdate = GetNodesForUpdate(initialNode, true);
+                var nodesForUpdate = GetUpdateSchedule(initialNode, true);
                 Update(nodesForUpdate);
 
                 MarkUpdateEnd();
@@ -262,7 +241,7 @@ namespace ReframeCore.Helpers
 
         private void Update(Dictionary<INode, bool> nodesForUpdate)
         {
-            LoggerUpdatedNodes.ClearLog();
+            NodeLog.ClearLog();
 
             try
             {
@@ -359,7 +338,7 @@ namespace ReframeCore.Helpers
         {
             if (DependencyGraph.Settings.EnableLogging == true)
             {
-                LoggerUpdatedNodes.Log(node);
+                NodeLog.Log(node);
             }
 
             nodesForUpdate[node] = true;

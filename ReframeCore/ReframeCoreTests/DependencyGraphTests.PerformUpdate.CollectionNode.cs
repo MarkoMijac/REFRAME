@@ -68,7 +68,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -82,11 +82,11 @@ namespace ReframeCoreTests
             DependencyGraph graph = GraphRegistry.Instance.GetGraph("GRAPH_8_2") as DependencyGraph;
 
             //Act
-            graph.UpdateScheduler.EnableUpdateInSeparateThread = true;
+            graph.Updater.EnableUpdateInSeparateThread = true;
             await graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -129,7 +129,7 @@ namespace ReframeCoreTests
             order.Items[1].Total = 2;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_GivenItemTotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -211,7 +211,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -254,7 +254,7 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -296,7 +296,7 @@ namespace ReframeCoreTests
             order.DiscountB = 20;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_3_GivenDiscountBIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -381,7 +381,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -427,7 +427,7 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -472,7 +472,7 @@ namespace ReframeCoreTests
             order.DiscountB = 20;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_4_GivenDiscountBIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -578,7 +578,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -635,7 +635,7 @@ namespace ReframeCoreTests
             item.Amount = 2;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_GivenAmountIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -688,7 +688,7 @@ namespace ReframeCoreTests
             item.UnitPrice = 5;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_5_GivenUnitPriceIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -783,7 +783,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -829,7 +829,7 @@ namespace ReframeCoreTests
             order.Items[0].Total = 15;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem1TotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -874,7 +874,7 @@ namespace ReframeCoreTests
             order.Items[1].Total = 25;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_6_GivenItem2TotalIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -971,7 +971,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_7_PerformCompleteUpdate(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -1027,7 +1027,7 @@ namespace ReframeCoreTests
             order.DiscountA = 10;
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_7_GivenDiscountAIsChanged(graph, order);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -1132,7 +1132,7 @@ namespace ReframeCoreTests
             graph.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -1175,7 +1175,7 @@ namespace ReframeCoreTests
             objC.PartsB.Add(newB);
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
 
             Assert.AreEqual(expectedLogger, actualLogger);
@@ -1193,7 +1193,7 @@ namespace ReframeCoreTests
             objC.PartsB.Remove(objC.PartsB[1]);
 
             //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).UpdateScheduler.LoggerNodesForUpdate;
+            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
             
 
             Assert.AreEqual(expectedLogger, actualLogger);

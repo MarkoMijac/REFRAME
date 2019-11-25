@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Helpers
 {
-    interface ILoggable
+    public interface ILoggable
     {
         UpdateLogger NodeLog { get; }
     }

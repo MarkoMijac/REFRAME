@@ -21,7 +21,9 @@ namespace ReframeCore
 
         public NodeFactory NodeFactory { get; private set; }
 
-        public UpdateScheduler UpdateScheduler { get; private set; }
+        public Updater Updater { get; private set; }
+
+        public IScheduler Scheduler { get; private set; }
 
         /// <summary>
         /// Dependency graph unique identifier.
@@ -57,10 +59,11 @@ namespace ReframeCore
             Nodes = new List<INode>();
 
             NodeFactory = new StandardNodeFactory();
-            UpdateScheduler = new UpdateScheduler(this);
-            UpdateScheduler.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
-            UpdateScheduler.UpdateStarted += delegate { OnPerformUpdateStarted(); };
-            UpdateScheduler.UpdateFailed += UpdateScheduler_UpdateFailed;
+            Scheduler = new Scheduler(this, new DFS_Sorter());
+            Updater = new Updater(this, Scheduler);
+            Updater.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
+            Updater.UpdateStarted += delegate { OnPerformUpdateStarted(); };
+            Updater.UpdateFailed += UpdateScheduler_UpdateFailed;
             Status = DependencyGraphStatus.NotInitialized;
         }
 
@@ -457,7 +460,7 @@ namespace ReframeCore
         /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
         public Task PerformUpdate(INode initialNode, bool skipInitialNode)
         {
-            return UpdateScheduler.PerformUpdate(initialNode, skipInitialNode);
+            return Updater.PerformUpdate(initialNode, skipInitialNode);
         }
 
         public Task PerformUpdate(object ownerObject, string memberName)
@@ -468,7 +471,7 @@ namespace ReframeCore
 
         public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
         {
-            return UpdateScheduler.PerformUpdate(ownerObject, memberName);
+            return Updater.PerformUpdate(ownerObject, memberName);
         }
 
         /// <summary>
@@ -487,7 +490,7 @@ namespace ReframeCore
         /// </summary>
         public Task PerformUpdate()
         {
-            return UpdateScheduler.PerformUpdate();
+            return Updater.PerformUpdate();
         }
 
         #endregion
