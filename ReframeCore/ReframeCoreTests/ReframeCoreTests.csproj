@@ -60,6 +60,7 @@
     <Compile Include="ReflectorTests.cs" />
     <Compile Include="PropertyNodeTests.cs" />
     <Compile Include="DependencyGraphTests.PerformUpdate.cs" />
+    <Compile Include="SchedulerTests.cs" />
     <Compile Include="StandardNodeFactoryTests.cs" />
     <Compile Include="GraphRegistryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="GraphExtensionTests.cs" />
     <Compile Include="MemberReaderTests.cs" />
     <Compile Include="UpdateLoggerTests.cs" />
-    <Compile Include="UpdateScheduler_GetNodesForUpdateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">

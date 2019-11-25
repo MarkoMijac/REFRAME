@@ -73,6 +73,9 @@
     <Compile Include="Factories\GraphRegistry.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
+    <Compile Include="Helpers\ILoggable.cs" />
+    <Compile Include="Helpers\IScheduler.cs" />
+    <Compile Include="Helpers\Scheduler.cs" />
     <Compile Include="Helpers\UpdateError.cs" />
     <Compile Include="Helpers\UpdateInfo.cs" />
     <Compile Include="Helpers\UpdateLogger.cs" />
