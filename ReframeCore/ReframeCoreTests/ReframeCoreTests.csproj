@@ -52,6 +52,7 @@
     <Compile Include="CollectionPropertyNodeTests.cs" />
     <Compile Include="DependencyGraphTests.cs" />
     <Compile Include="DependencyGraphTests.PerformUpdate.SeparateThreadExecution.cs" />
+    <Compile Include="DFS_SorterTests.cs" />
     <Compile Include="Helpers\ExampleClass.cs" />
     <Compile Include="MethodNodeTests.cs" />
     <Compile Include="NodeTests.cs" />

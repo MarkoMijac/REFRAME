@@ -67,7 +67,7 @@ namespace ReframeAnalyzerTests
             Assert.IsTrue(result != "");
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetClassNodes()
         {
             //Arrange

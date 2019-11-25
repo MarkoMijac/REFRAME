@@ -562,7 +562,7 @@ namespace ReframeCoreTests
             Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(graph, nameof(b.Width)));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Update_GivenProvideIsPartOfGraph_PerformsUpdate()
         {
             //Arrange

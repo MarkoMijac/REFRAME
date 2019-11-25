@@ -29,7 +29,7 @@ namespace ReframeCore.Helpers
         /// <summary>
         /// Algorithm for topological sorting.
         /// </summary>
-        public ISort SortAlgorithm { get; set; }
+        public ISorter SortAlgorithm { get; set; }
 
         public IDependencyGraph DependencyGraph { get; set; }
 
@@ -52,7 +52,7 @@ namespace ReframeCore.Helpers
             RedirectionDependencesToRemove = new List<Tuple<INode, INode>>();
             RedirectionDependencesToAdd = new List<Tuple<INode, INode>>();
 
-            SortAlgorithm = new TopologicalSort2();
+            SortAlgorithm = new DFS_Sorter();
             LoggerNodesForUpdate = new UpdateLogger();
             LoggerUpdatedNodes = new UpdateLogger();
             DependencyGraph = graph;
@@ -398,14 +398,20 @@ namespace ReframeCore.Helpers
             }
         }
 
-        private IList<INode> GetSortedGraph(IList<INode> nodes, INode initialNode, bool skipInitialNode)
+        private IList<INode> GetSortedGraph(IList<INode> nodes, INode initialNode, bool omitInitialNode)
         {
-            return SortAlgorithm.Sort(nodes, n => n.Successors, initialNode, skipInitialNode);
+            IList<INode> sortedGraph = SortAlgorithm.Sort(nodes, initialNode);
+            if (omitInitialNode == true)
+            {
+                sortedGraph.Remove(initialNode);
+            }
+
+            return sortedGraph;
         }
 
         private IList<INode> GetSortedGraph(IList<INode> nodes)
         {
-            return SortAlgorithm.Sort(nodes, n => n.Successors);
+            return SortAlgorithm.Sort(nodes);
         }
 
         private void AddTemporaryDependenciesBetweenChildNodesAndCollectionNode(IList<INode> graph)

@@ -95,8 +95,7 @@
     <Compile Include="ReactiveCollections\IReactiveCollection.cs" />
     <Compile Include="ReactiveCollections\ReactiveCollection.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="TopologicalSort.cs" />
-    <Compile Include="TopologicalSort2.cs" />
+    <Compile Include="DFS_Sorter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    public interface ISort
+    public interface ISorter
     {
-        IList<INode> Sort(IEnumerable<INode> sourceGraph, Func<INode, IEnumerable<INode>> getDependents);
-        IList<INode> Sort(IEnumerable<INode> sourceGraph, Func<INode, IEnumerable<INode>> getDependents, INode initialNode, bool omitInitialNode);
+        IList<INode> Sort(IEnumerable<INode> graphNodes);
+        IList<INode> Sort(IEnumerable<INode> graphNodes, INode initialNode);
     }
 }
