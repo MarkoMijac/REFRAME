@@ -446,17 +446,6 @@ namespace ReframeCore
 
         #region PerformUpdate
 
-        /// <summary>
-        /// Performs update of all nodes that depend on provided initial node.
-        /// Proper order of update is handled by topologically sorting dependent nodes.
-        /// </summary>
-        /// <param name="initialNode">Initial node that triggered the update.</param>
-        /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
-        public Task PerformUpdate(INode initialNode, bool skipInitialNode)
-        {
-            return Updater.PerformUpdate(initialNode, skipInitialNode);
-        }
-
         public Task PerformUpdate(object ownerObject, string memberName)
         {
             INode initialNode = GetNode(ownerObject, memberName);
@@ -466,17 +455,6 @@ namespace ReframeCore
         public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
         {
             return Updater.PerformUpdate(ownerObject, memberName);
-        }
-
-        /// <summary>
-        /// Performs update of all nodes that depend on provided initial node.
-        /// Proper order of update is handled by topologically sorting dependent nodes.
-        /// </summary>
-        /// <param name="initialNode">Initial node that triggered the update.</param>
-        /// <param name="skipInitialNode">Specifies whether the initial node will be skipped from updating.l</param>
-        public Task PerformUpdate(INode initialNode)
-        {
-            return PerformUpdate(initialNode, true);
         }
 
         /// <summary>
