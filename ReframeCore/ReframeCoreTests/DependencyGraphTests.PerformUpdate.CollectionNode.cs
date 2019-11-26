@@ -58,23 +58,6 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void PerformUpdate_Case_8_2_PerformCompleteUpdate_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            var order = CreateCase_8_2();
-            var graph = GraphRegistry.Instance.GetGraph("GRAPH_8_2");
-
-            //Act
-            graph.PerformUpdate();
-
-            //Assert
-            UpdateLogger actualLogger = (graph as DependencyGraph).Updater.NodeLog;
-            UpdateLogger expectedLogger = CreateExpectedLogger_Case_8_2_PerformCompleteUpdate(graph, order);
-
-            Assert.AreEqual(expectedLogger, actualLogger);
-        }
-
-        [TestMethod]
         public async Task PerformUpdate_Case_8_2_PerformCompleteUpdateInSeparateThread_SchedulesCorrectUpdateOrder()
         {
             //Arrange
