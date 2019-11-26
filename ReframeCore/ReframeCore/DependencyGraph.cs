@@ -62,14 +62,8 @@ namespace ReframeCore
             Scheduler = new Scheduler(this, new DFS_Sorter());
             Updater = new Updater(this, Scheduler);
             Updater.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
-            Updater.UpdateStarted += delegate { OnPerformUpdateStarted(); };
-            Updater.UpdateFailed += UpdateScheduler_UpdateFailed;
-            Status = DependencyGraphStatus.NotInitialized;
-        }
 
-        private void UpdateScheduler_UpdateFailed(object sender, EventArgs e)
-        {
-            OnPerformUpdateFailed(sender as UpdateError);
+            Status = DependencyGraphStatus.NotInitialized;
         }
 
         public void Initialize()
@@ -466,7 +460,7 @@ namespace ReframeCore
         public Task PerformUpdate(object ownerObject, string memberName)
         {
             INode initialNode = GetNode(ownerObject, memberName);
-            return PerformUpdate(initialNode);
+            return Updater.PerformUpdate(initialNode);
         }
 
         public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
@@ -527,20 +521,6 @@ namespace ReframeCore
         private void OnPerformUpdateCompleted()
         {
             UpdateCompleted?.Invoke(this, null);
-        }
-
-        public event EventHandler UpdateStarted;
-
-        private void OnPerformUpdateStarted()
-        {
-            UpdateStarted?.Invoke(this, null);
-        }
-
-        public event EventHandler UpdateFailed;
-
-        private void OnPerformUpdateFailed(UpdateError updateError)
-        {
-            UpdateFailed?.Invoke(updateError, null);
         }
 
         #endregion

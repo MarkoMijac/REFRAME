@@ -80,35 +80,6 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public async Task PerformUpdate_GivenPerformUpdateWithInitialNodeIsPerformedInSeparateThread1_SchedulesCorrectUpdate()
-        {
-            //Arrange
-            GraphRegistry.Instance.Clear();
-            DependencyGraph graph = GraphRegistry.Instance.CreateGraph("G1") as DependencyGraph;
-            GenericReactiveObject o = new GenericReactiveObject();
-            graph.AddDependency(o, "A", o, "B");
-            graph.AddDependency(o, "B", o, "C");
-            graph.AddDependency(o, "C", o, "D");
-            graph.AddDependency(o, "D", o, "E");
-
-            graph.Initialize();
-            graph.Updater.EnableUpdateInSeparateThread = true;
-
-            //Act
-            Task task = graph.PerformUpdate(graph.GetNode(o, "B"));
-            if (task != null) await task;
-
-            //Assert
-            UpdateLogger logger = graph.Updater.NodeLog;
-            UpdateLogger expectedLogger = new UpdateLogger();
-            expectedLogger.Log(graph.GetNode(o, "C"));
-            expectedLogger.Log(graph.GetNode(o, "D"));
-            expectedLogger.Log(graph.GetNode(o, "E"));
-
-            Assert.IsTrue(expectedLogger.Equals(logger));
-        }
-
-        [TestMethod]
         public async Task PerformUpdate_GivenPerformUpdateWithInitialNodeIsPerformedInSeparateThread2_SchedulesCorrectUpdate()
         {
             //Arrange

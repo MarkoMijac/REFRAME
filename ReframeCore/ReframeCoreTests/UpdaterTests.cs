@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 namespace ReframeCoreTests
 {
     [TestClass]
-    public class UpdaterTests
+    public partial class UpdaterTests
     {
         private NodeFactory nodeFactory = new StandardNodeFactory();
 
