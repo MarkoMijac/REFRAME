@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreExamples.E00
 {
@@ -13,6 +14,7 @@ namespace ReframeCoreExamples.E00
         #region Properties
 
         public IDependencyGraph Graph { get; set; }
+        public Updater Updater { get; set; }
 
         public int A { get; set; }
         public int B { get; set; }
@@ -36,47 +38,110 @@ namespace ReframeCoreExamples.E00
 
         public void Update_A()
         {
-            Graph.PerformUpdate(this, "Update_A");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_A");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_A");
+            }
         }
 
         private void Update_B()
         {
-            Graph.PerformUpdate(this, "Update_B");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_B");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_B");
+            }
         }
 
         private void Update_C()
         {
-            Graph.PerformUpdate(this, "Update_C");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_C");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_C");
+            }
         }
 
         private void Update_D()
         {
-            Graph.PerformUpdate(this, "Update_D");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_D");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_D");
+            }
         }
 
         private void Update_E()
         {
-            Graph.PerformUpdate(this, "Update_E");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_E");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_E");
+            }
         }
 
         public void Update_F()
         {
-            Graph.PerformUpdate(this, "Update_F");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_F");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_F");
+            }
         }
 
         private void Update_G()
         {
-            Graph.PerformUpdate(this, "Update_G");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_G");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_G");
+            }
         }
 
         private void Update_H()
         {
-            Graph.PerformUpdate(this, "Update_H");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_H");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_H");
+            }
         }
 
         private void Update_I()
         {
-            Graph.PerformUpdate(this, "Update_I");
+            if (Updater != null)
+            {
+                Updater.PerformUpdate(this, "Update_I");
+            }
+            else
+            {
+                Graph.PerformUpdate(this, "Update_I");
+            }
         }
 
         private void Update_J()

@@ -1,5 +1,6 @@
 ﻿using ReframeCore;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace ReframeCoreExamples.E08.E1
     public class Part_8_1 : ICollectionNodeItem
     {
         private IDependencyGraph graph;
+        private Updater updater;
 
         public event EventHandler UpdateTriggered;
 
@@ -27,7 +29,14 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _a = value;
-                graph.PerformUpdate(this, "A");
+                if (updater != null)
+                {
+                    updater.PerformUpdate(this, "A");
+                }
+                else
+                {
+                    graph.PerformUpdate(this, "A");
+                }
             }
         }
 
@@ -39,7 +48,14 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _b = value;
-                graph.PerformUpdate(this, "B");
+                if (updater != null)
+                {
+                    updater.PerformUpdate(this, "B");
+                }
+                else
+                {
+                    graph.PerformUpdate(this, "B");
+                }
             }
         }
 
@@ -51,7 +67,14 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _c = value;
-                graph.PerformUpdate(this, "C");
+                if (updater != null)
+                {
+                    updater.PerformUpdate(this, "C");
+                }
+                else
+                {
+                    graph.PerformUpdate(this, "C");
+                }
             }
         }
 
@@ -63,6 +86,11 @@ namespace ReframeCoreExamples.E08.E1
         public Part_8_1()
         {
             graph = GraphRegistry.Instance.GetOrCreateGraph("GRAPH_CASE_8_1");
+        }
+
+        public Part_8_1(Updater updater)
+        {
+            this.updater = updater;
         }
 
         #endregion

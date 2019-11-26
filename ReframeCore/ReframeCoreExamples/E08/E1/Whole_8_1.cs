@@ -1,5 +1,6 @@
 ﻿using ReframeCore;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
@@ -12,7 +13,7 @@ namespace ReframeCoreExamples.E08.E1
 {
     public class Whole_8_1
     {
-        private IDependencyGraph graph;
+        private Updater updater;
 
         #region Properties
 
@@ -32,7 +33,7 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _coeffA = value;
-                graph.PerformUpdate(this, "CoeffA");
+                updater.PerformUpdate(this, "CoeffA");
             }
         }
 
@@ -44,7 +45,7 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _coeffB = value;
-                graph.PerformUpdate(this, "CoeffB");
+                updater.PerformUpdate(this, "CoeffB");
             }
         }
 
@@ -59,7 +60,7 @@ namespace ReframeCoreExamples.E08.E1
             set
             {
                 _coeffC = value;
-                graph.PerformUpdate(this, "CoeffC");
+                updater.PerformUpdate(this, "CoeffC");
             }
         }
 
@@ -67,50 +68,17 @@ namespace ReframeCoreExamples.E08.E1
 
         #region Methods
 
-        public Whole_8_1()
+        public Whole_8_1(Updater updater)
         {
-            graph = GraphRegistry.Instance.GetGraph("GRAPH_CASE_8_1");
-
+            this.updater = updater;
             CoeffA = 1;
             CoeffB = 2;
             CoeffC = 3;
 
             Parts = new ReactiveCollection<Part_8_1>();
-            Parts.Add(new Part_8_1 { Name = "Part 1", A = 1, B = 2, C = 3});
-            Parts.Add(new Part_8_1 { Name = "Part 2", A = 4, B = 5, C = 6 });
-            Parts.Add(new Part_8_1 { Name = "Part 3", A = 7, B = 8, C = 9 });
-
-            InitializeDependencies();
-        }
-
-        private void InitializeDependencies()
-        {
-            INode coeffA = graph.AddNode(this, "CoeffA");
-            INode coeffB = graph.AddNode(this, "CoeffB");
-            INode coeffC = graph.AddNode(this, "CoeffC");
-            INode a = graph.AddNode(this, "A");
-            INode b = graph.AddNode(this, "B");
-            INode c = graph.AddNode(this, "C");
-            INode d = graph.AddNode(this, "D");
-
-            graph.AddDependency(coeffA, a);
-            graph.AddDependency(coeffB, b);
-            graph.AddDependency(coeffC, c);
-
-            graph.AddDependency(a, b);
-            graph.AddDependency(b, c);
-            graph.AddDependency(b, d);
-            graph.AddDependency(c, d);
-
-            INode partsA = graph.AddNode(Parts, "A");
-            INode partsB = graph.AddNode(Parts, "B");
-            INode partsC = graph.AddNode(Parts, "C");
-
-            graph.AddDependency(partsA, a);
-            graph.AddDependency(partsB, b);
-            graph.AddDependency(partsC, c);
-
-            graph.Initialize();
+            Parts.Add(new Part_8_1(this.updater) { Name = "Part 1", A = 1, B = 2, C = 3 });
+            Parts.Add(new Part_8_1(this.updater) { Name = "Part 2", A = 4, B = 5, C = 6 });
+            Parts.Add(new Part_8_1(this.updater) { Name = "Part 3", A = 7, B = 8, C = 9 });
         }
 
         private void Update_A()
