@@ -72,8 +72,10 @@
     <Compile Include="FluentAPI\FluentException.cs" />
     <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
+    <Compile Include="FluentAPI\ReactorExtension.cs" />
     <Compile Include="FluentAPI\TransferObject.cs" />
     <Compile Include="Factories\GraphRegistry.cs" />
+    <Compile Include="FluentAPI\TransferParameter.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
     <Compile Include="Helpers\ILoggable.cs" />
