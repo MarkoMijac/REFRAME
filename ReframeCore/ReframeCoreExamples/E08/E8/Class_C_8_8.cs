@@ -1,5 +1,6 @@
 ﻿using ReframeCore;
 using ReframeCore.FluentAPI;
+using ReframeCore.Helpers;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace ReframeCoreExamples.E08.E8
     public class Class_C_8_8
     {
         public IDependencyGraph Graph { get; set; }
+        private Updater _updater;
 
         private int _a;
 
@@ -21,7 +23,6 @@ namespace ReframeCoreExamples.E08.E8
             set
             {
                 _a = value;
-                this.Update(Graph);
             }
         }
 
@@ -31,6 +32,12 @@ namespace ReframeCoreExamples.E08.E8
 
         public Class_C_8_8()
         {
+            PartsB = new ReactiveCollection<Class_B_8_8>();
+        }
+
+        public Class_C_8_8(Updater updater)
+        {
+            _updater = updater;
             PartsB = new ReactiveCollection<Class_B_8_8>();
         }
 

@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreExamples.E08.E4
 {
     public class OrderItem_8_4 : ICollectionNodeItem
     {
         private IDependencyGraph _graph;
+        private Updater _updater;
         public event EventHandler UpdateTriggered;
 
 
@@ -40,6 +42,12 @@ namespace ReframeCoreExamples.E08.E4
         public OrderItem_8_4(Order_8_4 order)
         {
             _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_4");
+            Order = order;
+        }
+
+        public OrderItem_8_4(Order_8_4 order, Updater updater)
+        {
+            _updater = updater;
             Order = order;
         }
 

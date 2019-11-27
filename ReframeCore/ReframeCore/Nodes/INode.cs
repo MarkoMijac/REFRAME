@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeCore.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace ReframeCore.Nodes
     public interface INode
     {
         IDependencyGraph Graph { get; set; }
+        Updater Updater { get; set; }
 
         uint Identifier { get; }
         string MemberName { get; }

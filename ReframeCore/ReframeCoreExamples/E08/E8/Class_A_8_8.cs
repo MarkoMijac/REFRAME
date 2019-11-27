@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ReframeCoreExamples.E08.E8
     public class Class_A_8_8
     {
         public IDependencyGraph Graph { get; set; }
+        private Updater _updater;
 
         private int _a;
 
@@ -19,7 +21,14 @@ namespace ReframeCoreExamples.E08.E8
             set
             {
                 _a = value;
-                Graph.PerformUpdate(this, "A");
+                if (_updater != null)
+                {
+                    _updater.PerformUpdate(this, nameof(A));
+                }
+                else
+                {
+                    Graph.PerformUpdate(this, "A");
+                }
             }
         }
 
@@ -29,6 +38,11 @@ namespace ReframeCoreExamples.E08.E8
         public Class_A_8_8()
         {
 
+        }
+
+        public Class_A_8_8(Updater updater)
+        {
+            _updater = updater;
         }
 
         private void Update_B()

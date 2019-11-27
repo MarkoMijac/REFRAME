@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreExamples.E08.E5
 {
     public class OrderItem_8_5 : ICollectionNodeItem
     {
         private IDependencyGraph _graph;
+        private Updater _updater;
         public event EventHandler UpdateTriggered;
 
         private int _amount;
@@ -22,7 +24,14 @@ namespace ReframeCoreExamples.E08.E5
             set
             {
                 _amount = value;
-                _graph.PerformUpdate(this, "Amount");
+                if (_updater != null)
+                {
+                    _updater.PerformUpdate(this, nameof(Amount));
+                }
+                else
+                {
+                    _graph.PerformUpdate(this, nameof(Amount));
+                }
             }
         }
 
@@ -34,7 +43,14 @@ namespace ReframeCoreExamples.E08.E5
             set
             {
                 _unitPrice = value;
-                _graph.PerformUpdate(this, "UnitPrice");
+                if (_updater != null)
+                {
+                    _updater.PerformUpdate(this, nameof(UnitPrice));
+                }
+                else
+                {
+                    _graph.PerformUpdate(this, nameof(UnitPrice));
+                }
             }
         }
 
@@ -48,6 +64,11 @@ namespace ReframeCoreExamples.E08.E5
         public OrderItem_8_5()
         {
             _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_5");
+        }
+
+        public OrderItem_8_5(Updater updater)
+        {
+            _updater = updater;
         }
     }
 }

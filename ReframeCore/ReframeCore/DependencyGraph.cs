@@ -21,7 +21,7 @@ namespace ReframeCore
 
         public NodeFactory NodeFactory { get; private set; }
 
-        public Updater Updater { get; private set; }
+        public Updater Updater { get; set; }
 
         public IScheduler Scheduler { get; private set; }
 
@@ -135,6 +135,7 @@ namespace ReframeCore
 
         private void RegisterGraphInNode(INode node)
         {
+            node.Updater = Updater;
             node.Graph = this;
         }
 
@@ -208,6 +209,7 @@ namespace ReframeCore
             if (node.Graph == this)
             {
                 node.Graph = null;
+                node.Updater = null;
             }
         }
 

@@ -84,11 +84,12 @@ namespace ReframeCore.ReactiveCollections
         {
             if (CollectionNode != null)
             {
-                var graph = (CollectionNode as INode).Graph;
-                if (graph != null)
+                var updater = (CollectionNode as INode).Updater;
+                if (updater != null)
                 {
-                    graph.PerformUpdate();
+                    updater.PerformUpdate();
                 }
+
             }
         }
 

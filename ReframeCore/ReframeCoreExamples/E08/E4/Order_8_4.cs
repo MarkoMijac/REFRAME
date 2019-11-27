@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreExamples.E08.E4
 {
     public class Order_8_4
     {
         private IDependencyGraph _graph;
+        private Updater _updater;
 
         private double _total;
 
@@ -38,7 +40,15 @@ namespace ReframeCoreExamples.E08.E4
             set
             {
                 _discountA = value;
-                this.Update(_graph);
+                if (_updater != null)
+                {
+                    _updater.PerformUpdate(this, nameof(DiscountA));
+                }
+                else
+                {
+                    this.Update(_graph);
+                }
+                
             }
         }
 
@@ -49,7 +59,14 @@ namespace ReframeCoreExamples.E08.E4
             set
             {
                 _discountB = value;
-                _graph.PerformUpdate(this, "DiscountB");
+                if (_updater != null)
+                {
+                    _updater.PerformUpdate(this, "DiscountB");
+                }
+                else
+                {
+                    _graph.PerformUpdate(this, "DiscountB");
+                }
             }
         }
 
@@ -59,6 +76,12 @@ namespace ReframeCoreExamples.E08.E4
         {
             _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_4");
             Items = new ReactiveCollection<OrderItem_8_4>();
+        }
+
+        public Order_8_4(Updater updater)
+        {
+            Items = new ReactiveCollection<OrderItem_8_4>();
+            _updater = updater;
         }
 
         private void Update_Total()

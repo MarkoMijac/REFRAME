@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Helpers;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace ReframeCoreExamples.E08.E8
     public class Class_B_8_8: ICollectionNodeItem
     {
         public IDependencyGraph Graph { get; set; }
+        private Updater _updater;
         public event EventHandler UpdateTriggered;
 
         private int _a;
@@ -20,8 +22,7 @@ namespace ReframeCoreExamples.E08.E8
             get { return _a; }
             set
             {
-                _a = value;
-                Graph.PerformUpdate(this, "A");
+                _a = value;       
             }
         }
 
@@ -37,6 +38,16 @@ namespace ReframeCoreExamples.E08.E8
         private void Update_B()
         {
             B = A + PartA.B;
+        }
+
+        public Class_B_8_8()
+        {
+
+        }
+
+        public Class_B_8_8(Updater updater)
+        {
+            _updater = updater;
         }
     }
 }
