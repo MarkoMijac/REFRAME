@@ -59,7 +59,7 @@ namespace ReframeDemonstration.BusinessLogic
             DependencyManager.Updater.UpdateSuspended = true;
             Width = 5;
             Height = 4.5;
-            DependencyManager.Updater.UpdateSuspended = true; = false;
+            DependencyManager.Updater.UpdateSuspended = true;
         }
 
         private void Update_SurfaceArea()
