@@ -33,10 +33,6 @@ namespace ReframeCoreExamples.E08.E1
                 {
                     updater.PerformUpdate(this, "A");
                 }
-                else
-                {
-                    graph.PerformUpdate(this, "A");
-                }
             }
         }
 
@@ -52,10 +48,6 @@ namespace ReframeCoreExamples.E08.E1
                 {
                     updater.PerformUpdate(this, "B");
                 }
-                else
-                {
-                    graph.PerformUpdate(this, "B");
-                }
             }
         }
 
@@ -70,10 +62,6 @@ namespace ReframeCoreExamples.E08.E1
                 if (updater != null)
                 {
                     updater.PerformUpdate(this, "C");
-                }
-                else
-                {
-                    graph.PerformUpdate(this, "C");
                 }
             }
         }

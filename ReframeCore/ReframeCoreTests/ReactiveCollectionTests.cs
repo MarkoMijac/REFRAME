@@ -7,6 +7,7 @@ using ReframeCore.Exceptions;
 using ReframeCoreExamples.E08.E1;
 using ReframeCore;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreTests
 {
@@ -272,14 +273,18 @@ namespace ReframeCoreTests
             //Arrange
             GraphRegistry.Instance.Clear();
             var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_8_1");
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
+            var updater = new Updater(graph, scheduler);
 
             ReactiveCollection<Part_8_1> parts = new ReactiveCollection<Part_8_1>();
 
-            parts.Add(new Part_8_1 { Name = "P1" });
-            parts.Add(new Part_8_1 { Name = "P2" });
+            parts.Add(new Part_8_1(updater) { Name = "P1" });
+            parts.Add(new Part_8_1(updater) { Name = "P2" });
 
             graph.AddNode(parts, "A");
             graph.Initialize();
+
+            
 
             bool eventTriggered = false;
 

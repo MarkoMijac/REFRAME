@@ -35,8 +35,6 @@ namespace ReframeCore
         bool RemoveDependency(INode predecessor, INode successor);
 
         Task PerformUpdate(object ownerObject, string memberName);
-        Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
-        Task PerformUpdate();
         void Clean();
 
         #region Events

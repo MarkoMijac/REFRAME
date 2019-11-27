@@ -10,7 +10,6 @@ namespace ReframeCoreExamples.E08.E8
 {
     public class Class_A_8_8
     {
-        public IDependencyGraph Graph { get; set; }
         private Updater _updater;
 
         private int _a;
@@ -24,10 +23,6 @@ namespace ReframeCoreExamples.E08.E8
                 if (_updater != null)
                 {
                     _updater.PerformUpdate(this, nameof(A));
-                }
-                else
-                {
-                    Graph.PerformUpdate(this, "A");
                 }
             }
         }

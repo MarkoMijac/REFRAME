@@ -2860,7 +2860,7 @@ namespace ReframeCoreTests
 
         /*Demonstration of Garbage collector collecting weak references in dependency graph*/
 
-        private Tuple<IDependencyGraph, GenericReactiveObject> CreateCase_11(GenericReactiveObject reactiveObject)
+        private IDependencyGraph CreateCase_11(GenericReactiveObject reactiveObject)
         {
             var graph = new DependencyGraph("GRAPH_CASE_11");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -2876,7 +2876,7 @@ namespace ReframeCoreTests
 
             graph.Initialize();
 
-            return new Tuple<IDependencyGraph, GenericReactiveObject>(graph, reactiveObject);
+            return graph;
         }
 
         [TestMethod]
@@ -2884,8 +2884,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             var obj = new GenericReactiveObject();
-            Tuple<IDependencyGraph, GenericReactiveObject> caseParameters = CreateCase_11(obj);
-            var graph = caseParameters.Item1;
+            var graph = CreateCase_11(obj);
             Updater updater = CreateUpdater(graph);
 
             //Act
@@ -2907,15 +2906,14 @@ namespace ReframeCoreTests
         {
             //Arrange
             var obj = new GenericReactiveObject();
-            Tuple<IDependencyGraph, GenericReactiveObject> caseParameters = CreateCase_11(obj);
-            var graph = caseParameters.Item1;
+            var graph = CreateCase_11(obj);
             Updater updater = CreateUpdater(graph);
 
             obj = null;
             GC.Collect();
 
             //Act
-            graph.PerformUpdate();
+            updater.PerformUpdate();
 
             // Assert
             UpdateLogger expectedLogger = new UpdateLogger();

@@ -1,4 +1,6 @@
-﻿using ReframeDemonstration.BusinessLogic;
+﻿using ReframeCore;
+using ReframeCore.Helpers;
+using ReframeDemonstration.BusinessLogic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +31,7 @@ namespace ReframeDemonstration
         {
             Repository.LoadData();
             DependencyManager.DefaultGraph.Initialize();
-            DependencyManager.DefaultGraph.PerformUpdate();
+            DependencyManager.Updater.PerformUpdate();
         }
     }
 }

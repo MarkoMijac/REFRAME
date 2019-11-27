@@ -114,13 +114,13 @@ namespace ReframeDemonstration
 
         private void FrmConstructionPartExample_Activated(object sender, EventArgs e)
         {
-            DependencyManager.DefaultGraph.UpdateCompleted += DefaultGraph_UpdateCompleted;
+            DependencyManager.Updater.UpdateCompleted += DefaultGraph_UpdateCompleted;
             RefreshGUI();
         }
 
         private void FrmConstructionPartExample_Deactivate(object sender, EventArgs e)
         {
-            DependencyManager.DefaultGraph.UpdateCompleted -= DefaultGraph_UpdateCompleted;
+            DependencyManager.Updater.UpdateCompleted -= DefaultGraph_UpdateCompleted;
         }
     }
 }

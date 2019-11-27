@@ -12,7 +12,6 @@ namespace ReframeCoreExamples.E08.E5
 {
     public class OrderItem_8_5 : ICollectionNodeItem
     {
-        private IDependencyGraph _graph;
         private Updater _updater;
         public event EventHandler UpdateTriggered;
 
@@ -27,10 +26,6 @@ namespace ReframeCoreExamples.E08.E5
                 if (_updater != null)
                 {
                     _updater.PerformUpdate(this, nameof(Amount));
-                }
-                else
-                {
-                    _graph.PerformUpdate(this, nameof(Amount));
                 }
             }
         }
@@ -47,10 +42,6 @@ namespace ReframeCoreExamples.E08.E5
                 {
                     _updater.PerformUpdate(this, nameof(UnitPrice));
                 }
-                else
-                {
-                    _graph.PerformUpdate(this, nameof(UnitPrice));
-                }
             }
         }
 
@@ -59,11 +50,6 @@ namespace ReframeCoreExamples.E08.E5
         private void Update_Total()
         {
             Total = Amount * UnitPrice;
-        }
-
-        public OrderItem_8_5()
-        {
-            _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_5");
         }
 
         public OrderItem_8_5(Updater updater)

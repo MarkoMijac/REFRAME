@@ -454,19 +454,6 @@ namespace ReframeCore
             return Updater.PerformUpdate(initialNode);
         }
 
-        public Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName)
-        {
-            return Updater.PerformUpdate(ownerObject, memberName);
-        }
-
-        /// <summary>
-        /// Performs update of all nodes in dependency graph. Proper order of update is handled by topologically sorting dependend nodes.
-        /// </summary>
-        public Task PerformUpdate()
-        {
-            return Updater.PerformUpdate();
-        }
-
         #endregion
 
         public bool ContainsDependency(INode predecessor, INode successor)

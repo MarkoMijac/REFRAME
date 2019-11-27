@@ -21,7 +21,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 height = value;
-                DependencyManager.DefaultGraph.PerformUpdate(this, "Height");
+                DependencyManager.Updater.PerformUpdate(this, "Height");
             }
         }
 
@@ -33,7 +33,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 width = value;
-                DependencyManager.DefaultGraph.PerformUpdate(this, "Width");
+                DependencyManager.Updater.PerformUpdate(this, "Width");
             }
         }
 

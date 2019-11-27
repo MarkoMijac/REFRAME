@@ -13,7 +13,6 @@ namespace ReframeCoreExamples.E00
     {
         #region Properties
 
-        public IDependencyGraph Graph { get; set; }
         public Updater Updater { get; set; }
 
         public int A { get; set; }
@@ -42,10 +41,6 @@ namespace ReframeCoreExamples.E00
             {
                 Updater.PerformUpdate(this, "Update_A");
             }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_A");
-            }
         }
 
         private void Update_B()
@@ -53,10 +48,6 @@ namespace ReframeCoreExamples.E00
             if (Updater != null)
             {
                 Updater.PerformUpdate(this, "Update_B");
-            }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_B");
             }
         }
 
@@ -66,10 +57,6 @@ namespace ReframeCoreExamples.E00
             {
                 Updater.PerformUpdate(this, "Update_C");
             }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_C");
-            }
         }
 
         private void Update_D()
@@ -77,10 +64,6 @@ namespace ReframeCoreExamples.E00
             if (Updater != null)
             {
                 Updater.PerformUpdate(this, "Update_D");
-            }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_D");
             }
         }
 
@@ -90,10 +73,6 @@ namespace ReframeCoreExamples.E00
             {
                 Updater.PerformUpdate(this, "Update_E");
             }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_E");
-            }
         }
 
         public void Update_F()
@@ -101,10 +80,6 @@ namespace ReframeCoreExamples.E00
             if (Updater != null)
             {
                 Updater.PerformUpdate(this, "Update_F");
-            }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_F");
             }
         }
 
@@ -114,10 +89,6 @@ namespace ReframeCoreExamples.E00
             {
                 Updater.PerformUpdate(this, "Update_G");
             }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_G");
-            }
         }
 
         private void Update_H()
@@ -126,10 +97,6 @@ namespace ReframeCoreExamples.E00
             {
                 Updater.PerformUpdate(this, "Update_H");
             }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_H");
-            }
         }
 
         private void Update_I()
@@ -137,10 +104,6 @@ namespace ReframeCoreExamples.E00
             if (Updater != null)
             {
                 Updater.PerformUpdate(this, "Update_I");
-            }
-            else
-            {
-                Graph.PerformUpdate(this, "Update_I");
             }
         }
 

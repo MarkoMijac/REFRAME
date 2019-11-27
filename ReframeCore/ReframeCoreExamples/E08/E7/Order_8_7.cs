@@ -12,7 +12,6 @@ namespace ReframeCoreExamples.E08.E7
 {
     public class Order_8_7
     {
-        private IDependencyGraph _graph;
         private Updater _updater;
 
         public decimal Total { get; set; }
@@ -32,10 +31,6 @@ namespace ReframeCoreExamples.E08.E7
                 {
                     _updater.PerformUpdate(this, nameof(DiscountA));
                 }
-                else
-                {
-                    _graph.PerformUpdate(this, nameof(DiscountA));
-                }
             }
         }
 
@@ -51,20 +46,10 @@ namespace ReframeCoreExamples.E08.E7
                 {
                     _updater.PerformUpdate(this, nameof(DiscountB));
                 }
-                else
-                {
-                    _graph.PerformUpdate(this, nameof(DiscountB));
-                }
             }
         }
 
         public int TotalDiscount { get; set; }
-
-        public Order_8_7()
-        {
-            _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_7");
-            Items = new ReactiveCollection<OrderItem_8_7>();
-        }
 
         public Order_8_7(Updater updater)
         {

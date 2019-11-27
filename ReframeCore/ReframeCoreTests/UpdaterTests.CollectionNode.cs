@@ -1140,8 +1140,8 @@ namespace ReframeCoreTests
             var updater = CreateUpdater(graph);
             graph.Updater = updater;
 
-            var objA1 = new Class_A_8_8(updater) { Graph = graph, A = 1 };
-            var objA2 = new Class_A_8_8(updater) { Graph = graph, A = 2 };
+            var objA1 = new Class_A_8_8(updater) { A = 1 };
+            var objA2 = new Class_A_8_8(updater) { A = 2 };
 
             var objB1 = new Class_B_8_8(updater) { Graph = graph, A = 1, PartA = objA1 };
             var objB2 = new Class_B_8_8(updater) { Graph = graph, A = 2, PartA = objA2 };

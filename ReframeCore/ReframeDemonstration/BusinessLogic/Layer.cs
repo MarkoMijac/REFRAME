@@ -19,7 +19,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 thickness = value;
-                DependencyManager.DefaultGraph.PerformUpdate(this, "Thickness");
+                DependencyManager.Updater.PerformUpdate(this, "Thickness");
             }
         }
 

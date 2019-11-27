@@ -12,7 +12,6 @@ namespace ReframeCoreExamples.E08.E3
 {
     public class Order_8_3
     {
-        private IDependencyGraph _graph;
         private Updater _updater;
         private double _discountA = 0;
 
@@ -25,10 +24,6 @@ namespace ReframeCoreExamples.E08.E3
                 if (_updater != null)
                 {
                     _updater.PerformUpdate(this, "DiscountA");
-                }
-                else
-                {
-                    _graph.PerformUpdate(this, "DiscountA");
                 }
             }
         }
@@ -44,20 +39,10 @@ namespace ReframeCoreExamples.E08.E3
                 {
                     _updater.PerformUpdate(this, "DiscountB");
                 }
-                else
-                {
-                    _graph.PerformUpdate(this, "DiscountB");
-                }
             }
         }
 
         public ReactiveCollection<OrderItem_8_3> Items { get; set; }
-
-        public Order_8_3()
-        {
-            _graph = GraphRegistry.Instance.GetGraph("GRAPH_8_3");
-            Items = new ReactiveCollection<OrderItem_8_3>();
-        }
 
         public Order_8_3(Updater updater)
         {
