@@ -65,6 +65,7 @@
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
+    <Compile Include="Exceptions\UpdaterException.cs" />
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="FluentAPI\FluentException.cs" />
     <Compile Include="FluentAPI\GraphExtension.cs" />

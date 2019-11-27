@@ -9,6 +9,7 @@ using ReframeCoreExamples.E07;
 using ReframeCore.ReactiveCollections;
 using ReframeCore.Exceptions;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCoreTests
 {
@@ -529,44 +530,51 @@ namespace ReframeCoreTests
         #region Update
 
         [TestMethod]
-        public void Update_GivenProvidedGraphIsNull_ThrowsException()
+        public void Update_GivenProvidedUpdaterIsNull_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = null;
+            Updater updater = null;
             Building00 b = new Building00();
 
             //Act&Assert
-            Assert.ThrowsException<DependencyGraphException>(() => b.Update(graph, nameof(b.Width)));
+            Assert.ThrowsException<UpdaterException>(() => b.Update(updater, nameof(b.Width)));
         }
 
         [TestMethod]
         public void Update_GivenProvidedOwnerIsNull_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
+            var graph = GraphRegistry.Instance.GetDefaultGraph();
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
+            var updater = new Updater(graph, scheduler);
+
             Building00 b = null;
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(graph, nameof(b.Width)));
+            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(updater, nameof(b.Width)));
         }
 
         [TestMethod]
         public void Update_GivenProvidedNodeIsNotPartOfGraph_ThrowsException()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
+            var graph = GraphRegistry.Instance.GetDefaultGraph();
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
+            var updater = new Updater(graph, scheduler);
             graph.Initialize();
             Building00 b = new Building00();
 
             //Act&Asset
-            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(graph, nameof(b.Width)));
+            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(updater, nameof(b.Width)));
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void Update_GivenProvideIsPartOfGraph_PerformsUpdate()
         {
             //Arrange
-            IDependencyGraph graph = GraphRegistry.Instance.GetDefaultGraph();
+            var graph = GraphRegistry.Instance.GetDefaultGraph();
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
+            var updater = new Updater(graph, scheduler);
             graph.Initialize();
             Building00 b = new Building00();
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -575,13 +583,13 @@ namespace ReframeCoreTests
 
             bool updatePerformed = false;
             graph.AddDependency(width, area);
-            graph.UpdateCompleted += delegate
+            updater.UpdateCompleted += delegate
               {
                   updatePerformed = true;
               };
 
             //Act
-            b.Update(graph, nameof(b.Width));
+            b.Update(updater, nameof(b.Width));
 
             //Assert
             Assert.IsTrue(updatePerformed);

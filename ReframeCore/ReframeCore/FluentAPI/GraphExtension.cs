@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeCore.FluentAPI
 {
@@ -238,25 +239,18 @@ namespace ReframeCore.FluentAPI
             }
         }
 
-        public static void Update(this object instance, IDependencyGraph graph, [CallerMemberNameAttribute] string memberName = "")
+        public static void Update(this object instance, Updater updater, [CallerMemberNameAttribute] string memberName = "")
         {
-            if (graph == null)
+            if (updater == null)
             {
-                throw new DependencyGraphException("Dependency graph is null!");
+                throw new UpdaterException("Updater is null!");
             }
 
             if (instance == null)
             {
                 throw new NodeNullReferenceException("Owner object is null!");
             }
-            graph.PerformUpdate(instance, memberName);
-        }
-
-        public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
-        {
-            
-            var graph = GraphRegistry.Instance.GetDefaultGraph();
-            graph.PerformUpdate(instance, memberName);
+            updater.PerformUpdate(instance, memberName);
         }
     }
 }

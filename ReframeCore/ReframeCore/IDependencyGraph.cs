@@ -34,13 +34,6 @@ namespace ReframeCore
         void AddDependency(INode predecessor, INode successor);
         bool RemoveDependency(INode predecessor, INode successor);
 
-        Task PerformUpdate(object ownerObject, string memberName);
         void Clean();
-
-        #region Events
-
-        event EventHandler UpdateCompleted;
-
-        #endregion
     }
 }

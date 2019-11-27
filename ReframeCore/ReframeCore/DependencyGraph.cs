@@ -61,7 +61,6 @@ namespace ReframeCore
             NodeFactory = new StandardNodeFactory();
             Scheduler = new Scheduler(this, new DFS_Sorter());
             Updater = new Updater(this, Scheduler);
-            Updater.UpdateCompleted += delegate { OnPerformUpdateCompleted(); };
 
             Status = DependencyGraphStatus.NotInitialized;
         }
@@ -446,16 +445,6 @@ namespace ReframeCore
 
         #endregion
 
-        #region PerformUpdate
-
-        public Task PerformUpdate(object ownerObject, string memberName)
-        {
-            INode initialNode = GetNode(ownerObject, memberName);
-            return Updater.PerformUpdate(initialNode);
-        }
-
-        #endregion
-
         public bool ContainsDependency(INode predecessor, INode successor)
         {
             if (predecessor == null || successor == null)
@@ -477,17 +466,6 @@ namespace ReframeCore
         public void Clean()
         {
             RemoveNodesOfNonexistantObjects();
-        }
-
-        #endregion
-
-        #region Events
-
-        public event EventHandler UpdateCompleted;
-
-        private void OnPerformUpdateCompleted()
-        {
-            UpdateCompleted?.Invoke(this, null);
         }
 
         #endregion
