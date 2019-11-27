@@ -16,7 +16,7 @@ namespace ReframeCore.Helpers
         Ended
     }
 
-    public class Updater : ILoggable
+    public class Updater : IUpdater, ILoggable
     {
         #region Properties
 

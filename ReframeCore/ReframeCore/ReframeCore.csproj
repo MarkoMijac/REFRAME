@@ -63,10 +63,12 @@
     <Compile Include="Exceptions\ReactiveCollectionException.cs" />
     <Compile Include="Exceptions\ReactiveDependencyException.cs" />
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
+    <Compile Include="Exceptions\ReactorException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
     <Compile Include="Exceptions\UpdaterException.cs" />
     <Compile Include="Factories\NodeFactory.cs" />
+    <Compile Include="Factories\ReactorRegistry.cs" />
     <Compile Include="FluentAPI\FluentException.cs" />
     <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Helpers\GraphValidator.cs" />
     <Compile Include="Helpers\ILoggable.cs" />
     <Compile Include="Helpers\IScheduler.cs" />
+    <Compile Include="Helpers\IUpdater.cs" />
     <Compile Include="Helpers\ParallelUpdater.cs" />
     <Compile Include="Helpers\Scheduler.cs" />
     <Compile Include="Helpers\UpdateError.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Helpers\Updater.cs" />
     <Compile Include="IDependencyGraph.cs" />
     <Compile Include="Factories\StandardNodeFactory.cs" />
+    <Compile Include="IReactor.cs" />
     <Compile Include="Nodes\CollectionMethodNode.cs" />
     <Compile Include="Nodes\CollectionNode.cs" />
     <Compile Include="Nodes\ICollectionNode.cs" />

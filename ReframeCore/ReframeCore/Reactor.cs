@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    public class Reactor
+    public class Reactor : IReactor
     {
+        public string Identifier { get; private set; }
         public IDependencyGraph Graph { get; set; }
-        public IScheduler Scheduler { get; set; }
-        public Updater Updater { get; set; }
+        public IUpdater Updater { get; set; }
 
-        public Reactor(IDependencyGraph graph, IScheduler scheduler, Updater updater)
+        public Reactor(string identifier, IDependencyGraph graph, IUpdater updater)
         {
+            Identifier = identifier;
             Graph = graph;
-            Scheduler = scheduler;
             Updater = updater;
         }
-
-
     }
 }
