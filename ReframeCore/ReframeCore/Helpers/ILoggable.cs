@@ -8,6 +8,6 @@ namespace ReframeCore.Helpers
 {
     public interface ILoggable
     {
-        UpdateLogger NodeLog { get; }
+        NodeLog NodeLog { get; }
     }
 }

@@ -40,9 +40,9 @@ namespace ReframeCoreTests
             graph.Initialize();
         }
 
-        private UpdateLogger CreateExpectedLogger_FullGraphUpdate(IDependencyGraph graph, GenericReactiveObject obj)
+        private NodeLog CreateExpectedLogger_FullGraphUpdate(IDependencyGraph graph, GenericReactiveObject obj)
         {
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
 
             logger.Log(graph.GetNode(obj, "F"));
             logger.Log(graph.GetNode(obj, "G"));
@@ -74,8 +74,8 @@ namespace ReframeCoreTests
             IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            UpdateLogger actualNodesToUpdate = scheduler.NodeLog;
-            UpdateLogger expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
+            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
         }
@@ -261,8 +261,8 @@ namespace ReframeCoreTests
             scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            UpdateLogger actualNodesToUpdate = scheduler.NodeLog;
-            UpdateLogger expectedNodesToUpdate = new UpdateLogger();
+            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog expectedNodesToUpdate = new NodeLog();
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
         }
@@ -284,8 +284,8 @@ namespace ReframeCoreTests
             scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            UpdateLogger actualNodesToUpdate = scheduler.NodeLog;
-            UpdateLogger expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
+            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
         }
@@ -307,8 +307,8 @@ namespace ReframeCoreTests
             scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            UpdateLogger actualNodesToUpdate = scheduler.NodeLog;
-            UpdateLogger expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
+            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
         }

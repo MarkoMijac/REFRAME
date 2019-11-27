@@ -32,8 +32,8 @@ namespace ReframeCoreTests
             if (task != null) await task;
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "A"));
             expectedLog.Log(graph.GetNode(o, "B"));
             expectedLog.Log(graph.GetNode(o, "C"));
@@ -63,8 +63,8 @@ namespace ReframeCoreTests
             if (task != null) await task;
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "B"));
             expectedLog.Log(graph.GetNode(o, "C"));
             expectedLog.Log(graph.GetNode(o, "D"));
@@ -93,8 +93,8 @@ namespace ReframeCoreTests
             if (task != null) await task;
 
             //Assert
-            UpdateLogger logger = updater.NodeLog;
-            UpdateLogger expectedLogger = new UpdateLogger();
+            NodeLog logger = updater.NodeLog;
+            NodeLog expectedLogger = new NodeLog();
             expectedLogger.Log(graph.GetNode(o, "C"));
             expectedLogger.Log(graph.GetNode(o, "D"));
             expectedLogger.Log(graph.GetNode(o, "E"));
@@ -122,8 +122,8 @@ namespace ReframeCoreTests
             if (task != null) await task;
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "C"));
             expectedLog.Log(graph.GetNode(o, "D"));
             expectedLog.Log(graph.GetNode(o, "E"));
@@ -258,8 +258,8 @@ namespace ReframeCoreTests
             updater.PerformUpdate();
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "E"));
             expectedLog.Log(graph.GetNode(o, "F"));
             expectedLog.Log(graph.GetNode(o, "K"));
@@ -322,8 +322,8 @@ namespace ReframeCoreTests
             updater.PerformUpdate(graph.GetNode(o, "H"), false);
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "H"));
             expectedLog.Log(graph.GetNode(o, "I"));
             expectedLog.Log(graph.GetNode(o, "J"));
@@ -372,8 +372,8 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "E"));
             expectedLog.Log(graph.GetNode(o, "F"));
             expectedLog.Log(graph.GetNode(o, "K"));
@@ -427,8 +427,8 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            UpdateLogger actualLog = updater.NodeLog;
-            UpdateLogger expectedLog = new UpdateLogger();
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = new NodeLog();
             expectedLog.Log(graph.GetNode(o, "H"));
             expectedLog.Log(graph.GetNode(o, "I"));
             expectedLog.Log(graph.GetNode(o, "J"));

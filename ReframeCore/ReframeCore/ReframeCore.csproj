@@ -85,7 +85,7 @@
     <Compile Include="Helpers\Scheduler.cs" />
     <Compile Include="Helpers\UpdateError.cs" />
     <Compile Include="Helpers\UpdateInfo.cs" />
-    <Compile Include="Helpers\UpdateLogger.cs" />
+    <Compile Include="Helpers\NodeLog.cs" />
     <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="Helpers\Updater.cs" />
     <Compile Include="IDependencyGraph.cs" />

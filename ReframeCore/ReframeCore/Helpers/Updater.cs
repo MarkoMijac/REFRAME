@@ -23,7 +23,7 @@ namespace ReframeCore.Helpers
         private UpdateProcessStatus Status { get; set; }
 
         public IDependencyGraph Graph { get; set; }
-        public UpdateLogger NodeLog { get; private set; }
+        public NodeLog NodeLog { get; private set; }
 
         public bool EnableUpdateInSeparateThread { get; set; }
         public bool EnableParallelUpdate { get; set; }
@@ -39,7 +39,7 @@ namespace ReframeCore.Helpers
 
         public Updater(IDependencyGraph graph, IScheduler scheduler)
         {
-            NodeLog = new UpdateLogger();
+            NodeLog = new NodeLog();
             Graph = graph;
 
             Scheduler = scheduler;

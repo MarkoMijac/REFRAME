@@ -46,7 +46,7 @@ namespace ReframeCoreTests
             Assert.IsTrue(sortedNodes.Count == 0);
         }
 
-        private Tuple<IList<INode>, UpdateLogger> CreateTestCase1()
+        private Tuple<IList<INode>, NodeLog> CreateTestCase1()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -66,7 +66,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_B, o1_D);
             graph.AddDependency(o1_D, o1_F);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
             properOrderLog.Log(o1_A);
             properOrderLog.Log(o1_C);
             properOrderLog.Log(o1_E);
@@ -74,7 +74,7 @@ namespace ReframeCoreTests
             properOrderLog.Log(o1_D);
             properOrderLog.Log(o1_F);
 
-            Tuple<IList<INode>, UpdateLogger> caseParameters = new Tuple<IList<INode>, UpdateLogger>(graph.Nodes, properOrderLog);
+            Tuple<IList<INode>, NodeLog> caseParameters = new Tuple<IList<INode>, NodeLog>(graph.Nodes, properOrderLog);
 
             return caseParameters;
         }
@@ -83,9 +83,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase1_ReturnsProperlySortedList()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger> caseParameters = CreateTestCase1();
+            Tuple<IList<INode>, NodeLog> caseParameters = CreateTestCase1();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
 
             ISorter sorter = new DFS_Sorter();
 
@@ -93,13 +93,13 @@ namespace ReframeCoreTests
             IList<INode> sortedNodes = sorter.Sort(nodesToSort);
 
             //Assert
-            UpdateLogger actualNodeOrderLog = new UpdateLogger();
+            NodeLog actualNodeOrderLog = new NodeLog();
             actualNodeOrderLog.Log(sortedNodes);
 
             Assert.IsTrue(expectedNodeOrderLog.Equals(actualNodeOrderLog));
         }
 
-        private Tuple<IList<INode>, UpdateLogger> CreateTestCase2()
+        private Tuple<IList<INode>, NodeLog> CreateTestCase2()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -120,7 +120,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_E, o1_B);
             graph.AddDependency(o1_B, o1_F);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
             properOrderLog.Log(o1_A);
             properOrderLog.Log(o1_E);
             properOrderLog.Log(o1_B);
@@ -128,7 +128,7 @@ namespace ReframeCoreTests
             properOrderLog.Log(o1_D);
             properOrderLog.Log(o1_F);
 
-            Tuple<IList<INode>, UpdateLogger> caseParameters = new Tuple<IList<INode>, UpdateLogger>(graph.Nodes, properOrderLog);
+            Tuple<IList<INode>, NodeLog> caseParameters = new Tuple<IList<INode>, NodeLog>(graph.Nodes, properOrderLog);
 
             return caseParameters;
         }
@@ -137,9 +137,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase2_ReturnsProperlySortedList()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger> caseParameters = CreateTestCase2();
+            Tuple<IList<INode>, NodeLog> caseParameters = CreateTestCase2();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
 
             ISorter sorter = new DFS_Sorter();
 
@@ -147,13 +147,13 @@ namespace ReframeCoreTests
             IList<INode> sortedNodes = sorter.Sort(nodesToSort);
 
             //Assert
-            UpdateLogger actualNodeOrderLog = new UpdateLogger();
+            NodeLog actualNodeOrderLog = new NodeLog();
             actualNodeOrderLog.Log(sortedNodes);
 
             Assert.IsTrue(expectedNodeOrderLog.Equals(actualNodeOrderLog));
         }
 
-        private Tuple<IList<INode>, UpdateLogger> CreateTestCase3()
+        private Tuple<IList<INode>, NodeLog> CreateTestCase3()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -177,7 +177,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_D, o1_F);
             graph.AddDependency(o1_B, o1_F);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
             properOrderLog.Log(o1_A);
             properOrderLog.Log(o1_C);
             properOrderLog.Log(o1_E);
@@ -185,7 +185,7 @@ namespace ReframeCoreTests
             properOrderLog.Log(o1_B);
             properOrderLog.Log(o1_F);
 
-            Tuple<IList<INode>, UpdateLogger> caseParameters = new Tuple<IList<INode>, UpdateLogger>(graph.Nodes, properOrderLog);
+            Tuple<IList<INode>, NodeLog> caseParameters = new Tuple<IList<INode>, NodeLog>(graph.Nodes, properOrderLog);
 
             return caseParameters;
         }
@@ -194,9 +194,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase3_ReturnsProperlySortedList()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger> caseParameters = CreateTestCase3();
+            Tuple<IList<INode>, NodeLog> caseParameters = CreateTestCase3();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
 
             ISorter sorter = new DFS_Sorter();
 
@@ -204,13 +204,13 @@ namespace ReframeCoreTests
             IList<INode> sortedNodes = sorter.Sort(nodesToSort);
 
             //Assert
-            UpdateLogger actualNodeOrderLog = new UpdateLogger();
+            NodeLog actualNodeOrderLog = new NodeLog();
             actualNodeOrderLog.Log(sortedNodes);
 
             Assert.IsTrue(expectedNodeOrderLog.Equals(actualNodeOrderLog));
         }
 
-        private Tuple<IList<INode>, UpdateLogger> CreateTestCase4()
+        private Tuple<IList<INode>, NodeLog> CreateTestCase4()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -231,9 +231,9 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_E, o1_F);
             graph.AddDependency(o1_F, o1_A);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
 
-            Tuple<IList<INode>, UpdateLogger> caseParameters = new Tuple<IList<INode>, UpdateLogger>(graph.Nodes, properOrderLog);
+            Tuple<IList<INode>, NodeLog> caseParameters = new Tuple<IList<INode>, NodeLog>(graph.Nodes, properOrderLog);
 
             return caseParameters;
         }
@@ -242,9 +242,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase4_ThrowsCyclicException()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger> caseParameters = CreateTestCase4();
+            Tuple<IList<INode>, NodeLog> caseParameters = CreateTestCase4();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
 
             ISorter sorter = new DFS_Sorter();
 
@@ -310,7 +310,7 @@ namespace ReframeCoreTests
             Assert.IsTrue(sortedNodes.Count == 0);
         }
 
-        private Tuple<IList<INode>, UpdateLogger, INode> CreateTestCase5()
+        private Tuple<IList<INode>, NodeLog, INode> CreateTestCase5()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -334,13 +334,13 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_F, o1_G);
             graph.AddDependency(o1_G, o1_H);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
             properOrderLog.Log(o1_D);
             properOrderLog.Log(o1_F);
             properOrderLog.Log(o1_G);
             properOrderLog.Log(o1_H);
 
-            Tuple<IList<INode>, UpdateLogger, INode> caseParameters = new Tuple<IList<INode>, UpdateLogger, INode>(graph.Nodes, properOrderLog, o1_D);
+            Tuple<IList<INode>, NodeLog, INode> caseParameters = new Tuple<IList<INode>, NodeLog, INode>(graph.Nodes, properOrderLog, o1_D);
 
             return caseParameters;
         }
@@ -349,9 +349,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase5_ReturnsProperlySortedList()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger, INode> caseParameters = CreateTestCase5();
+            Tuple<IList<INode>, NodeLog, INode> caseParameters = CreateTestCase5();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
             INode initialNode = caseParameters.Item3;
 
             ISorter sorter = new DFS_Sorter();
@@ -360,13 +360,13 @@ namespace ReframeCoreTests
             IList<INode> sortedNodes = sorter.Sort(nodesToSort, initialNode);
 
             //Assert
-            UpdateLogger actualNodeOrderLog = new UpdateLogger();
+            NodeLog actualNodeOrderLog = new NodeLog();
             actualNodeOrderLog.Log(sortedNodes);
 
             Assert.IsTrue(expectedNodeOrderLog.Equals(actualNodeOrderLog));
         }
 
-        private Tuple<IList<INode>, UpdateLogger, INode> CreateTestCase6()
+        private Tuple<IList<INode>, NodeLog, INode> CreateTestCase6()
         {
             IDependencyGraph graph = new DependencyGraph("G1");
             NodeFactory nodeFactory = new StandardNodeFactory();
@@ -390,13 +390,13 @@ namespace ReframeCoreTests
             graph.AddDependency(o1_D, o1_F);
             graph.AddDependency(o1_B, o1_F);
 
-            UpdateLogger properOrderLog = new UpdateLogger();
+            NodeLog properOrderLog = new NodeLog();
             properOrderLog.Log(o1_E);
             properOrderLog.Log(o1_D);
             properOrderLog.Log(o1_B);
             properOrderLog.Log(o1_F);
 
-            Tuple<IList<INode>, UpdateLogger, INode> caseParameters = new Tuple<IList<INode>, UpdateLogger, INode>(graph.Nodes, properOrderLog, o1_E);
+            Tuple<IList<INode>, NodeLog, INode> caseParameters = new Tuple<IList<INode>, NodeLog, INode>(graph.Nodes, properOrderLog, o1_E);
 
             return caseParameters;
         }
@@ -405,9 +405,9 @@ namespace ReframeCoreTests
         public void Sort_Given_TestCase6_ReturnsProperlySortedList()
         {
             //Arrange
-            Tuple<IList<INode>, UpdateLogger, INode> caseParameters = CreateTestCase6();
+            Tuple<IList<INode>, NodeLog, INode> caseParameters = CreateTestCase6();
             IList<INode> nodesToSort = caseParameters.Item1;
-            UpdateLogger expectedNodeOrderLog = caseParameters.Item2;
+            NodeLog expectedNodeOrderLog = caseParameters.Item2;
             INode initialNode = caseParameters.Item3;
 
             ISorter sorter = new DFS_Sorter();
@@ -416,7 +416,7 @@ namespace ReframeCoreTests
             IList<INode> sortedNodes = sorter.Sort(nodesToSort, initialNode);
 
             //Assert
-            UpdateLogger actualNodeOrderLog = new UpdateLogger();
+            NodeLog actualNodeOrderLog = new NodeLog();
             actualNodeOrderLog.Log(sortedNodes);
 
             Assert.IsTrue(expectedNodeOrderLog.Equals(actualNodeOrderLog));

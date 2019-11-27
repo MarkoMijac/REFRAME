@@ -29,10 +29,10 @@ namespace ReframeCoreTests
             nodes.Add(nodeFactory.CreateNode(obj, "C"));
             nodes.Add(nodeFactory.CreateNode(obj, "D"));
 
-            UpdateLogger logger1 = new UpdateLogger();
+            NodeLog logger1 = new NodeLog();
             logger1.Log(nodes);
 
-            UpdateLogger logger2 = null;
+            NodeLog logger2 = null;
 
             //Act
             bool areEqual = logger1.Equals(logger2);
@@ -53,7 +53,7 @@ namespace ReframeCoreTests
             nodes.Add(nodeFactory.CreateNode(obj, "C"));
             nodes.Add(nodeFactory.CreateNode(obj, "D"));
 
-            UpdateLogger logger1 = new UpdateLogger();
+            NodeLog logger1 = new NodeLog();
             logger1.Log(nodes);
 
             //Act
@@ -75,10 +75,10 @@ namespace ReframeCoreTests
             nodes.Add(nodeFactory.CreateNode(obj, "C"));
             nodes.Add(nodeFactory.CreateNode(obj, "D"));
 
-            UpdateLogger logger1 = new UpdateLogger();
+            NodeLog logger1 = new NodeLog();
             logger1.Log(nodes);
 
-            UpdateLogger logger2 = new UpdateLogger();
+            NodeLog logger2 = new NodeLog();
             logger2.Log(nodes);
 
             //Act
@@ -99,11 +99,11 @@ namespace ReframeCoreTests
             INode cNode = nodeFactory.CreateNode(obj, "C");
             INode dNode = nodeFactory.CreateNode(obj, "D");
 
-            UpdateLogger logger1 = new UpdateLogger();
+            NodeLog logger1 = new NodeLog();
             logger1.Log(aNode);
             logger1.Log(bNode);
 
-            UpdateLogger logger2 = new UpdateLogger();
+            NodeLog logger2 = new NodeLog();
             logger2.Log(cNode);
             logger2.Log(dNode);
 
@@ -125,13 +125,13 @@ namespace ReframeCoreTests
             INode cNode = nodeFactory.CreateNode(obj, "C");
             INode dNode = nodeFactory.CreateNode(obj, "D");
 
-            UpdateLogger logger1 = new UpdateLogger();
+            NodeLog logger1 = new NodeLog();
             logger1.Log(aNode);
             logger1.Log(bNode);
             logger1.Log(cNode);
             logger1.Log(dNode);
 
-            UpdateLogger logger2 = new UpdateLogger();
+            NodeLog logger2 = new NodeLog();
             logger2.Log(cNode);
             logger2.Log(dNode);
             logger2.Log(aNode);
@@ -148,7 +148,7 @@ namespace ReframeCoreTests
         public void Log_GivenNullNode_NodeIsNotLogged()
         {
             //Arrange
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
             INode nullNode = null;
 
             //Act
@@ -162,7 +162,7 @@ namespace ReframeCoreTests
         public void Log_GivenNullNodeList_NodeIsNotLogged()
         {
             //Arrange
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
             IList<INode> nullNodeList = null;
 
             //Act
@@ -176,7 +176,7 @@ namespace ReframeCoreTests
         public void Log_GivenEmptyNodeList_NodesAreNotLogged()
         {
             //Arrange
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
             IList<INode> emptyList = new List<INode>();
 
             //Act
@@ -192,7 +192,7 @@ namespace ReframeCoreTests
             GenericReactiveObject obj = new GenericReactiveObject();
 
             INode node = nodeFactory.CreateNode(obj, "A");
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
 
             //Act
             logger.Log(node);
@@ -213,7 +213,7 @@ namespace ReframeCoreTests
             nodes.Add(nodeFactory.CreateNode(obj, "C"));
             nodes.Add(nodeFactory.CreateNode(obj, "D"));
 
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
 
             //Act
             logger.Log(nodes);
@@ -236,7 +236,7 @@ namespace ReframeCoreTests
             INode nullNode = null;
             nodes.Add(nullNode);
 
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
 
             //Act
             logger.Log(nodes);
@@ -249,7 +249,7 @@ namespace ReframeCoreTests
         public void ClearLog_GivenLoggerAlreadyEmpty_LoggerRemainsEmpty()
         {
             //Arrange
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
 
             //Act
             logger.ClearLog();
@@ -270,7 +270,7 @@ namespace ReframeCoreTests
             nodes.Add(nodeFactory.CreateNode(obj, "C"));
             nodes.Add(nodeFactory.CreateNode(obj, "D"));
 
-            UpdateLogger logger = new UpdateLogger();
+            NodeLog logger = new NodeLog();
             logger.Log(nodes);
 
             //Act

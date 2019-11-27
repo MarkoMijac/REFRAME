@@ -14,7 +14,7 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> ChildCollectionDependenciesToAdd { get; set; } = new List<Tuple<INode, INode>>();
         private List<Tuple<INode, INode>> RedirectionDependencesToRemove { get; set; } = new List<Tuple<INode, INode>>();
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; } = new List<Tuple<INode, INode>>();
-        public UpdateLogger NodeLog { get; private set; } = new UpdateLogger();
+        public NodeLog NodeLog { get; private set; } = new NodeLog();
 
         public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; } = false;
 

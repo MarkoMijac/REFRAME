@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Helpers
 {
-    public class UpdateLogger
+    public class NodeLog
     {
         private Stopwatch _stopwatch = new Stopwatch();
 
@@ -19,7 +19,7 @@ namespace ReframeCore.Helpers
             get => _loggedNodes.Count;
         }
 
-        public UpdateLogger()
+        public NodeLog()
         {
             _loggedNodes = new List<string>();
         }
@@ -84,7 +84,7 @@ namespace ReframeCore.Helpers
         public override bool Equals(object obj)
         {
             bool equal = false;
-            var item = obj as UpdateLogger;
+            var item = obj as NodeLog;
 
             if (item != null)
             {
