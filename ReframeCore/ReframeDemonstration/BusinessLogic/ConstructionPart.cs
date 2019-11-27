@@ -56,10 +56,10 @@ namespace ReframeDemonstration.BusinessLogic
         public ConstructionPart(bool suspendUpdate)
             : this()
         {
-            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
+            DependencyManager.Updater.UpdateSuspended = true;
             Width = 5;
             Height = 4.5;
-            (DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
+            DependencyManager.Updater.UpdateSuspended = true; = false;
         }
 
         private void Update_SurfaceArea()
