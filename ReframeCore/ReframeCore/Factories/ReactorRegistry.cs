@@ -68,6 +68,8 @@ namespace ReframeCore.Factories
         public IReactor CreateReactor(string identifier, IDependencyGraph graph, ISorter sorter)
         {
             ValidateIdentifier(identifier);
+            ValidateGraph(graph);
+            ValidateSorter(sorter);
 
             var scheduler = new Scheduler(graph, sorter);
             var updater = new Updater(graph, scheduler);
@@ -78,6 +80,8 @@ namespace ReframeCore.Factories
         public IReactor CreateReactor(string identifier, IDependencyGraph graph, IScheduler scheduler)
         {
             ValidateIdentifier(identifier);
+            ValidateGraph(graph);
+            ValidateScheduler(graph, scheduler);
 
             var updater = new Updater(graph, scheduler);
             return AddNewReactor(identifier, graph, updater);
@@ -97,6 +101,11 @@ namespace ReframeCore.Factories
             {
                 throw new ReactorException($"Reactor with identifier \"{identifier}\" does not exist in registry!");
             }
+        }
+
+        public IReactor GetReactor(IDependencyGraph graph)
+        {
+            return _reactors.FirstOrDefault(r => r.Graph == graph);
         }
 
         #endregion
@@ -170,6 +179,26 @@ namespace ReframeCore.Factories
             else if (updater.Graph != graph)
             {
                 throw new ReactorException("Provided updater must match with provided dependency graph!");
+            }
+        }
+
+        private void ValidateSorter(ISorter sorter)
+        {
+            if (sorter == null)
+            {
+                throw new ReactorException("Sorter must be set!");
+            }
+        }
+
+        private void ValidateScheduler(IDependencyGraph graph, IScheduler scheduler)
+        {
+            if (scheduler == null)
+            {
+                throw new ReactorException("Scheduler must be set!");
+            }
+            else if (graph != scheduler.Graph)
+            {
+                throw new ReactorException("Provided scheduler must match with provided dependency graph!");
             }
         }
     }

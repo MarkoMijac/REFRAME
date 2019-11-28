@@ -11,5 +11,8 @@ namespace ReframeCore.Helpers
     {
         IList<INode> GetNodesForUpdate();
         IList<INode> GetNodesForUpdate(INode initialNode, bool omitInitialNode);
+
+        ISorter Sorter { get; }
+        IDependencyGraph Graph { get; }
     }
 }

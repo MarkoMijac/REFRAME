@@ -17,5 +17,6 @@ namespace ReframeCore.Helpers
         Task PerformUpdate(object ownerObject, string memberName);
 
         IDependencyGraph Graph { get; }
+        IScheduler Scheduler { get; }
     }
 }
