@@ -66,6 +66,7 @@
     <Compile Include="GraphExtensionTests.cs" />
     <Compile Include="MemberReaderTests.cs" />
     <Compile Include="ReactorTests.cs" />
+    <Compile Include="ReactorRegistryTests.cs" />
     <Compile Include="UpdaterTests.CollectionNode.cs" />
     <Compile Include="UpdaterTests.SeparateThreadExecution.cs" />
     <Compile Include="UpdateLoggerTests.cs" />

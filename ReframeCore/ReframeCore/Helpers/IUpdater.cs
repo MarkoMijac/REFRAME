@@ -15,5 +15,7 @@ namespace ReframeCore.Helpers
         Task PerformUpdate(INode initialNode, bool skipInitialNode);
         Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         Task PerformUpdate(object ownerObject, string memberName);
+
+        IDependencyGraph Graph { get; }
     }
 }

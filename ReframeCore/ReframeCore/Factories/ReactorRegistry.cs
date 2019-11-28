@@ -47,6 +47,7 @@ namespace ReframeCore.Factories
         public IReactor CreateReactor(string identifier, IDependencyGraph graph)
         {
             ValidateIdentifier(identifier);
+            ValidateGraph(graph);
 
             var sorter = new DFS_Sorter();
             var scheduler = new Scheduler(graph, sorter);
@@ -58,6 +59,9 @@ namespace ReframeCore.Factories
         public IReactor CreateReactor(string identifier, IDependencyGraph graph, IUpdater updater)
         {
             ValidateIdentifier(identifier);
+            ValidateGraph(graph);
+            ValidateUpdater(graph, updater);
+            
             return AddNewReactor(identifier, graph, updater);
         }
 
@@ -138,6 +142,35 @@ namespace ReframeCore.Factories
         private bool CheckIfReactorExists(string identifier)
         {
             return _reactors.Any(r => r.Identifier == identifier);
+        }
+
+        private void ValidateGraph(IDependencyGraph graph)
+        {
+            if (graph == null)
+            {
+                throw new ReactorException("Dependency graph must be set!");
+            }
+            else if (CheckIfReactorExists(graph))
+            {
+                throw new ReactorException($"Reactor for graph \"{graph.Identifier}\" already exists");
+            }
+        }
+
+        private bool CheckIfReactorExists(IDependencyGraph graph)
+        {
+            return _reactors.Any(r => r.Graph == graph);
+        }
+
+        private void ValidateUpdater(IDependencyGraph graph, IUpdater updater)
+        {
+            if (updater == null)
+            {
+                throw new ReactorException("Updater must be set!");
+            }
+            else if (updater.Graph != graph)
+            {
+                throw new ReactorException("Provided updater must match with provided dependency graph!");
+            }
         }
     }
 }
