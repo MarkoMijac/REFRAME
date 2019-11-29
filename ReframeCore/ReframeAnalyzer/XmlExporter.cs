@@ -49,14 +49,6 @@ namespace ReframeAnalyzer
                     xmlWriter.WriteString(graph.Nodes.Count.ToString());
                     xmlWriter.WriteEndElement();
 
-                    xmlWriter.WriteStartElement("Settings");             
-
-                    xmlWriter.WriteStartElement("EnableLogging");
-                    xmlWriter.WriteString(graph.Settings.EnableLogging.ToString());
-                    xmlWriter.WriteEndElement();
-
-                    xmlWriter.WriteEndElement();
-
                     xmlWriter.WriteEndElement();
                 }
 

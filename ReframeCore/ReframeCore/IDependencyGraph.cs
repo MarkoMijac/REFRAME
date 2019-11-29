@@ -16,7 +16,6 @@ namespace ReframeCore
         string Identifier { get; }
 
         IList<INode> Nodes { get; }
-        Settings Settings { get; }
         INode AddNode(INode node);
         INode AddNode(object ownerObject, string memberName);
         bool RemoveNode(INode node, bool forceRemoval);

@@ -28,6 +28,7 @@ namespace ReframeCore.Helpers
         public bool EnableUpdateInSeparateThread { get; set; }
         public bool EnableParallelUpdate { get; set; }
         private bool UpdateSuspended { get; set; } = false;
+        public bool EnableLogging { get; set; } = true;
 
         public UpdateInfo LatestUpdateInfo { get; private set; }
 
@@ -259,7 +260,7 @@ namespace ReframeCore.Helpers
 
         private void MarkAsUpdated(Dictionary<INode, bool> nodesForUpdate, INode node)
         {
-            if (Graph.Settings.EnableLogging == true)
+            if (EnableLogging == true)
             {
                 NodeLog.Log(node);
             }

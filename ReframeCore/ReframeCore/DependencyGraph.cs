@@ -31,11 +31,6 @@ namespace ReframeCore
         /// </summary>
         public IList<INode> Nodes { get; set; }
 
-        /// <summary>
-        /// Settings object for this dependency graph.
-        /// </summary>
-        public Settings Settings { get; private set; }
-
         #endregion
 
         #region Constructors
@@ -47,7 +42,6 @@ namespace ReframeCore
         public DependencyGraph(string identifier)
         {
             Identifier = identifier;
-            Settings = new Settings();
             Nodes = new List<INode>();
 
             NodeFactory = new StandardNodeFactory();

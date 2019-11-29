@@ -105,7 +105,6 @@
     <Compile Include="ReactiveCollections\IReactiveCollection.cs" />
     <Compile Include="ReactiveCollections\ReactiveCollection.cs" />
     <Compile Include="Reactor.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Helpers\DFS_Sorter.cs" />
   </ItemGroup>
   <ItemGroup>

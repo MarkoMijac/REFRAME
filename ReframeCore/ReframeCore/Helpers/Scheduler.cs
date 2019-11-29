@@ -16,6 +16,7 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; } = new List<Tuple<INode, INode>>();
         public NodeLog NodeLog { get; private set; } = new NodeLog();
 
+        public bool EnableLogging { get; set; } = true;
         public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; } = false;
 
         public  IDependencyGraph Graph { get; private set; }
@@ -43,7 +44,7 @@ namespace ReframeCore.Helpers
 
         private void LogSchedule(IList<INode> nodesForUpdate)
         {
-            if (Graph.Settings.EnableLogging == true)
+            if (EnableLogging == true)
             {
                 NodeLog.ClearLog();
                 NodeLog.Log(nodesForUpdate);
