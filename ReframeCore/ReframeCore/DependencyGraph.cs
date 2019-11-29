@@ -36,8 +36,6 @@ namespace ReframeCore
         /// </summary>
         public Settings Settings { get; private set; }
 
-        public DependencyGraphStatus Status { get; private set; }
-
         #endregion
 
         #region Constructors
@@ -53,12 +51,6 @@ namespace ReframeCore
             Nodes = new List<INode>();
 
             NodeFactory = new StandardNodeFactory();
-            Status = DependencyGraphStatus.NotInitialized;
-        }
-
-        public void Initialize()
-        {
-            Status = DependencyGraphStatus.Initialized;
         }
 
         #endregion

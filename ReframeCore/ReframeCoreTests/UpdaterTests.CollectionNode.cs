@@ -36,6 +36,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_2");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_2();
             order.Items.Add(new OrderItem_8_2(updater));
@@ -49,7 +50,7 @@ namespace ReframeCoreTests
             graph.AddDependency(itemsTotal, orderTotal);
             graph.AddDependency(itemsTotal, orderTotalVAT);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_2>(graph, updater, order);
         }
@@ -189,6 +190,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_3");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_3(updater);
             order.Items.Add(new OrderItem_8_3(order, updater) { FixedValue = 10 });
@@ -202,7 +204,7 @@ namespace ReframeCoreTests
             graph.AddDependency(discountA, itemsTotal);
             graph.AddDependency(discountB, itemsTotal);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_3>(graph, updater, order);
         }
@@ -367,6 +369,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_4");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_4(updater);
             order.Items.Add(new OrderItem_8_4(order, updater) { FixedValue = 10 });
@@ -384,7 +387,7 @@ namespace ReframeCoreTests
             graph.AddDependency(itemsTotal, orderTotal);
             graph.AddDependency(itemsTotal, orderTotalVAT);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_4>(graph, updater, order);
         }
@@ -565,6 +568,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_5");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_5();
             order.Items.Add(new OrderItem_8_5(updater) { Amount = 1, UnitPrice = 3.5 });
@@ -593,7 +597,7 @@ namespace ReframeCoreTests
             graph.AddDependency(itemsTotal, orderTotal);
             graph.AddDependency(itemsTotal, orderTotalVAT);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_5>(graph, updater, order);
         }
@@ -794,6 +798,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_6");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_6();
             order.Items.Add(new OrderItem_8_6(updater) { Total = 10 });
@@ -810,7 +815,7 @@ namespace ReframeCoreTests
             graph.AddDependency(itemsTotal, orderTotal);
             graph.AddDependency(itemsTotal, orderTotalVAT);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_6>(graph, updater, order);
         }
@@ -970,6 +975,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_8_7");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
 
             var order = new Order_8_7(updater) { DiscountA = 5, DiscountB = 10 };
             order.Items.Add(new OrderItem_8_7(order, updater) { Amount = 1, UnitPrice = (decimal)3.5 });
@@ -1010,7 +1016,7 @@ namespace ReframeCoreTests
             graph.AddDependency(orderDiscountB, orderTotalDiscount);
             graph.AddDependency(orderTotalDiscount, itemsTotal);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Order_8_7>(graph, updater, order);
         }
@@ -1139,6 +1145,7 @@ namespace ReframeCoreTests
         {
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+            reactor.Updater.SuspendUpdate();
 
             var objA1 = new Class_A_8_8 { Reactor = reactor, A = 1 };
             var objA2 = new Class_A_8_8 { Reactor = reactor, A = 2 };
@@ -1179,7 +1186,7 @@ namespace ReframeCoreTests
             reactor.AddDependency(c_partsB_A, c_a);
             reactor.AddDependency(c_partsB_B, c_b);
 
-            reactor.Graph.Initialize();
+            reactor.Updater.ResumeUpdate();
 
             return new Tuple<IReactor, Class_C_8_8>(reactor, objC);
         }

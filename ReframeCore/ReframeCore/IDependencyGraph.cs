@@ -14,9 +14,6 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
-        DependencyGraphStatus Status { get; }
-
-        void Initialize();
 
         IList<INode> Nodes { get; }
         Settings Settings { get; }

@@ -36,8 +36,6 @@ namespace ReframeCoreTests
             graph.AddDependency(fNode, gNode);
             graph.AddDependency(gNode, hNode);
             graph.AddDependency(hNode, iNode);
-
-            graph.Initialize();
         }
 
         private NodeLog CreateExpectedLogger_FullGraphUpdate(IDependencyGraph graph, GenericReactiveObject obj)
@@ -125,8 +123,6 @@ namespace ReframeCoreTests
             graph.AddDependency(jNode, mNode);
 
             graph.AddDependency(kNode, jNode);
-
-            graph.Initialize();
         }
 
         [TestMethod]
@@ -211,8 +207,6 @@ namespace ReframeCoreTests
             graph.AddDependency(fNode, gNode);
             graph.AddDependency(gNode, hNode);
             graph.AddDependency(hNode, iNode);
-
-            graph.Initialize();
         }
 
         [TestMethod]

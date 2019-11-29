@@ -23,7 +23,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
 
-            graph.Initialize();
             var updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
 
@@ -54,7 +53,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
 
-            graph.Initialize();
             var updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
 
@@ -83,7 +81,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "B", o, "C");
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
-            graph.Initialize();
 
             Updater updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
@@ -113,7 +110,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
 
-            graph.Initialize();
             var updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
 
@@ -142,7 +138,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
 
-            graph.Initialize();
             var updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
 
@@ -172,7 +167,6 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "C", o, "D");
             graph.AddDependency(o, "D", o, "E");
 
-            graph.Initialize();
             var updater = CreateUpdater(graph);
             updater.EnableUpdateInSeparateThread = true;
 
@@ -240,8 +234,6 @@ namespace ReframeCoreTests
             graph.AddDependency(jNode, mNode);
 
             graph.AddDependency(kNode, jNode);
-
-            graph.Initialize();
         }
 
         [TestMethod]

@@ -558,7 +558,6 @@ namespace ReframeCoreTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            reactor.Graph.Initialize();
             Building00 b = new Building00();
 
             //Act&Asset
@@ -582,8 +581,6 @@ namespace ReframeCoreTests
             {
                 updatePerformed = true;
             };
-
-            reactor.Graph.Initialize();
 
             //Act
             b.Update(reactor, nameof(b.Width));

@@ -282,9 +282,6 @@ namespace ReframeCoreTests
             parts.Add(new Part_8_1(updater) { Name = "P2" });
 
             graph.AddNode(parts, "A");
-            graph.Initialize();
-
-            
 
             bool eventTriggered = false;
 

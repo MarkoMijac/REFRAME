@@ -28,36 +28,6 @@ namespace ReframeCoreTests
         #region GENERAL
 
         [TestMethod]
-        public void PerformUpdate_GivenNotInitializedGraph_PerformsNoUpdate()
-        {
-            //Arrange
-            IDependencyGraph graph = new DependencyGraph("G1");
-            Building00 building = new Building00();
-
-            INode widthNode = nodeFactory.CreateNode(building, "Width");
-            INode lengthNode = nodeFactory.CreateNode(building, "Length");
-            INode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area");
-            INode heightNode = nodeFactory.CreateNode(building, "Height");
-            INode volumeNode = nodeFactory.CreateNode(building, "Volume");
-
-            graph.AddDependency(widthNode, areaNode);
-            graph.AddDependency(lengthNode, areaNode);
-            graph.AddDependency(areaNode, volumeNode);
-            graph.AddDependency(heightNode, volumeNode);
-
-            INode initialNode = widthNode;
-            Updater updater = CreateUpdater(graph);
-
-            //Act
-            updater.PerformUpdate(initialNode);
-
-            //Assert
-            NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = new NodeLog();
-            Assert.AreEqual(expectedLogger, actualLogger);
-        }
-
-        [TestMethod]
         public void PerformUpdate_GivenUpdateIsSuspended_PerformsNoUpdate()
         {
             //Arrange
@@ -76,7 +46,6 @@ namespace ReframeCoreTests
             graph.AddDependency(heightNode, volumeNode);
 
             INode initialNode = widthNode;
-            graph.Initialize();
 
             Updater updater = CreateUpdater(graph);
 
@@ -109,8 +78,6 @@ namespace ReframeCoreTests
             graph.AddDependency(areaNode, volumeNode);
             graph.AddDependency(heightNode, volumeNode);
 
-            graph.Initialize();
-
             Updater updater = CreateUpdater(graph);
 
             INode initialNode = null;
@@ -139,11 +106,8 @@ namespace ReframeCoreTests
             graph.AddDependency(areaNode, volumeNode);
             graph.AddDependency(heightNode, volumeNode);
 
-            graph.Initialize();
-
             INode initialNode = consumption;
             Updater updater = CreateUpdater(graph);
-
 
             //Act&Assert
             Assert.ThrowsException<NodeNullReferenceException>(() => updater.PerformUpdate(initialNode));
@@ -438,8 +402,6 @@ namespace ReframeCoreTests
             graph.AddDependency(consumptionNode, totalConsumptionNode);
             graph.AddDependency(totalConsumptionNode, totalConsumptionPer_m3);
             graph.AddDependency(volumeNode, totalConsumptionPer_m3);
-
-            graph.Initialize();
 
             Tuple<IDependencyGraph, Building00> caseParameters = new Tuple<IDependencyGraph, Building00>(graph, building);
 
@@ -812,8 +774,6 @@ namespace ReframeCoreTests
             graph.AddDependency(apartment.Balcony, "UtilCoeff", apartment, "TotalArea");
             graph.AddDependency(apartment.Basement, "UtilCoeff", apartment, "TotalArea");
 
-            graph.Initialize();
-
             return new Tuple<IDependencyGraph, Apartment01>(graph, apartment);
         }
 
@@ -1000,8 +960,6 @@ namespace ReframeCoreTests
             graph.AddDependency(updateAreaNode, updateTotalConsumptionNode);
             graph.AddDependency(updateTotalConsumptionNode, updateTotalConsumptionPer_m3Node);
             graph.AddDependency(updateVolumeNode, updateTotalConsumptionPer_m3Node);
-
-            graph.Initialize();
 
             return new Tuple<IDependencyGraph, Building02>(graph, building);
         }
@@ -1234,8 +1192,6 @@ namespace ReframeCoreTests
             graph.AddDependency(apartment.Basement, "Update_Area", apartment.Basement, "Update_UtilityArea");
             graph.AddDependency(apartment.Basement, "Update_UtilityArea", apartment, "Update_TotalArea");
 
-            graph.Initialize();
-
             return new Tuple<IDependencyGraph, Apartment04>(graph, apartment);
         }
 
@@ -1422,8 +1378,6 @@ namespace ReframeCoreTests
             graph.AddDependency(areaNode, updateTotalConsumptionNode);
             graph.AddDependency(updateTotalConsumptionNode, updateTotalConsumptionPer_m3Node);
             graph.AddDependency(updateVolumeNode, updateTotalConsumptionPer_m3Node);
-
-            graph.Initialize();
 
             return new Tuple<IDependencyGraph, Building02>(graph, building);
         }
@@ -1619,8 +1573,6 @@ namespace ReframeCoreTests
             graph.AddDependency(dNode, fNode);
             graph.AddDependency(eNode, fNode);
 
-            graph.Initialize();
-
             return new Tuple<IDependencyGraph, Cycle>(graph, cycle);
         }
 
@@ -1736,8 +1688,6 @@ namespace ReframeCoreTests
             graph.AddDependency(partsA, a);
             graph.AddDependency(partsB, b);
             graph.AddDependency(partsC, c);
-
-            graph.Initialize();
 
             return new Tuple<IDependencyGraph, Whole>(graph, whole);
         }
@@ -1892,8 +1842,6 @@ namespace ReframeCoreTests
             graph.AddDependency(wholeCoeffB, partsB);
             graph.AddDependency(wholeCoeffC, partsC);
 
-            graph.Initialize();
-
             return new Tuple<IDependencyGraph, Whole2>(graph, whole);
         }
 
@@ -2043,6 +1991,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_CASE_8_1");
             Updater updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
             var whole = new Whole_8_1(updater);
 
             INode coeffA = graph.AddNode(whole, "CoeffA");
@@ -2070,7 +2019,7 @@ namespace ReframeCoreTests
             graph.AddDependency(partsB, b);
             graph.AddDependency(partsC, c);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, Whole_8_1>(graph, updater, whole);
         }
@@ -2433,6 +2382,7 @@ namespace ReframeCoreTests
             var graph = new DependencyGraph("GRAPH_CASE_9");
             var obj = new GenericReactiveObject2();
             Updater updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
             obj.Updater = updater;
 
             INode updateA = graph.AddNode(obj, "Update_A");
@@ -2454,7 +2404,7 @@ namespace ReframeCoreTests
             graph.AddDependency(updateG, updateH);
             graph.AddDependency(updateH, updateI);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, GenericReactiveObject2>(graph, updater, obj);
         }
@@ -2568,6 +2518,7 @@ namespace ReframeCoreTests
             var graph = new DependencyGraph("GRAPH_CASE_10");
             var obj = new GenericReactiveObject2();
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
             obj.Updater = updater;
 
             INode updateA = graph.AddNode(obj, "Update_A");
@@ -2591,7 +2542,7 @@ namespace ReframeCoreTests
             graph.AddDependency(updateH, updateI);
             graph.AddDependency(updateI, updateJ);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, GenericReactiveObject2>(graph, updater, obj);
         }
@@ -2703,6 +2654,7 @@ namespace ReframeCoreTests
         {
             var graph = new DependencyGraph("GRAPH_CASE_10_1");
             var updater = CreateUpdater(graph);
+            updater.SuspendUpdate();
             var obj = new GenericReactiveObject2();
             obj.Updater = updater;
 
@@ -2727,7 +2679,7 @@ namespace ReframeCoreTests
             graph.AddDependency(nodeH, nodeI);
             graph.AddDependency(nodeI, nodeJ);
 
-            graph.Initialize();
+            updater.ResumeUpdate();
 
             return new Tuple<IDependencyGraph, Updater, GenericReactiveObject2>(graph, updater, obj);
         }
@@ -2874,8 +2826,6 @@ namespace ReframeCoreTests
             graph.AddDependency(nodeB, nodeC);
             graph.AddDependency(nodeC, nodeD);
 
-            graph.Initialize();
-
             return graph;
         }
 
@@ -2975,8 +2925,6 @@ namespace ReframeCoreTests
             graph.AddDependency(jNode, mNode);
 
             graph.AddDependency(kNode, jNode);
-
-            graph.Initialize();
 
             return new Tuple<IDependencyGraph, GenericReactiveObject3>(graph, obj);
         }
