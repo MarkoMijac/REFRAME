@@ -4,6 +4,7 @@ using ReframeCore.Factories;
 using ReframeCore.Exceptions;
 using ReframeCore;
 using ReframeCore.Helpers;
+using System.Collections.Generic;
 
 namespace ReframeCoreTests
 {
@@ -516,6 +517,101 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsNull(reactor);
+        }
+
+        #endregion
+
+        #region GetOrCreateReactor
+
+        [TestMethod]
+        public void GetOrCreateReactor_GivenEmptyStringIdentifier_ThrowsException()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+
+            //Act
+            Assert.ThrowsException<ReactorException>(() => ReactorRegistry.Instance.GetOrCreateReactor(""));
+        }
+
+        [TestMethod]
+        public void GetOrCreateReactor_GivenReactorExists_ReturnsReactor()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+
+            //Act
+            var r = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            //Assert
+            Assert.AreEqual(reactor, r);
+        }
+
+        [TestMethod]
+        public void GetOrCreateReactor_GivenReactorDoesNotExists_CreatesReactor()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+
+            //Act
+            const string Identifier = "R1";
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor(Identifier);
+
+            //Assert
+            Assert.IsTrue(reactor != null && reactor.Identifier == Identifier);
+        }
+
+        #endregion
+
+        #region GetReactors()
+
+        [TestMethod]
+        public void GetReactors_GivenNoRegisteredReactors_ReturnsEmptyList()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+
+            //Act
+            IReadOnlyList<IReactor> reactors = ReactorRegistry.Instance.GetReactors();
+
+            //Assert
+            Assert.IsTrue(reactors.Count == 0);
+        }
+
+        [TestMethod]
+        public void GetReactors_GivenThereAreRegisteredReactors_ReturnsNonEmptyList()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            ReactorRegistry.Instance.CreateReactor("R1");
+            ReactorRegistry.Instance.CreateReactor("R2");
+
+            //Act
+            IReadOnlyList<IReactor> reactors = ReactorRegistry.Instance.GetReactors();
+
+            //Assert
+            Assert.IsTrue(reactors.Count == 2);
+        }
+
+        #endregion
+
+        #region Clear
+
+        [TestMethod]
+        public void Clear_GivenThereAreRegisteredReactors_ClearsRegisteredReactors()
+        {
+            //Arrange
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            ReactorRegistry.Instance.CreateReactor("R1");
+            ReactorRegistry.Instance.CreateReactor("R2");
+
+            //Act
+            ReactorRegistry.Instance.Clear();
+
+            //Assert
+            IReadOnlyList<IReactor> reactors = ReactorRegistry.Instance.GetReactors();
+            Assert.IsTrue(reactors.Count == 0);
         }
 
         #endregion

@@ -126,15 +126,25 @@ namespace ReframeCore.Factories
 
         #endregion
 
+        #region GetReactors
+
         public IReadOnlyList<IReactor> GetReactors()
         {
             return _reactors.AsReadOnly();
         }
 
+        #endregion
+
+        #region Clear
+
         public void Clear()
         {
             _reactors.Clear();
         }
+
+        #endregion
+
+        #region Validate
 
         private void ValidateIdentifier(string identifier)
         {
@@ -201,5 +211,7 @@ namespace ReframeCore.Factories
                 throw new ReactorException("Provided scheduler must match with provided dependency graph!");
             }
         }
+
+        #endregion
     }
 }
