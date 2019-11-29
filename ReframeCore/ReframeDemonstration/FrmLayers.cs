@@ -87,13 +87,13 @@ namespace ReframeDemonstration
 
         private void FrmLayers_Activated(object sender, EventArgs e)
         {
-            DependencyManager.Updater.UpdateCompleted += DefaultGraph_UpdateCompleted;
+            DependencyManager.DefaultReactor.UpdateCompleted += DefaultGraph_UpdateCompleted;
             RefreshGUI();
         }
 
         private void FrmLayers_Deactivate(object sender, EventArgs e)
         {
-            DependencyManager.Updater.UpdateCompleted -= DefaultGraph_UpdateCompleted;
+            DependencyManager.DefaultReactor.UpdateCompleted -= DefaultGraph_UpdateCompleted;
         }
     }
 }

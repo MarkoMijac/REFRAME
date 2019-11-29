@@ -13,32 +13,12 @@ namespace ReframeDemonstration
 {
     public static class DependencyManager
     {
-        public static IDependencyGraph DefaultGraph
+        public static IReactor DefaultReactor
         {
             get
             {
-                return GraphRegistry.Instance.GetOrCreateGraph("DEFAULT_GRAPH");
+                return ReactorRegistry.Instance.GetOrCreateReactor("DEFAULT_REACTOR");
             }
-        }
-
-        private static Updater _updater;
-
-        public static Updater Updater
-        {
-            get
-            {
-                if (_updater == null)
-                {
-                    _updater = GetUpdater();
-                }
-                return _updater;
-            }
-        }
-
-        private static Updater GetUpdater()
-        {
-            IScheduler scheduler = new Scheduler(DefaultGraph, new DFS_Sorter());
-            return new Updater(DefaultGraph, scheduler);
         }
     }
 }

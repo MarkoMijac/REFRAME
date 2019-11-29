@@ -21,7 +21,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 height = value;
-                DependencyManager.Updater.PerformUpdate(this, "Height");
+                DependencyManager.DefaultReactor.PerformUpdate(this, "Height");
             }
         }
 
@@ -33,7 +33,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 width = value;
-                DependencyManager.Updater.PerformUpdate(this, "Width");
+                DependencyManager.DefaultReactor.PerformUpdate(this, "Width");
             }
         }
 
@@ -51,15 +51,6 @@ namespace ReframeDemonstration.BusinessLogic
         {
             width = w;
             height = h;
-        }
-
-        public ConstructionPart(bool suspendUpdate)
-            : this()
-        {
-            DependencyManager.Updater.UpdateSuspended = true;
-            Width = 5;
-            Height = 4.5;
-            DependencyManager.Updater.UpdateSuspended = true;
         }
 
         private void Update_SurfaceArea()
@@ -80,8 +71,8 @@ namespace ReframeDemonstration.BusinessLogic
 
         private void CreateDependencies()
         {
-            DependencyManager.DefaultGraph.Let(() => SurfaceArea).DependOn(() => Width, () => Height);
-            DependencyManager.DefaultGraph.Let(() => Thickness).DependOn(Layers, () => Layers[0].Thickness);
+            DependencyManager.DefaultReactor.Let(() => SurfaceArea).DependOn(() => Width, () => Height);
+            DependencyManager.DefaultReactor.Let(() => Thickness).DependOn(Layers, () => Layers[0].Thickness);
         }
     }
 }

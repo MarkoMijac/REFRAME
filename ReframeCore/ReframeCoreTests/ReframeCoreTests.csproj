@@ -62,7 +62,6 @@
     <Compile Include="StandardNodeFactoryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
     <Compile Include="CollectionNodeTests.cs" />
-    <Compile Include="GraphExtensionTests.cs" />
     <Compile Include="MemberReaderTests.cs" />
     <Compile Include="ReactorTests.cs" />
     <Compile Include="ReactorRegistryTests.cs" />

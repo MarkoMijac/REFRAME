@@ -70,7 +70,6 @@
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\ReactorRegistry.cs" />
     <Compile Include="FluentAPI\FluentException.cs" />
-    <Compile Include="FluentAPI\GraphExtension.cs" />
     <Compile Include="FluentAPI\MemberReader.cs" />
     <Compile Include="FluentAPI\ReactorExtension.cs" />
     <Compile Include="FluentAPI\TransferObject.cs" />

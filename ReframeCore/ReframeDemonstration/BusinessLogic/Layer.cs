@@ -19,7 +19,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 thickness = value;
-                DependencyManager.Updater.PerformUpdate(this, "Thickness");
+                DependencyManager.DefaultReactor.PerformUpdate(this, "Thickness");
             }
         }
 

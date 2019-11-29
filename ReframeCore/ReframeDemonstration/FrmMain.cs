@@ -30,8 +30,8 @@ namespace ReframeDemonstration
         private void FrmMain_Load(object sender, EventArgs e)
         {
             Repository.LoadData();
-            DependencyManager.DefaultGraph.Initialize();
-            DependencyManager.Updater.PerformUpdate();
+            DependencyManager.DefaultReactor.Graph.Initialize();
+            DependencyManager.DefaultReactor.PerformUpdate();
         }
     }
 }

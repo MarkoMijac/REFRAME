@@ -31,16 +31,16 @@ namespace ReframeAnalyzerTests
         public void GetGraphNodes_GivenValidGraph_ReturnsXmlWithNodes()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 
-            graph.Let(() =>obj.A).DependOn(() =>obj.B, () =>obj.C);
-            graph.Let(() =>obj.C).DependOn(() =>obj.D, () =>obj.E);
+            reactor.Let(() =>obj.A).DependOn(() =>obj.B, () =>obj.C);
+            reactor.Let(() =>obj.C).DependOn(() =>obj.D, () =>obj.E);
 
             //Act
-            string xml = Analyzer.GetGraphNodes(graph);
+            string xml = Analyzer.GetGraphNodes(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -71,16 +71,16 @@ namespace ReframeAnalyzerTests
         public void GetClassNodes()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
 
             GenericReactiveObject obj = new GenericReactiveObject();
 
-            graph.Let(() => obj.A).DependOn(() => obj.B, () => obj.C);
-            graph.Let(() => obj.C).DependOn(() => obj.D, () => obj.E);
+            reactor.Let(() => obj.A).DependOn(() => obj.B, () => obj.C);
+            reactor.Let(() => obj.C).DependOn(() => obj.D, () => obj.E);
 
             //Act
-            string xml = Analyzer.GetClassNodes(graph);
+            string xml = Analyzer.GetClassNodes(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
