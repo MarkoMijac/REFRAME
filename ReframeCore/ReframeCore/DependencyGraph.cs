@@ -184,7 +184,6 @@ namespace ReframeCore
             if (node.Graph == this)
             {
                 node.Graph = null;
-                node.Updater = null;
             }
         }
 

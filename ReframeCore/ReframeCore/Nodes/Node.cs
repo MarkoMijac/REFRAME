@@ -65,7 +65,6 @@ namespace ReframeCore.Nodes
         }
 
         public IDependencyGraph Graph { get; set; }
-        public Updater Updater { get; set; }
 
         #endregion
 
