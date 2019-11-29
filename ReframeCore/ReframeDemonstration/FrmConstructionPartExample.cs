@@ -71,11 +71,11 @@ namespace ReframeDemonstration
              * to apply optimization. For example: (1) temporarily suspend updates, (2) create object and make changes to values, (3) resume updates, (4) invoke update manually.
             */
 
-            //(DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
+            //DependencyManager.DefaultReactor.SuspendUpdate();
             //ConstructionPart part = new ConstructionPart() { Width = 2, Height = 3 };
             //Repository.ConstructionParts.Add(part);
-            //(DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
-            //DependencyManager.DefaultGraph.PerformUpdate();
+            //DependencyManager.DefaultReactor.ResumeUpdate();
+            //DependencyManager.DefaultReactor.PerformUpdate();
 
             /* SCENARIO 3: No properties which represent reactive nodes are set programmatically after dependencies are created.
              * Instead changes to properties values are intended to be made by user, through GUI. Therefore, there is no need to suspend updates.
@@ -83,14 +83,14 @@ namespace ReframeDemonstration
              */
 
             //Repository.ConstructionParts.Add(new ConstructionPart());
-            //DependencyManager.DefaultGraph.PerformUpdate();
+            //DependencyManager.DefaultReactor.PerformUpdate();
 
             /* SCENARIO 4: Initial values for instantiated object are set, but not through reactive nodes. Therefore there is no need to suspend updates.
              * For example: (1) create object and pass initial values through constructor parameters, (2) invoke update manually.
              */
 
             //Repository.ConstructionParts.Add(new ConstructionPart(3, 2.5));
-            //DependencyManager.DefaultGraph.PerformUpdate();
+            //DependencyManager.DefaultReactor.PerformUpdate();
 
             /* SCENARIO 5: Initial values for instantiated object are set in constructor through reactive nodes. In the constructor statements for
              * suspending and resuming update are used. Therefore there is no need to suspend update outside of the class.
@@ -98,7 +98,7 @@ namespace ReframeDemonstration
              */
 
             //Repository.ConstructionParts.Add(new ConstructionPart(true));
-            //DependencyManager.DefaultGraph.PerformUpdate();
+            //DependencyManager.DefaultReactor.PerformUpdate();
 
             /* SCENARIO 6: If for example repository collections would be declared as reactive collections, then manual update could be avoided when adding object to collection.
              */

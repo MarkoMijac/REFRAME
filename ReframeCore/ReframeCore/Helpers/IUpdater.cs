@@ -16,6 +16,9 @@ namespace ReframeCore.Helpers
         Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         Task PerformUpdate(object ownerObject, string memberName);
 
+        void SuspendUpdate();
+        void ResumeUpdate();
+
         IDependencyGraph Graph { get; }
         IScheduler Scheduler { get; }
 

@@ -124,6 +124,16 @@ namespace ReframeCore
             return Updater.PerformUpdate(owner, member);
         }
 
+        public void SuspendUpdate()
+        {
+            Updater.SuspendUpdate();
+        }
+
+        public void ResumeUpdate()
+        {
+            Updater.ResumeUpdate();
+        }
+
         #endregion
 
         #region Events

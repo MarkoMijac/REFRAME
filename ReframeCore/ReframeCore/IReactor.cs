@@ -35,6 +35,9 @@ namespace ReframeCore
         Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         Task PerformUpdate(object ownerObject, string memberName);
 
+        void SuspendUpdate();
+        void ResumeUpdate();
+
         event EventHandler UpdateCompleted;
         event EventHandler UpdateStarted;
         event EventHandler UpdateFailed;

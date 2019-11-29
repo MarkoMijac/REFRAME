@@ -71,10 +71,10 @@ namespace ReframeDemonstration
              * 
              */
 
-            //(DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = true;
-            //constructionPart.Layers.Add(new Layer() { Name = "New Layer", Thickness = 1});
-            //(DependencyManager.DefaultGraph as DependencyGraph).UpdateSuspended = false;
-            //DependencyManager.DefaultGraph.PerformUpdate();
+            //DependencyManager.DefaultReactor.SuspendUpdate();
+            //constructionPart.Layers.Add(new Layer() { Name = "New Layer", Thickness = 1 });
+            //DependencyManager.DefaultReactor.ResumeUpdate();
+            //DependencyManager.DefaultReactor.PerformUpdate();
 
             RefreshGUI();
         }

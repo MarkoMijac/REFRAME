@@ -46,6 +46,15 @@ namespace ReframeDemonstration.BusinessLogic
             CreateDependencies();
         }
 
+        public ConstructionPart(bool suspendUpdate)
+            : this()
+        {
+            DependencyManager.DefaultReactor.SuspendUpdate();
+            Width = 5;
+            Height = 4.5;
+            DependencyManager.DefaultReactor.ResumeUpdate();
+        }
+
         public ConstructionPart(double w, double h)
             : this()
         {

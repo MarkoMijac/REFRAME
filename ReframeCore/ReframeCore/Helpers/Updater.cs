@@ -27,7 +27,7 @@ namespace ReframeCore.Helpers
 
         public bool EnableUpdateInSeparateThread { get; set; }
         public bool EnableParallelUpdate { get; set; }
-        public bool UpdateSuspended { get; set; } = false;
+        private bool UpdateSuspended { get; set; } = false;
 
         public UpdateInfo LatestUpdateInfo { get; private set; }
 
@@ -115,6 +115,16 @@ namespace ReframeCore.Helpers
         {
             INode initialNode = Graph.GetNode(ownerObject, memberName);
             return PerformUpdate(initialNode);
+        }
+
+        public void SuspendUpdate()
+        {
+            UpdateSuspended = true;
+        }
+
+        public void ResumeUpdate()
+        {
+            UpdateSuspended = false;
         }
 
         #endregion

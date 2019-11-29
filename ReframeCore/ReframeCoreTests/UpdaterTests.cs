@@ -81,9 +81,9 @@ namespace ReframeCoreTests
             Updater updater = CreateUpdater(graph);
 
             //Act
-            updater.UpdateSuspended = true;
+            updater.SuspendUpdate();
             updater.PerformUpdate(initialNode);
-            updater.UpdateSuspended = false;
+            updater.ResumeUpdate();
 
             //Assert
             NodeLog actualLogger = updater.NodeLog;
