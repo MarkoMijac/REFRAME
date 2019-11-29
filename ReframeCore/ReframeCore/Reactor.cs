@@ -125,5 +125,65 @@ namespace ReframeCore
         }
 
         #endregion
+
+        #region Events
+
+        private object objectLock = new object();
+
+        public event EventHandler UpdateStarted
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateStarted += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateStarted -= value;
+                }
+            }
+        }
+
+        public event EventHandler UpdateCompleted
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateCompleted += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateCompleted -= value;
+                }
+            }
+        }
+
+        public event EventHandler UpdateFailed
+        {
+            add
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateFailed += value;
+                }
+            }
+            remove
+            {
+                lock (objectLock)
+                {
+                    Updater.UpdateFailed -= value;
+                }
+            }
+        }
+
+        #endregion
     }
 }

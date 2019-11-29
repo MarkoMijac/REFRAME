@@ -13,6 +13,8 @@ namespace ReframeCore.FluentAPI
 {
     public static class ReactorExtension
     {
+        #region Validate
+
         private static void ValidateReactor(IReactor reactor)
         {
             if (reactor == null)
@@ -43,6 +45,38 @@ namespace ReframeCore.FluentAPI
                 throw new FluentException("Member name cannot be empty!");
             }
         }
+
+        private static void ValidateReactiveCollection(IReactiveCollection collection)
+        {
+            if (collection == null)
+            {
+                throw new FluentException("Reactive collection object cannot be null!");
+            }
+        }
+
+        private static void ValidateTransferObject(TransferParameter transferParameter)
+        {
+            if (transferParameter == null)
+            {
+                throw new FluentException("Transfer object cannot be null!");
+            }
+            else if (transferParameter.Reactor == null)
+            {
+                throw new FluentException("Reactor cannot be null!");
+            }
+            else if (transferParameter.Successors == null)
+            {
+                throw new FluentException("List of successor nodes cannot be null!");
+            }
+            else if (transferParameter.Successors.Count == 0)
+            {
+                throw new FluentException("List of successor nodes cannot be empty!");
+            }
+        }
+
+        #endregion
+
+        #region Let
 
         public static TransferParameter Let(this IReactor instance, params Expression<Action>[] expressions)
         {
@@ -90,14 +124,6 @@ namespace ReframeCore.FluentAPI
             return to;
         }
 
-        private static void ValidateReactiveCollection(IReactiveCollection collection)
-        {
-            if (collection == null)
-            {
-                throw new FluentException("Reactive collection object cannot be null!");
-            }
-        }
-
         public static TransferParameter Let(this IReactor instance, IReactiveCollection collection, Expression<Func<object>> expression)
         {
             List<INode> addedNodes = new List<INode>();
@@ -130,25 +156,9 @@ namespace ReframeCore.FluentAPI
             return to;
         }
 
-        private static void ValidateTransferObject(TransferParameter transferParameter)
-        {
-            if (transferParameter == null)
-            {
-                throw new FluentException("Transfer object cannot be null!");
-            }
-            else if (transferParameter.Reactor == null)
-            {
-                throw new FluentException("Reactor cannot be null!");
-            }
-            else if (transferParameter.Successors == null)
-            {
-                throw new FluentException("List of successor nodes cannot be null!");
-            }
-            else if (transferParameter.Successors.Count == 0)
-            {
-                throw new FluentException("List of successor nodes cannot be empty!");
-            }
-        }
+        #endregion
+
+        #region DependOn
 
         public static void DependOn(this TransferParameter instance, params Expression<Func<object>>[] expressions)
         {
@@ -232,6 +242,10 @@ namespace ReframeCore.FluentAPI
             }
         }
 
+        #endregion
+
+        #region Update
+
         public static void Update(this object instance, IReactor reactor, [CallerMemberNameAttribute] string memberName = "")
         {
             if (reactor == null)
@@ -245,5 +259,7 @@ namespace ReframeCore.FluentAPI
             }
             reactor.PerformUpdate(instance, memberName);
         }
+
+        #endregion
     }
 }

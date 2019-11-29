@@ -34,5 +34,9 @@ namespace ReframeCore
         Task PerformUpdate(INode initialNode, bool skipInitialNode);
         Task PerformUpdate(ICollectionNodeItem ownerObject, string memberName);
         Task PerformUpdate(object ownerObject, string memberName);
+
+        event EventHandler UpdateCompleted;
+        event EventHandler UpdateStarted;
+        event EventHandler UpdateFailed;
     }
 }

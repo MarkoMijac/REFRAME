@@ -18,5 +18,9 @@ namespace ReframeCore.Helpers
 
         IDependencyGraph Graph { get; }
         IScheduler Scheduler { get; }
+
+        event EventHandler UpdateCompleted;
+        event EventHandler UpdateStarted;
+        event EventHandler UpdateFailed;
     }
 }

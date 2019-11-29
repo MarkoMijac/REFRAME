@@ -60,13 +60,13 @@
     <Compile Include="PropertyNodeTests.cs" />
     <Compile Include="SchedulerTests.cs" />
     <Compile Include="StandardNodeFactoryTests.cs" />
-    <Compile Include="GraphRegistryTests.cs" />
     <Compile Include="ReactiveCollectionTests.cs" />
     <Compile Include="CollectionNodeTests.cs" />
     <Compile Include="GraphExtensionTests.cs" />
     <Compile Include="MemberReaderTests.cs" />
     <Compile Include="ReactorTests.cs" />
     <Compile Include="ReactorRegistryTests.cs" />
+    <Compile Include="ReactorExtensionTests.cs" />
     <Compile Include="UpdaterTests.CollectionNode.cs" />
     <Compile Include="UpdaterTests.SeparateThreadExecution.cs" />
     <Compile Include="UpdateLoggerTests.cs" />
