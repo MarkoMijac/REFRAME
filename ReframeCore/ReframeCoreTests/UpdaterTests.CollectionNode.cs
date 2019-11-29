@@ -11,6 +11,7 @@ using ReframeCoreExamples.E08.E5;
 using ReframeCoreExamples.E08.E6;
 using ReframeCoreExamples.E08.E7;
 using ReframeCoreExamples.E08.E8;
+using ReframeCore.Factories;
 
 namespace ReframeCoreTests
 {
@@ -1134,54 +1135,53 @@ namespace ReframeCoreTests
 
         /*Testing update process when items are added or removed from reactive collection*/
 
-        private Tuple<IDependencyGraph, Updater, Class_C_8_8> CreateCase_8_8()
+        private Tuple<IReactor, Class_C_8_8> CreateCase_8_8()
         {
-            var graph = new DependencyGraph("GRAPH_8_8");
-            var updater = CreateUpdater(graph);
-            graph.Updater = updater;
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
 
-            var objA1 = new Class_A_8_8(updater) { A = 1 };
-            var objA2 = new Class_A_8_8(updater) { A = 2 };
+            var objA1 = new Class_A_8_8 { Reactor = reactor, A = 1 };
+            var objA2 = new Class_A_8_8 { Reactor = reactor, A = 2 };
 
-            var objB1 = new Class_B_8_8(updater) { Graph = graph, A = 1, PartA = objA1 };
-            var objB2 = new Class_B_8_8(updater) { Graph = graph, A = 2, PartA = objA2 };
+            var objB1 = new Class_B_8_8 { A = 1, PartA = objA1 };
+            var objB2 = new Class_B_8_8 { A = 2, PartA = objA2 };
 
-            var objC = new Class_C_8_8(updater) { Graph = graph, A = 3 };
+            var objC = new Class_C_8_8 { A = 3 };
             objC.PartsB.Add(objB1);
             objC.PartsB.Add(objB2);
 
-            INode a1_a = graph.AddNode(objA1, "A");
-            INode a1_b = graph.AddNode(objA1, "B");
-            INode a2_a = graph.AddNode(objA2, "A");
-            INode a2_b = graph.AddNode(objA2, "B");
+            INode a1_a = reactor.AddNode(objA1, "A");
+            INode a1_b = reactor.AddNode(objA1, "B");
+            INode a2_a = reactor.AddNode(objA2, "A");
+            INode a2_b = reactor.AddNode(objA2, "B");
 
-            graph.AddDependency(a1_a, a1_b);
-            graph.AddDependency(a2_a, a2_b);
+            reactor.AddDependency(a1_a, a1_b);
+            reactor.AddDependency(a2_a, a2_b);
 
-            INode b1_a = graph.AddNode(objB1, "A");
-            INode b1_b = graph.AddNode(objB1, "B");
-            INode b2_a = graph.AddNode(objB2, "A");
-            INode b2_b = graph.AddNode(objB2, "B");
+            INode b1_a = reactor.AddNode(objB1, "A");
+            INode b1_b = reactor.AddNode(objB1, "B");
+            INode b2_a = reactor.AddNode(objB2, "A");
+            INode b2_b = reactor.AddNode(objB2, "B");
 
-            graph.AddDependency(b1_a, b1_b);
-            graph.AddDependency(b2_a, b2_b);
-            graph.AddDependency(a1_a, b1_a);
-            graph.AddDependency(a1_b, b1_b);
-            graph.AddDependency(a2_a, b2_a);
-            graph.AddDependency(a2_b, b2_b);
+            reactor.AddDependency(b1_a, b1_b);
+            reactor.AddDependency(b2_a, b2_b);
+            reactor.AddDependency(a1_a, b1_a);
+            reactor.AddDependency(a1_b, b1_b);
+            reactor.AddDependency(a2_a, b2_a);
+            reactor.AddDependency(a2_b, b2_b);
 
-            INode c_a = graph.AddNode(objC, "A");
-            INode c_b = graph.AddNode(objC, "B");
-            INode c_partsB_A = graph.AddNode(objC.PartsB, "A");
-            INode c_partsB_B = graph.AddNode(objC.PartsB, "B");
+            INode c_a = reactor.AddNode(objC, "A");
+            INode c_b = reactor.AddNode(objC, "B");
+            INode c_partsB_A = reactor.AddNode(objC.PartsB, "A");
+            INode c_partsB_B = reactor.AddNode(objC.PartsB, "B");
 
-            graph.AddDependency(c_a, c_b);
-            graph.AddDependency(c_partsB_A, c_a);
-            graph.AddDependency(c_partsB_B, c_b);
+            reactor.AddDependency(c_a, c_b);
+            reactor.AddDependency(c_partsB_A, c_a);
+            reactor.AddDependency(c_partsB_B, c_b);
 
-            graph.Initialize();
+            reactor.Graph.Initialize();
 
-            return new Tuple<IDependencyGraph, Updater, Class_C_8_8>(graph, updater, objC);
+            return new Tuple<IReactor, Class_C_8_8>(reactor, objC);
         }
 
         private NodeLog CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(IDependencyGraph graph, Class_C_8_8 objC)
@@ -1209,16 +1209,15 @@ namespace ReframeCoreTests
         {
             //Arrange
             var caseParameters = CreateCase_8_8();
-            var graph = caseParameters.Item1;
-            var updater = caseParameters.Item2;
-            var objC = caseParameters.Item3;
+            var reactor = caseParameters.Item1;
+            var objC = caseParameters.Item2;
 
             //Act
-            updater.PerformUpdate();
+            reactor.PerformUpdate();
 
             //Assert
-            NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
+            NodeLog actualLogger = (reactor.Updater as ILoggable).NodeLog;
+            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(reactor.Graph, objC);
 
             Assert.AreEqual(expectedLogger, actualLogger);
         }
@@ -1228,22 +1227,20 @@ namespace ReframeCoreTests
         {
             //Arrange
             var caseParameters = CreateCase_8_8();
-            var graph = caseParameters.Item1;
-            var updater = caseParameters.Item2;
-            var objC = caseParameters.Item3;
+            var reactor = caseParameters.Item1;
+            var objC = caseParameters.Item2;
 
             //Act
-            Class_B_8_8 newB = new Class_B_8_8(updater)
+            Class_B_8_8 newB = new Class_B_8_8()
             {
-                Graph = graph,
                 PartA = new Class_A_8_8()
             };
 
             objC.PartsB.Add(newB);
 
             //Assert
-            NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(graph, objC);
+            NodeLog actualLogger = (reactor.Updater as ILoggable).NodeLog;
+            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_PerformCompleteUpdate(reactor.Graph, objC);
 
             Assert.AreEqual(expectedLogger, actualLogger);
         }
@@ -1273,18 +1270,15 @@ namespace ReframeCoreTests
         {
             //Arrange
             var caseParameters = CreateCase_8_8();
-            var graph = caseParameters.Item1;
-            var updater = caseParameters.Item2;
-            var objC = caseParameters.Item3;
-            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_RemovedItem(graph, objC);
+            var reactor = caseParameters.Item1;
+            var objC = caseParameters.Item2;
+            NodeLog expectedLogger = CreateExpectedLogger_Case_8_8_RemovedItem(reactor.Graph, objC);
 
             //Act
             objC.PartsB.Remove(objC.PartsB[1]);
 
             //Assert
-            NodeLog actualLogger = updater.NodeLog;
-
-
+            NodeLog actualLogger = (reactor.Updater as ILoggable).NodeLog;
             Assert.AreEqual(expectedLogger, actualLogger);
         }
 

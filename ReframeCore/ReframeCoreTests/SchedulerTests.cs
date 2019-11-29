@@ -67,7 +67,7 @@ namespace ReframeCoreTests
 
             CreateCase(graph, o);
             ISorter sorter = new DFS_Sorter();
-            Scheduler scheduler = new Scheduler(graph, sorter);
+            var scheduler = new Scheduler(graph, sorter);
             scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
 
             //Act
@@ -138,7 +138,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
             scheduler.GetNodesForUpdate();
@@ -173,7 +173,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
             scheduler.GetNodesForUpdate();
@@ -224,7 +224,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase2(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
             scheduler.GetNodesForUpdate();
@@ -254,7 +254,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
             scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = true;
 
             //Act
@@ -276,7 +276,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
             scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
 
             //Act
@@ -299,7 +299,7 @@ namespace ReframeCoreTests
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
-            Scheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
             scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = true;
 
             //Act

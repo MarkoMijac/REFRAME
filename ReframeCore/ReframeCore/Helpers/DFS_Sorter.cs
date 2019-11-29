@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore
+namespace ReframeCore.Helpers
 {
     public class DFS_Sorter : ISorter
     {

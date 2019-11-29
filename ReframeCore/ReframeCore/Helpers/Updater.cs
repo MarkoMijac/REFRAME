@@ -41,6 +41,7 @@ namespace ReframeCore.Helpers
         {
             NodeLog = new NodeLog();
             Graph = graph;
+            
 
             Scheduler = scheduler;
 

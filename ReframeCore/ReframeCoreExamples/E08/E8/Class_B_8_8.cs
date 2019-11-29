@@ -11,8 +11,6 @@ namespace ReframeCoreExamples.E08.E8
 {
     public class Class_B_8_8: ICollectionNodeItem
     {
-        public IDependencyGraph Graph { get; set; }
-        private Updater _updater;
         public event EventHandler UpdateTriggered;
 
         private int _a;
@@ -43,11 +41,6 @@ namespace ReframeCoreExamples.E08.E8
         public Class_B_8_8()
         {
 
-        }
-
-        public Class_B_8_8(Updater updater)
-        {
-            _updater = updater;
         }
     }
 }

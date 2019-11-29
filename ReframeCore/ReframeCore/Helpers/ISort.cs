@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore
+namespace ReframeCore.Helpers
 {
     public interface ISorter
     {

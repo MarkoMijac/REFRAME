@@ -10,7 +10,7 @@ namespace ReframeCoreExamples.E08.E8
 {
     public class Class_A_8_8
     {
-        private Updater _updater;
+        public IReactor Reactor { get; set; }
 
         private int _a;
 
@@ -20,9 +20,9 @@ namespace ReframeCoreExamples.E08.E8
             set
             {
                 _a = value;
-                if (_updater != null)
+                if (Reactor != null)
                 {
-                    _updater.PerformUpdate(this, nameof(A));
+                    Reactor.PerformUpdate(this, nameof(A));
                 }
             }
         }
@@ -33,11 +33,6 @@ namespace ReframeCoreExamples.E08.E8
         public Class_A_8_8()
         {
 
-        }
-
-        public Class_A_8_8(Updater updater)
-        {
-            _updater = updater;
         }
 
         private void Update_B()

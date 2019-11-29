@@ -94,7 +94,7 @@
     <Compile Include="Nodes\CollectionNode.cs" />
     <Compile Include="Nodes\ICollectionNode.cs" />
     <Compile Include="Nodes\INode.cs" />
-    <Compile Include="ISort.cs" />
+    <Compile Include="Helpers\ISort.cs" />
     <Compile Include="Nodes\MethodNode.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\PropertyNode.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="ReactiveCollections\ReactiveCollection.cs" />
     <Compile Include="Reactor.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="DFS_Sorter.cs" />
+    <Compile Include="Helpers\DFS_Sorter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

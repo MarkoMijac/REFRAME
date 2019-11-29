@@ -21,10 +21,6 @@ namespace ReframeCore
 
         public NodeFactory NodeFactory { get; private set; }
 
-        public Updater Updater { get; set; }
-
-        public IScheduler Scheduler { get; private set; }
-
         /// <summary>
         /// Dependency graph unique identifier.
         /// </summary>
@@ -57,9 +53,6 @@ namespace ReframeCore
             Nodes = new List<INode>();
 
             NodeFactory = new StandardNodeFactory();
-            Scheduler = new Scheduler(this, new DFS_Sorter());
-            Updater = new Updater(this, Scheduler);
-
             Status = DependencyGraphStatus.NotInitialized;
         }
 
@@ -132,7 +125,6 @@ namespace ReframeCore
 
         private void RegisterGraphInNode(INode node)
         {
-            node.Updater = Updater;
             node.Graph = this;
         }
 

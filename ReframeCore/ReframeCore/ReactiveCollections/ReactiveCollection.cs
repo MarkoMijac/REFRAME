@@ -1,4 +1,5 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Factories;
 using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
@@ -84,12 +85,12 @@ namespace ReframeCore.ReactiveCollections
         {
             if (CollectionNode != null)
             {
-                var updater = (CollectionNode as INode).Updater;
-                if (updater != null)
+                var graph = (CollectionNode as INode).Graph;
+                var reactor = ReactorRegistry.Instance.GetReactor(graph);
+                if (reactor != null)
                 {
-                    updater.PerformUpdate();
+                    reactor.PerformUpdate();
                 }
-
             }
         }
 

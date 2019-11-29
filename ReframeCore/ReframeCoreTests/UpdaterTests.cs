@@ -448,7 +448,7 @@ namespace ReframeCoreTests
 
         private Updater CreateUpdater(IDependencyGraph graph)
         {
-            IScheduler scheduler = new Scheduler(graph, new DFS_Sorter());
+            var scheduler = new Scheduler(graph, new DFS_Sorter());
             return new Updater(graph, scheduler);
         }
 
