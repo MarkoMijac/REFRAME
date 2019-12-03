@@ -1,4 +1,5 @@
-﻿using ReframeCore.Nodes;
+﻿using ReframeCore.Factories;
+using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
+        INodeFactory NodeFactory { get; }
 
         IList<INode> Nodes { get; }
         INode AddNode(INode node);

@@ -17,7 +17,7 @@ namespace ReframeCore
     {
         #region Properties
 
-        public NodeFactory NodeFactory { get; private set; }
+        public INodeFactory NodeFactory { get; private set; }
 
         /// <summary>
         /// Dependency graph unique identifier.
@@ -43,6 +43,13 @@ namespace ReframeCore
             Nodes = new List<INode>();
 
             NodeFactory = new StandardNodeFactory();
+        }
+
+        public DependencyGraph(string identifier, INodeFactory nodeFactory)
+        {
+            Identifier = identifier;
+            Nodes = new List<INode>();
+            NodeFactory = nodeFactory;
         }
 
         #endregion

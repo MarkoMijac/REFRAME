@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Factories
 {
-    public abstract class NodeFactory
+    public abstract class NodeFactory : INodeFactory
     {
         protected enum NodeType { PropertyNode, MethodNode, CollectionPropertyNode, CollectionMethodNode, Unknown }
 

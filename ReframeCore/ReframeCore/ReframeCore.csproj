@@ -67,6 +67,7 @@
     <Compile Include="Exceptions\ReflectorException.cs" />
     <Compile Include="Exceptions\ReframeException.cs" />
     <Compile Include="Exceptions\UpdaterException.cs" />
+    <Compile Include="Factories\INodeFactory.cs" />
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\ReactorRegistry.cs" />
     <Compile Include="FluentAPI\FluentException.cs" />
@@ -75,7 +76,6 @@
     <Compile Include="FluentAPI\TransferObject.cs" />
     <Compile Include="FluentAPI\TransferParameter.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
-    <Compile Include="Helpers\GraphValidator.cs" />
     <Compile Include="Helpers\ILoggable.cs" />
     <Compile Include="Helpers\IScheduler.cs" />
     <Compile Include="Helpers\IUpdater.cs" />

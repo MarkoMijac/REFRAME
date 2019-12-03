@@ -20,7 +20,7 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
-            INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
+            INode nodeA = nodeFactory.CreateNode(obj, "A");
 
             //Act
             int numOfRemovedPredecessors = nodeA.ClearPredecessors();
@@ -60,7 +60,7 @@ namespace ReframeCoreTests
             //Arrange
             NodeFactory nodeFactory = new StandardNodeFactory();
             GenericReactiveObject obj = new GenericReactiveObject();
-            INode nodeA = nodeFactory.CreateNode(obj, "A") as Node;
+            INode nodeA = nodeFactory.CreateNode(obj, "A");
 
             var graph = new DependencyGraph("G1");
 
