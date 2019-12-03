@@ -73,7 +73,7 @@ namespace ReframeCoreExamples.E08.E1
 
         public Part_8_1()
         {
-            graph = GraphRegistry.Instance.GetOrCreateGraph("GRAPH_CASE_8_1");
+
         }
 
         public Part_8_1(Updater updater)

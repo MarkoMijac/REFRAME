@@ -17,8 +17,8 @@ namespace ReframeAnalyzer
         {
             string xml = "";
 
-            List<IDependencyGraph> registeredGraphs = GraphRegistry.Instance.GetGraphs();
-            xml = XmlExporter.ExportGraphs(registeredGraphs);
+            IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
+            xml = XmlExporter.ExportGraphs(registeredReactors);
 
             return xml;
         }

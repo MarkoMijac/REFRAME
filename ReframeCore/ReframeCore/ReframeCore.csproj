@@ -73,7 +73,6 @@
     <Compile Include="FluentAPI\MemberReader.cs" />
     <Compile Include="FluentAPI\ReactorExtension.cs" />
     <Compile Include="FluentAPI\TransferObject.cs" />
-    <Compile Include="Factories\GraphRegistry.cs" />
     <Compile Include="FluentAPI\TransferParameter.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\GraphValidator.cs" />
@@ -93,7 +92,7 @@
     <Compile Include="Nodes\CollectionNode.cs" />
     <Compile Include="Nodes\ICollectionNode.cs" />
     <Compile Include="Nodes\INode.cs" />
-    <Compile Include="Helpers\ISort.cs" />
+    <Compile Include="Helpers\ISorter.cs" />
     <Compile Include="Nodes\MethodNode.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\PropertyNode.cs" />

@@ -17,9 +17,9 @@ namespace ReframeAnalyzerTests
         public void GetRegisteredGraphs_GivenOneRegisteredGraph_ReturnsSerializedGraph()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            GraphRegistry.Instance.GetOrCreateGraph("G1");
-            GraphRegistry.Instance.GetOrCreateGraph("G2");
+            ReactorRegistry.Instance.Clear();
+            ReactorRegistry.Instance.GetOrCreateReactor("R1");
+            ReactorRegistry.Instance.GetOrCreateReactor("G2");
             //Act
             string xml = Analyzer.GetRegisteredGraphs();
 

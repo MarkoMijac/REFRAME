@@ -271,8 +271,7 @@ namespace ReframeCoreTests
         public void UpdateTriggered_GivenCollectionItemTriggeredEvent_EventIsTriggered()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("GRAPH_CASE_8_1");
+            var graph = new DependencyGraph("GRAPH_CASE_8_1");
             var scheduler = new Scheduler(graph, new DFS_Sorter());
             var updater = new Updater(graph, scheduler);
 

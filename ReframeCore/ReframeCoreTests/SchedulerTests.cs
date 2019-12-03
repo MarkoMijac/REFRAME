@@ -59,14 +59,13 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateNotEnabled_SchedulesCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
             ISorter sorter = new DFS_Sorter();
             var scheduler = new Scheduler(graph, sorter);
-            scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
+            scheduler.SkipUpdateIfInitialNodeNotChanged = false;
 
             //Act
             IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
@@ -129,8 +128,7 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case1_CompleteGraph_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -164,8 +162,7 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case1_InitialNode_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase1(graph, o);
@@ -213,8 +210,7 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_Case2_CompleteGraph_GivesCorrectNodeLevels()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase2(graph, o);
@@ -243,13 +239,12 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateEnabled_ShouldBeZeroNodesForUpdate()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
             var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = true;
+            scheduler.SkipUpdateIfInitialNodeNotChanged = true;
 
             //Act
             scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
@@ -265,13 +260,12 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueChangedAndSkippingUpdateNotEnabled_SchedulerCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
             var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = false;
+            scheduler.SkipUpdateIfInitialNodeNotChanged = false;
 
             //Act
             o.A = 5;
@@ -288,13 +282,12 @@ namespace ReframeCoreTests
         public void GetNodesForUpdate_TriggeredNodeValueChangedAndSkippingUpdateEnabled_SchedulerCorrectUpdateOrder()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.CreateGraph("G");
+            var graph = new DependencyGraph("G");
             GenericReactiveObject o = new GenericReactiveObject();
 
             CreateCase(graph, o);
             var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.EnableSkippingUpdateIfInitialNodeValueNotChanged = true;
+            scheduler.SkipUpdateIfInitialNodeNotChanged = true;
 
             //Act
             o.A = 5;

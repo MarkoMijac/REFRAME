@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace ReframeCore
 {
-    public enum DependencyGraphStatus { NotInitialized, Initialized, NotConsistent, Consistent}
-
     /// <summary>
     /// Dependency graph containing reactive nodes.
     /// </summary>

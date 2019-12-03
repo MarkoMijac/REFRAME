@@ -27,7 +27,7 @@ namespace ReframeAnalyzer
             };
         }
 
-        public static string ExportGraphs(IList<IDependencyGraph> graphs)
+        public static string ExportGraphs(IReadOnlyList<IReactor> reactors)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -37,8 +37,10 @@ namespace ReframeAnalyzer
                 xmlWriter.WriteStartDocument();
                 xmlWriter.WriteStartElement("Graphs");
 
-                foreach (var graph in graphs)
+                foreach (var reactor in reactors)
                 {
+                    var graph = reactor.Graph;
+
                     xmlWriter.WriteStartElement("Graph");                  
 
                     xmlWriter.WriteStartElement("Identifier");         

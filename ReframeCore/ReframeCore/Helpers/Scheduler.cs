@@ -14,10 +14,11 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> ChildCollectionDependenciesToAdd { get; set; } = new List<Tuple<INode, INode>>();
         private List<Tuple<INode, INode>> RedirectionDependencesToRemove { get; set; } = new List<Tuple<INode, INode>>();
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; } = new List<Tuple<INode, INode>>();
-        public NodeLog NodeLog { get; private set; } = new NodeLog();
 
         public bool EnableLogging { get; set; } = true;
-        public bool EnableSkippingUpdateIfInitialNodeValueNotChanged { get; set; } = false;
+        public NodeLog NodeLog { get; private set; } = new NodeLog();
+        
+        public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
 
         public  IDependencyGraph Graph { get; private set; }
         public ISorter Sorter { get; private set; }
@@ -167,7 +168,7 @@ namespace ReframeCore.Helpers
 
         private bool SkipUpdate(INode node)
         {
-            return EnableSkippingUpdateIfInitialNodeValueNotChanged == true && node.IsValueChanged() == false;
+            return SkipUpdateIfInitialNodeNotChanged == true && node.IsValueChanged() == false;
         }
 
         private void MakeTemporaryAdjustmentsToGraph(INode initialNode, bool skipInitialNode)

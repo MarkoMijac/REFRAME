@@ -16,8 +16,7 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenProvidedArgumentIsNull_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            var graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
 
@@ -29,8 +28,7 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeIsChildNode_ReturnsTrue()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            var graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];
@@ -47,8 +45,7 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeIsNotChildNode_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            var graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = new Part();
@@ -65,8 +62,7 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeOwnerObjectDoesNotMatch_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            var graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             
@@ -83,8 +79,7 @@ namespace ReframeCoreTests
         public void ContainsChildNode_GivenNodeMemberNameDoesNotMatch_ReturnsFalse()
         {
             //Arrange
-            GraphRegistry.Instance.Clear();
-            var graph = GraphRegistry.Instance.GetOrCreateGraph("G1");
+            var graph = new DependencyGraph("G1");
             Whole whole = new Whole();
             ICollectionNode parts = graph.AddNode(whole.Parts, "A") as ICollectionNode;
             Part p = whole.Parts[0];
