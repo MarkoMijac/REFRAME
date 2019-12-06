@@ -475,24 +475,24 @@ namespace ReframeCoreTests
             if (t != null) await t;
 
             //Assert
-            Assert.AreEqual(5, graph.GetNode(o, "E").Level);
-            Assert.AreEqual(5, graph.GetNode(o, "C").Level);
+            Assert.AreEqual(5, graph.GetNode(o, "E").Layer);
+            Assert.AreEqual(5, graph.GetNode(o, "C").Layer);
 
-            Assert.AreEqual(4, graph.GetNode(o, "A").Level);
-            Assert.AreEqual(4, graph.GetNode(o, "B").Level);
+            Assert.AreEqual(4, graph.GetNode(o, "A").Layer);
+            Assert.AreEqual(4, graph.GetNode(o, "B").Layer);
 
-            Assert.AreEqual(3, graph.GetNode(o, "D").Level);
-            Assert.AreEqual(3, graph.GetNode(o, "F").Level);
+            Assert.AreEqual(3, graph.GetNode(o, "D").Layer);
+            Assert.AreEqual(3, graph.GetNode(o, "F").Layer);
 
-            Assert.AreEqual(2, graph.GetNode(o, "G").Level);
-            Assert.AreEqual(2, graph.GetNode(o, "H").Level);
-            Assert.AreEqual(2, graph.GetNode(o, "K").Level);
+            Assert.AreEqual(2, graph.GetNode(o, "G").Layer);
+            Assert.AreEqual(2, graph.GetNode(o, "H").Layer);
+            Assert.AreEqual(2, graph.GetNode(o, "K").Layer);
 
-            Assert.AreEqual(1, graph.GetNode(o, "I").Level);
-            Assert.AreEqual(1, graph.GetNode(o, "J").Level);
+            Assert.AreEqual(1, graph.GetNode(o, "I").Layer);
+            Assert.AreEqual(1, graph.GetNode(o, "J").Layer);
 
-            Assert.AreEqual(0, graph.GetNode(o, "L").Level);
-            Assert.AreEqual(0, graph.GetNode(o, "M").Level);
+            Assert.AreEqual(0, graph.GetNode(o, "L").Layer);
+            Assert.AreEqual(0, graph.GetNode(o, "M").Layer);
         }
 
         [TestMethod]

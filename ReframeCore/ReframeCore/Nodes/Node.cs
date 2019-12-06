@@ -14,7 +14,7 @@ namespace ReframeCore.Nodes
     {
         #region Properties
 
-        public int Level { get; set; }
+        public int Layer { get; set; }
 
         /// <summary>
         /// Node's unique identifier.
@@ -321,22 +321,22 @@ namespace ReframeCore.Nodes
 
         protected abstract Action GetUpdateMethod();
 
-        public void DetermineLevel()
+        public void DetermineLayer()
         {
-            int maxLevel = GetMaxLevel(Successors);
-            Level = maxLevel + 1;
+            int maxLayer = GetMaxLayer(Successors);
+            Layer = maxLayer + 1;
         }
 
-        private int GetMaxLevel(IList<INode> nodes)
+        private int GetMaxLayer(IList<INode> nodes)
         {
-            int maxLevel = -1;
+            int maxLayer = -1;
 
             if (nodes != null && nodes.Count > 0)
             {
-                maxLevel = nodes.Max(n => n.Level);
+                maxLayer = nodes.Max(n => n.Layer);
             }
 
-            return maxLevel;
+            return maxLayer;
 
         }
 

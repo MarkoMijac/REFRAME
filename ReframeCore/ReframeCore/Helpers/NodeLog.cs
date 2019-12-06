@@ -123,7 +123,7 @@ namespace ReframeCore.Helpers
                 data += string.Format("Node member name: {0}" + Environment.NewLine, node.MemberName);
                 data += string.Format("Owner object type: {0}" + Environment.NewLine, node.OwnerObject.GetType().ToString());
                 data += string.Format("Owner object hash: {0}" + Environment.NewLine, node.OwnerObject.GetHashCode().ToString());
-                data += string.Format("Level: {0}" + Environment.NewLine, node.Level);
+                data += string.Format("Layer: {0}" + Environment.NewLine, node.Layer);
 
                 DateTime start = (node as ITimeInfoProvider).UpdateStartedAt;
                 data += string.Format("Update started at: {0}:{1}:{2}:{3}" + Environment.NewLine, start.Hour, start.Minute, start.Second, start.Millisecond);

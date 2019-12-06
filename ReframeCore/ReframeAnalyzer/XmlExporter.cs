@@ -124,8 +124,8 @@ namespace ReframeAnalyzer
             xmlWriter.WriteString(node.OwnerObject.GetHashCode().ToString());
             xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("Level");
-            xmlWriter.WriteString(node.Level.ToString());
+            xmlWriter.WriteStartElement("Layer");
+            xmlWriter.WriteString(node.Layer.ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("NodeType");

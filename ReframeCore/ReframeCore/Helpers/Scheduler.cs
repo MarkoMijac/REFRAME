@@ -35,7 +35,7 @@ namespace ReframeCore.Helpers
         {
             MakeTemporaryAdjustmentsToGraph();
             IList<INode> nodesForUpdate = GetTopologicallySortedGraph();
-            SetNodeLevels(nodesForUpdate);
+            SetNodeLayers(nodesForUpdate);
             ResetGraphToInitialState();
 
             LogSchedule(nodesForUpdate);
@@ -135,11 +135,11 @@ namespace ReframeCore.Helpers
             return sortedGraph;
         }
 
-        private void SetNodeLevels(IList<INode> nodes)
+        private void SetNodeLayers(IList<INode> nodes)
         {
             for (int i = nodes.Count - 1; i >= 0; i--)
             {
-                nodes[i].DetermineLevel();
+                nodes[i].DetermineLayer();
             }
         }
 
@@ -157,7 +157,7 @@ namespace ReframeCore.Helpers
             {
                 MakeTemporaryAdjustmentsToGraph(initialNode, omitInitialNode);
                 nodesForUpdate = GetTopologicallySortedGraph(initial, omitInitialNode);
-                SetNodeLevels(nodesForUpdate);
+                SetNodeLayers(nodesForUpdate);
                 ResetGraphToInitialState();
             }
 

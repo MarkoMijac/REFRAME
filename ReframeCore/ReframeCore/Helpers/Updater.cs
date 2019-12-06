@@ -208,19 +208,19 @@ namespace ReframeCore.Helpers
         private void UpdateInParallel(Dictionary<INode, bool> nodesForUpdate)
         {
             IList<INode> list = nodesForUpdate.Keys.ToList();
-            int maxLevel = list[0].Level;
+            int maxLayer = list[0].Layer;
 
-            for (int i = maxLevel; i >= 0; i--)
+            for (int i = maxLayer; i >= 0; i--)
             {
-                UpdateLevel(nodesForUpdate, i).Wait();
+                UpdateLayer(nodesForUpdate, i).Wait();
             }
         }
 
-        private Task UpdateLevel(Dictionary<INode, bool> nodesForUpdate, int level)
+        private Task UpdateLayer(Dictionary<INode, bool> nodesForUpdate, int layer)
         {
-            IList<INode> nodesAtLevel = GetNodesAtLevel(nodesForUpdate.Keys.ToList(), level);
+            IList<INode> nodesAtLayer = GetNodesAtLayer(nodesForUpdate.Keys.ToList(), layer);
             List<Task> tasks = new List<Task>();
-            foreach (var node in nodesAtLevel)
+            foreach (var node in nodesAtLayer)
             {
                 Task task = new Task(() => node.Update());
                 task.ContinueWith(t => MarkAsUpdated(nodesForUpdate, node));
@@ -237,9 +237,9 @@ namespace ReframeCore.Helpers
             return groupTask;
         }
 
-        private IList<INode> GetNodesAtLevel(IList<INode> allNodes, int level)
+        private IList<INode> GetNodesAtLayer(IList<INode> allNodes, int layer)
         {
-            return allNodes.Where(n => n.Level == level).ToList();
+            return allNodes.Where(n => n.Layer == layer).ToList();
         }
         
         private INode GetFailedNode(Dictionary<INode, bool> nodesForUpdate)
