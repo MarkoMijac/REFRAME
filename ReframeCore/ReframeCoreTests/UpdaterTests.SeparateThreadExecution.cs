@@ -24,7 +24,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task task = updater.PerformUpdate();
@@ -54,7 +54,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task task = updater.PerformUpdate(graph.GetNode(o, "B"), false);
@@ -83,7 +83,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             Updater updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task task = updater.PerformUpdate(graph.GetNode(o, "B"));
@@ -111,7 +111,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task task = updater.PerformUpdate(o, "B");
@@ -139,7 +139,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             bool eventRaised = false;
 
@@ -168,7 +168,7 @@ namespace ReframeCoreTests
             graph.AddDependency(o, "D", o, "E");
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             bool eventRaised = false;
 
@@ -357,7 +357,7 @@ namespace ReframeCoreTests
             
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task t = updater.PerformUpdate();
@@ -392,7 +392,7 @@ namespace ReframeCoreTests
 
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
             
 
             //Act
@@ -412,7 +412,7 @@ namespace ReframeCoreTests
             
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             //Act
             Task t = updater.PerformUpdate(graph.GetNode(o, "H"), false);
@@ -439,7 +439,7 @@ namespace ReframeCoreTests
             
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
+            updater.AsynchronousUpdateEnabled = true;
 
             Task tAll = updater.PerformUpdate();
             if (tAll != null) await tAll;
@@ -467,8 +467,8 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
 
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
-            updater.EnableParallelUpdate = true;
+            updater.AsynchronousUpdateEnabled = true;
+            updater.ParallelUpdateEnabled = true;
 
             //Act
             Task t = updater.PerformUpdate();
@@ -505,8 +505,8 @@ namespace ReframeCoreTests
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
 
-            updater.EnableUpdateInSeparateThread = true;
-            updater.EnableParallelUpdate = true;
+            updater.AsynchronousUpdateEnabled = true;
+            updater.ParallelUpdateEnabled = true;
 
             //Act
             Task t = updater.PerformUpdate();
@@ -525,8 +525,8 @@ namespace ReframeCoreTests
 
             CreateCase1(graph, o);
             var updater = CreateUpdater(graph);
-            updater.EnableUpdateInSeparateThread = true;
-            updater.EnableParallelUpdate = true;
+            updater.AsynchronousUpdateEnabled = true;
+            updater.ParallelUpdateEnabled = true;
 
             Task tAll = updater.PerformUpdate();
             if (tAll != null) await tAll;

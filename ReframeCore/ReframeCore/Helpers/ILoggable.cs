@@ -8,7 +8,7 @@ namespace ReframeCore.Helpers
 {
     public interface ILoggable
     {
-        bool EnableLogging { get; set; }
+        bool LoggingEnabled { get; set; }
         NodeLog NodeLog { get; }
     }
 }

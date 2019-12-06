@@ -15,7 +15,7 @@ namespace ReframeCore.Helpers
         private List<Tuple<INode, INode>> RedirectionDependencesToRemove { get; set; } = new List<Tuple<INode, INode>>();
         private List<Tuple<INode, INode>> RedirectionDependencesToAdd { get; set; } = new List<Tuple<INode, INode>>();
 
-        public bool EnableLogging { get; set; } = true;
+        public bool LoggingEnabled { get; set; } = true;
         public NodeLog NodeLog { get; private set; } = new NodeLog();
         
         public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
@@ -45,7 +45,7 @@ namespace ReframeCore.Helpers
 
         private void LogSchedule(IList<INode> nodesForUpdate)
         {
-            if (EnableLogging == true)
+            if (LoggingEnabled == true)
             {
                 NodeLog.ClearLog();
                 NodeLog.Log(nodesForUpdate);

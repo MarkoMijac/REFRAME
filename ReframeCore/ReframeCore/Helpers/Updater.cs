@@ -25,10 +25,10 @@ namespace ReframeCore.Helpers
         public IDependencyGraph Graph { get; set; }
         public NodeLog NodeLog { get; private set; }
 
-        public bool EnableUpdateInSeparateThread { get; set; }
-        public bool EnableParallelUpdate { get; set; }
+        public bool AsynchronousUpdateEnabled { get; set; }
+        public bool ParallelUpdateEnabled { get; set; }
         private bool UpdateSuspended { get; set; } = false;
-        public bool EnableLogging { get; set; } = true;
+        public bool LoggingEnabled { get; set; } = true;
 
         public UpdateInfo LatestUpdateInfo { get; private set; }
 
@@ -46,7 +46,7 @@ namespace ReframeCore.Helpers
 
             Scheduler = scheduler;
 
-            EnableUpdateInSeparateThread = false;
+            AsynchronousUpdateEnabled = false;
             Status = UpdateProcessStatus.NotSet;
         }
 
@@ -58,7 +58,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (EnableUpdateInSeparateThread == true)
+            if (AsynchronousUpdateEnabled == true)
             {
                 task = PerformUpdateAsync();
             }
@@ -74,7 +74,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (EnableUpdateInSeparateThread == true)
+            if (AsynchronousUpdateEnabled == true)
             {
                 task = PerformUpdateAsync(initialNode, skipInitialNode);
             }
@@ -90,7 +90,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (EnableUpdateInSeparateThread == true)
+            if (AsynchronousUpdateEnabled == true)
             {
                 task = PerformUpdateAsync(ownerObject, memberName);
             }
@@ -170,7 +170,7 @@ namespace ReframeCore.Helpers
 
             try
             {
-                if (EnableUpdateInSeparateThread == true && EnableParallelUpdate == true)
+                if (AsynchronousUpdateEnabled == true && ParallelUpdateEnabled == true)
                 {
                     UpdateInParallel(nodesForUpdate);
                 }
@@ -260,7 +260,7 @@ namespace ReframeCore.Helpers
 
         private void MarkAsUpdated(Dictionary<INode, bool> nodesForUpdate, INode node)
         {
-            if (EnableLogging == true)
+            if (LoggingEnabled == true)
             {
                 NodeLog.Log(node);
             }
