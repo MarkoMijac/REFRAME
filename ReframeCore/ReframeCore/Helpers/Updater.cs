@@ -16,17 +16,24 @@ namespace ReframeCore.Helpers
         Ended
     }
 
+    public enum UpdateStrategy
+    {
+        Synchronous,
+        Asynchronous,
+        Parallel
+    }
+
+
     public class Updater : IUpdater, ILoggable
     {
         #region Properties
 
         private UpdateProcessStatus Status { get; set; }
+        public UpdateStrategy Strategy { get; set; }
 
         public IDependencyGraph Graph { get; set; }
         public NodeLog NodeLog { get; private set; }
 
-        public bool AsynchronousUpdateEnabled { get; set; }
-        public bool ParallelUpdateEnabled { get; set; }
         private bool UpdateSuspended { get; set; } = false;
         public bool LoggingEnabled { get; set; } = true;
 
@@ -46,7 +53,7 @@ namespace ReframeCore.Helpers
 
             Scheduler = scheduler;
 
-            AsynchronousUpdateEnabled = false;
+            Strategy = UpdateStrategy.Synchronous;
             Status = UpdateProcessStatus.NotSet;
         }
 
@@ -58,7 +65,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (AsynchronousUpdateEnabled == true)
+            if (Strategy == UpdateStrategy.Asynchronous || Strategy == UpdateStrategy.Parallel)
             {
                 task = PerformUpdateAsync();
             }
@@ -74,7 +81,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (AsynchronousUpdateEnabled == true)
+            if (Strategy == UpdateStrategy.Asynchronous || Strategy == UpdateStrategy.Parallel)
             {
                 task = PerformUpdateAsync(initialNode, skipInitialNode);
             }
@@ -90,7 +97,7 @@ namespace ReframeCore.Helpers
         {
             Task task = null;
 
-            if (AsynchronousUpdateEnabled == true)
+            if (Strategy == UpdateStrategy.Asynchronous || Strategy == UpdateStrategy.Parallel)
             {
                 task = PerformUpdateAsync(ownerObject, memberName);
             }
@@ -170,7 +177,7 @@ namespace ReframeCore.Helpers
 
             try
             {
-                if (AsynchronousUpdateEnabled == true && ParallelUpdateEnabled == true)
+                if (Strategy == UpdateStrategy.Parallel)
                 {
                     UpdateInParallel(nodesForUpdate);
                 }

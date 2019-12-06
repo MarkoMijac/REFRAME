@@ -95,7 +95,7 @@ namespace ReframeCoreTests
             var order = caseParameters.Item3;
 
             //Act
-            updater.AsynchronousUpdateEnabled = true;
+            updater.Strategy = UpdateStrategy.Asynchronous;
             await updater.PerformUpdate();
 
             //Assert
