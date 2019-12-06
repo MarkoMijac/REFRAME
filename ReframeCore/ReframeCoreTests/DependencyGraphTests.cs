@@ -1154,6 +1154,25 @@ namespace ReframeCoreTests
             Assert.IsTrue(node.Graph == null);
         }
 
+        [TestMethod]
+        public void RemoveNode_GivenDifferentInstanceOfTheSameNodeIsProvided_ReturnsTrue()
+        {
+            //Arrange
+            DependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+            string memberName = "Width";
+            INode node = nodeFactory.CreateNode(building, memberName);
+            graph.AddNode(node);
+
+            INode differentInstance = nodeFactory.CreateNode(building, memberName);
+
+            //Act
+            bool removed = graph.RemoveNode(differentInstance);
+
+            //Assert
+            Assert.IsTrue(removed);
+        }
+
         #endregion
 
         #region AddDependency

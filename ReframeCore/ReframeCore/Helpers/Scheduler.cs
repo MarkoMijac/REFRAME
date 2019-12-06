@@ -20,7 +20,7 @@ namespace ReframeCore.Helpers
         
         public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
 
-        public  IDependencyGraph Graph { get; private set; }
+        public IDependencyGraph Graph { get; private set; }
         public ISorter Sorter { get; private set; }
 
         public Scheduler(IDependencyGraph graph, ISorter sorter)

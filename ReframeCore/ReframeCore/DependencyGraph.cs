@@ -133,11 +133,13 @@ namespace ReframeCore
         {
             ValidateNodeRemoval(node, forceRemoval);
 
-            node.ClearPredecessors();
-            node.ClearSuccessors();
+            INode nodeToRemove = GetNode(node);
 
-            bool removed = Nodes.Remove(node);
-            UnregisterGraphFromNode(node);
+            nodeToRemove.ClearPredecessors();
+            nodeToRemove.ClearSuccessors();
+
+            bool removed = Nodes.Remove(nodeToRemove);
+            UnregisterGraphFromNode(nodeToRemove);
 
             return removed;
 
