@@ -135,6 +135,29 @@ namespace ReframeCore.Factories
 
         #endregion
 
+        #region RemoveReactor
+
+        public void RemoveReactor(string identifier)
+        {
+            if (CheckIfReactorExists(identifier) == true)
+            {
+                IReactor reactor = _reactors.FirstOrDefault(r => r.Identifier == identifier);
+                _reactors.Remove(reactor);
+            }
+            else
+            {
+                throw new ReactorException($"Reactor with identifier \"{identifier}\" does not exist in registry!");
+            }
+        }
+
+        public void RemoveReactor(IReactor reactor)
+        {
+            IReactor reactorToRemove = GetReactor(reactor.Identifier);
+            _reactors.Remove(reactorToRemove);
+        }
+
+        #endregion
+
         #region Clear
 
         public void Clear()
