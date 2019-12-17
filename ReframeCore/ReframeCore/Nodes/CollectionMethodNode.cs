@@ -18,19 +18,23 @@ namespace ReframeCore.Nodes
         public CollectionMethodNode(object collection, string methodName)
             : base(collection, methodName)
         {
-            ValidateArguments(collection, methodName);
+
         }
 
         #endregion
 
         #region Methods
 
-        private void ValidateArguments(object ownerObject, string methodName)
+        protected override bool IsValidNode(object owner, string memberName, out string message)
         {
-            if (methodName == "" || Reflector.IsMethod(ownerObject, methodName) == false)
+            message = "";
+            if (memberName == "" || Reflector.IsMethod(owner, memberName) == false)
             {
-                throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
+                message = "Unable to create reactive node! Provided update method is not a valid method!";
+                return false;
             }
+            
+            return true;
         }
 
         private void UpdateAll()

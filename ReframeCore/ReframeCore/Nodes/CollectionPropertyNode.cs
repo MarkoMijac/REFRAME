@@ -27,7 +27,6 @@ namespace ReframeCore.Nodes
         public CollectionPropertyNode(object collection, string memberName)
             : base(collection, memberName)
         {
-            ValidateArguments(collection, memberName);
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
             (OwnerObject as IReactiveCollection).CollectionNode = this;
         }
@@ -41,7 +40,7 @@ namespace ReframeCore.Nodes
         public CollectionPropertyNode(object collection, string memberName, string updateMethodName)
             :base(collection, memberName)
         {
-            ValidateArguments(collection, memberName, updateMethodName);
+            IsValidUpdateMethod(collection, updateMethodName);
             UpdateMethodName = updateMethodName;
 
             (OwnerObject as IReactiveCollection).UpdateTriggered += CollectionPropertyNode_UpdateTriggered;
@@ -52,22 +51,23 @@ namespace ReframeCore.Nodes
 
         #region Methods
 
-        private void ValidateArguments(object ownerObject, string memberName)
+        protected void IsValidUpdateMethod(object ownerObject, string updateMethodName)
         {
-            if (Reflector.ContainsMember(ownerObject, memberName) == false)
-            {
-                throw new ReactiveNodeException("Unable to create reactive node! Not all provided arguments were valid!");
-            }
-        }
-
-        protected void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
-        {
-            ValidateArguments(ownerObject, memberName);
-
             if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
             }
+        }
+
+        protected override bool IsValidNode(object owner, string memberName, out string message)
+        {
+            message = "";
+            if (Reflector.ContainsMember(owner, memberName) == false)
+            {
+                message = "Unable to create reactive node! Not all provided arguments were valid!";
+                return false;
+            }
+            return true;
         }
 
         private void UpdateAll()

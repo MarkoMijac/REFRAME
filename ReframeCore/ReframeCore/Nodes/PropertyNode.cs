@@ -27,7 +27,6 @@ namespace ReframeCore.Nodes
         public PropertyNode(object ownerObject, string memberName) 
             :base(ownerObject, memberName)
         {
-            ValidateArguments(ownerObject, memberName);
             LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
         }
 
@@ -40,7 +39,7 @@ namespace ReframeCore.Nodes
         public PropertyNode(object ownerObject, string memberName, string updateMethodName)
             :base(ownerObject, memberName)
         {
-            ValidateArguments(ownerObject, memberName, updateMethodName);
+            IsValidUpdateMethod(ownerObject, updateMethodName);
             _updateMethodName = updateMethodName;
             LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
         }
@@ -54,23 +53,8 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        private void ValidateArguments(object ownerObject, string memberName)
+        private void IsValidUpdateMethod(object ownerObject, string updateMethodName)
         {
-            if (Reflector.IsProperty(ownerObject, memberName) == false)
-            {
-                throw new ReactiveNodeException("Unable to create reactive node! Provided member is not a valid property!");
-            }
-        }
-
-        /// <summary>
-        /// Validates arguments passed in order to create reactive node.
-        /// </summary>
-        /// <param name="ownerObject">Associated object which owns the member.</param>
-        /// <param name="memberName">The name of the class member reactive node represents.</param>
-        private void ValidateArguments(object ownerObject, string memberName, string updateMethodName)
-        {
-            ValidateArguments(ownerObject, memberName);
-
             if (updateMethodName != "" && Reflector.IsMethod(ownerObject, updateMethodName) == false)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided update method is not a valid method!");
@@ -97,6 +81,18 @@ namespace ReframeCore.Nodes
             }
 
             return action;
+        }
+
+        protected override bool IsValidNode(object owner, string memberName, out string message)
+        {
+            message = "";
+            if (Reflector.IsProperty(owner, memberName) == false)
+            {
+                message = "Unable to create reactive node! Provided member is not a valid property!";
+                return false;
+            }
+            
+            return true;
         }
 
         #endregion

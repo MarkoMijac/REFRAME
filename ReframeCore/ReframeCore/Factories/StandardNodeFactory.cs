@@ -43,8 +43,7 @@ namespace ReframeCore.Factories
                 }
                 else
                 {
-                    if (Reflector.IsProperty(ownerObject, memberName) == true
-                    && (updateMethodName == "" || Reflector.IsMethod(ownerObject, updateMethodName) == true))
+                    if (Reflector.IsProperty(ownerObject, memberName) == true)
                     {
                         nodeType = NodeType.PropertyNode;
                     }

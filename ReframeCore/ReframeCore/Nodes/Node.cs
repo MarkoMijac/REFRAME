@@ -72,7 +72,7 @@ namespace ReframeCore.Nodes
 
         public Node(object ownerObject, string memberName)
         {
-            ValidateArguments(ownerObject);
+            ValidateArguments(ownerObject, memberName);
             Initialize(ownerObject, memberName);
         }
 
@@ -98,13 +98,21 @@ namespace ReframeCore.Nodes
         /// </summary>
         /// <param name="ownerObject">Associated object which owns the member.</param>
         /// <param name="memberName">The name of the class member reactive node represents.</param>
-        protected virtual void ValidateArguments(object ownerObject)
+        protected virtual void ValidateArguments(object ownerObject, string memberName)
         {
             if (ownerObject == null)
             {
                 throw new ReactiveNodeException("Unable to create reactive node! Provided object is not valid!");
             }
+
+            string message = "";
+            if (IsValidNode(ownerObject, memberName, out message) == false)
+            {
+                throw new ReactiveNodeException(message);
+            }
         }
+
+        protected abstract bool IsValidNode(object owner, string memberName, out string message);
 
         #endregion
 
@@ -337,7 +345,6 @@ namespace ReframeCore.Nodes
             }
 
             return maxLayer;
-
         }
 
         #endregion
