@@ -12,17 +12,35 @@ namespace ReframeCore.Factories
 {
     public class StandardNodeFactory : NodeFactory
     {
+        #region Properties
+
+        public string UpdateMethodNamePrefix { get; set; }
+        public bool UseDefaultUpdateMethodNames { get; set; }
+
+        #endregion
+
         #region Constructors
 
         public StandardNodeFactory()
             :base()
         {
-            
+            UpdateMethodNamePrefix = "Update_";
+            UseDefaultUpdateMethodNames = true;
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets update method name generated from default prefix and property name.
+        /// </summary>
+        /// <param name="propertyName">Property name represented by reactive node.</param>
+        /// <returns>Update method name generated from default prefix and property name.</returns>
+        protected virtual string GenerateDefaultUpdateMethodName(string propertyName)
+        {
+            return UpdateMethodNamePrefix + propertyName;
+        }
 
         protected override NodeType DetermineNodeType(object ownerObject, string memberName, string updateMethodName)
         {

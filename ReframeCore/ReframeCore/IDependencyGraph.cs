@@ -15,7 +15,6 @@ namespace ReframeCore
     public interface IDependencyGraph
     {
         string Identifier { get; }
-        INodeFactory NodeFactory { get; }
 
         IList<INode> Nodes { get; }
         INode AddNode(INode node);

@@ -11,8 +11,5 @@ namespace ReframeCore.Factories
     {
         INode CreateNode(object ownerObject, string memberName);
         INode CreateNode(object ownerObject, string memberName, string updateMethod);
-
-        string UpdateMethodNamePrefix { get; set; }
-        bool UseDefaultUpdateMethodNames { get; set; }
     }
 }

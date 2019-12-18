@@ -73,7 +73,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledAndExisting_ReturnsPropertyNodeWithDefaultUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             PrivateObject privateNodeFactory = new PrivateObject(nodeFactory);
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
@@ -94,7 +94,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsDisabled_ReturnsPropertyNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Building00 building = new Building00();
             string propertyName = "Area";
@@ -112,7 +112,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedAndDefaultOneIsEnabledButNotExisting_ReturnsPropertyNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Building00 building = new Building00();
             string propertyName = "Width";
@@ -252,7 +252,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledAndExisting_ReturnsCollectionNodeWithDefaultUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             PrivateObject privateNodeFactory = new PrivateObject(nodeFactory);
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
@@ -272,7 +272,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsDisabled_ReturnsCollectionNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = false; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "A";
@@ -290,7 +290,7 @@ namespace ReframeCoreTests
         public void CreateNode_GivenUpdateMethodIsNotProvidedForCollectionPropertyAndDefaultOneIsEnabledButNotExisting_ReturnsCollectionNodeWithoutUpdateMethod()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
+            var nodeFactory = new StandardNodeFactory();
             nodeFactory.UseDefaultUpdateMethodNames = true; //This is default option
             Whole whole = new Whole { Name = "Whole 1" };
             string propertyName = "D";

@@ -344,9 +344,8 @@ namespace ReframeCoreTests
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
-            graph.NodeFactory.UseDefaultUpdateMethodNames = true;
+            (graph.NodeFactory as StandardNodeFactory).UseDefaultUpdateMethodNames = true;
             PrivateObject privateObject = new PrivateObject(graph.NodeFactory);
-
             Building00 building = new Building00();
             string memberName = "Area";
 
@@ -364,7 +363,7 @@ namespace ReframeCoreTests
         {
             //Arrange
             DependencyGraph graph = new DependencyGraph("G1");
-            graph.NodeFactory.UseDefaultUpdateMethodNames = false;
+            (graph.NodeFactory as StandardNodeFactory).UseDefaultUpdateMethodNames = false;
 
             Building00 building = new Building00();
             string memberName = "Area";
