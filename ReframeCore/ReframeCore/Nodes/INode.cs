@@ -18,8 +18,6 @@ namespace ReframeCore.Nodes
         string MemberName { get; }
         object OwnerObject { get; }
         void Update();
-        bool HasSameIdentifier(object ownerObject, string memberName);
-        bool HasSameIdentifier(INode node);
 
         IList<INode> Predecessors { get; }
         IList<INode> Successors { get; }
@@ -35,7 +33,6 @@ namespace ReframeCore.Nodes
 
         bool IsValueChanged();
 
-        int Layer { get; }
-        void DetermineLayer();
+        int Layer { get; set; }
     }
 }

@@ -329,24 +329,6 @@ namespace ReframeCore.Nodes
 
         protected abstract Action GetUpdateMethod();
 
-        public void DetermineLayer()
-        {
-            int maxLayer = GetMaxLayer(Successors);
-            Layer = maxLayer + 1;
-        }
-
-        private int GetMaxLayer(IList<INode> nodes)
-        {
-            int maxLayer = -1;
-
-            if (nodes != null && nodes.Count > 0)
-            {
-                maxLayer = nodes.Max(n => n.Layer);
-            }
-
-            return maxLayer;
-        }
-
         #endregion
     }
 }

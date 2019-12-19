@@ -254,7 +254,7 @@ namespace ReframeCore
         /// <returns>Reactive node if exists in dependency graph, otherwise null.</returns>
         public INode GetNode(object ownerObject, string memberName)
         {
-            return Nodes.FirstOrDefault(n => n.HasSameIdentifier(ownerObject, memberName));
+            return Nodes.FirstOrDefault(n => n.OwnerObject == ownerObject && n.MemberName == memberName);
         }
 
         /// <summary>

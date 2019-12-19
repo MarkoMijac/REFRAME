@@ -44,8 +44,8 @@ namespace ReframeCoreTests
             //Arrange
             Whole whole = new Whole();
             const string memberName = "A";
-            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
-            INode node2 = new CollectionPropertyNode(whole.Parts, memberName);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            CollectionPropertyNode node2 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -61,7 +61,7 @@ namespace ReframeCoreTests
             Whole whole = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole.Parts, memberName);
@@ -78,8 +78,8 @@ namespace ReframeCoreTests
             const string memberName = "A";
             const string memberName2 = "B";
 
-            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
-            INode node2 = new CollectionPropertyNode(whole.Parts, memberName2);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            CollectionPropertyNode node2 = new CollectionPropertyNode(whole.Parts, memberName2);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -96,7 +96,7 @@ namespace ReframeCoreTests
             const string memberName = "A";
             const string memberName2 = "B";
 
-            INode node1 = new CollectionPropertyNode(whole.Parts, memberName);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole.Parts, memberName2);
@@ -113,8 +113,8 @@ namespace ReframeCoreTests
             Whole whole2 = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
-            INode node2 = new CollectionPropertyNode(whole2.Parts, memberName);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
+            CollectionPropertyNode node2 = new CollectionPropertyNode(whole2.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);
@@ -131,7 +131,7 @@ namespace ReframeCoreTests
             Whole whole2 = new Whole();
             const string memberName = "A";
 
-            INode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
+            CollectionPropertyNode node1 = new CollectionPropertyNode(whole1.Parts, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(whole2.Parts, memberName);

@@ -139,8 +139,26 @@ namespace ReframeCore.Helpers
         {
             for (int i = nodes.Count - 1; i >= 0; i--)
             {
-                nodes[i].DetermineLayer();
+                DetermineLayer(nodes[i]);
             }
+        }
+
+        private void DetermineLayer(INode node)
+        {
+            int maxLayer = GetMaxLayer(node.Successors);
+            node.Layer = maxLayer + 1;
+        }
+
+        private int GetMaxLayer(IList<INode> nodes)
+        {
+            int maxLayer = -1;
+
+            if (nodes != null && nodes.Count > 0)
+            {
+                maxLayer = nodes.Max(n => n.Layer);
+            }
+
+            return maxLayer;
         }
 
         public IList<INode> GetNodesForUpdate(INode initialNode, bool omitInitialNode)
