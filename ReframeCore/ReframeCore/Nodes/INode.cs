@@ -19,8 +19,8 @@ namespace ReframeCore.Nodes
         object OwnerObject { get; }
         void Update();
 
-        IList<INode> Predecessors { get; }
-        IList<INode> Successors { get; }
+        IReadOnlyList<INode> GetPredecessors();
+        IReadOnlyList<INode> GetSuccessors();
 
         bool AddPredecessor(INode predecessor);
         bool AddSuccessor(INode successor);

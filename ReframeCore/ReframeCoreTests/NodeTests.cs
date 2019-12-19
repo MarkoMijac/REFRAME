@@ -49,9 +49,9 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(2, numOfRemovedPredecessors);
-            Assert.AreEqual(0, nodeA.Predecessors.Count);
-            Assert.IsFalse(nodeB.Successors.Contains(nodeA));
-            Assert.IsFalse(nodeC.Successors.Contains(nodeA));
+            Assert.AreEqual(0, nodeA.GetPredecessors().Count);
+            Assert.IsFalse(nodeB.GetSuccessors().Contains(nodeA));
+            Assert.IsFalse(nodeC.GetSuccessors().Contains(nodeA));
         }
 
         [TestMethod]
@@ -91,9 +91,9 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.AreEqual(2, numOfRemovedSuccessors);
-            Assert.AreEqual(0, nodeA.Successors.Count);
-            Assert.IsFalse(nodeB.Predecessors.Contains(nodeA));
-            Assert.IsFalse(nodeC.Predecessors.Contains(nodeA));
+            Assert.AreEqual(0, nodeA.GetSuccessors().Count);
+            Assert.IsFalse(nodeB.GetPredecessors().Contains(nodeA));
+            Assert.IsFalse(nodeC.GetPredecessors().Contains(nodeA));
         }
 
         [TestMethod]

@@ -46,12 +46,12 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// List of reactive nodes that are predecessors to this reactive node.
         /// </summary>
-        public IList<INode> Predecessors { get; set; }
+        private IList<INode> Predecessors { get; set; }
 
         /// <summary>
         /// List of reactive nodes that are successors to this reactive node.
         /// </summary>
-        public IList<INode> Successors { get; set; }
+        private IList<INode> Successors { get; set; }
 
         /// <summary>
         /// Delegate to the update method.
@@ -117,6 +117,16 @@ namespace ReframeCore.Nodes
         #endregion
 
         #region Methods
+
+        public IReadOnlyList<INode> GetPredecessors()
+        {
+            return (Predecessors as List<INode>).AsReadOnly();
+        }
+
+        public IReadOnlyList<INode> GetSuccessors()
+        {
+            return (Successors as List<INode>).AsReadOnly();
+        }
 
         /// <summary>
         /// Gets reactive node's unique identifier.
@@ -254,7 +264,17 @@ namespace ReframeCore.Nodes
         /// <returns>True if predecessor removed, otherwise false.</returns>
         public bool RemovePredecessor(INode predecessor)
         {
-            return Predecessors.Remove(predecessor) && predecessor.Successors.Remove(this);
+            if (predecessor == null)
+            {
+                return false;
+            }
+
+            bool removed = Predecessors.Remove(predecessor);
+            if (predecessor.HasSuccessor(this))
+            {
+                predecessor.RemoveSuccessor(this);
+            }
+            return removed;
         }
 
         /// <summary>
@@ -293,7 +313,17 @@ namespace ReframeCore.Nodes
         /// <returns>True if successor removed, otherwise false.</returns>
         public bool RemoveSuccessor(INode successor)
         {
-            return Successors.Remove(successor) && successor.Predecessors.Remove(this);
+            if (successor == null)
+            {
+                return false;
+            }
+
+            bool removed = Successors.Remove(successor);
+            if (successor.HasPredecessor(this))
+            {
+                successor.RemovePredecessor(this);
+            }
+            return removed;
         }
 
         public virtual bool IsValueChanged()

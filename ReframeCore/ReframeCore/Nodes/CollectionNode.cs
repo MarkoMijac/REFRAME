@@ -43,7 +43,7 @@ namespace ReframeCore.Nodes
         {
             bool has = false;
 
-            foreach (var p in Predecessors)
+            foreach (var p in GetPredecessors())
             {
                 if (ContainsChildNode(p))
                 {

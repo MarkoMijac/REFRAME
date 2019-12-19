@@ -145,15 +145,15 @@ namespace ReframeCore.Helpers
 
         private void DetermineLayer(INode node)
         {
-            int maxLayer = GetMaxLayer(node.Successors);
+            int maxLayer = GetMaxLayer(node.GetSuccessors());
             node.Layer = maxLayer + 1;
         }
 
-        private int GetMaxLayer(IList<INode> nodes)
+        private int GetMaxLayer(IEnumerable<INode> nodes)
         {
             int maxLayer = -1;
 
-            if (nodes != null && nodes.Count > 0)
+            if (nodes != null && nodes.Count() > 0)
             {
                 maxLayer = nodes.Max(n => n.Layer);
             }
@@ -231,7 +231,7 @@ namespace ReframeCore.Helpers
         {
             RedirectionDependencesToRemove.Add(new Tuple<INode, INode>(predecessor, (INode)collectionNode));
 
-            foreach (var p in (collectionNode as INode).Predecessors)
+            foreach (var p in (collectionNode as INode).GetPredecessors())
             {
                 if ((collectionNode as ICollectionNode).ContainsChildNode(p))
                 {

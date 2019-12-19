@@ -11,6 +11,7 @@ using ReframeCore.Nodes;
 using ReframeCoreExamples.E07;
 using ReframeCore.ReactiveCollections;
 using ReframeCore.Factories;
+using System.Linq;
 
 namespace ReframeCoreTests
 {
@@ -1113,10 +1114,10 @@ namespace ReframeCoreTests
 
             //Assert
             Assert.IsTrue(removed);
-            Assert.IsFalse(nodeA.Successors.Contains(nodeC));
-            Assert.IsFalse(nodeB.Successors.Contains(nodeC));
-            Assert.IsFalse(nodeD.Predecessors.Contains(nodeC));
-            Assert.IsFalse(nodeE.Predecessors.Contains(nodeC));
+            Assert.IsFalse(nodeA.GetSuccessors().Contains(nodeC));
+            Assert.IsFalse(nodeB.GetSuccessors().Contains(nodeC));
+            Assert.IsFalse(nodeD.GetPredecessors().Contains(nodeC));
+            Assert.IsFalse(nodeE.GetPredecessors().Contains(nodeC));
         }
 
         [TestMethod]

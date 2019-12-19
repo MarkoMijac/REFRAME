@@ -64,7 +64,7 @@ namespace ReframeAnalyzer
                 int identifier = t.GUID.GetHashCode();
 
                 StaticNode predecessor = classGraph.FirstOrDefault(n => n.Identifier == identifier);
-                foreach (var s in node.Successors)
+                foreach (var s in node.GetSuccessors())
                 {
                     int sTypeIdentifier = s.OwnerObject.GetType().GUID.GetHashCode();
                     StaticNode successor = classGraph.FirstOrDefault(n => n.Identifier == sTypeIdentifier);
