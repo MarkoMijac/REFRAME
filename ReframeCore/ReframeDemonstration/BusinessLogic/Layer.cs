@@ -1,4 +1,5 @@
-﻿using ReframeCore.ReactiveCollections;
+﻿using ReframeCore.FluentAPI;
+using ReframeCore.ReactiveCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,9 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 thickness = value;
-                DependencyManager.DefaultReactor.PerformUpdate(this, "Thickness");
+                this.Update();
             }
         }
-
 
         public event EventHandler UpdateTriggered;
 

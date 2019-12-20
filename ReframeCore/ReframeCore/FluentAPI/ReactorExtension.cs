@@ -1,4 +1,6 @@
 ﻿using ReframeCore.Exceptions;
+using ReframeCore.Factories;
+using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using ReframeCore.ReactiveCollections;
 using System;
@@ -258,6 +260,19 @@ namespace ReframeCore.FluentAPI
                 throw new NodeNullReferenceException("Owner object is null!");
             }
             reactor.PerformUpdate(instance, memberName);
+        }
+
+        public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
+        {
+            foreach (var reactor in ReactorRegistry.Instance.GetReactors())
+            {
+                INode node = reactor.GetNode(instance, memberName);
+                if (node == null && instance is ICollectionNodeItem)
+                {
+                    node = GraphUtility.GetCollectionNode((ICollectionNodeItem)instance, memberName);
+                }
+                reactor.PerformUpdate(node);
+            }
         }
 
         #endregion

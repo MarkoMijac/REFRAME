@@ -21,7 +21,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 height = value;
-                DependencyManager.DefaultReactor.PerformUpdate(this, "Height");
+                this.Update();
             }
         }
 
@@ -33,7 +33,7 @@ namespace ReframeDemonstration.BusinessLogic
             set
             {
                 width = value;
-                DependencyManager.DefaultReactor.PerformUpdate(this, "Width");
+                this.Update();
             }
         }
 
