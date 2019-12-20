@@ -31,8 +31,7 @@ namespace ReframeCore.Nodes
         int ClearPredecessors();
         int ClearSuccessors();
 
-        bool IsValueChanged();
-
+        bool IsTriggered();
         int Layer { get; set; }
     }
 }

@@ -783,7 +783,7 @@ namespace ReframeCoreTests
             building.Width = 12;
 
             //Assert
-            Assert.IsTrue(node.IsValueChanged());
+            Assert.IsTrue(node.IsTriggered());
         }
 
         [TestMethod]
@@ -797,7 +797,7 @@ namespace ReframeCoreTests
             building.Width = 10;
 
             //Assert
-            Assert.IsFalse(node.IsValueChanged());
+            Assert.IsFalse(node.IsTriggered());
         }
 
         [TestMethod]
@@ -810,7 +810,7 @@ namespace ReframeCoreTests
             //Act
 
             //Assert
-            Assert.IsFalse(node.IsValueChanged());
+            Assert.IsFalse(node.IsTriggered());
         }
 
         [TestMethod]
@@ -824,7 +824,7 @@ namespace ReframeCoreTests
             building.Width = 10;
 
             //Assert
-            Assert.IsTrue(node.IsValueChanged());
+            Assert.IsTrue(node.IsTriggered());
         }
 
         #endregion

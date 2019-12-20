@@ -701,7 +701,7 @@ namespace ReframeCoreTests
             MethodNode node = new MethodNode(building, "Update_Area");
 
             //Act
-            bool isChanged = node.IsValueChanged();
+            bool isChanged = node.IsTriggered();
 
             //Assert
             Assert.IsTrue(isChanged);

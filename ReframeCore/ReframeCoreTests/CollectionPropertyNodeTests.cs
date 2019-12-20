@@ -704,7 +704,7 @@ namespace ReframeCoreTests
             CollectionPropertyNode node = new CollectionPropertyNode(whole.Parts, "A");
 
             //Act
-            bool isChanged = node.IsValueChanged();
+            bool isChanged = node.IsTriggered();
 
             //Assert
             Assert.IsTrue(isChanged);

@@ -326,7 +326,7 @@ namespace ReframeCore.Nodes
             return removed;
         }
 
-        public virtual bool IsValueChanged()
+        public virtual bool IsTriggered()
         {
             return true;
         }

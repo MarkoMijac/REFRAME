@@ -204,7 +204,7 @@ namespace ReframeCore.Helpers
 
         private bool SkipUpdate(INode node)
         {
-            return SkipUpdateIfInitialNodeNotChanged == true && node.IsValueChanged() == false;
+            return SkipUpdateIfInitialNodeNotChanged == true && node.IsTriggered() == false;
         }
 
         private void MakeTemporaryAdjustmentsToGraph(INode initialNode, bool skipInitialNode)

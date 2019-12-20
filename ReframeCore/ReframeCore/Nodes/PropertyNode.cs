@@ -61,7 +61,7 @@ namespace ReframeCore.Nodes
             }
         }
 
-        public override bool IsValueChanged()
+        public override bool IsTriggered()
         {
             object currentValue = Reflector.GetPropertyValue(OwnerObject, MemberName);
 

@@ -704,7 +704,7 @@ namespace ReframeCoreTests
             CollectionMethodNode node = new CollectionMethodNode(whole.Parts, "Update_A");
 
             //Act
-            bool isChanged = node.IsValueChanged();
+            bool isChanged = node.IsTriggered();
 
             //Assert
             Assert.IsTrue(isChanged);
