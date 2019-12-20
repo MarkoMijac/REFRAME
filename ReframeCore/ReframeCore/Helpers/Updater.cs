@@ -215,17 +215,20 @@ namespace ReframeCore.Helpers
         private void UpdateInParallel(Dictionary<INode, bool> nodesForUpdate)
         {
             IList<INode> list = nodesForUpdate.Keys.ToList();
-            int maxLayer = list[0].Layer;
+            Dictionary<int, IList<INode>> layers = Scheduler.GetLayersOfNodesForUpdate(list);
+
+            int maxLayer = layers.Max(l => l.Key);
 
             for (int i = maxLayer; i >= 0; i--)
             {
-                UpdateLayer(nodesForUpdate, i).Wait();
+                IList<INode> nodesAtLayer;
+                layers.TryGetValue(i, out nodesAtLayer);
+                UpdateLayer(nodesAtLayer, nodesForUpdate).Wait();
             }
         }
 
-        private Task UpdateLayer(Dictionary<INode, bool> nodesForUpdate, int layer)
+        private Task UpdateLayer(IList<INode> nodesAtLayer, Dictionary<INode, bool> nodesForUpdate)
         {
-            IList<INode> nodesAtLayer = GetNodesAtLayer(nodesForUpdate.Keys.ToList(), layer);
             List<Task> tasks = new List<Task>();
             foreach (var node in nodesAtLayer)
             {
@@ -244,11 +247,6 @@ namespace ReframeCore.Helpers
             return groupTask;
         }
 
-        private IList<INode> GetNodesAtLayer(IList<INode> allNodes, int layer)
-        {
-            return allNodes.Where(n => n.Layer == layer).ToList();
-        }
-        
         private INode GetFailedNode(Dictionary<INode, bool> nodesForUpdate)
         {
             INode node = null;

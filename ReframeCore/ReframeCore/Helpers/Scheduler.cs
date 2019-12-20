@@ -35,7 +35,6 @@ namespace ReframeCore.Helpers
         {
             MakeTemporaryAdjustmentsToGraph();
             IList<INode> nodesForUpdate = GetTopologicallySortedGraph();
-            SetNodeLayers(nodesForUpdate);
             ResetGraphToInitialState();
 
             LogSchedule(nodesForUpdate);
@@ -99,6 +98,52 @@ namespace ReframeCore.Helpers
             }
         }
 
+        public Dictionary<int, IList<INode>> GetLayersOfNodesForUpdate(IList<INode> nodes)
+        {
+            Dictionary<int, IList<INode>> layers = new Dictionary<int, IList<INode>>();
+
+            for (int i = nodes.Count - 1; i >= 0; i--)
+            {
+                int layer = DetermineLayer(nodes[i]);
+
+                if (layers.ContainsKey(layer) == true)
+                {
+                    IList<INode> list;
+                    layers.TryGetValue(layer, out list);
+                    list.Add(nodes[i]);
+                }
+                else
+                {
+                    IList<INode> newList = new List<INode>();
+                    layers.Add(layer, newList);
+                    newList.Add(nodes[i]);
+                }
+
+                nodes[i].Layer = layer;
+            }
+
+            return layers;
+        }
+
+        private int DetermineLayer(INode node)
+        {
+            int maxLayer = GetMaxLayer(node.GetSuccessors());
+            return maxLayer + 1;
+        }
+
+        private int GetMaxLayer(IEnumerable<INode> nodes)
+        {
+            int maxLayer = -1;
+
+            if (nodes != null && nodes.Count() > 0)
+            {
+                maxLayer = nodes.Max(n => n.Layer);
+            }
+
+            return maxLayer;
+
+        }
+
         private List<Tuple<INode, INode>> DetermineVirtualChildVsCollectionNodeDependencies()
         {
             List<Tuple<INode, INode>> tempDependencies = new List<Tuple<INode, INode>>();
@@ -135,32 +180,6 @@ namespace ReframeCore.Helpers
             return sortedGraph;
         }
 
-        private void SetNodeLayers(IList<INode> nodes)
-        {
-            for (int i = nodes.Count - 1; i >= 0; i--)
-            {
-                DetermineLayer(nodes[i]);
-            }
-        }
-
-        private void DetermineLayer(INode node)
-        {
-            int maxLayer = GetMaxLayer(node.GetSuccessors());
-            node.Layer = maxLayer + 1;
-        }
-
-        private int GetMaxLayer(IEnumerable<INode> nodes)
-        {
-            int maxLayer = -1;
-
-            if (nodes != null && nodes.Count() > 0)
-            {
-                maxLayer = nodes.Max(n => n.Layer);
-            }
-
-            return maxLayer;
-        }
-
         public IList<INode> GetNodesForUpdate(INode initialNode, bool omitInitialNode)
         {
             IList<INode> nodesForUpdate = null;
@@ -175,7 +194,6 @@ namespace ReframeCore.Helpers
             {
                 MakeTemporaryAdjustmentsToGraph(initialNode, omitInitialNode);
                 nodesForUpdate = GetTopologicallySortedGraph(initial, omitInitialNode);
-                SetNodeLayers(nodesForUpdate);
                 ResetGraphToInitialState();
             }
 
