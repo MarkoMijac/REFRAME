@@ -12,8 +12,6 @@ namespace ReframeCore.Helpers
         IList<INode> GetNodesForUpdate();
         IList<INode> GetNodesForUpdate(INode initialNode, bool omitInitialNode);
 
-        Dictionary<int, IList<INode>> GetLayersOfNodesForUpdate(IList<INode> nodes);
-
         ISorter Sorter { get; }
         IDependencyGraph Graph { get; }
     }

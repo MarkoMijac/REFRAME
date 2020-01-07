@@ -135,8 +135,7 @@ namespace ReframeCoreTests
             var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
-            IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate();
-            scheduler.GetLayersOfNodesForUpdate(nodesForUpdate);
+            scheduler.GetNodesForUpdate();
 
             //Assert
             Assert.AreEqual(0, graph.GetNode(o, "L").Layer);
@@ -170,8 +169,7 @@ namespace ReframeCoreTests
             var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
-            IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate();
-            scheduler.GetLayersOfNodesForUpdate(nodesForUpdate);
+            scheduler.GetNodesForUpdate();
 
             //Assert
             Assert.AreEqual(0, graph.GetNode(o, "L").Layer);
@@ -219,8 +217,7 @@ namespace ReframeCoreTests
             var scheduler = new Scheduler(graph, new DFS_Sorter());
 
             //Act
-            IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate();
-            scheduler.GetLayersOfNodesForUpdate(nodesForUpdate);
+            scheduler.GetNodesForUpdate();
 
             //Assert
             Assert.AreEqual(0, graph.GetNode(o, "E").Layer);
