@@ -57,7 +57,7 @@ namespace ReframeCore.Helpers
             {
                 visitedNodes[currentNode] = true;
 
-                var successors = currentNode.GetSuccessors();
+                var successors = currentNode.Successors;
                 foreach (var successor in successors)
                 {
                     Visit(successor, visitedNodes, sortedNodes);

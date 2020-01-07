@@ -17,11 +17,9 @@ namespace ReframeCore.Nodes
         uint Identifier { get; }
         string MemberName { get; }
         object OwnerObject { get; }
-        void Update();
 
-        IReadOnlyList<INode> GetPredecessors();
-        IReadOnlyList<INode> GetSuccessors();
-
+        IReadOnlyList<INode> Predecessors { get; }
+        IReadOnlyList<INode> Successors { get; }
         bool AddPredecessor(INode predecessor);
         bool AddSuccessor(INode successor);
         bool RemovePredecessor(INode predecessor);
@@ -31,6 +29,7 @@ namespace ReframeCore.Nodes
         int ClearPredecessors();
         int ClearSuccessors();
 
+        void Update();
         bool IsTriggered();
         int Layer { get; set; }
     }

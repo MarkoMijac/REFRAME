@@ -46,12 +46,12 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// List of reactive nodes that are predecessors to this reactive node.
         /// </summary>
-        private IList<INode> Predecessors { get; set; }
+        private IList<INode> _predecessors;
 
         /// <summary>
         /// List of reactive nodes that are successors to this reactive node.
         /// </summary>
-        private IList<INode> Successors { get; set; }
+        private IList<INode> _succesors;
 
         /// <summary>
         /// Delegate to the update method.
@@ -87,8 +87,8 @@ namespace ReframeCore.Nodes
             _weakOwnerObject = new WeakReference(ownerObject);
             MemberName = memberName;
 
-            Predecessors = new List<INode>();
-            Successors = new List<INode>();
+            _predecessors = new List<INode>();
+            _succesors = new List<INode>();
 
             Identifier = GenerateIdentifier();
         }
@@ -118,14 +118,20 @@ namespace ReframeCore.Nodes
 
         #region Methods
 
-        public IReadOnlyList<INode> GetPredecessors()
+        public IReadOnlyList<INode> Predecessors
         {
-            return (Predecessors as List<INode>).AsReadOnly();
+            get
+            {
+                return (_predecessors as List<INode>).AsReadOnly();
+            }
         }
 
-        public IReadOnlyList<INode> GetSuccessors()
+        public IReadOnlyList<INode> Successors
         {
-            return (Successors as List<INode>).AsReadOnly();
+            get
+            {
+                return (_succesors as List<INode>).AsReadOnly();
+            }
         }
 
         /// <summary>
@@ -215,7 +221,7 @@ namespace ReframeCore.Nodes
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
         public bool HasPredecessor(INode predecessor)
         {
-            return Predecessors.Contains(predecessor);
+            return _predecessors.Contains(predecessor);
         }
 
         /// <summary>
@@ -225,7 +231,7 @@ namespace ReframeCore.Nodes
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
         public bool HasSuccessor(INode successor)
         {
-            return Successors.Contains(successor);
+            return _succesors.Contains(successor);
         }
 
         /// <summary>
@@ -249,7 +255,7 @@ namespace ReframeCore.Nodes
 
             if (!HasPredecessor(predecessor))
             {
-                Predecessors.Add(predecessor);
+                _predecessors.Add(predecessor);
                 predecessor.AddSuccessor(this);
                 added = true;
             }
@@ -269,7 +275,7 @@ namespace ReframeCore.Nodes
                 return false;
             }
 
-            bool removed = Predecessors.Remove(predecessor);
+            bool removed = _predecessors.Remove(predecessor);
             if (predecessor.HasSuccessor(this))
             {
                 predecessor.RemoveSuccessor(this);
@@ -298,7 +304,7 @@ namespace ReframeCore.Nodes
 
             if (!HasSuccessor(successor))
             {
-                Successors.Add(successor);
+                _succesors.Add(successor);
                 successor.AddPredecessor(this);
                 added = true;
             }
@@ -318,7 +324,7 @@ namespace ReframeCore.Nodes
                 return false;
             }
 
-            bool removed = Successors.Remove(successor);
+            bool removed = _succesors.Remove(successor);
             if (successor.HasPredecessor(this))
             {
                 successor.RemovePredecessor(this);
@@ -335,9 +341,9 @@ namespace ReframeCore.Nodes
         {
             int numOfRemoved = 0;
 
-            for (int i = Predecessors.Count - 1; i >= 0; i--)
+            for (int i = _predecessors.Count - 1; i >= 0; i--)
             {
-                RemovePredecessor(Predecessors[i]);
+                RemovePredecessor(_predecessors[i]);
                 numOfRemoved++;
             }
 
@@ -348,9 +354,9 @@ namespace ReframeCore.Nodes
         {
             int numOfRemoved = 0;
 
-            for (int i = Successors.Count - 1; i >= 0; i--)
+            for (int i = _succesors.Count - 1; i >= 0; i--)
             {
-                RemoveSuccessor(Successors[i]);
+                RemoveSuccessor(_succesors[i]);
                 numOfRemoved++;
             }
 

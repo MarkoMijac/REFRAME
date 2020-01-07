@@ -25,7 +25,7 @@ namespace ReframeCore.Helpers
 
             for (int i = nodeIndex - 1; i >= 0; i--)
             {
-                if (node.GetPredecessors().Contains(updatePath[i]) == true)
+                if (node.Predecessors.Contains(updatePath[i]) == true)
                 {
                     predecessors.Add(updatePath[i]);
 

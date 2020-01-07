@@ -159,7 +159,7 @@ namespace ReframeCore
 
             if (forceRemoval == false)
             {
-                if (node.GetPredecessors().Count > 0 || node.GetSuccessors().Count > 0)
+                if (node.Predecessors.Count > 0 || node.Successors.Count > 0)
                 {
                     throw new ReactiveNodeException("Cannot remove reactive node which participates in reactive dependencies!");
                 }
@@ -176,7 +176,7 @@ namespace ReframeCore
 
             for (int i = Nodes.Count - 1; i >= 0; i--)
             {
-                if (Nodes[i].GetPredecessors().Count == 0 && Nodes[i].GetSuccessors().Count == 0)
+                if (Nodes[i].Predecessors.Count == 0 && Nodes[i].Successors.Count == 0)
                 {
                     RemoveNode(Nodes[i]);
                     numberOfRemovedNodes++;

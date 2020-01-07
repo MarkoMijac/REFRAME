@@ -133,18 +133,18 @@ namespace ReframeAnalyzer
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("PredecessorsCount");
-            xmlWriter.WriteString(node.GetPredecessors().Count.ToString());
+            xmlWriter.WriteString(node.Predecessors.Count.ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("SuccessorsCount");
-            xmlWriter.WriteString(node.GetSuccessors().Count.ToString());
+            xmlWriter.WriteString(node.Successors.Count.ToString());
             xmlWriter.WriteEndElement();
         }
 
         private static void WritePredecessors(INode node, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Predecessors");
-            foreach (INode predecessor in node.GetPredecessors())
+            foreach (INode predecessor in node.Predecessors)
             {
                 WritePredecessor(predecessor, xmlWriter);
             }
@@ -163,7 +163,7 @@ namespace ReframeAnalyzer
         private static void WriteSuccessors(INode node, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Successors");
-            foreach (INode successor in node.GetSuccessors())
+            foreach (INode successor in node.Successors)
             {
                 WriteSuccessor(successor, xmlWriter);
             }
