@@ -47,10 +47,6 @@ namespace ReframeAnalyzer
                 return "Error" + e.Message;
             }
 
-            
-
-            
-
             return result;
         }
     }

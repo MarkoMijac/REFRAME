@@ -51,7 +51,7 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// List of reactive nodes that are successors to this reactive node.
         /// </summary>
-        private IList<INode> _succesors;
+        private IList<INode> _successors;
 
         /// <summary>
         /// Delegate to the update method.
@@ -88,7 +88,7 @@ namespace ReframeCore.Nodes
             MemberName = memberName;
 
             _predecessors = new List<INode>();
-            _succesors = new List<INode>();
+            _successors = new List<INode>();
 
             Identifier = GenerateIdentifier();
         }
@@ -130,7 +130,7 @@ namespace ReframeCore.Nodes
         {
             get
             {
-                return (_succesors as List<INode>).AsReadOnly();
+                return (_successors as List<INode>).AsReadOnly();
             }
         }
 
@@ -231,7 +231,7 @@ namespace ReframeCore.Nodes
         /// <returns>True if forwarded reactive node is a predecessor of this reactive node, otherwise False.</returns>
         public bool HasSuccessor(INode successor)
         {
-            return _succesors.Contains(successor);
+            return _successors.Contains(successor);
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace ReframeCore.Nodes
 
             if (!HasSuccessor(successor))
             {
-                _succesors.Add(successor);
+                _successors.Add(successor);
                 successor.AddPredecessor(this);
                 added = true;
             }
@@ -324,7 +324,7 @@ namespace ReframeCore.Nodes
                 return false;
             }
 
-            bool removed = _succesors.Remove(successor);
+            bool removed = _successors.Remove(successor);
             if (successor.HasPredecessor(this))
             {
                 successor.RemovePredecessor(this);
@@ -354,9 +354,9 @@ namespace ReframeCore.Nodes
         {
             int numOfRemoved = 0;
 
-            for (int i = _succesors.Count - 1; i >= 0; i--)
+            for (int i = _successors.Count - 1; i >= 0; i--)
             {
-                RemoveSuccessor(_succesors[i]);
+                RemoveSuccessor(_successors[i]);
                 numOfRemoved++;
             }
 

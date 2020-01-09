@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using ReframeCore.Factories;
+using ReframeAnalyzer.Graph;
 
 namespace ReframeAnalyzer
 {
@@ -32,20 +33,68 @@ namespace ReframeAnalyzer
             return xml;
         }
 
-        public static string GetClassNodes(IDependencyGraph graph)
+        public static IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
         {
-            string xml = "";
+            AnalysisGraph analysisGraph = new AnalysisGraph();
 
-            List<StaticNode> classGraph = new List<StaticNode>();
+            List<ClassAnalysisNode> classNodes = new List<ClassAnalysisNode>();
 
             foreach (var node in graph.Nodes)
             {
                 Type t = node.OwnerObject.GetType();
-                int identifier = t.GUID.GetHashCode();
+                uint classIdentifier = (uint)t.GUID.GetHashCode();
+
+                if (classNodes.Exists(c => c.Identifier == classIdentifier) == false)
+                {
+                    var classNode = new ClassAnalysisNode()
+                    {
+                        Identifier = classIdentifier,
+                        Name = t.Name,
+                        FullName = t.FullName,
+                        Namespace = t.Namespace,
+                        Assembly = t.Assembly.ManifestModule.ToString()
+                    };
+
+                    classNodes.Add(classNode);
+                }
+
+                if (analysisGraph.ContainsNode(classIdentifier) == false)
+                {
+                    var classNode = new ClassAnalysisNode()
+                    {
+                        Identifier = classIdentifier,
+                        Name = t.Name,
+                        FullName = t.FullName,
+                        Namespace = t.Namespace,
+                        Assembly = t.Assembly.ManifestModule.ToString()
+                    };
+
+                    var classMemberNode = new ClassMemberAnalysisNode()
+                    {
+                        ClassNode = classNode
+                    };
+
+                    analysisGraph.AddNode(classMemberNode);
+                }
+            }
+
+            return analysisGraph;
+        }
+
+        public static string GetClassNodes(IDependencyGraph graph)
+        {
+            string xml = "";
+
+            List<ClassAnalysisNode> classGraph = new List<ClassAnalysisNode>();
+
+            foreach (var node in graph.Nodes)
+            {
+                Type t = node.OwnerObject.GetType();
+                uint identifier = (uint)t.GUID.GetHashCode();
 
                 if (classGraph.Exists(n => n.Identifier == identifier) == false)
                 {
-                    var classNode = new StaticNode()
+                    var classNode = new ClassAnalysisNode()
                     {
                         Identifier = identifier,
                         Name = t.Name,
@@ -63,16 +112,14 @@ namespace ReframeAnalyzer
                 Type t = node.OwnerObject.GetType();
                 int identifier = t.GUID.GetHashCode();
 
-                StaticNode predecessor = classGraph.FirstOrDefault(n => n.Identifier == identifier);
+                ClassAnalysisNode predecessor = classGraph.FirstOrDefault(n => n.Identifier == identifier);
                 foreach (var s in node.Successors)
                 {
                     int sTypeIdentifier = s.OwnerObject.GetType().GUID.GetHashCode();
-                    StaticNode successor = classGraph.FirstOrDefault(n => n.Identifier == sTypeIdentifier);
+                    ClassAnalysisNode successor = classGraph.FirstOrDefault(n => n.Identifier == sTypeIdentifier);
 
-                    if (predecessor.Successors.Contains(successor) == false)
-                    {
-                        predecessor.Successors.Add(successor);
-                    }
+                    predecessor.AddSuccesor(successor);
+                    successor.AddPredecessor(predecessor);
                 }
             }
 

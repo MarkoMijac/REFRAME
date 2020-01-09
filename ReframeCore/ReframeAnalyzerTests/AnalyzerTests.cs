@@ -7,6 +7,7 @@ using ReframeCoreExamples.E00;
 using ReframeCore.FluentAPI;
 using IPCServer;
 using ReframeCore.Factories;
+using ReframeCoreExamples.E09;
 
 namespace ReframeAnalyzerTests
 {
@@ -59,17 +60,6 @@ namespace ReframeAnalyzerTests
         [TestMethod]
         public void MyTestMethod1()
         {
-            string xml = @"<ServerCommand><RouterIdentifier>AnalyzerRouter</RouterIdentifier><CommandName>GetGraphNodes</CommandName><Parameters><Parameter><Name>GraphIdentifier</Name><Value>Graph-Floors</Value></Parameter></Parameters></ServerCommand>";
-
-            AnalyzerRouter router = new AnalyzerRouter();
-            string result = router.RouteCommand(xml);
-
-            Assert.IsTrue(result != "");
-        }
-
-        //[TestMethod]
-        public void GetClassNodes()
-        {
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
@@ -79,11 +69,53 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => obj.A).DependOn(() => obj.B, () => obj.C);
             reactor.Let(() => obj.C).DependOn(() => obj.D, () => obj.E);
 
+            string xml = @"<ServerCommand><RouterIdentifier>AnalyzerRouter</RouterIdentifier><CommandName>GetGraphNodes</CommandName><Parameters><Parameter><Name>GraphIdentifier</Name><Value>R1</Value></Parameter></Parameters></ServerCommand>";
+
+            AnalyzerRouter router = new AnalyzerRouter();
+
+            //Act
+            string result = router.RouteCommand(xml);
+
+            //Assert
+            Assert.IsTrue(result != "");
+        }
+
+        [TestMethod]
+        public void GetClassNodes()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+
+            reactor.Let(() => objA.PA1)
+                .DependOn(() => objB.PB1, () => objC.PC1);
+
             //Act
             string xml = Analyzer.GetClassNodes(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
+        }
+
+        [TestMethod]
+        public void GetClassMemberNodes()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+
+            reactor.Let(() => objA.PA1)
+                .DependOn(() => objB.PB1, () => objC.PC1);
+
+
         }
     }
 }
