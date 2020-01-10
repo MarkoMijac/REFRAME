@@ -16,6 +16,20 @@ namespace ReframeAnalyzerTests
     public class AnalyzerTests
     {
         [TestMethod]
+        public void GetRegisteredReactors_GivenThereAreRegisteredReactors_ReturnsXmlRepresentation()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            ReactorRegistry.Instance.GetOrCreateReactor("R1");
+            ReactorRegistry.Instance.GetOrCreateReactor("G2");
+            //Act
+            string xml = Analyzer.GetRegisteredReactors();
+
+            //Assert
+            Assert.AreNotEqual("", xml);
+        }
+
+        [TestMethod]
         public void GetRegisteredGraphs_GivenOneRegisteredGraph_ReturnsSerializedGraph()
         {
             //Arrange

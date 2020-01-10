@@ -9,17 +9,27 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using ReframeCore.Factories;
 using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Xml;
 
 namespace ReframeAnalyzer
 {
     public static class Analyzer
     {
+        public static string GetRegisteredReactors()
+        {
+            IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
+
+            var xmlExporter = new XmlReactorExporter(registeredReactors);
+
+            return xmlExporter.Export();
+        }
+
         public static string GetRegisteredGraphs()
         {
             string xml = "";
 
             IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
-            xml = XmlExporter.ExportGraphs(registeredReactors);
+            xml = XmlExporterImpl.ExportGraphs(registeredReactors);
 
             return xml;
         }
@@ -28,7 +38,7 @@ namespace ReframeAnalyzer
         {
             string xml = "";
 
-            xml = XmlExporter.ExportNodes(graph.Nodes);
+            xml = XmlExporterImpl.ExportNodes(graph.Nodes);
 
             return xml;
         }
@@ -86,9 +96,10 @@ namespace ReframeAnalyzer
         public static string GetClassAnalysisGraph(IDependencyGraph graph)
         {
             var graphFactory = new AnalysisGraphFactory();
-            var classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph);
+            ClassAnalysisGraph classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph) as ClassAnalysisGraph;
 
-            return XmlExporter.ExportGraph(classGraph);
+            var xmlExporter = new XmlClassGraphExporter(classGraph);
+            return xmlExporter.Export();
         }
 
         #endregion

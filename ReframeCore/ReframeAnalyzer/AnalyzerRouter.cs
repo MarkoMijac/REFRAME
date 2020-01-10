@@ -29,6 +29,7 @@ namespace ReframeAnalyzer
 
                 switch (commandName)
                 {
+                    case "GetRegisteredReactors": result = Analyzer.GetRegisteredReactors(); break;
                     case "GetRegisteredGraphs": result = Analyzer.GetRegisteredGraphs(); break;
                     case "GetGraphNodes":
                         {

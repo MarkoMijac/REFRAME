@@ -52,7 +52,11 @@
     <Compile Include="Graph\AnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlExporter.cs" />
+    <Compile Include="XmlExporterImpl.cs" />
+    <Compile Include="Xml\IXmlGraphExporter.cs" />
+    <Compile Include="Xml\XmlClassGraphExporter.cs" />
+    <Compile Include="Xml\XmlGraphExporter.cs" />
+    <Compile Include="Xml\XmlReactorExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IPCServer\IPCServer.csproj">
