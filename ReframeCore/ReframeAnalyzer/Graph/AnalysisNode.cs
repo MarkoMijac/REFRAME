@@ -82,6 +82,16 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
+        public bool HasPredecessor(IAnalysisNode predecessor)
+        {
+            return _predecessors.Contains(predecessor);
+        }
+
+        public bool HasSuccessor(IAnalysisNode successor)
+        {
+            return _successors.Contains(successor);
+        }
+
         public override string ToString()
         {
             return $"[{Identifier}] {Name}";

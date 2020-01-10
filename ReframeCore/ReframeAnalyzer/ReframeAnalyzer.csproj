@@ -42,8 +42,11 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="AnalyzerRouter.cs" />
+    <Compile Include="Exceptions\AnalyzerException.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\ClassAnalysisGraph.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
+    <Compile Include="Graph\AnalysisGraphFactory.cs" />
     <Compile Include="Graph\IAnalysisGraph.cs" />
     <Compile Include="Graph\IAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisNode.cs" />

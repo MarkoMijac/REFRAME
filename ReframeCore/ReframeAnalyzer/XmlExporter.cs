@@ -180,7 +180,9 @@ namespace ReframeAnalyzer
             xmlWriter.WriteEndElement();
         }
 
-        public static string ExportClassNodes(IList<ClassAnalysisNode> nodes)
+        #region Methods
+
+        public static string ExportGraph(IAnalysisGraph analysisGraph)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -188,12 +190,11 @@ namespace ReframeAnalyzer
             using (var xmlWriter = XmlWriter.Create(stringWriter, defaultXmlSettings))
             {
                 xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("StaticNodes");
+                xmlWriter.WriteStartElement("AnalysisGraph");
 
-                foreach (var node in nodes)
-                {
-                    WriteClassNode(node, xmlWriter);
-                }
+                WriteGraphBasicData(analysisGraph, xmlWriter);
+                WriteAnalysisNodes(analysisGraph, xmlWriter);
+                
 
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
@@ -202,56 +203,63 @@ namespace ReframeAnalyzer
             return builder.ToString();
         }
 
-        private static void WriteClassNode(ClassAnalysisNode classNode, XmlWriter xmlWriter)
+        private static void WriteGraphBasicData(IAnalysisGraph analysisGraph, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("GraphIdentifier");
+            xmlWriter.WriteString(analysisGraph.DependencyGraph.Identifier);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("NodeCount");
+            xmlWriter.WriteString(analysisGraph.DependencyGraph.Nodes.Count.ToString());
+            xmlWriter.WriteEndElement();
+        }
+
+        private static void WriteAnalysisNodes(IAnalysisGraph analysisGraph, XmlWriter xmlWriter)
+        {
+            foreach (var node in analysisGraph.Nodes)
+            {
+                WriteAnalysisNode(node, xmlWriter);
+            }
+        }
+
+        private static void WriteAnalysisNode(IAnalysisNode analysisNode, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("StaticNode");
 
             xmlWriter.WriteStartElement("Identifier");
-            xmlWriter.WriteString(classNode.Identifier.ToString());
+            xmlWriter.WriteString(analysisNode.Identifier.ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Name");
-            xmlWriter.WriteString(classNode.Name);
-            xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteStartElement("FullName");
-            xmlWriter.WriteString(classNode.FullName);
-            xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteStartElement("Namespace");
-            xmlWriter.WriteString(classNode.Namespace);
-            xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteStartElement("Assembly");
-            xmlWriter.WriteString(classNode.Assembly);
+            xmlWriter.WriteString(analysisNode.Name);
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("PredecessorsCount");
-            xmlWriter.WriteString(classNode.Predecessors.Count.ToString());
+            xmlWriter.WriteString(analysisNode.Predecessors.Count.ToString());
             xmlWriter.WriteEndElement();
 
-            WritePredecessors(classNode, xmlWriter);
+            WritePredecessors(analysisNode, xmlWriter);
 
             xmlWriter.WriteStartElement("SuccessorsCount");
-            xmlWriter.WriteString(classNode.Successors.Count.ToString());
+            xmlWriter.WriteString(analysisNode.Successors.Count.ToString());
             xmlWriter.WriteEndElement();
 
-            WriteSuccessors(classNode, xmlWriter);
+            WriteSuccessors(analysisNode, xmlWriter);
 
             xmlWriter.WriteEndElement();
         }
 
-        private static void WritePredecessors(ClassAnalysisNode node, XmlWriter xmlWriter)
+        private static void WritePredecessors(IAnalysisNode analysisNode, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Predecessors");
-            foreach (ClassAnalysisNode predecessor in node.Predecessors)
+            foreach (IAnalysisNode predecessor in analysisNode.Predecessors)
             {
                 WritePredecessor(predecessor, xmlWriter);
             }
             xmlWriter.WriteEndElement();
         }
 
-        private static void WritePredecessor(ClassAnalysisNode predecessor, XmlWriter xmlWriter)
+        private static void WritePredecessor(IAnalysisNode predecessor, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Predecessor");
 
@@ -266,17 +274,17 @@ namespace ReframeAnalyzer
             xmlWriter.WriteEndElement();
         }
 
-        private static void WriteSuccessors(ClassAnalysisNode node, XmlWriter xmlWriter)
+        private static void WriteSuccessors(IAnalysisNode analysisNode, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Successors");
-            foreach (ClassAnalysisNode successor in node.Successors)
+            foreach (IAnalysisNode successor in analysisNode.Successors)
             {
                 WriteSuccessor(successor, xmlWriter);
             }
             xmlWriter.WriteEndElement();
         }
 
-        private static void WriteSuccessor(ClassAnalysisNode successor, XmlWriter xmlWriter)
+        private static void WriteSuccessor(IAnalysisNode successor, XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Successor");
 
@@ -290,5 +298,7 @@ namespace ReframeAnalyzer
 
             xmlWriter.WriteEndElement();
         }
+
+        #endregion
     }
 }

@@ -35,7 +35,7 @@ namespace ReframeAnalyzer
 
         public static IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
         {
-            AnalysisGraph analysisGraph = new AnalysisGraph();
+            var analysisGraph = new ClassAnalysisGraph();
 
             List<ClassAnalysisNode> classNodes = new List<ClassAnalysisNode>();
 
@@ -81,52 +81,16 @@ namespace ReframeAnalyzer
             return analysisGraph;
         }
 
-        public static string GetClassNodes(IDependencyGraph graph)
+        #region Methods
+
+        public static string GetClassAnalysisGraph(IDependencyGraph graph)
         {
-            string xml = "";
+            var graphFactory = new AnalysisGraphFactory();
+            var classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph);
 
-            List<ClassAnalysisNode> classGraph = new List<ClassAnalysisNode>();
-
-            foreach (var node in graph.Nodes)
-            {
-                Type t = node.OwnerObject.GetType();
-                uint identifier = (uint)t.GUID.GetHashCode();
-
-                if (classGraph.Exists(n => n.Identifier == identifier) == false)
-                {
-                    var classNode = new ClassAnalysisNode()
-                    {
-                        Identifier = identifier,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString()
-                    };
-
-                    classGraph.Add(classNode);
-                }
-            }
-
-            foreach (var node in graph.Nodes)
-            {
-                Type t = node.OwnerObject.GetType();
-                int identifier = t.GUID.GetHashCode();
-
-                ClassAnalysisNode predecessor = classGraph.FirstOrDefault(n => n.Identifier == identifier);
-                foreach (var s in node.Successors)
-                {
-                    int sTypeIdentifier = s.OwnerObject.GetType().GUID.GetHashCode();
-                    ClassAnalysisNode successor = classGraph.FirstOrDefault(n => n.Identifier == sTypeIdentifier);
-
-                    predecessor.AddSuccesor(successor);
-                    successor.AddPredecessor(predecessor);
-                }
-            }
-
-            xml = XmlExporter.ExportClassNodes(classGraph);
-
-            return xml;
+            return XmlExporter.ExportGraph(classGraph);
         }
 
+        #endregion
     }
 }

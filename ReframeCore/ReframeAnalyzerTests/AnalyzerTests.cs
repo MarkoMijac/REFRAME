@@ -8,6 +8,7 @@ using ReframeCore.FluentAPI;
 using IPCServer;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
+using ReframeAnalyzer.Graph;
 
 namespace ReframeAnalyzerTests
 {
@@ -81,7 +82,7 @@ namespace ReframeAnalyzerTests
         }
 
         [TestMethod]
-        public void GetClassNodes()
+        public void GetClassAnalysisGraph()
         {
             //Arrange
             ReactorRegistry.Instance.Clear();
@@ -95,13 +96,13 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            string xml = Analyzer.GetClassNodes(reactor.Graph);
+            string xml = Analyzer.GetClassAnalysisGraph(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void GetClassMemberNodes()
         {
             //Arrange

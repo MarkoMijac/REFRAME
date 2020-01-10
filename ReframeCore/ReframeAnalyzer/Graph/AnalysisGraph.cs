@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class AnalysisGraph : IAnalysisGraph
+    public abstract class AnalysisGraph : IAnalysisGraph
     {
+        public IDependencyGraph DependencyGraph { get; protected set; }
+
         private List<IAnalysisNode> _nodes = new List<IAnalysisNode>();
 
         public IReadOnlyList<IAnalysisNode> Nodes => _nodes.AsReadOnly();
@@ -39,9 +41,6 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        public AnalysisGraph()
-        {
-            
-        }
+        public abstract void InitializeGraph(IDependencyGraph graph);
     }
 }
