@@ -23,15 +23,17 @@ namespace ReframeAnalyzer.Xml
 
         protected override void WriteAnalysisNodes(XmlWriter xmlWriter)
         {
+            xmlWriter.WriteStartElement("Nodes");
             foreach (ClassAnalysisNode node in _analysisGraph.Nodes)
             {
                 WriteAnalysisNode(node, xmlWriter);
             }
+            xmlWriter.WriteEndElement();
         }
 
         private void WriteAnalysisNode(ClassAnalysisNode analysisNode, XmlWriter xmlWriter)
         {
-            xmlWriter.WriteStartElement("StaticNode");
+            xmlWriter.WriteStartElement("Node");
 
             xmlWriter.WriteStartElement("Identifier");
             xmlWriter.WriteString(analysisNode.Identifier.ToString());
@@ -39,6 +41,18 @@ namespace ReframeAnalyzer.Xml
 
             xmlWriter.WriteStartElement("Name");
             xmlWriter.WriteString(analysisNode.Name);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("FullName");
+            xmlWriter.WriteString(analysisNode.FullName);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Namespace");
+            xmlWriter.WriteString(analysisNode.Namespace);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("Assembly");
+            xmlWriter.WriteString(analysisNode.Assembly);
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("PredecessorsCount");

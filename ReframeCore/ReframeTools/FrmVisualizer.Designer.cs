@@ -34,6 +34,7 @@
             this.btnGetGraphNodes = new System.Windows.Forms.Button();
             this.btnGetRegisteredGraphs = new System.Windows.Forms.Button();
             this.btnDisplayGraph = new System.Windows.Forms.Button();
+            this.btnClassGraph = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegisteredGraphs)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,11 +96,22 @@
             this.btnDisplayGraph.UseVisualStyleBackColor = true;
             this.btnDisplayGraph.Click += new System.EventHandler(this.btnDisplayGraph_Click);
             // 
+            // btnClassGraph
+            // 
+            this.btnClassGraph.Location = new System.Drawing.Point(168, 417);
+            this.btnClassGraph.Name = "btnClassGraph";
+            this.btnClassGraph.Size = new System.Drawing.Size(112, 23);
+            this.btnClassGraph.TabIndex = 12;
+            this.btnClassGraph.Text = "Display class graph";
+            this.btnClassGraph.UseVisualStyleBackColor = true;
+            this.btnClassGraph.Click += new System.EventHandler(this.btnClassGraph_Click);
+            // 
             // FrmVisualizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 499);
+            this.Controls.Add(this.btnClassGraph);
             this.Controls.Add(this.btnDisplayReactors);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvRegisteredGraphs);
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Button btnGetGraphNodes;
         private System.Windows.Forms.Button btnGetRegisteredGraphs;
         private System.Windows.Forms.Button btnDisplayGraph;
+        private System.Windows.Forms.Button btnClassGraph;
     }
 }

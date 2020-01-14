@@ -96,9 +96,9 @@ namespace ReframeAnalyzer
         public static string GetClassAnalysisGraph(IDependencyGraph graph)
         {
             var graphFactory = new AnalysisGraphFactory();
-            ClassAnalysisGraph classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph) as ClassAnalysisGraph;
+            var classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph);
 
-            var xmlExporter = new XmlClassGraphExporter(classGraph);
+            var xmlExporter = new XmlClassGraphExporter(classGraph as ClassAnalysisGraph);
             return xmlExporter.Export();
         }
 

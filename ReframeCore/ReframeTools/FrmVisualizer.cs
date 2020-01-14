@@ -1,6 +1,7 @@
 ﻿using IPCClient;
 using Microsoft.VisualStudio.GraphModel;
 using ReframeTools.Helpers;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,16 @@ namespace ReframeTools
 
             string xml = ClientQueries.GetGraphNodes(identifier);
             Graph dgmlGraph = Visualizer.GenerateDGMLGraph(xml);
+            SolutionServices.CreateNewDgmlFile(identifier, dgmlGraph);
+        }
+
+        private void btnClassGraph_Click(object sender, EventArgs e)
+        {
+            string identifier = dgvRegisteredGraphs.CurrentRow.Cells[0].Value.ToString();
+
+            string analysisGraphXML = ClientQueries.GetClassAnalysisGraph(identifier);
+            ClassVisualGraph visualGraph = new ClassVisualGraph(analysisGraphXML);
+            Graph dgmlGraph = Visualizer.GenerateDGMLGraph(visualGraph);
             SolutionServices.CreateNewDgmlFile(identifier, dgmlGraph);
         }
 

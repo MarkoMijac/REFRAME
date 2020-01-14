@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace ReframeTools.Helpers
                 AddNodes(dgmlGraph, nodes);
                 AddDependencies(dgmlGraph, nodes);
 
-                PaintNodes(dgmlGraph);
+                PaintGraph(dgmlGraph);
             }
             catch (Exception e)
             {
@@ -34,6 +35,14 @@ namespace ReframeTools.Helpers
 
 
             return dgmlGraph;
+        }
+
+        public static Graph GenerateDGMLGraph(IVisualGraph visualGraph)
+        {
+            Graph graph = visualGraph.GetDGML();
+            PaintGraph(graph);
+
+            return graph;
         }
 
         private static void AddNodes(Graph dgmlGraph, IEnumerable<XElement> nodes)
@@ -91,8 +100,10 @@ namespace ReframeTools.Helpers
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("IsOutputNode", System.Type.GetType("System.String"));
         }
 
-        private static void PaintNodes(Graph dgmlGraph)
+        private static void PaintGraph(Graph dgmlGraph)
         {
+
+            return;
             bool isInputNode = false;
             bool isOutputNode = false;
 

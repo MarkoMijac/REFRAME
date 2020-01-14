@@ -37,6 +37,13 @@ namespace ReframeAnalyzer
                             var reactor = ReactorRegistry.Instance.GetReactor(identifier);
                             result = Analyzer.GetGraphNodes(reactor.Graph); break;
                         }
+                    case "GetClassAnalysisGraph":
+                        {
+                            string identifier = parameters["GraphIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                            result = Analyzer.GetClassAnalysisGraph(reactor.Graph);
+                            break;
+                        }
                     default:
                         result = "No such command!";
                         break;
