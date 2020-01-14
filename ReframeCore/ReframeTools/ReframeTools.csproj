@@ -197,6 +197,10 @@
       <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
       <Name>IPCClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeToolsGUI\ReframeToolsGUI.csproj">
+      <Project>{f57f1ac2-3a64-4441-b867-63459908bf66}</Project>
+      <Name>ReframeToolsGUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
       <Project>{2becc201-155a-4fd4-81e0-3d6a33c6838d}</Project>
       <Name>ReframeVisualizer</Name>

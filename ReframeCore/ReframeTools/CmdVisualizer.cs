@@ -4,6 +4,7 @@ using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
+using ReframeToolsGUI;
 
 namespace ReframeTools
 {
@@ -94,7 +95,7 @@ namespace ReframeTools
                 throw new Exception("Failed to get DTE service!");
             }
             SolutionServices.Solution = dte.Solution;
-            FrmVisualizer form = new FrmVisualizer();
+            FrmMain form = new FrmMain();
             form.Show();
         }
     }

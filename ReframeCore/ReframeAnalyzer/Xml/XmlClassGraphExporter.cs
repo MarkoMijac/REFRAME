@@ -55,6 +55,18 @@ namespace ReframeAnalyzer.Xml
             xmlWriter.WriteString(analysisNode.Assembly);
             xmlWriter.WriteEndElement();
 
+            xmlWriter.WriteStartElement("Degree");
+            xmlWriter.WriteString(analysisNode.Degree.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("InDegree");
+            xmlWriter.WriteString(analysisNode.InDegree.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("OutDegree");
+            xmlWriter.WriteString(analysisNode.OutDegree.ToString());
+            xmlWriter.WriteEndElement();
+
             xmlWriter.WriteStartElement("PredecessorsCount");
             xmlWriter.WriteString(analysisNode.Predecessors.Count.ToString());
             xmlWriter.WriteEndElement();

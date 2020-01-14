@@ -10,6 +10,9 @@ namespace ReframeAnalyzer.Graph
     {
         uint Identifier { get;}
         string Name { get;}
+        int Degree { get; }
+        int InDegree { get; }
+        int OutDegree { get; }
 
         IReadOnlyList<IAnalysisNode> Predecessors { get; }
         IReadOnlyList<IAnalysisNode> Successors { get; }

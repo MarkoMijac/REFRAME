@@ -12,6 +12,12 @@ namespace ReframeAnalyzer.Graph
 
         public string Name { get; set; }
 
+        public int Degree { get => InDegree + OutDegree; }
+
+        public int InDegree { get => Predecessors.Count; }
+
+        public int OutDegree { get => Successors.Count;}
+
         private List<IAnalysisNode> _predecessors = new List<IAnalysisNode>();
 
         public IReadOnlyList<IAnalysisNode> Predecessors
@@ -95,6 +101,11 @@ namespace ReframeAnalyzer.Graph
         public override string ToString()
         {
             return $"[{Identifier}] {Name}";
+        }
+
+        private int CalculateInDegree()
+        {
+            return Predecessors.Count;
         }
     }
 }

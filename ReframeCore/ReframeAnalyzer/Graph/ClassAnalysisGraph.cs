@@ -36,7 +36,7 @@ namespace ReframeAnalyzer.Graph
                         Name = t.Name,
                         FullName = t.FullName,
                         Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString()
+                        Assembly = t.Assembly.ManifestModule.ToString(),  
                     };
 
                     AddNode(classNode);
