@@ -67,13 +67,57 @@ namespace ReframeAnalyzer
                             var reactor = ReactorRegistry.Instance.GetReactor(identifier);
                             var analyzer = new ClassLevelAnalyzer(reactor.Graph);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph() as ClassAnalysisGraph;
-                            Log($"AnalysisGraph created->{analysisGraph!=null}");
+                            var analysisGraph = analyzer.GetAnalysisGraph();
                             var sourceNodes = analyzer.GetSourceNodes();
-                            Log($"Source nodes created->{sourceNodes!=null}");
-                            Log($"# of Source nodes created->{sourceNodes.Count()}");
                             var xmlExporter = new XmlClassGraphExporter(analysisGraph, sourceNodes);
-                            Log($"XmlExporter created->{xmlExporter!=null}");
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphSinkNodes":
+                        {
+                            string identifier = parameters["GraphIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var sinkNodes = analyzer.GetSinkNodes();
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphLeafNodes":
+                        {
+                            string identifier = parameters["GraphIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var sinkNodes = analyzer.GetLeafNodes();
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphOrphanNodes":
+                        {
+                            string identifier = parameters["GraphIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var sinkNodes = analyzer.GetOrphanNodes();
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphIntermediaryNodes":
+                        {
+                            string identifier = parameters["GraphIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var sinkNodes = analyzer.GetIntermediaryNodes();
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
                             result = xmlExporter.Export();
                             break;
                         }

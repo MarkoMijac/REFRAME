@@ -57,7 +57,6 @@
             this.Name = "FrmReactors";
             this.ShowInTaskbar = false;
             this.Text = "Registered reactors";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmReactors_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).EndInit();
             this.ResumeLayout(false);

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ClassAnalysisController.cs" />
     <Compile Include="FrmClassAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>

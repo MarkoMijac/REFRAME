@@ -71,5 +71,57 @@ namespace IPCClient
 
             return PipeClient.ExecuteServerCommand(command);
         }
+
+        public static string GetClassAnalysisGraphSinkNodes(string graphIdentifier)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphSinkNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", graphIdentifier);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
+        public static string GetClassAnalysisGraphLeafNodes(string graphIdentifier)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphLeafNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", graphIdentifier);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
+        public static string GetClassAnalysisGraphOrphanNodes(string graphIdentifier)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphOrphanNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", graphIdentifier);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
+        public static string GetClassAnalysisGraphIntermediaryNodes(string graphIdentifier)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphIntermediaryNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", graphIdentifier);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
     }
 }

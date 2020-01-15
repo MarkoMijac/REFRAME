@@ -14,34 +14,31 @@ namespace ReframeToolsGUI
 {
     public partial class FrmClassAnalysis : Form
     {
-        private string _reactorIdentifier;
+        public string ReactorIdentifier { get; set; }
+
         public FrmClassAnalysis(string reactorIdentifier)
         {
             InitializeComponent();
-            _reactorIdentifier = reactorIdentifier;
+            ReactorIdentifier = reactorIdentifier;
             SetFormTitle();
         }
 
         private void FrmClassAnalysis_Load(object sender, EventArgs e)
         {
-            string xmlSource = ClientQueries.GetClassAnalysisGraph(_reactorIdentifier);
-            ShowXMLSource(xmlSource);
-            ShowAnalysis(xmlSource);
-
-            string sourceNodes = ClientQueries.GetClassAnalysisGraphSourceNodes(_reactorIdentifier);
+            
         }
 
         private void SetFormTitle()
         {
-            Text = $"Class-level analysis for Reactor [{_reactorIdentifier}]";
+            Text = $"Class-level analysis for Reactor [{ReactorIdentifier}]";
         }
 
-        private void ShowXMLSource(string xmlSource)
+        public void ShowXMLSource(string xmlSource)
         {
             rtxtXMLSource.Text = xmlSource;
         }
 
-        private void ShowAnalysis(string xmlSource)
+        public void ShowTable(string xmlSource)
         {
             dgvAnalysis.Rows.Clear();
 

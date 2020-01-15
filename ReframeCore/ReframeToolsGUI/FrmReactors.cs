@@ -22,10 +22,16 @@ namespace ReframeToolsGUI
         private void DisplayReactors()
         {
             dgvReactors.DataSource = null;
-            string xmlReactors = ClientQueries.GetRegisteredReactors();
-            List<object> reactors = ParseReactors(xmlReactors);
-
-            dgvReactors.DataSource = reactors;
+            try
+            {
+                string xmlReactors = ClientQueries.GetRegisteredReactors();
+                dgvReactors.DataSource = ParseReactors(xmlReactors);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to fetch reactors!");
+            }
+            
         }
 
         private List<object> ParseReactors(string xmlReactors)

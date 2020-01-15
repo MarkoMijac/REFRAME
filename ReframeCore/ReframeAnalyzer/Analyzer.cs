@@ -115,16 +115,17 @@ namespace ReframeAnalyzer
             return _analysisGraph;
         }
 
-        protected string GetOrphanNodes(IAnalysisGraph analysisGraph)
+        public IEnumerable<IAnalysisNode> GetOrphanNodes()
         {
-            var xmlExporter = new XmlNodesExporter(analysisGraph.GetOrphanNodes());
-            return xmlExporter.Export();
+            return _analysisGraph.Nodes.Where(n => n.Degree == 0);
         }
            
-        protected string GetLeafNodes(IAnalysisGraph analysisGraph)
+        public IEnumerable<IAnalysisNode> GetLeafNodes()
         {
-            var xmlExporter = new XmlNodesExporter(analysisGraph.GetLeafNodes());
-            return xmlExporter.Export();
+            return _analysisGraph.Nodes.Where(
+                n => (n.InDegree == 0 || n.OutDegree == 0) == true
+                && (n.InDegree == 0 && n.OutDegree == 0) == false
+                );
         }
 
         public IEnumerable<IAnalysisNode> GetSourceNodes()
@@ -132,16 +133,14 @@ namespace ReframeAnalyzer
             return _analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
         }
 
-        protected string GetSinkNodes(IAnalysisGraph analysisGraph)
+        public IEnumerable<IAnalysisNode> GetSinkNodes()
         {
-            var xmlExporter = new XmlNodesExporter(analysisGraph.GetSinkNodes());
-            return xmlExporter.Export();
+            return _analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
         }
 
-        protected string GetIntermediaryNodes(IAnalysisGraph analysisGraph)
+        public IEnumerable<IAnalysisNode> GetIntermediaryNodes()
         {
-            var xmlExporter = new XmlNodesExporter(analysisGraph.GetIntermediaryNodes());
-            return xmlExporter.Export();
+            return _analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
         }
 
         #endregion

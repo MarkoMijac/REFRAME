@@ -89,7 +89,7 @@
             this.tpAnalysis.Padding = new System.Windows.Forms.Padding(3);
             this.tpAnalysis.Size = new System.Drawing.Size(601, 447);
             this.tpAnalysis.TabIndex = 1;
-            this.tpAnalysis.Text = "Analysis";
+            this.tpAnalysis.Text = "Table view";
             this.tpAnalysis.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -169,7 +169,6 @@
             this.Name = "FrmClassAnalysis";
             this.ShowInTaskbar = false;
             this.Text = "Class analysis";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmClassAnalysis_Load);
             this.tabControl.ResumeLayout(false);
             this.tpSourceXML.ResumeLayout(false);

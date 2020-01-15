@@ -29,83 +29,99 @@
         private void InitializeComponent()
         {
             this.mainMenu = new System.Windows.Forms.MenuStrip();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.displayReactorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customGraphAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getImmediatePredecessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getImmediateSuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getImmediateNeighboursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reactorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSourceNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSinkNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showEntireGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
             // 
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolsToolStripMenuItem,
-            this.customGraphAnalysesToolStripMenuItem});
+            this.reactorToolStripMenuItem,
+            this.analysesToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(851, 24);
             this.mainMenu.TabIndex = 1;
             this.mainMenu.Text = "menuStrip1";
             // 
-            // toolsToolStripMenuItem
+            // reactorToolStripMenuItem
             // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.displayReactorsToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.toolsToolStripMenuItem.Text = "Analyzer";
+            this.reactorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.classlevelAnalysisToolStripMenuItem});
+            this.reactorToolStripMenuItem.Name = "reactorToolStripMenuItem";
+            this.reactorToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.reactorToolStripMenuItem.Text = "Reactor";
             // 
-            // displayReactorsToolStripMenuItem
+            // classlevelAnalysisToolStripMenuItem
             // 
-            this.displayReactorsToolStripMenuItem.Name = "displayReactorsToolStripMenuItem";
-            this.displayReactorsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.displayReactorsToolStripMenuItem.Text = "Show \'Class analysis\'";
-            this.displayReactorsToolStripMenuItem.Click += new System.EventHandler(this.displayReactorsToolStripMenuItem_Click);
+            this.classlevelAnalysisToolStripMenuItem.Name = "classlevelAnalysisToolStripMenuItem";
+            this.classlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.classlevelAnalysisToolStripMenuItem.Text = "Class-level analysis";
+            this.classlevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.classlevelAnalysisToolStripMenuItem_Click);
             // 
-            // customGraphAnalysesToolStripMenuItem
+            // analysesToolStripMenuItem
             // 
-            this.customGraphAnalysesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getImmediatePredecessorsToolStripMenuItem,
-            this.getImmediateSuccessorsToolStripMenuItem,
-            this.getImmediateNeighboursToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.showToolStripMenuItem});
-            this.customGraphAnalysesToolStripMenuItem.Name = "customGraphAnalysesToolStripMenuItem";
-            this.customGraphAnalysesToolStripMenuItem.Size = new System.Drawing.Size(142, 20);
-            this.customGraphAnalysesToolStripMenuItem.Text = "Custom graph analyses";
+            this.analysesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
+            this.analysesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showEntireGraphToolStripMenuItem,
+            this.showSourceNodesToolStripMenuItem,
+            this.showSinkNodesToolStripMenuItem,
+            this.showLeafNodesToolStripMenuItem,
+            this.showOrphanNodesToolStripMenuItem,
+            this.showIntermediaryNodesToolStripMenuItem});
+            this.analysesToolStripMenuItem.Name = "analysesToolStripMenuItem";
+            this.analysesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.analysesToolStripMenuItem.Text = "Analyses";
             // 
-            // getImmediatePredecessorsToolStripMenuItem
+            // showSourceNodesToolStripMenuItem
             // 
-            this.getImmediatePredecessorsToolStripMenuItem.Name = "getImmediatePredecessorsToolStripMenuItem";
-            this.getImmediatePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.getImmediatePredecessorsToolStripMenuItem.Text = "Get immediate predecessors";
+            this.showSourceNodesToolStripMenuItem.Name = "showSourceNodesToolStripMenuItem";
+            this.showSourceNodesToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.showSourceNodesToolStripMenuItem.Text = "Show source nodes";
+            this.showSourceNodesToolStripMenuItem.Click += new System.EventHandler(this.showSourceNodesToolStripMenuItem_Click);
             // 
-            // getImmediateSuccessorsToolStripMenuItem
+            // showSinkNodesToolStripMenuItem
             // 
-            this.getImmediateSuccessorsToolStripMenuItem.Name = "getImmediateSuccessorsToolStripMenuItem";
-            this.getImmediateSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.getImmediateSuccessorsToolStripMenuItem.Text = "Get immediate successors";
+            this.showSinkNodesToolStripMenuItem.Name = "showSinkNodesToolStripMenuItem";
+            this.showSinkNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showSinkNodesToolStripMenuItem.Text = "Show sink nodes";
+            this.showSinkNodesToolStripMenuItem.Click += new System.EventHandler(this.showSinkNodesToolStripMenuItem_Click);
             // 
-            // getImmediateNeighboursToolStripMenuItem
+            // showOrphanNodesToolStripMenuItem
             // 
-            this.getImmediateNeighboursToolStripMenuItem.Name = "getImmediateNeighboursToolStripMenuItem";
-            this.getImmediateNeighboursToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.getImmediateNeighboursToolStripMenuItem.Text = "Get immediate neighbours";
+            this.showOrphanNodesToolStripMenuItem.Name = "showOrphanNodesToolStripMenuItem";
+            this.showOrphanNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showOrphanNodesToolStripMenuItem.Text = "Show orphan nodes";
+            this.showOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.showOrphanNodesToolStripMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // showIntermediaryNodesToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
+            this.showIntermediaryNodesToolStripMenuItem.Name = "showIntermediaryNodesToolStripMenuItem";
+            this.showIntermediaryNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showIntermediaryNodesToolStripMenuItem.Text = "Show intermediary nodes";
+            this.showIntermediaryNodesToolStripMenuItem.Click += new System.EventHandler(this.showIntermediaryNodesToolStripMenuItem_Click);
             // 
-            // showToolStripMenuItem
+            // showLeafNodesToolStripMenuItem
             // 
-            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-            this.showToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.showToolStripMenuItem.Text = "Show";
+            this.showLeafNodesToolStripMenuItem.Name = "showLeafNodesToolStripMenuItem";
+            this.showLeafNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showLeafNodesToolStripMenuItem.Text = "Show leaf nodes";
+            this.showLeafNodesToolStripMenuItem.Click += new System.EventHandler(this.showLeafNodesToolStripMenuItem_Click);
+            // 
+            // showEntireGraphToolStripMenuItem
+            // 
+            this.showEntireGraphToolStripMenuItem.Name = "showEntireGraphToolStripMenuItem";
+            this.showEntireGraphToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showEntireGraphToolStripMenuItem.Text = "Show entire graph";
+            this.showEntireGraphToolStripMenuItem.Click += new System.EventHandler(this.showEntireGraphToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -129,14 +145,15 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip mainMenu;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem displayReactorsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customGraphAnalysesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getImmediatePredecessorsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getImmediateSuccessorsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getImmediateNeighboursToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reactorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem classlevelAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analysesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showSourceNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showSinkNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showOrphanNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showIntermediaryNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showLeafNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showEntireGraphToolStripMenuItem;
     }
 }
 
