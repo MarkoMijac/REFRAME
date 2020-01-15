@@ -58,5 +58,18 @@ namespace IPCClient
 
             return PipeClient.ExecuteServerCommand(command);
         }
+
+        public static string GetClassAnalysisGraphSourceNodes(string graphIdentifier)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphSourceNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", graphIdentifier);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
     }
 }

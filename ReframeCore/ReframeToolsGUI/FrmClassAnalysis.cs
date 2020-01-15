@@ -27,6 +27,8 @@ namespace ReframeToolsGUI
             string xmlSource = ClientQueries.GetClassAnalysisGraph(_reactorIdentifier);
             ShowXMLSource(xmlSource);
             ShowAnalysis(xmlSource);
+
+            string sourceNodes = ClientQueries.GetClassAnalysisGraphSourceNodes(_reactorIdentifier);
         }
 
         private void SetFormTitle()

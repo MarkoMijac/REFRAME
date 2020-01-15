@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,12 @@ namespace ReframeAnalyzer.Graph
         IAnalysisNode GetNode(uint identifier);
 
         void InitializeGraph(IDependencyGraph graph);
+        void InitializeGraph(IDependencyGraph graph, IEnumerable<INode> nodes);
+
+        IReadOnlyList<IAnalysisNode> GetOrphanNodes();
+        IReadOnlyList<IAnalysisNode> GetLeafNodes();
+        IReadOnlyList<IAnalysisNode> GetSourceNodes();
+        IReadOnlyList<IAnalysisNode> GetSinkNodes();
+        IReadOnlyList<IAnalysisNode> GetIntermediaryNodes();
     }
 }

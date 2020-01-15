@@ -1,21 +1,20 @@
-﻿using ReframeCore;
-using ReframeCore.Nodes;
+﻿using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Xml;
+using ReframeCore;
+using ReframeCore.Factories;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using ReframeCore.Factories;
-using ReframeAnalyzer.Graph;
-using ReframeAnalyzer.Xml;
 
 namespace ReframeAnalyzer
 {
-    public static class Analyzer
+    public abstract class Analyzer
     {
-        public static string GetRegisteredReactors()
+        #region Revise
+
+        public string GetRegisteredReactors()
         {
             IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
 
@@ -24,7 +23,7 @@ namespace ReframeAnalyzer
             return xmlExporter.Export();
         }
 
-        public static string GetRegisteredGraphs()
+        public string GetRegisteredGraphs()
         {
             string xml = "";
 
@@ -34,7 +33,7 @@ namespace ReframeAnalyzer
             return xml;
         }
 
-        public static string GetGraphNodes(IDependencyGraph graph)
+        public string GetGraphNodes(IDependencyGraph graph)
         {
             string xml = "";
 
@@ -43,7 +42,7 @@ namespace ReframeAnalyzer
             return xml;
         }
 
-        public static IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
+        public IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
         {
             var analysisGraph = new ClassAnalysisGraph();
 
@@ -91,14 +90,39 @@ namespace ReframeAnalyzer
             return analysisGraph;
         }
 
+        #endregion
+
         #region Methods
 
-        public static string GetClassAnalysisGraph(IDependencyGraph graph)
-        {
-            var graphFactory = new AnalysisGraphFactory();
-            var classGraph = graphFactory.GetGraph(graph, GraphType.ClassGraph);
+        public abstract IAnalysisGraph GetAnalysisGraph(IDependencyGraph graph);
 
-            var xmlExporter = new XmlClassGraphExporter(classGraph as ClassAnalysisGraph);
+        protected string GetOrphanNodes(IAnalysisGraph analysisGraph)
+        {
+            var xmlExporter = new XmlNodesExporter(analysisGraph.GetOrphanNodes());
+            return xmlExporter.Export();
+        }
+
+        protected string GetLeafNodes(IAnalysisGraph analysisGraph)
+        {
+            var xmlExporter = new XmlNodesExporter(analysisGraph.GetLeafNodes());
+            return xmlExporter.Export();
+        }
+
+        protected string GetSourceNodes(IAnalysisGraph analysisGraph)
+        {
+            var xmlExporter = new XmlNodesExporter(analysisGraph.GetSourceNodes());
+            return xmlExporter.Export();
+        }
+
+        protected string GetSinkNodes(IAnalysisGraph analysisGraph)
+        {
+            var xmlExporter = new XmlNodesExporter(analysisGraph.GetSinkNodes());
+            return xmlExporter.Export();
+        }
+
+        protected string GetIntermediaryNodes(IAnalysisGraph analysisGraph)
+        {
+            var xmlExporter = new XmlNodesExporter(analysisGraph.GetIntermediaryNodes());
             return xmlExporter.Export();
         }
 

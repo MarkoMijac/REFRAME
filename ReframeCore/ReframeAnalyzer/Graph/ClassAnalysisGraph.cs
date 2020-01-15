@@ -1,4 +1,5 @@
 ﻿using ReframeCore;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,25 @@ namespace ReframeAnalyzer.Graph
         public override void InitializeGraph(IDependencyGraph graph)
         {
             DependencyGraph = graph;
-            InitializeNodes();
-            InitializeDependencies();
+            InitializeNodes(graph.Nodes);
+            InitializeDependencies(graph.Nodes);
         }
 
-        private void InitializeNodes()
+        public override void InitializeGraph(IDependencyGraph graph, IEnumerable<INode> nodes)
         {
-            if (DependencyGraph == null || DependencyGraph.Nodes.Count == 0)
+            DependencyGraph = graph;
+            InitializeNodes(nodes);
+            InitializeDependencies(nodes);
+        }
+
+        private void InitializeNodes(IEnumerable<INode> nodes)
+        {
+            if (nodes.Count() == 0)
             {
                 return;
             }
 
-            foreach (var node in DependencyGraph.Nodes)
+            foreach (var node in nodes)
             {
                 Type t = node.OwnerObject.GetType();
                 uint identifier = (uint)t.GUID.GetHashCode();
@@ -44,14 +52,14 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeDependencies()
+        private void InitializeDependencies(IEnumerable<INode> nodes)
         {
-            if (DependencyGraph == null || DependencyGraph.Nodes.Count == 0)
+            if (nodes.Count() == 0)
             {
                 return;
             }
 
-            foreach (var node in DependencyGraph.Nodes)
+            foreach (var node in nodes)
             {
                 Type t = node.OwnerObject.GetType();
                 uint identifier = (uint)t.GUID.GetHashCode();
@@ -61,9 +69,11 @@ namespace ReframeAnalyzer.Graph
                 {
                     uint sTypeIdentifier = (uint)s.OwnerObject.GetType().GUID.GetHashCode();
                     var successor = GetNode(sTypeIdentifier);
-
-                    predecessor.AddSuccesor(successor);
-                    successor.AddPredecessor(predecessor);
+                    if (successor != null)
+                    {
+                        predecessor.AddSuccesor(successor);
+                        successor.AddPredecessor(predecessor);
+                    }
                 }
             }
         }

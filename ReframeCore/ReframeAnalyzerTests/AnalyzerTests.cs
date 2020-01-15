@@ -9,6 +9,7 @@ using IPCServer;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Xml;
 
 namespace ReframeAnalyzerTests
 {
@@ -23,7 +24,7 @@ namespace ReframeAnalyzerTests
             ReactorRegistry.Instance.GetOrCreateReactor("R1");
             ReactorRegistry.Instance.GetOrCreateReactor("G2");
             //Act
-            string xml = Analyzer.GetRegisteredReactors();
+            string xml = new ClassLevelAnalyzer().GetRegisteredReactors();
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -37,7 +38,7 @@ namespace ReframeAnalyzerTests
             ReactorRegistry.Instance.GetOrCreateReactor("R1");
             ReactorRegistry.Instance.GetOrCreateReactor("G2");
             //Act
-            string xml = Analyzer.GetRegisteredGraphs();
+            string xml = new ClassLevelAnalyzer().GetRegisteredGraphs();
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -56,7 +57,7 @@ namespace ReframeAnalyzerTests
             reactor.Let(() =>obj.C).DependOn(() =>obj.D, () =>obj.E);
 
             //Act
-            string xml = Analyzer.GetGraphNodes(reactor.Graph);
+            string xml = new ClassLevelAnalyzer().GetGraphNodes(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -110,7 +111,8 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            string xml = Analyzer.GetClassAnalysisGraph(reactor.Graph);
+            ClassAnalysisGraph analysisGraph = new ClassLevelAnalyzer().GetAnalysisGraph(reactor.Graph) as ClassAnalysisGraph;
+            var xml = new XmlClassGraphExporter(analysisGraph).Export();
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -131,6 +133,28 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
 
+        }
+
+        [TestMethod]
+        public void GetClassAnalysisGraphSourceNodes()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+
+            reactor.Let(() => objA.PA1)
+                .DependOn(() => objB.PB1, () => objC.PC1);
+
+            //Act
+            var analyzer = new ClassLevelAnalyzer();
+            ClassAnalysisGraph analysisGraph = analyzer.GetSourceNodes(reactor.Graph) as ClassAnalysisGraph;
+
+            //Assert
+            Assert.IsTrue(analysisGraph != null);
         }
     }
 }
