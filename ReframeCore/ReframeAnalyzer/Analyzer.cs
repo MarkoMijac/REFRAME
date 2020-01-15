@@ -14,7 +14,7 @@ namespace ReframeAnalyzer
     {
         #region Revise
 
-        public string GetRegisteredReactors()
+        public static string GetRegisteredReactors()
         {
             IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
 
@@ -23,7 +23,7 @@ namespace ReframeAnalyzer
             return xmlExporter.Export();
         }
 
-        public string GetRegisteredGraphs()
+        public static string GetRegisteredGraphs()
         {
             string xml = "";
 
@@ -33,7 +33,7 @@ namespace ReframeAnalyzer
             return xml;
         }
 
-        public string GetGraphNodes(IDependencyGraph graph)
+        public static string GetGraphNodes(IDependencyGraph graph)
         {
             string xml = "";
 
@@ -42,7 +42,7 @@ namespace ReframeAnalyzer
             return xml;
         }
 
-        public IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
+        public static IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
         {
             var analysisGraph = new ClassAnalysisGraph();
 
@@ -92,26 +92,44 @@ namespace ReframeAnalyzer
 
         #endregion
 
+        #region Constructors
+
+        protected IDependencyGraph _dependencyGraph;
+
+        public Analyzer(IDependencyGraph graph)
+        {
+            _dependencyGraph = graph;
+            CreateAnalysisGraph();
+        }
+
+        #endregion
+
         #region Methods
 
-        public abstract IAnalysisGraph GetAnalysisGraph(IDependencyGraph graph);
+        protected IAnalysisGraph _analysisGraph;
+
+        protected abstract void CreateAnalysisGraph();
+
+        public IAnalysisGraph GetAnalysisGraph()
+        {
+            return _analysisGraph;
+        }
 
         protected string GetOrphanNodes(IAnalysisGraph analysisGraph)
         {
             var xmlExporter = new XmlNodesExporter(analysisGraph.GetOrphanNodes());
             return xmlExporter.Export();
         }
-
+           
         protected string GetLeafNodes(IAnalysisGraph analysisGraph)
         {
             var xmlExporter = new XmlNodesExporter(analysisGraph.GetLeafNodes());
             return xmlExporter.Export();
         }
 
-        protected string GetSourceNodes(IAnalysisGraph analysisGraph)
+        public IEnumerable<IAnalysisNode> GetSourceNodes()
         {
-            var xmlExporter = new XmlNodesExporter(analysisGraph.GetSourceNodes());
-            return xmlExporter.Export();
+            return _analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
         }
 
         protected string GetSinkNodes(IAnalysisGraph analysisGraph)

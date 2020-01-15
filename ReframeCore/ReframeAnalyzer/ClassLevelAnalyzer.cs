@@ -15,23 +15,18 @@ namespace ReframeAnalyzer
 {
     public class ClassLevelAnalyzer : Analyzer
     {
-        #region Methods
-
-        public override IAnalysisGraph GetAnalysisGraph(IDependencyGraph graph)
+        public ClassLevelAnalyzer(IDependencyGraph graph)
+            :base(graph)
         {
-            var classGraph = new ClassAnalysisGraph();
-            classGraph.InitializeGraph(graph);
 
-            return classGraph;
         }
 
-        public IAnalysisGraph GetSourceNodes(IDependencyGraph graph)
-        {
-            IEnumerable<INode> sourceNodes = graph.Nodes.Where(n => n.Predecessors.Count == 0 && n.Successors.Count > 0);
+        #region Methods
 
-            var classGraph = new ClassAnalysisGraph();
-            classGraph.InitializeGraph(graph, sourceNodes);
-            return classGraph;
+        protected override void CreateAnalysisGraph()
+        {
+            _analysisGraph = new ClassAnalysisGraph();
+            _analysisGraph.InitializeGraph(_dependencyGraph);
         }
 
         #endregion

@@ -12,16 +12,9 @@ namespace ReframeAnalyzer.Graph
     {
         public override void InitializeGraph(IDependencyGraph graph)
         {
-            DependencyGraph = graph;
+            Identifier = graph.Identifier;
             InitializeNodes(graph.Nodes);
             InitializeDependencies(graph.Nodes);
-        }
-
-        public override void InitializeGraph(IDependencyGraph graph, IEnumerable<INode> nodes)
-        {
-            DependencyGraph = graph;
-            InitializeNodes(nodes);
-            InitializeDependencies(nodes);
         }
 
         private void InitializeNodes(IEnumerable<INode> nodes)

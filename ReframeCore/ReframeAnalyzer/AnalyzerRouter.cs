@@ -43,38 +43,37 @@ namespace ReframeAnalyzer
 
                 switch (commandName)
                 {
-                    case "GetRegisteredReactors": result = new ClassLevelAnalyzer().GetRegisteredReactors(); break;
-                    case "GetRegisteredGraphs": result = new ClassLevelAnalyzer().GetRegisteredGraphs(); break;
+                    case "GetRegisteredReactors": result = Analyzer.GetRegisteredReactors(); break;
+                    case "GetRegisteredGraphs": result = Analyzer.GetRegisteredGraphs(); break;
                     case "GetGraphNodes":
                         {
                             string identifier = parameters["GraphIdentifier"];
                             var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            result = new ClassLevelAnalyzer().GetGraphNodes(reactor.Graph); break;
+                            result = Analyzer.GetGraphNodes(reactor.Graph); break;
                         }
                     case "GetClassAnalysisGraph":
                         {
                             string identifier = parameters["GraphIdentifier"];
                             var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer();
-                            ClassAnalysisGraph analysisGraph = analyzer.GetAnalysisGraph(reactor.Graph) as ClassAnalysisGraph;
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            ClassAnalysisGraph analysisGraph = analyzer.GetAnalysisGraph() as ClassAnalysisGraph;
                             var xmlExporter = new XmlClassGraphExporter(analysisGraph);
                             result = xmlExporter.Export();
                             break;
                         }
                     case "GetClassAnalysisGraphSourceNodes":
                         {
-                            ClearLog();
-                            Log("Enter GetClassAnalysisGraphSourceNodes");
                             string identifier = parameters["GraphIdentifier"];
                             var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            Log($"Reactor fetched -> {reactor.Identifier}");
-                            Log($"Graph fetched -> {reactor.Graph!=null}");
-                            var analyzer = new ClassLevelAnalyzer();
-                            Log($"Analyzer is created -> {analyzer != null}");
-                            ClassAnalysisGraph analysisGraph = analyzer.GetSourceNodes(reactor.Graph) as ClassAnalysisGraph;
-                            Log($"Analysis graph created -> {analysisGraph != null}");
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph);
-                            Log($"XML Exporter created -> {xmlExporter != null}");
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph() as ClassAnalysisGraph;
+                            Log($"AnalysisGraph created->{analysisGraph!=null}");
+                            var sourceNodes = analyzer.GetSourceNodes();
+                            Log($"Source nodes created->{sourceNodes!=null}");
+                            Log($"# of Source nodes created->{sourceNodes.Count()}");
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sourceNodes);
+                            Log($"XmlExporter created->{xmlExporter!=null}");
                             result = xmlExporter.Export();
                             break;
                         }

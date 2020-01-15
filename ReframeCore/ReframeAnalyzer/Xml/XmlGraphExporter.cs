@@ -13,11 +13,20 @@ namespace ReframeAnalyzer.Xml
     {
         protected XmlWriterSettings _defaultXmlSettings;
         protected IAnalysisGraph _analysisGraph;
+        protected IEnumerable<IAnalysisNode> _nodes;
 
         protected XmlGraphExporter(IAnalysisGraph graph)
         {
             SetDefaultSettings();
             _analysisGraph = graph;
+            _nodes = graph.Nodes;
+        }
+
+        protected XmlGraphExporter(IAnalysisGraph graph, IEnumerable<IAnalysisNode> nodes)
+        {
+            SetDefaultSettings();
+            _analysisGraph = graph;
+            _nodes = nodes;
         }
 
         private void SetDefaultSettings()

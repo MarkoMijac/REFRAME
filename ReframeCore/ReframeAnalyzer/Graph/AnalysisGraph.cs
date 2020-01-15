@@ -10,7 +10,7 @@ namespace ReframeAnalyzer.Graph
 {
     public abstract class AnalysisGraph : IAnalysisGraph
     {
-        public IDependencyGraph DependencyGraph { get; protected set; }
+        public string Identifier { get; protected set; }
 
         private List<IAnalysisNode> _nodes = new List<IAnalysisNode>();
 
@@ -43,8 +43,6 @@ namespace ReframeAnalyzer.Graph
         }
 
         public abstract void InitializeGraph(IDependencyGraph graph);
-
-        public abstract void InitializeGraph(IDependencyGraph graph, IEnumerable<INode> nodes);
 
         public IReadOnlyList<IAnalysisNode> GetOrphanNodes()
         {

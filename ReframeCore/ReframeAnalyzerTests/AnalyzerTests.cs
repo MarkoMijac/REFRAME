@@ -10,6 +10,8 @@ using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
 using ReframeAnalyzer.Xml;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ReframeAnalyzerTests
 {
@@ -24,7 +26,7 @@ namespace ReframeAnalyzerTests
             ReactorRegistry.Instance.GetOrCreateReactor("R1");
             ReactorRegistry.Instance.GetOrCreateReactor("G2");
             //Act
-            string xml = new ClassLevelAnalyzer().GetRegisteredReactors();
+            string xml = Analyzer.GetRegisteredReactors();
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -38,7 +40,7 @@ namespace ReframeAnalyzerTests
             ReactorRegistry.Instance.GetOrCreateReactor("R1");
             ReactorRegistry.Instance.GetOrCreateReactor("G2");
             //Act
-            string xml = new ClassLevelAnalyzer().GetRegisteredGraphs();
+            string xml = Analyzer.GetRegisteredGraphs();
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -57,7 +59,7 @@ namespace ReframeAnalyzerTests
             reactor.Let(() =>obj.C).DependOn(() =>obj.D, () =>obj.E);
 
             //Act
-            string xml = new ClassLevelAnalyzer().GetGraphNodes(reactor.Graph);
+            string xml = Analyzer.GetGraphNodes(reactor.Graph);
 
             //Assert
             Assert.AreNotEqual("", xml);
@@ -111,7 +113,7 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            ClassAnalysisGraph analysisGraph = new ClassLevelAnalyzer().GetAnalysisGraph(reactor.Graph) as ClassAnalysisGraph;
+            ClassAnalysisGraph analysisGraph = new ClassLevelAnalyzer(reactor.Graph).GetAnalysisGraph() as ClassAnalysisGraph;
             var xml = new XmlClassGraphExporter(analysisGraph).Export();
 
             //Assert
@@ -150,11 +152,35 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            var analyzer = new ClassLevelAnalyzer();
-            ClassAnalysisGraph analysisGraph = analyzer.GetSourceNodes(reactor.Graph) as ClassAnalysisGraph;
+            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+            ClassAnalysisGraph analysisGraph = analyzer.GetSourceNodes() as ClassAnalysisGraph;
 
             //Assert
             Assert.IsTrue(analysisGraph != null);
+        }
+
+        [TestMethod]
+        public void GetSourceNodes()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+
+            reactor.Let(() => objA.PA1)
+                .DependOn(() => objB.PB1, () => objC.PC1);
+
+            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+            //Act
+            var sourceNodes = analyzer.GetSourceNodes() as IEnumerable<ClassAnalysisNode>;
+
+            //Assert
+            Assert.IsTrue(sourceNodes != null);
+
         }
     }
 }

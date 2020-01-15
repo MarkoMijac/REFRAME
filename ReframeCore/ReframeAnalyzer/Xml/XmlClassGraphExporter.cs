@@ -13,18 +13,18 @@ namespace ReframeAnalyzer.Xml
         protected override void WriteGraphBasicData(XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("GraphIdentifier");
-            xmlWriter.WriteString(_analysisGraph.DependencyGraph.Identifier);
+            xmlWriter.WriteString(_analysisGraph.Identifier);
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("NodeCount");
-            xmlWriter.WriteString(_analysisGraph.DependencyGraph.Nodes.Count.ToString());
+            xmlWriter.WriteString(_nodes.Count().ToString());
             xmlWriter.WriteEndElement();
         }
 
         protected override void WriteAnalysisNodes(XmlWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("Nodes");
-            foreach (ClassAnalysisNode node in _analysisGraph.Nodes)
+            foreach (ClassAnalysisNode node in _nodes)
             {
                 WriteAnalysisNode(node, xmlWriter);
             }
@@ -132,8 +132,14 @@ namespace ReframeAnalyzer.Xml
             xmlWriter.WriteEndElement();
         }
 
-        public XmlClassGraphExporter(ClassAnalysisGraph graph)
+        public XmlClassGraphExporter(IAnalysisGraph graph)
             : base(graph)
+        {
+
+        }
+
+        public XmlClassGraphExporter(IAnalysisGraph graph, IEnumerable<IAnalysisNode> nodes)
+            :base(graph, nodes)
         {
 
         }

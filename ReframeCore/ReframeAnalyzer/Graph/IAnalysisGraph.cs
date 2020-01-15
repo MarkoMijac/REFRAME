@@ -10,7 +10,7 @@ namespace ReframeAnalyzer.Graph
 {
     public interface IAnalysisGraph
     {
-        IDependencyGraph DependencyGraph { get; }
+        string Identifier { get; }
         IReadOnlyList<IAnalysisNode> Nodes { get; }
 
         void AddNode(IAnalysisNode node);
@@ -19,7 +19,6 @@ namespace ReframeAnalyzer.Graph
         IAnalysisNode GetNode(uint identifier);
 
         void InitializeGraph(IDependencyGraph graph);
-        void InitializeGraph(IDependencyGraph graph, IEnumerable<INode> nodes);
 
         IReadOnlyList<IAnalysisNode> GetOrphanNodes();
         IReadOnlyList<IAnalysisNode> GetLeafNodes();
