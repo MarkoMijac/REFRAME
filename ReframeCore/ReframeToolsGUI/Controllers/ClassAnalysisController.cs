@@ -70,5 +70,32 @@ namespace ReframeToolsGUI.Controllers
             _form.ShowXMLSource(xmlSource);
             _form.ShowTable(xmlSource);
         }
+
+        internal void ShowPredecessors()
+        {
+            string nodeId = _form.GetSelectedNodeIdentifier();
+            string xmlSource = ClientQueries.GetClassAnalysisGraphPredecessorNodes(_form.ReactorIdentifier, nodeId);
+
+            _form.ShowXMLSource(xmlSource);
+            _form.ShowTable(xmlSource);
+        }
+
+        internal void ShowSuccessors()
+        {
+            string nodeId = _form.GetSelectedNodeIdentifier();
+            string xmlSource = ClientQueries.GetClassAnalysisGraphSuccessorNodes(_form.ReactorIdentifier, nodeId);
+
+            _form.ShowXMLSource(xmlSource);
+            _form.ShowTable(xmlSource);
+        }
+
+        internal void ShowNeighbours()
+        {
+            string nodeId = _form.GetSelectedNodeIdentifier();
+            string xmlSource = ClientQueries.GetClassAnalysisGraphNeighbourNodes(_form.ReactorIdentifier, nodeId);
+
+            _form.ShowXMLSource(xmlSource);
+            _form.ShowTable(xmlSource);
+        }
     }
 }

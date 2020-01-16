@@ -38,6 +38,9 @@
             this.showIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEntireGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.showPredecessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +79,10 @@
             this.showSinkNodesToolStripMenuItem,
             this.showLeafNodesToolStripMenuItem,
             this.showOrphanNodesToolStripMenuItem,
-            this.showIntermediaryNodesToolStripMenuItem});
+            this.showIntermediaryNodesToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.showPredecessorsToolStripMenuItem,
+            this.showSuccessorsToolStripMenuItem});
             this.analysesToolStripMenuItem.Name = "analysesToolStripMenuItem";
             this.analysesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.analysesToolStripMenuItem.Text = "Analyses";
@@ -123,6 +129,25 @@
             this.showEntireGraphToolStripMenuItem.Text = "Show entire graph";
             this.showEntireGraphToolStripMenuItem.Click += new System.EventHandler(this.showEntireGraphToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(205, 6);
+            // 
+            // showPredecessorsToolStripMenuItem
+            // 
+            this.showPredecessorsToolStripMenuItem.Name = "showPredecessorsToolStripMenuItem";
+            this.showPredecessorsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showPredecessorsToolStripMenuItem.Text = "Show predecessors";
+            this.showPredecessorsToolStripMenuItem.Click += new System.EventHandler(this.showPredecessorsToolStripMenuItem_Click);
+            // 
+            // showSuccessorsToolStripMenuItem
+            // 
+            this.showSuccessorsToolStripMenuItem.Name = "showSuccessorsToolStripMenuItem";
+            this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.showSuccessorsToolStripMenuItem.Text = "Show successors";
+            this.showSuccessorsToolStripMenuItem.Click += new System.EventHandler(this.showSuccessorsToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +179,9 @@
         private System.Windows.Forms.ToolStripMenuItem showIntermediaryNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showLeafNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showEntireGraphToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem showPredecessorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showSuccessorsToolStripMenuItem;
     }
 }
 

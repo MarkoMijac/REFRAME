@@ -121,6 +121,45 @@ namespace ReframeAnalyzer
                             result = xmlExporter.Export();
                             break;
                         }
+                    case "GetClassAnalysisGraphPredecessorNodes":
+                        {
+                            string graphIdentifier = parameters["GraphIdentifier"];
+                            string nodeIdentifier = parameters["NodeIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var predecessors = analyzer.GetPredecessors(nodeIdentifier);
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, predecessors);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphSuccessorNodes":
+                        {
+                            string graphIdentifier = parameters["GraphIdentifier"];
+                            string nodeIdentifier = parameters["NodeIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var successors = analyzer.GetSuccessors(nodeIdentifier);
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, successors);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "GetClassAnalysisGraphNeighbourNodes":
+                        {
+                            string graphIdentifier = parameters["GraphIdentifier"];
+                            string nodeIdentifier = parameters["NodeIdentifier"];
+                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
+                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+
+                            var analysisGraph = analyzer.GetAnalysisGraph();
+                            var successors = analyzer.GetNeighbours(nodeIdentifier);
+                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, successors);
+                            result = xmlExporter.Export();
+                            break;
+                        }
                     default:
                         result = "No such command!";
                         break;

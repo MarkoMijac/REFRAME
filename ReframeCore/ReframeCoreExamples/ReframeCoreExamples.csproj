@@ -85,6 +85,7 @@
     <Compile Include="E09\ClassC.cs" />
     <Compile Include="E09\ClassD.cs" />
     <Compile Include="E09\ClassE.cs" />
+    <Compile Include="E09\ClassF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

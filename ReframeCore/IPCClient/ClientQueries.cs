@@ -85,6 +85,48 @@ namespace IPCClient
             return PipeClient.ExecuteServerCommand(command);
         }
 
+        public static string GetClassAnalysisGraphPredecessorNodes(string reactorIdentifier, string nodeId)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphPredecessorNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", reactorIdentifier);
+            command.Parameters.Add("NodeIdentifier", nodeId);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
+        public static string GetClassAnalysisGraphNeighbourNodes(string reactorIdentifier, string nodeId)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphNeighbourNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", reactorIdentifier);
+            command.Parameters.Add("NodeIdentifier", nodeId);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
+        public static string GetClassAnalysisGraphSuccessorNodes(string reactorIdentifier, string nodeId)
+        {
+            ServerCommand command = new ServerCommand
+            {
+                RouterIdentifier = "AnalyzerRouter",
+                CommandName = "GetClassAnalysisGraphSuccessorNodes"
+            };
+
+            command.Parameters.Add("GraphIdentifier", reactorIdentifier);
+            command.Parameters.Add("NodeIdentifier", nodeId);
+
+            return PipeClient.ExecuteServerCommand(command);
+        }
+
         public static string GetClassAnalysisGraphLeafNodes(string graphIdentifier)
         {
             ServerCommand command = new ServerCommand
@@ -123,5 +165,7 @@ namespace IPCClient
 
             return PipeClient.ExecuteServerCommand(command);
         }
+
+        
     }
 }

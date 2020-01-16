@@ -76,5 +76,17 @@ namespace ReframeToolsGUI
                 MessageBox.Show(e.Message);
             }
         }
+
+        public string GetSelectedNodeIdentifier()
+        {
+            string identifier = "";
+
+            if (dgvAnalysis.Rows.Count > 0)
+            {
+                identifier = dgvAnalysis.CurrentRow.Cells[0].Value.ToString();
+            }
+
+            return identifier;
+        }
     }
 }

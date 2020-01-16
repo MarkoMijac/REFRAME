@@ -182,5 +182,103 @@ namespace ReframeAnalyzerTests
             Assert.IsTrue(sourceNodes != null);
 
         }
+
+        [TestMethod]
+        public void GetPredecessors()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+            ClassD objD = new ClassD();
+            ClassE objE = new ClassE();
+            ClassF objF = new ClassF();
+
+            reactor.Let(() => objE.PE1).DependOn(() => objB.PB1);
+            reactor.Let(() => objD.PD1).DependOn(() => objB.PB1);
+            reactor.Let(() => objD.PD1).DependOn(() => objC.PC1);
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+            reactor.Let(() => objB.PB1).DependOn(() => objF.PF1);
+            reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
+
+            //Act
+            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+            var analysisGraph = analyzer.GetAnalysisGraph();
+            var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
+            
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(startingNode.Identifier.ToString());
+
+            //Assert
+            Assert.IsTrue(predecessors != null);
+        }
+
+        [TestMethod]
+        public void GetPredecessors_WithMaxDepth()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+            ClassD objD = new ClassD();
+            ClassE objE = new ClassE();
+            ClassF objF = new ClassF();
+
+            reactor.Let(() => objF.PF1).DependOn(() => objD.PD1);
+            reactor.Let(() => objF.PF1).DependOn(() => objE.PE1);
+            reactor.Let(() => objD.PD1).DependOn(() => objB.PB1);
+            reactor.Let(() => objD.PD1).DependOn(() => objC.PC1);
+            reactor.Let(() => objE.PE1).DependOn(() => objC.PC1);
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+            reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
+
+            //Act
+            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+            var analysisGraph = analyzer.GetAnalysisGraph();
+            var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
+
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(startingNode.Identifier.ToString(), 3);
+
+            //Assert
+            Assert.IsTrue(predecessors != null);
+        }
+
+        [TestMethod]
+        public void GetSuccessors_ForDepth()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
+
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+            ClassD objD = new ClassD();
+            ClassE objE = new ClassE();
+            ClassF objF = new ClassF();
+
+            reactor.Let(() => objF.PF1).DependOn(() => objD.PD1);
+            reactor.Let(() => objF.PF1).DependOn(() => objE.PE1);
+            reactor.Let(() => objD.PD1).DependOn(() => objB.PB1);
+            reactor.Let(() => objD.PD1).DependOn(() => objC.PC1);
+            reactor.Let(() => objE.PE1).DependOn(() => objC.PC1);
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+            reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
+
+            //Act
+            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+            var analysisGraph = analyzer.GetAnalysisGraph();
+            var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));
+
+            IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(startingNode.Identifier.ToString(), 2);
+
+            //Assert
+            Assert.IsTrue(successors != null);
+        }
     }
 }

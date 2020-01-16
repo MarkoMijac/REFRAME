@@ -14,7 +14,7 @@ namespace ReframeAnalyzer.Graph
 
         private List<IAnalysisNode> _nodes = new List<IAnalysisNode>();
 
-        public IReadOnlyList<IAnalysisNode> Nodes => _nodes.AsReadOnly();
+        public List<IAnalysisNode> Nodes => _nodes;
 
         public void AddNode(IAnalysisNode node)
         {

@@ -11,7 +11,7 @@ namespace ReframeAnalyzer.Graph
     public interface IAnalysisGraph
     {
         string Identifier { get; }
-        IReadOnlyList<IAnalysisNode> Nodes { get; }
+        List<IAnalysisNode> Nodes { get; }
 
         void AddNode(IAnalysisNode node);
         void RemoveNode(IAnalysisNode node);

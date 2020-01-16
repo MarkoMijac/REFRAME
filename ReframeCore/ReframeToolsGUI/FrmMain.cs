@@ -94,5 +94,17 @@ namespace ReframeToolsGUI
             ClassAnalysisController controller = new ClassAnalysisController(currentForm as FrmClassAnalysis);
             controller.ShowIntermediaryNodes();
         }
+
+        private void showPredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClassAnalysisController controller = new ClassAnalysisController(currentForm as FrmClassAnalysis);
+            controller.ShowPredecessors();
+        }
+
+        private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClassAnalysisController controller = new ClassAnalysisController(currentForm as FrmClassAnalysis);
+            controller.ShowSuccessors();
+        }
     }
 }
