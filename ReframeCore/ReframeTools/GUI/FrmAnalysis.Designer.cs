@@ -1,6 +1,6 @@
-﻿namespace ReframeToolsGUI
+﻿namespace ReframeTools.GUI
 {
-    partial class FrmClassAnalysis
+    partial class FrmAnalysis
     {
         /// <summary>
         /// Required designer variable.
@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.tpSourceXML = new System.Windows.Forms.TabPage();
-            this.rtxtXMLSource = new System.Windows.Forms.RichTextBox();
             this.tpAnalysis = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAnalysis = new System.Windows.Forms.DataGridView();
@@ -41,10 +39,13 @@
             this.cDegree = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cInDegree = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cOutDegree = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tpSourceXML = new System.Windows.Forms.TabPage();
+            this.rtxtXMLSource = new System.Windows.Forms.RichTextBox();
+            this.lblAnalysisDescription = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
-            this.tpSourceXML.SuspendLayout();
             this.tpAnalysis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnalysis)).BeginInit();
+            this.tpSourceXML.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -52,33 +53,13 @@
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.tpSourceXML);
             this.tabControl.Controls.Add(this.tpAnalysis);
-            this.tabControl.Location = new System.Drawing.Point(12, 12);
+            this.tabControl.Controls.Add(this.tpSourceXML);
+            this.tabControl.Location = new System.Drawing.Point(12, 41);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(609, 473);
+            this.tabControl.Size = new System.Drawing.Size(609, 444);
             this.tabControl.TabIndex = 0;
-            // 
-            // tpSourceXML
-            // 
-            this.tpSourceXML.Controls.Add(this.rtxtXMLSource);
-            this.tpSourceXML.Location = new System.Drawing.Point(4, 22);
-            this.tpSourceXML.Name = "tpSourceXML";
-            this.tpSourceXML.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSourceXML.Size = new System.Drawing.Size(601, 447);
-            this.tpSourceXML.TabIndex = 0;
-            this.tpSourceXML.Text = "XML Source";
-            this.tpSourceXML.UseVisualStyleBackColor = true;
-            // 
-            // rtxtXMLSource
-            // 
-            this.rtxtXMLSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtxtXMLSource.Location = new System.Drawing.Point(3, 3);
-            this.rtxtXMLSource.Name = "rtxtXMLSource";
-            this.rtxtXMLSource.Size = new System.Drawing.Size(595, 441);
-            this.rtxtXMLSource.TabIndex = 0;
-            this.rtxtXMLSource.Text = "";
             // 
             // tpAnalysis
             // 
@@ -87,7 +68,7 @@
             this.tpAnalysis.Location = new System.Drawing.Point(4, 22);
             this.tpAnalysis.Name = "tpAnalysis";
             this.tpAnalysis.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAnalysis.Size = new System.Drawing.Size(601, 447);
+            this.tpAnalysis.Size = new System.Drawing.Size(601, 418);
             this.tpAnalysis.TabIndex = 1;
             this.tpAnalysis.Text = "Table view";
             this.tpAnalysis.UseVisualStyleBackColor = true;
@@ -122,7 +103,7 @@
             this.dgvAnalysis.Name = "dgvAnalysis";
             this.dgvAnalysis.RowHeadersVisible = false;
             this.dgvAnalysis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAnalysis.Size = new System.Drawing.Size(589, 422);
+            this.dgvAnalysis.Size = new System.Drawing.Size(589, 393);
             this.dgvAnalysis.TabIndex = 0;
             // 
             // cIdentifier
@@ -160,22 +141,53 @@
             this.cOutDegree.HeaderText = "OutDegree";
             this.cOutDegree.Name = "cOutDegree";
             // 
-            // FrmClassAnalysis
+            // tpSourceXML
+            // 
+            this.tpSourceXML.Controls.Add(this.rtxtXMLSource);
+            this.tpSourceXML.Location = new System.Drawing.Point(4, 22);
+            this.tpSourceXML.Name = "tpSourceXML";
+            this.tpSourceXML.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSourceXML.Size = new System.Drawing.Size(601, 447);
+            this.tpSourceXML.TabIndex = 0;
+            this.tpSourceXML.Text = "XML Source";
+            this.tpSourceXML.UseVisualStyleBackColor = true;
+            // 
+            // rtxtXMLSource
+            // 
+            this.rtxtXMLSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtxtXMLSource.Location = new System.Drawing.Point(3, 3);
+            this.rtxtXMLSource.Name = "rtxtXMLSource";
+            this.rtxtXMLSource.Size = new System.Drawing.Size(595, 441);
+            this.rtxtXMLSource.TabIndex = 0;
+            this.rtxtXMLSource.Text = "";
+            // 
+            // lblAnalysisDescription
+            // 
+            this.lblAnalysisDescription.AutoSize = true;
+            this.lblAnalysisDescription.Location = new System.Drawing.Point(12, 9);
+            this.lblAnalysisDescription.Name = "lblAnalysisDescription";
+            this.lblAnalysisDescription.Size = new System.Drawing.Size(35, 13);
+            this.lblAnalysisDescription.TabIndex = 1;
+            this.lblAnalysisDescription.Text = "label2";
+            // 
+            // FrmAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 497);
+            this.Controls.Add(this.lblAnalysisDescription);
             this.Controls.Add(this.tabControl);
-            this.Name = "FrmClassAnalysis";
+            this.Name = "FrmAnalysis";
             this.ShowInTaskbar = false;
             this.Text = "Class analysis";
             this.Load += new System.EventHandler(this.FrmClassAnalysis_Load);
             this.tabControl.ResumeLayout(false);
-            this.tpSourceXML.ResumeLayout(false);
             this.tpAnalysis.ResumeLayout(false);
             this.tpAnalysis.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnalysis)).EndInit();
+            this.tpSourceXML.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -194,5 +206,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cDegree;
         private System.Windows.Forms.DataGridViewTextBoxColumn cInDegree;
         private System.Windows.Forms.DataGridViewTextBoxColumn cOutDegree;
+        private System.Windows.Forms.Label lblAnalysisDescription;
     }
 }

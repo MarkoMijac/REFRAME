@@ -10,35 +10,41 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace ReframeToolsGUI
+namespace ReframeTools.GUI
 {
-    public partial class FrmClassAnalysis : Form
+    public partial class FrmAnalysis : Form
     {
         public string ReactorIdentifier { get; set; }
 
-        public FrmClassAnalysis(string reactorIdentifier)
+        public FrmAnalysis()
         {
             InitializeComponent();
+        }
+
+        public FrmAnalysis(string reactorIdentifier)
+            :this()
+        {
             ReactorIdentifier = reactorIdentifier;
             SetFormTitle();
         }
 
-        private void FrmClassAnalysis_Load(object sender, EventArgs e)
+        protected void FrmClassAnalysis_Load(object sender, EventArgs e)
         {
             
         }
 
-        private void SetFormTitle()
+        protected virtual void SetFormTitle()
         {
-            Text = $"Class-level analysis for Reactor [{ReactorIdentifier}]";
+            Text = $"Graph analysis for reactor [{ReactorIdentifier}]";
+            lblAnalysisDescription.Text = $"Graph analysis for reactor [{ReactorIdentifier}]";
         }
 
-        public void ShowXMLSource(string xmlSource)
+        public virtual void ShowXMLSource(string xmlSource)
         {
             rtxtXMLSource.Text = xmlSource;
         }
 
-        public void ShowTable(string xmlSource)
+        public virtual void ShowTable(string xmlSource)
         {
             dgvAnalysis.Rows.Clear();
 
@@ -75,6 +81,11 @@ namespace ReframeToolsGUI
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        public virtual void ShowDescription(string description)
+        {
+            lblAnalysisDescription.Text = description;
         }
 
         public string GetSelectedNodeIdentifier()

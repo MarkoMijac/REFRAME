@@ -37,7 +37,10 @@ namespace ReframeVisualizer
                 foreach (var s in successors)
                 {
                     successor = graph.Nodes.Get(s.Element("Identifier").Value);
-                    GraphLink dependency = graph.Links.GetOrCreate(predecessor, successor);
+                    if (successor != null)
+                    {
+                        GraphLink dependency = graph.Links.GetOrCreate(predecessor, successor);
+                    }
                 }
             }
         }

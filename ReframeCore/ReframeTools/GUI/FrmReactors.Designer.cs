@@ -1,4 +1,4 @@
-﻿namespace ReframeToolsGUI
+﻿namespace ReframeTools.GUI
 {
     partial class FrmReactors
     {
@@ -53,7 +53,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 217);
             this.Controls.Add(this.dgvReactors);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmReactors";
             this.ShowInTaskbar = false;
             this.Text = "Registered reactors";

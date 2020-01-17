@@ -165,7 +165,5 @@ namespace IPCClient
 
             return PipeClient.ExecuteServerCommand(command);
         }
-
-        
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace ReframeToolsGUI
+namespace ReframeTools.GUI
 {
     public partial class FrmReactors : Form
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
-using ReframeToolsGUI;
+using ReframeTools.GUI;
 
 namespace ReframeTools
 {

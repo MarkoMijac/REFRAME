@@ -1,14 +1,13 @@
 ﻿using EnvDTE;
-using Microsoft.VisualStudio.GraphModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeTools
+namespace SolutionServices
 {
-    public static class SolutionServices
+    public static class SolutionManager
     {
         private static string _dgmlTemplatePath = @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\ItemTemplates\Modeling\Modeling.vstemplate";
 
@@ -51,11 +50,6 @@ namespace ReframeTools
             }
 
             return projectItems;
-        }
-
-        public static ProjectItem CreateNewDgmlFile(string dgmlFileName, Graph graph)
-        {
-            return CreateNewDgmlFile(dgmlFileName, graph.ToXml());
         }
 
         public static ProjectItem CreateNewDgmlFile(string dgmlFileName, string xmlSource)
