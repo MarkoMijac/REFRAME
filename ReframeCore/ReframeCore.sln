@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeAnalyzer", "ReframeA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPCServer", "IPCServer\IPCServer.csproj", "{C6D1CF84-2C60-43DE-9038-4529485592E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerStarter", "ServerStarter\ServerStarter.csproj", "{8AD7A7F5-13D5-4AFC-94DF-186912F15E55}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeAnalyzerTests", "ReframeAnalyzerTests\ReframeAnalyzerTests.csproj", "{CA38A380-8243-4D66-B6BE-61BFB7107185}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeDemonstration", "ReframeDemonstration\ReframeDemonstration.csproj", "{BCC14D70-0A5A-4546-A9CC-7FBB4C565EA7}"
@@ -26,6 +24,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizer", "ReframeVisualizer\ReframeVisualizer.csproj", "{2BECC201-155A-4FD4-81E0-3D6A33C6838D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizerTests", "ReframeVisualizerTests\ReframeVisualizerTests.csproj", "{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporter", "ReframeExporter\ReframeExporter.csproj", "{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporterTests", "ReframeExporterTests\ReframeExporterTests.csproj", "{EA249920-9709-42F9-B1A0-E50210BDD84F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +55,6 @@ Global
 		{C6D1CF84-2C60-43DE-9038-4529485592E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6D1CF84-2C60-43DE-9038-4529485592E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6D1CF84-2C60-43DE-9038-4529485592E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8AD7A7F5-13D5-4AFC-94DF-186912F15E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AD7A7F5-13D5-4AFC-94DF-186912F15E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AD7A7F5-13D5-4AFC-94DF-186912F15E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AD7A7F5-13D5-4AFC-94DF-186912F15E55}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA38A380-8243-4D66-B6BE-61BFB7107185}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +79,14 @@ Global
 		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

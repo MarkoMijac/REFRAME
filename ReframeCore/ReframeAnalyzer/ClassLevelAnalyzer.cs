@@ -13,12 +13,23 @@ using ReframeAnalyzer.Xml;
 
 namespace ReframeAnalyzer
 {
-    public class ClassLevelAnalyzer : Analyzer
+    public class ClassLevelAnalyzer : GraphAnalyzer
     {
+        public ClassLevelAnalyzer()
+            :base()
+        {
+
+        }
+
         public ClassLevelAnalyzer(IDependencyGraph graph)
             :base(graph)
         {
 
+        }
+
+        public override IAnalysisGraph CreateGraph(string source)
+        {
+            return new ClassAnalysisGraph(source);
         }
 
         #region Methods

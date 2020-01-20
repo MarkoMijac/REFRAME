@@ -43,14 +43,6 @@ namespace ReframeAnalyzer
 
                 switch (commandName)
                 {
-                    case "GetRegisteredReactors": result = Analyzer.GetRegisteredReactors(); break;
-                    case "GetRegisteredGraphs": result = Analyzer.GetRegisteredGraphs(); break;
-                    case "GetGraphNodes":
-                        {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            result = Analyzer.GetGraphNodes(reactor.Graph); break;
-                        }
                     case "GetClassAnalysisGraph":
                         {
                             string identifier = parameters["GraphIdentifier"];

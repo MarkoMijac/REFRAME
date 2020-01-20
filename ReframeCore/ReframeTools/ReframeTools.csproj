@@ -229,6 +229,10 @@
       <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
       <Name>IPCClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
+      <Project>{87bae3e0-a197-4dc1-9e97-e5945f7cc652}</Project>
+      <Name>ReframeAnalyzer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
       <Project>{2becc201-155a-4fd4-81e0-3d6a33c6838d}</Project>
       <Name>ReframeVisualizer</Name>

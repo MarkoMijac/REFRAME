@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6D1CF84-2C60-43DE-9038-4529485592E8}</ProjectGuid>
+    <ProjectGuid>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IPCServer</RootNamespace>
-    <AssemblyName>IPCServer</AssemblyName>
+    <RootNamespace>ReframeExporter</RootNamespace>
+    <AssemblyName>ReframeExporter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,25 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandRouter.cs" />
-    <Compile Include="CoreRouter.cs" />
-    <Compile Include="ICommandRouter.cs" />
-    <Compile Include="PipeServer.cs" />
+    <Compile Include="XmlExporter.cs" />
+    <Compile Include="IExporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamString.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
       <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
       <Name>ReframeCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
-      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
-      <Name>ReframeExporter</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

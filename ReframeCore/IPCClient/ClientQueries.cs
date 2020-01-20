@@ -12,9 +12,23 @@ namespace IPCClient
         {
             ServerCommand command = new ServerCommand()
             {
-                RouterIdentifier = "AnalyzerRouter",
-                CommandName = "GetRegisteredReactors"
+                RouterIdentifier = "CoreRouter",
+                CommandName = "ExportRegisteredReactors"
             };
+
+            string result = PipeClient.ExecuteServerCommand(command);
+            return result;
+        }
+
+        public static string GetReactor(string identifier)
+        {
+            ServerCommand command = new ServerCommand()
+            {
+                RouterIdentifier = "CoreRouter",
+                CommandName = "ExportReactor"
+            };
+
+            command.Parameters.Add("ReactorIdentifier", identifier);
 
             string result = PipeClient.ExecuteServerCommand(command);
             return result;

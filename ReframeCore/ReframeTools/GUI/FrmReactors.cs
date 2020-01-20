@@ -43,11 +43,15 @@ namespace ReframeTools.GUI
 
             foreach (var reactor in reactors)
             {
+                string reactorIdentifier = reactor.Element("Identifier").Value;
+                XElement xeGraph = reactor.Element("Graph");
+                string graphIdentifier = xeGraph.Element("Identifier").Value;
+                string nodeCount = xeGraph.Element("NodeCount").Value;
                 var g = new
                 {
-                    Identifier = reactor.Element("Identifier").Value,
-                    GraphIdentifier = reactor.Element("GraphIdentifier").Value,
-                    GraphNodeCount = reactor.Element("GraphNodeCount").Value
+                    Identifier = reactorIdentifier,
+                    GraphIdentifier = graphIdentifier,
+                    GraphNodeCount = nodeCount
                 };
 
                 list.Add(g);

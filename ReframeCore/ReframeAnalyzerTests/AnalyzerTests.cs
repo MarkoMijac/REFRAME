@@ -19,53 +19,6 @@ namespace ReframeAnalyzerTests
     public class AnalyzerTests
     {
         [TestMethod]
-        public void GetRegisteredReactors_GivenThereAreRegisteredReactors_ReturnsXmlRepresentation()
-        {
-            //Arrange
-            ReactorRegistry.Instance.Clear();
-            ReactorRegistry.Instance.GetOrCreateReactor("R1");
-            ReactorRegistry.Instance.GetOrCreateReactor("G2");
-            //Act
-            string xml = Analyzer.GetRegisteredReactors();
-
-            //Assert
-            Assert.AreNotEqual("", xml);
-        }
-
-        [TestMethod]
-        public void GetRegisteredGraphs_GivenOneRegisteredGraph_ReturnsSerializedGraph()
-        {
-            //Arrange
-            ReactorRegistry.Instance.Clear();
-            ReactorRegistry.Instance.GetOrCreateReactor("R1");
-            ReactorRegistry.Instance.GetOrCreateReactor("G2");
-            //Act
-            string xml = Analyzer.GetRegisteredGraphs();
-
-            //Assert
-            Assert.AreNotEqual("", xml);
-        }
-
-        [TestMethod]
-        public void GetGraphNodes_GivenValidGraph_ReturnsXmlWithNodes()
-        {
-            //Arrange
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
-
-            GenericReactiveObject obj = new GenericReactiveObject();
-
-            reactor.Let(() =>obj.A).DependOn(() =>obj.B, () =>obj.C);
-            reactor.Let(() =>obj.C).DependOn(() =>obj.D, () =>obj.E);
-
-            //Act
-            string xml = Analyzer.GetGraphNodes(reactor.Graph);
-
-            //Assert
-            Assert.AreNotEqual("", xml);
-        }
-
-        [TestMethod]
         public void MyTestMethod()
         {
             string xml = @"<ServerCommand><RouterIdentifier>AnalyzerRouter</RouterIdentifier><CommandName>GetRegisteredGraphs</CommandName><Parameters/></ServerCommand>";

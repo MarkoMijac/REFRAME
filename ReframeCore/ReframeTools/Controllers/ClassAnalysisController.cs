@@ -1,4 +1,5 @@
 ﻿using IPCClient;
+using ReframeAnalyzer;
 using ReframeTools.GUI;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,10 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraph(_form.ReactorIdentifier);
+                string xmlSource = ClientQueries.GetReactor(_form.ReactorIdentifier);
+                
                 string analysisDescription = $"Showing entire class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(xmlSource, analysisDescription);
             }
             catch (Exception e)
             {

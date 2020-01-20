@@ -10,93 +10,18 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer
 {
-    public abstract class Analyzer
+    public abstract class GraphAnalyzer
     {
-        #region Revise
-
-        public static string GetRegisteredReactors()
-        {
-            IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
-
-            var xmlExporter = new XmlReactorExporter(registeredReactors);
-
-            return xmlExporter.Export();
-        }
-
-        public static string GetRegisteredGraphs()
-        {
-            string xml = "";
-
-            IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
-            xml = XmlExporterImpl.ExportGraphs(registeredReactors);
-
-            return xml;
-        }
-
-        public static string GetGraphNodes(IDependencyGraph graph)
-        {
-            string xml = "";
-
-            xml = XmlExporterImpl.ExportNodes(graph.Nodes);
-
-            return xml;
-        }
-
-        public static IAnalysisGraph GetClassMemberGraph(IDependencyGraph graph)
-        {
-            var analysisGraph = new ClassAnalysisGraph();
-
-            List<ClassAnalysisNode> classNodes = new List<ClassAnalysisNode>();
-
-            foreach (var node in graph.Nodes)
-            {
-                Type t = node.OwnerObject.GetType();
-                uint classIdentifier = (uint)t.GUID.GetHashCode();
-
-                if (classNodes.Exists(c => c.Identifier == classIdentifier) == false)
-                {
-                    var classNode = new ClassAnalysisNode()
-                    {
-                        Identifier = classIdentifier,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString()
-                    };
-
-                    classNodes.Add(classNode);
-                }
-
-                if (analysisGraph.ContainsNode(classIdentifier) == false)
-                {
-                    var classNode = new ClassAnalysisNode()
-                    {
-                        Identifier = classIdentifier,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString()
-                    };
-
-                    var classMemberNode = new ClassMemberAnalysisNode()
-                    {
-                        ClassNode = classNode
-                    };
-
-                    analysisGraph.AddNode(classMemberNode);
-                }
-            }
-
-            return analysisGraph;
-        }
-
-        #endregion
-
         #region Constructors
 
         protected IDependencyGraph _dependencyGraph;
 
-        public Analyzer(IDependencyGraph graph)
+        public GraphAnalyzer()
+        {
+
+        }
+
+        public GraphAnalyzer(IDependencyGraph graph)
         {
             _dependencyGraph = graph;
             CreateAnalysisGraph();
@@ -109,6 +34,8 @@ namespace ReframeAnalyzer
         protected IAnalysisGraph _analysisGraph;
 
         protected abstract void CreateAnalysisGraph();
+
+        public abstract IAnalysisGraph CreateGraph(string source);
 
         public IAnalysisGraph GetAnalysisGraph()
         {

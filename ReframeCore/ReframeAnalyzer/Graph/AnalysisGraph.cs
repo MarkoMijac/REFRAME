@@ -10,6 +10,18 @@ namespace ReframeAnalyzer.Graph
 {
     public abstract class AnalysisGraph : IAnalysisGraph
     {
+        protected string Source { get; set; }
+
+        public AnalysisGraph()
+        {
+
+        }
+
+        public AnalysisGraph(string source)
+        {
+            Source = source;
+        }
+
         public string Identifier { get; protected set; }
 
         private List<IAnalysisNode> _nodes = new List<IAnalysisNode>();
