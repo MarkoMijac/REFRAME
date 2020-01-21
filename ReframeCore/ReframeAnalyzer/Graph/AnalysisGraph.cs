@@ -10,7 +10,7 @@ namespace ReframeAnalyzer.Graph
 {
     public abstract class AnalysisGraph : IAnalysisGraph
     {
-        protected string Source { get; set; }
+        public string Source { get; protected set; }
 
         public AnalysisGraph()
         {
@@ -53,8 +53,6 @@ namespace ReframeAnalyzer.Graph
                 _nodes.Remove(node);
             }
         }
-
-        public abstract void InitializeGraph(IDependencyGraph graph);
 
         public IReadOnlyList<IAnalysisNode> GetOrphanNodes()
         {

@@ -9,6 +9,7 @@ using System.Xml;
 using ReframeCore.Factories;
 using ReframeAnalyzer.Xml;
 using ReframeAnalyzer.Graph;
+using ReframeExporter;
 
 namespace ReframeAnalyzer
 {
@@ -40,116 +41,92 @@ namespace ReframeAnalyzer
                 XmlDocument doc = GetCommandXmlDocument(commandXml);
                 string commandName = GetCommandName(doc);
                 Dictionary<string, string> parameters = GetCommandParameters(doc);
+                
+                XmlExporter xmlExporter = new XmlExporter();
+
+                string identifier = parameters["GraphIdentifier"];
+                var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+                var xmlSource = xmlExporter.Export(reactor);
 
                 switch (commandName)
                 {
                     case "GetClassAnalysisGraph":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-                            ClassAnalysisGraph analysisGraph = analyzer.GetAnalysisGraph() as ClassAnalysisGraph;
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph);
-                            result = xmlExporter.Export();
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
+                            result = new XmlClassGraphExporter(analysisGraph).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphSourceNodes":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var sourceNodes = analyzer.GetSourceNodes();
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sourceNodes);
-                            result = xmlExporter.Export();
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
+                            var sourceNodes = analyzer.GetSourceNodes(analysisGraph);
+                            result = new XmlClassGraphExporter(analysisGraph, sourceNodes).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphSinkNodes":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var sinkNodes = analyzer.GetSinkNodes();
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
-                            result = xmlExporter.Export();
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
+                            var sinkNodes = analyzer.GetSinkNodes(analysisGraph);
+                            result = new XmlClassGraphExporter(analysisGraph, sinkNodes).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphLeafNodes":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var sinkNodes = analyzer.GetLeafNodes();
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
-                            result = xmlExporter.Export();
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
+                            var sinkNodes = analyzer.GetLeafNodes(analysisGraph);
+                            result = new XmlClassGraphExporter(analysisGraph, sinkNodes).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphOrphanNodes":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var sinkNodes = analyzer.GetOrphanNodes();
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
-                            result = xmlExporter.Export();
+                            var sinkNodes = analyzer.GetOrphanNodes(analysisGraph);
+                            result = new XmlClassGraphExporter(analysisGraph, sinkNodes).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphIntermediaryNodes":
                         {
-                            string identifier = parameters["GraphIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var sinkNodes = analyzer.GetIntermediaryNodes();
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, sinkNodes);
-                            result = xmlExporter.Export();
+                            var sinkNodes = analyzer.GetIntermediaryNodes(analysisGraph);
+                            result = new XmlClassGraphExporter(analysisGraph, sinkNodes).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphPredecessorNodes":
                         {
-                            string graphIdentifier = parameters["GraphIdentifier"];
                             string nodeIdentifier = parameters["NodeIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var predecessors = analyzer.GetPredecessors(nodeIdentifier);
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, predecessors);
-                            result = xmlExporter.Export();
+                            var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
+                            result = new XmlClassGraphExporter(analysisGraph, predecessors).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphSuccessorNodes":
                         {
-                            string graphIdentifier = parameters["GraphIdentifier"];
                             string nodeIdentifier = parameters["NodeIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var successors = analyzer.GetSuccessors(nodeIdentifier);
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, successors);
-                            result = xmlExporter.Export();
+                            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier);
+                            result = new XmlClassGraphExporter(analysisGraph, successors).Export();
                             break;
                         }
                     case "GetClassAnalysisGraphNeighbourNodes":
                         {
-                            string graphIdentifier = parameters["GraphIdentifier"];
                             string nodeIdentifier = parameters["NodeIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(graphIdentifier);
-                            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+                            var analyzer = new ClassLevelAnalyzer();
+                            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
-                            var analysisGraph = analyzer.GetAnalysisGraph();
-                            var successors = analyzer.GetNeighbours(nodeIdentifier);
-                            var xmlExporter = new XmlClassGraphExporter(analysisGraph, successors);
-                            result = xmlExporter.Export();
+                            var neighbours = analyzer.GetNeighbours(analysisGraph, nodeIdentifier);
+                            result = new XmlClassGraphExporter(analysisGraph, neighbours).Export();
                             break;
                         }
                     default:

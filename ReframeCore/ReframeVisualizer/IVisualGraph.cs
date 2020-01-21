@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
+using ReframeAnalyzer.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;

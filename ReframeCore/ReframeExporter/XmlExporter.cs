@@ -155,7 +155,8 @@ namespace ReframeExporter
             WriteClassDetails(node, xmlWriter);
 
             xmlWriter.WriteStartElement("OwnerObject");
-            xmlWriter.WriteString(node.OwnerObject.GetHashCode().ToString());
+            uint objectIdentifier = (uint)node.OwnerObject.GetHashCode();
+            xmlWriter.WriteString(objectIdentifier.ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Layer");
@@ -182,7 +183,8 @@ namespace ReframeExporter
             xmlWriter.WriteStartElement("OwnerClass");
 
             xmlWriter.WriteStartElement("Identifier");
-            xmlWriter.WriteString(type.GUID.GetHashCode().ToString());
+            uint classIdentifier = (uint)type.GUID.GetHashCode();
+            xmlWriter.WriteString(classIdentifier.ToString());
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Name");

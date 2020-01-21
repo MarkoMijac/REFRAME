@@ -151,5 +151,55 @@ namespace ReframeTools.GUI
                 controller.ShowNeighbourNodes();
             }
         }
+
+        private void displaySourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentForm is FrmAnalysis)
+            {
+                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
+                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
+                controller.ShowSourceNodes();
+            }
+        }
+
+        private void displaySinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentForm is FrmAnalysis)
+            {
+                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
+                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
+                controller.ShowSinkNodes();
+            }
+        }
+
+        private void displayLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentForm is FrmAnalysis)
+            {
+                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
+                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
+                controller.ShowLeafNodes();
+            }
+        }
+
+        private void displayIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentForm is FrmAnalysis)
+            {
+                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
+                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
+                controller.ShowIntermediaryNodes();
+            }
+        }
+
+        private void displayOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentForm is FrmAnalysis)
+            {
+                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
+                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
+                controller.ShowOrphanNodes();
+            }
+        }
     }
 }

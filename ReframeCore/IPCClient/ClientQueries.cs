@@ -34,32 +34,6 @@ namespace IPCClient
             return result;
         }
 
-        public static string GetRegisteredGraphs()
-        {
-            ServerCommand command = new ServerCommand()
-            {
-                RouterIdentifier = "AnalyzerRouter",
-                CommandName = "GetRegisteredGraphs"
-            };
-
-            string result = PipeClient.ExecuteServerCommand(command);
-            return result;
-        }
-
-        public static string GetGraphNodes(string graphIdentifier)
-        {
-            ServerCommand command = new ServerCommand()
-            {
-                RouterIdentifier = "AnalyzerRouter",
-                CommandName = "GetGraphNodes"
-            };
-
-            command.Parameters.Add("GraphIdentifier", graphIdentifier);
-
-            string result = PipeClient.ExecuteServerCommand(command);
-            return result;
-        }
-
         public static string GetClassAnalysisGraph(string graphIdentifier)
         {
             ServerCommand command = new ServerCommand

@@ -43,13 +43,6 @@ namespace ReframeAnalyzer.Graph
             return xNodes;
         }
 
-        public override void InitializeGraph(IDependencyGraph graph)
-        {
-            Identifier = graph.Identifier;
-            InitializeNodes(graph.Nodes);
-            InitializeDependencies(graph.Nodes);
-        }
-
         private void InitializeGraphBasicData(XElement xGraph)
         {
             Identifier = xGraph.Element("Identifier").Value;

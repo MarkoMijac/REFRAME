@@ -1,5 +1,6 @@
 ﻿using ReframeAnalyzer.Exceptions;
 using ReframeCore;
+using ReframeExporter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +9,24 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public enum GraphType { ClassGraph }
+    public enum AnalysisLevel { ClassLevel };
 
     public class AnalysisGraphFactory
     {
-        public IAnalysisGraph GetGraph(IDependencyGraph graph, GraphType type)
+        public IAnalysisGraph GetGraph(IReactor reactor, AnalysisLevel level)
         {
-            ValidateGraph(graph);
+            ValidateGraph(reactor);
 
             IAnalysisGraph analysisGraph;
-            switch (type)
+            switch (level)
             {
-                case GraphType.ClassGraph:
-                    analysisGraph = new ClassAnalysisGraph();
-                    analysisGraph.InitializeGraph(graph);
-                    break;
+                case AnalysisLevel.ClassLevel:
+                    {
+                        var xmlExporter = new XmlExporter();
+                        string xmlSource = xmlExporter.Export(reactor);
+                        analysisGraph = new ClassAnalysisGraph(xmlSource);
+                        break;
+                    }
                 default:
                     analysisGraph = null;
                     break;
@@ -31,9 +35,28 @@ namespace ReframeAnalyzer.Graph
             return analysisGraph;
         }
 
-        private void ValidateGraph(IDependencyGraph graph)
+        public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
-            if (graph == null)
+            IAnalysisGraph analysisGraph;
+
+            switch (analysisLevel)
+            {
+                case AnalysisLevel.ClassLevel:
+                    {
+                        analysisGraph = new ClassAnalysisGraph(xmlSource);
+                        break;
+                    }
+                default:
+                    analysisGraph = null;
+                    break;
+            }
+
+            return analysisGraph;
+        }
+
+        private void ValidateGraph(IReactor reactor)
+        {
+            if (reactor == null)
             {
                 throw new AnalyzerException("Provided dependency graph is null!");
             }

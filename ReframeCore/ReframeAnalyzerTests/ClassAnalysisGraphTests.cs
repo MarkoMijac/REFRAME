@@ -5,6 +5,8 @@ using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
 using ReframeCore.FluentAPI;
 using System.Collections.Generic;
+using ReframeExporter;
+using ReframeAnalyzer;
 
 namespace ReframeAnalyzerTests
 {
@@ -24,8 +26,12 @@ namespace ReframeAnalyzerTests
 
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objB.PB1, () => objC.PC1);
-            var analysisGraph = new ClassAnalysisGraph();
-            analysisGraph.InitializeGraph(reactor.Graph);
+
+            XmlExporter xmlExporter = new XmlExporter();
+            var xmlSource = xmlExporter.Export(reactor);
+
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
             //Act
             IReadOnlyList<IAnalysisNode> sourceNodes = analysisGraph.GetSourceNodes();

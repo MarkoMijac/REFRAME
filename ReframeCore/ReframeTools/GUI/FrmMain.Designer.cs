@@ -49,6 +49,11 @@
             this.showPredecessorsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.showSuccessorsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.showNeighboursToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.displaySourceNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displaySinkNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -181,7 +186,12 @@
             this.toolStripSeparator2,
             this.showPredecessorsToolStripMenuItem1,
             this.showSuccessorsToolStripMenuItem1,
-            this.showNeighboursToolStripMenuItem1});
+            this.showNeighboursToolStripMenuItem1,
+            this.displaySourceNodesToolStripMenuItem,
+            this.displaySinkNodesToolStripMenuItem,
+            this.displayLeafNodesToolStripMenuItem,
+            this.displayIntermediaryNodesToolStripMenuItem,
+            this.displayOrphanNodesToolStripMenuItem});
             this.visualizationsToolStripMenuItem.Name = "visualizationsToolStripMenuItem";
             this.visualizationsToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.visualizationsToolStripMenuItem.Text = "Visualizations";
@@ -189,35 +199,70 @@
             // showEntireGraphToolStripMenuItem1
             // 
             this.showEntireGraphToolStripMenuItem1.Name = "showEntireGraphToolStripMenuItem1";
-            this.showEntireGraphToolStripMenuItem1.Size = new System.Drawing.Size(174, 22);
+            this.showEntireGraphToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.showEntireGraphToolStripMenuItem1.Text = "Show entire graph";
             this.showEntireGraphToolStripMenuItem1.Click += new System.EventHandler(this.showEntireGraphToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(214, 6);
             // 
             // showPredecessorsToolStripMenuItem1
             // 
             this.showPredecessorsToolStripMenuItem1.Name = "showPredecessorsToolStripMenuItem1";
-            this.showPredecessorsToolStripMenuItem1.Size = new System.Drawing.Size(174, 22);
+            this.showPredecessorsToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.showPredecessorsToolStripMenuItem1.Text = "Show predecessors";
             this.showPredecessorsToolStripMenuItem1.Click += new System.EventHandler(this.showPredecessorsToolStripMenuItem1_Click);
             // 
             // showSuccessorsToolStripMenuItem1
             // 
             this.showSuccessorsToolStripMenuItem1.Name = "showSuccessorsToolStripMenuItem1";
-            this.showSuccessorsToolStripMenuItem1.Size = new System.Drawing.Size(174, 22);
+            this.showSuccessorsToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.showSuccessorsToolStripMenuItem1.Text = "Show successors";
             this.showSuccessorsToolStripMenuItem1.Click += new System.EventHandler(this.showSuccessorsToolStripMenuItem1_Click);
             // 
             // showNeighboursToolStripMenuItem1
             // 
             this.showNeighboursToolStripMenuItem1.Name = "showNeighboursToolStripMenuItem1";
-            this.showNeighboursToolStripMenuItem1.Size = new System.Drawing.Size(174, 22);
+            this.showNeighboursToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.showNeighboursToolStripMenuItem1.Text = "Show neighbours";
             this.showNeighboursToolStripMenuItem1.Click += new System.EventHandler(this.showNeighboursToolStripMenuItem1_Click);
+            // 
+            // displaySourceNodesToolStripMenuItem
+            // 
+            this.displaySourceNodesToolStripMenuItem.Name = "displaySourceNodesToolStripMenuItem";
+            this.displaySourceNodesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.displaySourceNodesToolStripMenuItem.Text = "Display source nodes";
+            this.displaySourceNodesToolStripMenuItem.Click += new System.EventHandler(this.displaySourceNodesToolStripMenuItem_Click);
+            // 
+            // displaySinkNodesToolStripMenuItem
+            // 
+            this.displaySinkNodesToolStripMenuItem.Name = "displaySinkNodesToolStripMenuItem";
+            this.displaySinkNodesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.displaySinkNodesToolStripMenuItem.Text = "Display sink nodes";
+            this.displaySinkNodesToolStripMenuItem.Click += new System.EventHandler(this.displaySinkNodesToolStripMenuItem_Click);
+            // 
+            // displayLeafNodesToolStripMenuItem
+            // 
+            this.displayLeafNodesToolStripMenuItem.Name = "displayLeafNodesToolStripMenuItem";
+            this.displayLeafNodesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.displayLeafNodesToolStripMenuItem.Text = "Display leaf nodes";
+            this.displayLeafNodesToolStripMenuItem.Click += new System.EventHandler(this.displayLeafNodesToolStripMenuItem_Click);
+            // 
+            // displayIntermediaryNodesToolStripMenuItem
+            // 
+            this.displayIntermediaryNodesToolStripMenuItem.Name = "displayIntermediaryNodesToolStripMenuItem";
+            this.displayIntermediaryNodesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.displayIntermediaryNodesToolStripMenuItem.Text = "Display intermediary nodes";
+            this.displayIntermediaryNodesToolStripMenuItem.Click += new System.EventHandler(this.displayIntermediaryNodesToolStripMenuItem_Click);
+            // 
+            // displayOrphanNodesToolStripMenuItem
+            // 
+            this.displayOrphanNodesToolStripMenuItem.Name = "displayOrphanNodesToolStripMenuItem";
+            this.displayOrphanNodesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.displayOrphanNodesToolStripMenuItem.Text = "Display orphan nodes";
+            this.displayOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.displayOrphanNodesToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -261,6 +306,11 @@
         private System.Windows.Forms.ToolStripMenuItem showPredecessorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showSuccessorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showNeighboursToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displaySourceNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displaySinkNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayLeafNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayIntermediaryNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayOrphanNodesToolStripMenuItem;
     }
 }
 

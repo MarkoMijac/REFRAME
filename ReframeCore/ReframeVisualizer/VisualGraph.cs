@@ -5,42 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.GraphModel;
 using System.Xml.Linq;
+using ReframeAnalyzer.Graph;
 
 namespace ReframeVisualizer
 {
     public abstract class VisualGraph : IVisualGraph
     {
-        private string _xmlSource;
+        protected Graph _dgmlGraph;
+        protected IEnumerable<IAnalysisNode> _analysisNodes;
 
-        public VisualGraph(string xml)
+        public VisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
         {
-            _xmlSource = xml;
-        }
-
-        public Graph GetDGML()
-        {
-            Graph dgmlGraph = new Graph();
+            _dgmlGraph = new Graph();
+            _analysisNodes = analysisNodes;
 
             try
             {
-                XElement document = XElement.Parse(_xmlSource);
-                IEnumerable<XElement> nodes = FetchNodes(document);
-                AddCustomProperties(dgmlGraph);
-                AddNodesToGraph(dgmlGraph, nodes);
-                AddDependenciesToGraph(dgmlGraph, nodes);
+                AddCustomProperties();
+                AddNodesToGraph();
+                AddDependenciesToGraph();
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return dgmlGraph;
+            
         }
 
-        protected abstract IEnumerable<XElement> FetchNodes(XElement document);
+        protected abstract void AddCustomProperties();
+        protected abstract void AddNodesToGraph();
+        protected abstract void AddDependenciesToGraph();
 
-        protected abstract void AddCustomProperties(Graph graph);
-        protected abstract void AddNodesToGraph(Graph graph, IEnumerable<XElement> nodes);
-        protected abstract void AddDependenciesToGraph(Graph graph, IEnumerable<XElement> nodes);
+        public Graph GetDGML()
+        {
+            return _dgmlGraph;
+        }
     }
 }

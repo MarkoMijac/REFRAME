@@ -51,7 +51,9 @@ namespace IPCServer
             }
             catch (Exception e)
             {
-                return "Error: " + e.Message;
+                string errorMessage = $"Error: {e.Message}"+Environment.NewLine;
+                errorMessage += $"StackTrace:{e.StackTrace}";
+                return errorMessage;
             }
             return result;
         }

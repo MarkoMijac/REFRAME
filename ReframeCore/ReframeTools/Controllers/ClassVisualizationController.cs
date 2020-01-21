@@ -1,6 +1,8 @@
 ﻿using EnvDTE;
 using IPCClient;
 using Microsoft.VisualStudio.GraphModel;
+using ReframeAnalyzer;
+using ReframeAnalyzer.Graph;
 using ReframeTools.GUI;
 using ReframeVisualizer;
 using System;
@@ -12,32 +14,40 @@ using System.Windows.Forms;
 
 namespace ReframeTools.Controllers
 {
-    public class ClassVisualizationController : GUIController
+    public class ClassVisualizationController
     {
+        private IAnalysisGraph AnalysisGraph { get; set; }
+        private VisualGraphFactory VisualGraphFactory { get; set; } = new VisualGraphFactory();
+        public ClassLevelAnalyzer Analyzer { get; set; } = new ClassLevelAnalyzer();
+
+        protected FrmAnalysis _form;
+
         public ClassVisualizationController(FrmAnalysis form)
-            :base(form)
         {
-           
+            _form = form;
+            string xmlSource = ClientQueries.GetReactor(_form.ReactorIdentifier);
+            var analysisGraphFactory = new AnalysisGraphFactory();
+            AnalysisGraph = analysisGraphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
         }
 
-        protected override void ShowGraph(string xmlGraph, string analysisDescription = "")
+        protected void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
         {
-            ClassVisualGraph visualGraph = new ClassVisualGraph(xmlGraph);
-            Visualizer visualizer = new Visualizer(visualGraph);
-            Graph dgmlGraph = visualizer.GenerateDGMLGraph();
+            var dgmlGraph = visualGraph.GetDGML();
 
             string fileName = new Random().Next().ToString() + "_" + _form.ReactorIdentifier;
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
             MessageBox.Show(analysisDescription);
         }
 
-        public override void ShowEntireGraph()
+        public void ShowEntireGraph()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraph(_form.ReactorIdentifier);
+                var visualGraph = VisualGraphFactory.CreateGraph(AnalysisGraph.Nodes, VisualizationLevel.ClassLevel);
+                var dgmlGraph = visualGraph.GetDGML();
+
                 string analysisDescription = $"Showing entire class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -45,13 +55,14 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowSourceNodes()
+        public void ShowSourceNodes()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraphSourceNodes(_form.ReactorIdentifier);
+                var sourceNodes = Analyzer.GetSourceNodes(AnalysisGraph);
+                var visualGraph = VisualGraphFactory.CreateGraph(sourceNodes, VisualizationLevel.ClassLevel);
                 string analysisDescription = $"Showing only source nodes for class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -59,13 +70,14 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowSinkNodes()
+        public void ShowSinkNodes()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraphSinkNodes(_form.ReactorIdentifier);
+                var sinkNodes = Analyzer.GetSinkNodes(AnalysisGraph);
+                var visualGraph = VisualGraphFactory.CreateGraph(sinkNodes, VisualizationLevel.ClassLevel);
                 string analysisDescription = $"Showing only sink nodes for class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -73,13 +85,14 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowLeafNodes()
+        public void ShowLeafNodes()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraphLeafNodes(_form.ReactorIdentifier);
+                var leafNodes = Analyzer.GetLeafNodes(AnalysisGraph);
+                var visualGraph = VisualGraphFactory.CreateGraph(leafNodes, VisualizationLevel.ClassLevel);
                 string analysisDescription = $"Showing only leaf nodes for class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -87,13 +100,14 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowOrphanNodes()
+        public void ShowOrphanNodes()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraphOrphanNodes(_form.ReactorIdentifier);
+                var orphanNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
+                var visualGraph = VisualGraphFactory.CreateGraph(orphanNodes, VisualizationLevel.ClassLevel);
                 string analysisDescription = $"Showing only orphan nodes for class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -101,13 +115,14 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowIntermediaryNodes()
+        public void ShowIntermediaryNodes()
         {
             try
             {
-                string xmlGraph = ClientQueries.GetClassAnalysisGraphIntermediaryNodes(_form.ReactorIdentifier);
+                var intermediaryNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
+                var visualGraph = VisualGraphFactory.CreateGraph(intermediaryNodes, VisualizationLevel.ClassLevel);
                 string analysisDescription = $"Showing only intermediary nodes for class-level graph [{_form.ReactorIdentifier}]";
-                ShowGraph(xmlGraph, analysisDescription);
+                ShowGraph(visualGraph, analysisDescription);
             }
             catch (Exception e)
             {
@@ -115,16 +130,18 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowPredecessorNodes()
+        public void ShowPredecessorNodes()
         {
             try
             {
                 string nodeIdentifier = _form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
-                    string xmlGraph = ClientQueries.GetClassAnalysisGraphPredecessorNodes(_form.ReactorIdentifier, nodeIdentifier);
+                    var predecessors = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
+                    var visualGraph = VisualGraphFactory.CreateGraph(predecessors, VisualizationLevel.ClassLevel);
+
                     string analysisDescription = $"Showing only predecessor nodes of node [{nodeIdentifier}] for class-level graph [{_form.ReactorIdentifier}]";
-                    ShowGraph(xmlGraph, analysisDescription);
+                    ShowGraph(visualGraph, analysisDescription);
                 }
             }
             catch (Exception e)
@@ -133,16 +150,18 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowSuccessorNodes()
+        public void ShowSuccessorNodes()
         {
             try
             {
                 string nodeIdentifier = _form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
-                    string xmlGraph = ClientQueries.GetClassAnalysisGraphSuccessorNodes(_form.ReactorIdentifier, nodeIdentifier);
-                    string analysisDescription = $"Showing only successor nodes of node [{nodeIdentifier}] for class-level graph [{_form.ReactorIdentifier}]";
-                    ShowGraph(xmlGraph, analysisDescription);
+                    var successors = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
+                    var visualGraph = VisualGraphFactory.CreateGraph(successors, VisualizationLevel.ClassLevel);
+
+                    string analysisDescription = $"Showing only successors nodes of node [{nodeIdentifier}] for class-level graph [{_form.ReactorIdentifier}]";
+                    ShowGraph(visualGraph, analysisDescription);
                 }
             }
             catch (Exception e)
@@ -151,16 +170,18 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public override void ShowNeighbourNodes()
+        public void ShowNeighbourNodes()
         {
             try
             {
                 string nodeIdentifier = _form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
-                    string xmlGraph = ClientQueries.GetClassAnalysisGraphNeighbourNodes(_form.ReactorIdentifier, nodeIdentifier);
+                    var neighbours = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
+                    var visualGraph = VisualGraphFactory.CreateGraph(neighbours, VisualizationLevel.ClassLevel);
+
                     string analysisDescription = $"Showing only neighbour nodes of node [{nodeIdentifier}] for class-level graph [{_form.ReactorIdentifier}]";
-                    ShowGraph(xmlGraph, analysisDescription);
+                    ShowGraph(visualGraph, analysisDescription);
                 }
             }
             catch (Exception e)
@@ -169,13 +190,9 @@ namespace ReframeTools.Controllers
             }
         }
 
-        internal void GeneratePredecessorsGraph(string reactorIdentifier, string nodeIdentifier)
+        protected void DisplayError(Exception e)
         {
-            string xmlGraph = ClientQueries.GetClassAnalysisGraphPredecessorNodes(reactorIdentifier, nodeIdentifier);
-            ClassVisualGraph visualGraph = new ClassVisualGraph(xmlGraph);
-            Visualizer visualizer = new Visualizer(visualGraph);
-            Graph dgmlGraph = visualizer.GenerateDGMLGraph();
-            ProjectItem p = SolutionServices.CreateNewDgmlFile(nodeIdentifier, dgmlGraph);
+            MessageBox.Show($"Unable to fetch and display data! Error:{e.Message}!");
         }
     }
 }

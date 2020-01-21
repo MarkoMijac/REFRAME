@@ -14,66 +14,49 @@ namespace ReframeAnalyzer
     {
         #region Constructors
 
-        protected IDependencyGraph _dependencyGraph;
-
         public GraphAnalyzer()
         {
 
-        }
-
-        public GraphAnalyzer(IDependencyGraph graph)
-        {
-            _dependencyGraph = graph;
-            CreateAnalysisGraph();
         }
 
         #endregion
 
         #region Methods
 
-        protected IAnalysisGraph _analysisGraph;
-
-        protected abstract void CreateAnalysisGraph();
-
         public abstract IAnalysisGraph CreateGraph(string source);
 
-        public IAnalysisGraph GetAnalysisGraph()
+        public IEnumerable<IAnalysisNode> GetOrphanNodes(IAnalysisGraph analysisGraph)
         {
-            return _analysisGraph;
+            return analysisGraph.Nodes.Where(n => n.Degree == 0);
         }
 
-        public IEnumerable<IAnalysisNode> GetOrphanNodes()
+        public IEnumerable<IAnalysisNode> GetLeafNodes(IAnalysisGraph analysisGraph)
         {
-            return _analysisGraph.Nodes.Where(n => n.Degree == 0);
-        }
-           
-        public IEnumerable<IAnalysisNode> GetLeafNodes()
-        {
-            return _analysisGraph.Nodes.Where(
+            return analysisGraph.Nodes.Where(
                 n => (n.InDegree == 0 || n.OutDegree == 0) == true
                 && (n.InDegree == 0 && n.OutDegree == 0) == false
                 );
         }
 
-        public IEnumerable<IAnalysisNode> GetSourceNodes()
+        public IEnumerable<IAnalysisNode> GetSourceNodes(IAnalysisGraph analysisGraph)
         {
-            return _analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
+            return analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
         }
 
-        public IEnumerable<IAnalysisNode> GetSinkNodes()
+        public IEnumerable<IAnalysisNode> GetSinkNodes(IAnalysisGraph analysisGraph)
         {
-            return _analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
+            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
         }
 
-        public IEnumerable<IAnalysisNode> GetIntermediaryNodes()
+        public IEnumerable<IAnalysisNode> GetIntermediaryNodes(IAnalysisGraph analysisGraph)
         {
-            return _analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
+            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
         }
 
-        public IEnumerable<IAnalysisNode> GetPredecessors(string nodeIdentifier)
+        public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = _analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
 
             var predecessors = new List<IAnalysisNode>();
 
@@ -98,10 +81,10 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetPredecessors(string nodeIdentifier, int maxDepth)
+        public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode initialNode = _analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
             dict.Add(initialNode, 0);
@@ -132,10 +115,10 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetSuccessors(string nodeIdentifier)
+        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = _analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
 
             var successors = new List<IAnalysisNode>();
 
@@ -160,10 +143,10 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetSuccessors(string nodeIdentifier, int maxDepth)
+        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode initialNode = _analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
             dict.Add(initialNode, 0);
@@ -194,22 +177,10 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetNeighbours(string nodeIdentifier)
+        public IEnumerable<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
-            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(nodeIdentifier);
-            IEnumerable<IAnalysisNode> successors = GetSuccessors(nodeIdentifier);
-
-            List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
-            neighbours.AddRange(predecessors);
-            neighbours.AddRange(successors);
-
-            return neighbours;
-        }
-
-        public IEnumerable<IAnalysisNode> GetNeighbours(string nodeIdentifier, int depth)
-        {
-            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(nodeIdentifier, depth);
-            IEnumerable<IAnalysisNode> successors = GetSuccessors(nodeIdentifier, depth);
+            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier);
+            IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier);
 
             List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
             neighbours.AddRange(predecessors);

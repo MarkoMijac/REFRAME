@@ -5,73 +5,58 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.GraphModel;
+using ReframeAnalyzer.Graph;
 
 namespace ReframeVisualizer
 {
     public class ClassVisualGraph : VisualGraph
     {
-        public ClassVisualGraph(string xml)
-            :base(xml)
+        public ClassVisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
+            :base(analysisNodes)
         {
 
         }
 
-        protected override void AddCustomProperties(Graph graph)
+        protected override void AddCustomProperties()
         {
-            graph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("PredecessorsCount", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("SuccessorsCount", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("PredecessorsCount", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("SuccessorsCount", System.Type.GetType("System.String"));
         }
 
-        protected override void AddDependenciesToGraph(Graph graph, IEnumerable<XElement> nodes)
+        protected override void AddDependenciesToGraph()
         {
-            GraphNode predecessor;
-            GraphNode successor;
-            foreach (var node in nodes)
+            GraphNode dgmlPredecessor;
+            GraphNode dgmlSuccessor;
+            foreach (var analysisNode in _analysisNodes)
             {
-                predecessor = graph.Nodes.Get(node.Element("Identifier").Value);
-                IEnumerable<XElement> successors = node.Descendants("Successor");
-                foreach (var s in successors)
+                dgmlPredecessor = _dgmlGraph.Nodes.Get(analysisNode.Identifier.ToString());
+                foreach (var analysisSuccessor in analysisNode.Successors)
                 {
-                    successor = graph.Nodes.Get(s.Element("Identifier").Value);
-                    if (successor != null)
+                    dgmlSuccessor = _dgmlGraph.Nodes.Get(analysisSuccessor.Identifier.ToString());
+                    if (dgmlSuccessor != null)
                     {
-                        GraphLink dependency = graph.Links.GetOrCreate(predecessor, successor);
+                        GraphLink dependency = _dgmlGraph.Links.GetOrCreate(dgmlPredecessor, dgmlSuccessor);
                     }
                 }
             }
         }
 
-        protected override void AddNodesToGraph(Graph graph, IEnumerable<XElement> nodes)
+        protected override void AddNodesToGraph()
         {
-            foreach (var node in nodes)
+            foreach (ClassAnalysisNode node in _analysisNodes)
             {
-                string identifier = node.Element("Identifier").Value;
-                string name = node.Element("Name").Value;
-                string fullName = node.Element("FullName").Value;
-                string namespc = node.Element("Namespace").Value;
-                string assembly = node.Element("Assembly").Value;
-                string predecessorsCount = node.Element("PredecessorsCount").Value;
-                string successorsCount = node.Element("SuccessorsCount").Value;
-
-                GraphNode g = graph.Nodes.GetOrCreate(identifier, name, null);
-                g.SetValue("Name", name);
-                g.SetValue("FullName", fullName);
-                g.SetValue("Namespace", namespc);
-                g.SetValue("Assembly", assembly);
-                g.SetValue("PredecessorsCount", predecessorsCount);
-                g.SetValue("SuccessorsCount", successorsCount);
+                GraphNode g = _dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
+                g.SetValue("Name", node.Name);
+                g.SetValue("FullName", node.FullName);
+                g.SetValue("Namespace", node.Namespace);
+                g.SetValue("Assembly", node.Assembly);
+                g.SetValue("PredecessorsCount", node.Predecessors.Count);
+                g.SetValue("SuccessorsCount", node.Successors.Count);
             }
-        }
-
-        protected override IEnumerable<XElement> FetchNodes(XElement document)
-        {
-            IEnumerable<XElement> nodes = from n in document.Descendants("Node") select n;
-
-            return nodes;
         }
     }
 }

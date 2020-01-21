@@ -21,23 +21,11 @@ namespace ReframeAnalyzer
 
         }
 
-        public ClassLevelAnalyzer(IDependencyGraph graph)
-            :base(graph)
-        {
-
-        }
+        #region Methods
 
         public override IAnalysisGraph CreateGraph(string source)
         {
             return new ClassAnalysisGraph(source);
-        }
-
-        #region Methods
-
-        protected override void CreateAnalysisGraph()
-        {
-            _analysisGraph = new ClassAnalysisGraph();
-            _analysisGraph.InitializeGraph(_dependencyGraph);
         }
 
         #endregion

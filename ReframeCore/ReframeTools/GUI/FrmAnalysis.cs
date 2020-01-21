@@ -1,4 +1,5 @@
 ﻿using IPCClient;
+using ReframeAnalyzer.Graph;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -75,6 +76,33 @@ namespace ReframeTools.GUI
                         inDegree,
                         outDegree
                     });
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        public virtual void ShowTable(IEnumerable<IAnalysisNode> nodes)
+        {
+            dgvAnalysis.Rows.Clear();
+
+            try
+            {
+                if (nodes != null)
+                {
+                    foreach (var node in nodes)
+                    {
+                        dgvAnalysis.Rows.Add(new string[]
+                        {
+                        node.Identifier.ToString(),
+                        node.Name,
+                        node.Degree.ToString(),
+                        node.InDegree.ToString(),
+                        node.OutDegree.ToString()
+                        });
+                    }
                 }
             }
             catch (Exception e)

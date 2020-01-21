@@ -75,6 +75,10 @@
       <Project>{f81ad39a-aab0-4ae0-babd-89ba79e945ed}</Project>
       <Name>ReframeCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
+      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
+      <Name>ReframeExporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

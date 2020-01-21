@@ -12,6 +12,7 @@ using ReframeAnalyzer.Graph;
 using ReframeAnalyzer.Xml;
 using System.Collections;
 using System.Collections.Generic;
+using ReframeExporter;
 
 namespace ReframeAnalyzerTests
 {
@@ -29,30 +30,7 @@ namespace ReframeAnalyzerTests
         }
 
         [TestMethod]
-        public void MyTestMethod1()
-        {
-            //Arrange
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
-
-            GenericReactiveObject obj = new GenericReactiveObject();
-
-            reactor.Let(() => obj.A).DependOn(() => obj.B, () => obj.C);
-            reactor.Let(() => obj.C).DependOn(() => obj.D, () => obj.E);
-
-            string xml = @"<ServerCommand><RouterIdentifier>AnalyzerRouter</RouterIdentifier><CommandName>GetGraphNodes</CommandName><Parameters><Parameter><Name>GraphIdentifier</Name><Value>R1</Value></Parameter></Parameters></ServerCommand>";
-
-            AnalyzerRouter router = new AnalyzerRouter();
-
-            //Act
-            string result = router.RouteCommand(xml);
-
-            //Assert
-            Assert.IsTrue(result != "");
-        }
-
-        [TestMethod]
-        public void GetClassAnalysisGraph()
+        public void CreateGraph()
         {
             //Arrange
             ReactorRegistry.Instance.Clear();
@@ -66,11 +44,13 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            ClassAnalysisGraph analysisGraph = new ClassLevelAnalyzer(reactor.Graph).GetAnalysisGraph() as ClassAnalysisGraph;
-            var xml = new XmlClassGraphExporter(analysisGraph).Export();
+            XmlExporter xmlExporter = new XmlExporter();
+            string xmlSource = xmlExporter.Export(reactor);
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
 
             //Assert
-            Assert.AreNotEqual("", xml);
+            Assert.IsNotNull(analysisGraph);
         }
 
         //[TestMethod]
@@ -104,36 +84,17 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
-            //Act
-            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-            ClassAnalysisGraph analysisGraph = analyzer.GetSourceNodes() as ClassAnalysisGraph;
-
-            //Assert
-            Assert.IsTrue(analysisGraph != null);
-        }
-
-        [TestMethod]
-        public void GetSourceNodes()
-        {
-            //Arrange
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.GetOrCreateReactor("R1");
-
-            ClassA objA = new ClassA();
-            ClassB objB = new ClassB();
-            ClassC objC = new ClassC();
-
-            reactor.Let(() => objA.PA1)
-                .DependOn(() => objB.PB1, () => objC.PC1);
-
-            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
+            var xmlExporter = new XmlExporter();
+            var xmlSource = xmlExporter.Export(reactor);
 
             //Act
-            var sourceNodes = analyzer.GetSourceNodes() as IEnumerable<ClassAnalysisNode>;
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
+
+            IEnumerable<IAnalysisNode> sourceNodes = analyzer.GetSourceNodes(analysisGraph);
 
             //Assert
             Assert.IsTrue(sourceNodes != null);
-
         }
 
         [TestMethod]
@@ -158,11 +119,13 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-            var analysisGraph = analyzer.GetAnalysisGraph();
+            XmlExporter xmlExporter = new XmlExporter();
+            string xmlSource = xmlExporter.Export(reactor);
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
             
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(startingNode.Identifier.ToString());
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString());
 
             //Assert
             Assert.IsTrue(predecessors != null);
@@ -191,11 +154,13 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-            var analysisGraph = analyzer.GetAnalysisGraph();
+            var xmlExporter = new XmlExporter();
+            string xmlSource = xmlExporter.Export(reactor);
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
 
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(startingNode.Identifier.ToString(), 3);
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString(), 3);
 
             //Assert
             Assert.IsTrue(predecessors != null);
@@ -224,11 +189,13 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            var analyzer = new ClassLevelAnalyzer(reactor.Graph);
-            var analysisGraph = analyzer.GetAnalysisGraph();
+            var xmlExporter = new XmlExporter();
+            string xmlSource = xmlExporter.Export(reactor);
+            var analyzer = new ClassLevelAnalyzer();
+            var analysisGraph = analyzer.CreateGraph(xmlSource);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));
 
-            IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(startingNode.Identifier.ToString(), 2);
+            IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(analysisGraph, startingNode.Identifier.ToString(), 2);
 
             //Assert
             Assert.IsTrue(successors != null);
