@@ -41,6 +41,10 @@ namespace ReframeTools.GUI
             {
                 return new NamespaceAnalysisController(form as FrmNamespaceLevelAnalysis);
             }
+            else if (form is FrmObjectLevelAnalysis)
+            {
+                return new ObjectAnalysisController(form as FrmObjectLevelAnalysis);
+            }
             else
             {
                 return null;
@@ -60,6 +64,10 @@ namespace ReframeTools.GUI
             else if (form is FrmNamespaceLevelAnalysis)
             {
                 return new NamespaceVisualizationController(form as FrmNamespaceLevelAnalysis);
+            }
+            else if (form is FrmObjectLevelAnalysis)
+            {
+                return new ObjectVisualizationController(form as FrmObjectLevelAnalysis);
             }
             else
             {
@@ -220,6 +228,13 @@ namespace ReframeTools.GUI
         {
             string reactorIdentifier = formReactors.GetSelectedReactorIdentifier();
             var form = new FrmNamespaceLevelAnalysis(reactorIdentifier);
+            DisplayForm(form);
+        }
+
+        private void objectlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string reactorIdentifier = formReactors.GetSelectedReactorIdentifier();
+            var form = new FrmObjectLevelAnalysis(reactorIdentifier);
             DisplayForm(form);
         }
     }

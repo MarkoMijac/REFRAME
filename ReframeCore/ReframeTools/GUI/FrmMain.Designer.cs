@@ -32,6 +32,7 @@
             this.reactorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.assemblylevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.classlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEntireGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -55,7 +56,7 @@
             this.displayLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objectlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +78,8 @@
             this.reactorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.assemblylevelAnalysisToolStripMenuItem,
             this.classlevelAnalysisToolStripMenuItem,
-            this.namespacelevelAnalysisToolStripMenuItem});
+            this.namespacelevelAnalysisToolStripMenuItem,
+            this.objectlevelAnalysisToolStripMenuItem});
             this.reactorToolStripMenuItem.Name = "reactorToolStripMenuItem";
             this.reactorToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reactorToolStripMenuItem.Text = "Reactor";
@@ -95,6 +97,13 @@
             this.classlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.classlevelAnalysisToolStripMenuItem.Text = "Class-level analysis";
             this.classlevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.classlevelAnalysisToolStripMenuItem_Click);
+            // 
+            // namespacelevelAnalysisToolStripMenuItem
+            // 
+            this.namespacelevelAnalysisToolStripMenuItem.Name = "namespacelevelAnalysisToolStripMenuItem";
+            this.namespacelevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.namespacelevelAnalysisToolStripMenuItem.Text = "Namespace-level analysis";
+            this.namespacelevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.namespacelevelAnalysisToolStripMenuItem_Click);
             // 
             // analysesToolStripMenuItem
             // 
@@ -275,12 +284,12 @@
             this.displayOrphanNodesToolStripMenuItem.Text = "Display orphan nodes";
             this.displayOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.displayOrphanNodesToolStripMenuItem_Click);
             // 
-            // namespacelevelAnalysisToolStripMenuItem
+            // objectlevelAnalysisToolStripMenuItem
             // 
-            this.namespacelevelAnalysisToolStripMenuItem.Name = "namespacelevelAnalysisToolStripMenuItem";
-            this.namespacelevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.namespacelevelAnalysisToolStripMenuItem.Text = "Namespace-level analysis";
-            this.namespacelevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.namespacelevelAnalysisToolStripMenuItem_Click);
+            this.objectlevelAnalysisToolStripMenuItem.Name = "objectlevelAnalysisToolStripMenuItem";
+            this.objectlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.objectlevelAnalysisToolStripMenuItem.Text = "Object-level analysis";
+            this.objectlevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.objectlevelAnalysisToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -331,6 +340,7 @@
         private System.Windows.Forms.ToolStripMenuItem displayOrphanNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem assemblylevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectlevelAnalysisToolStripMenuItem;
     }
 }
 

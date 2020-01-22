@@ -30,6 +30,11 @@ namespace ReframeVisualizer
                         visualGraph = new NamespaceVisualGraph(analysisNodes);
                         break;
                     }
+                case AnalysisLevel.ObjectLevel:
+                    {
+                        visualGraph = new ObjectVisualGraph(analysisNodes);
+                        break;
+                    }
                 default:
                     visualGraph = null;
                     break;

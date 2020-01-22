@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.GraphModel;
+using ReframeAnalyzer.Graph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Microsoft.VisualStudio.GraphModel;
-using ReframeAnalyzer.Graph;
 
 namespace ReframeVisualizer
 {
-    public class ClassVisualGraph : VisualGraph
+    public class ObjectVisualGraph : VisualGraph
     {
-        public ClassVisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
-            :base(analysisNodes)
+        public ObjectVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
 
         }
@@ -20,9 +18,6 @@ namespace ReframeVisualizer
         protected override void AddCustomProperties()
         {
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
@@ -48,13 +43,10 @@ namespace ReframeVisualizer
 
         protected override void AddNodesToGraph()
         {
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (ObjectAnalysisNode node in _analysisNodes)
             {
                 GraphNode g = _dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("FullName", node.FullName);
-                g.SetValue("Namespace", node.Namespace);
-                g.SetValue("Assembly", node.Assembly);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
