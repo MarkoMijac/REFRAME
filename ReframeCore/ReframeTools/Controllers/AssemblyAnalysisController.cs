@@ -17,7 +17,5 @@ namespace ReframeTools.Controllers
         {
             CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.AssemblyLevel);
         }
-
-        
     }
 }

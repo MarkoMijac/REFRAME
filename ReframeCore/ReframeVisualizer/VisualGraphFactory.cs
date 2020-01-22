@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace ReframeVisualizer
 {
-    public enum VisualizationLevel { ClassLevel };
-
     public class VisualGraphFactory
     {
-        public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes, VisualizationLevel level)
+        public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes, AnalysisLevel level)
         {
             IVisualGraph visualGraph;
 
             switch (level)
             {
-                case VisualizationLevel.ClassLevel:
+                case AnalysisLevel.ClassLevel:
                     {
                         visualGraph = new ClassVisualGraph(analysisNodes);
+                        break;
+                    }
+                case AnalysisLevel.AssemblyLevel:
+                    {
+                        visualGraph = new AssemblyVisualGraph(analysisNodes);
                         break;
                     }
                 default:

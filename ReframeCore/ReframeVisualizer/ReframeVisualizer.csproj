@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyVisualGraph.cs" />
     <Compile Include="ClassVisualGraph.cs" />
     <Compile Include="IGraphPainter.cs" />
     <Compile Include="IVisualGraph.cs" />

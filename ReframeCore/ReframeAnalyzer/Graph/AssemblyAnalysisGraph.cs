@@ -10,6 +10,8 @@ namespace ReframeAnalyzer.Graph
     {
         public AssemblyAnalysisGraph(ClassAnalysisGraph classAnalysisGraph)
         {
+            AnalysisLevel = AnalysisLevel.AssemblyLevel;
+
             if (classAnalysisGraph != null)
             {
                 InitializeGraphBasicData(classAnalysisGraph);

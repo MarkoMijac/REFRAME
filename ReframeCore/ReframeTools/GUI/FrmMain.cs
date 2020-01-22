@@ -27,7 +27,7 @@ namespace ReframeTools.GUI
             
         }
 
-        private AnalysisController GetController(Form form)
+        private AnalysisController GetAnalysisController(Form form)
         {
             if (form is FrmClassLevelAnalysis)
             {
@@ -36,6 +36,22 @@ namespace ReframeTools.GUI
             else if (form is FrmAssemblyLevelAnalysis)
             {
                 return new AssemblyAnalysisController(form as FrmAssemblyLevelAnalysis);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private VisualizationController GetVisualizationController(Form form)
+        {
+            if (form is FrmClassLevelAnalysis)
+            {
+                return new ClassVisualizationController(form as FrmClassLevelAnalysis);
+            }
+            else if (form is FrmAssemblyLevelAnalysis)
+            {
+                return new AssemblyVisualizationController(form as FrmAssemblyLevelAnalysis);
             }
             else
             {
@@ -64,7 +80,7 @@ namespace ReframeTools.GUI
 
         private void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowSourceNodes();
         }
 
@@ -83,139 +99,105 @@ namespace ReframeTools.GUI
 
         private void showEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowEntireGraph();
         }
 
         private void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowSinkNodes();
         }
 
         private void showLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowLeafNodes();
         }
 
         private void showOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowOrphanNodes();
         }
 
         private void showIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowIntermediaryNodes();
         }
 
         private void showEntireGraphToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                var controller = new ClassVisualizationController(currentForm as FrmAnalysis);
-                controller.ShowEntireGraph();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowEntireGraph();
         }
 
         private void showPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowPredecessorNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowPredecessorNodes();
         }
 
         private void showPredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowPredecessorNodes();
         }
 
         private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowSuccessorNodes();
         }
 
         private void showNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = GetController(currentForm);
+            var controller = GetAnalysisController(currentForm);
             controller.ShowNeighbourNodes();
         }
 
         private void showSuccessorsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowSuccessorNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowSuccessorNodes();
         }
 
         private void showNeighboursToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowNeighbourNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowNeighbourNodes();
         }
 
         private void displaySourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowSourceNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowSourceNodes();
         }
 
         private void displaySinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowSinkNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowSinkNodes();
         }
 
         private void displayLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowLeafNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowLeafNodes();
         }
 
         private void displayIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowIntermediaryNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowIntermediaryNodes();
         }
 
         private void displayOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentForm is FrmAnalysis)
-            {
-                FrmAnalysis classAnalysisForm = currentForm as FrmAnalysis;
-                ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
-                controller.ShowOrphanNodes();
-            }
+            var controller = GetVisualizationController(currentForm);
+            controller.ShowOrphanNodes();
+            
         }
 
         private void assemblylevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)

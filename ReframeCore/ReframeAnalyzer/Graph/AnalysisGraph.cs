@@ -18,6 +18,8 @@ namespace ReframeAnalyzer.Graph
 
         public List<IAnalysisNode> Nodes => _nodes;
 
+        public AnalysisLevel AnalysisLevel { get; protected set; }
+
         public void AddNode(IAnalysisNode node)
         {
             if (node != null && ContainsNode(node.Identifier) == false)

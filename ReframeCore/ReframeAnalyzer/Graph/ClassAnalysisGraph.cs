@@ -13,6 +13,7 @@ namespace ReframeAnalyzer.Graph
     {
         public ClassAnalysisGraph(string source)
         {
+            AnalysisLevel = AnalysisLevel.ClassLevel;
             Source = source;
 
             XElement xReactor = XElement.Parse(source);

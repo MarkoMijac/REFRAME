@@ -13,6 +13,7 @@ namespace ReframeAnalyzer.Graph
         string Identifier { get; }
         string Source { get; }
         List<IAnalysisNode> Nodes { get; }
+        AnalysisLevel AnalysisLevel { get; }
 
         void AddNode(IAnalysisNode node);
         void RemoveNode(IAnalysisNode node);
