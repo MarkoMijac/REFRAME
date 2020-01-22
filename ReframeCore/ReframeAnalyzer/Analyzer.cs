@@ -176,12 +176,25 @@ namespace ReframeAnalyzer
 
         public IEnumerable<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
-            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier);
-            IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier);
+            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier, 1);
+            IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier, 1);
 
             List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
-            neighbours.AddRange(predecessors);
-            neighbours.AddRange(successors);
+            foreach (var p in predecessors)
+            {
+                if (neighbours.Contains(p) == false)
+                {
+                    neighbours.Add(p);
+                }
+            }
+
+            foreach (var s in successors)
+            {
+                if (neighbours.Contains(s) == false)
+                {
+                    neighbours.Add(s);
+                }
+            }
 
             return neighbours;
         }
