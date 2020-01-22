@@ -60,6 +60,8 @@
     <Compile Include="Controllers\AssemblyVisualizationController.cs" />
     <Compile Include="Controllers\ClassAnalysisController.cs" />
     <Compile Include="Controllers\ClassVisualizationController.cs" />
+    <Compile Include="Controllers\NamespaceAnalysisController.cs" />
+    <Compile Include="Controllers\NamespaceVisualizationController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyLevelAnalysis.cs">
       <SubType>Form</SubType>
@@ -90,6 +92,12 @@
     </Compile>
     <Compile Include="GUI\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceLevelAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceLevelAnalysis.Designer.cs">
+      <DependentUpon>FrmNamespaceLevelAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmReactors.cs">
       <SubType>Form</SubType>

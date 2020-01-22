@@ -25,6 +25,11 @@ namespace ReframeVisualizer
                         visualGraph = new AssemblyVisualGraph(analysisNodes);
                         break;
                     }
+                case AnalysisLevel.NamespaceLevel:
+                    {
+                        visualGraph = new NamespaceVisualGraph(analysisNodes);
+                        break;
+                    }
                 default:
                     visualGraph = null;
                     break;

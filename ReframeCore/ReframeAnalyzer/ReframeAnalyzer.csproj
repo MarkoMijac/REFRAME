@@ -58,6 +58,8 @@
     <Compile Include="Graph\IAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisNode.cs" />
+    <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
+    <Compile Include="Graph\NamespaceAnalysisNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

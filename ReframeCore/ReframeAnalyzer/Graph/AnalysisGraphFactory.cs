@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public enum AnalysisLevel { AssemblyLevel, ClassLevel };
+    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel };
 
     public class AnalysisGraphFactory
     {
@@ -28,6 +28,12 @@ namespace ReframeAnalyzer.Graph
                     {
                         var classAnalysisGraph = new ClassAnalysisGraph(xmlSource);
                         analysisGraph = new AssemblyAnalysisGraph(classAnalysisGraph);
+                        break;
+                    }
+                case AnalysisLevel.NamespaceLevel:
+                    {
+                        var classAnalysisGraph = new ClassAnalysisGraph(xmlSource);
+                        analysisGraph = new NamespaceAnalysisGraph(classAnalysisGraph);
                         break;
                     }
                 default:
