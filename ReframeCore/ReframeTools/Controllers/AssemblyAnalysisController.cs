@@ -11,11 +11,13 @@ using System.Windows.Forms;
 
 namespace ReframeTools.Controllers
 {
-    public class ClassAnalysisController : AnalysisController
+    public class AssemblyAnalysisController : AnalysisController
     {
-        public ClassAnalysisController(FrmClassLevelAnalysis form) : base(form)
+        public AssemblyAnalysisController(FrmAssemblyLevelAnalysis form) : base(form)
         {
-            CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.ClassLevel);
+            CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.AssemblyLevel);
         }
+
+        
     }
 }

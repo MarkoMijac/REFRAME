@@ -55,8 +55,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CmdVisualizer.cs" />
+    <Compile Include="Controllers\AnalysisController.cs" />
+    <Compile Include="Controllers\AssemblyAnalysisController.cs" />
     <Compile Include="Controllers\ClassAnalysisController.cs" />
     <Compile Include="Controllers\ClassVisualizationController.cs" />
+    <Compile Include="GUI\FrmAssemblyLevelAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyLevelAnalysis.Designer.cs">
+      <DependentUpon>FrmAssemblyLevelAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +217,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\FrmAssemblyLevelAnalysis.resx">
+      <DependentUpon>FrmAssemblyLevelAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmAnalysis.resx">
       <DependentUpon>FrmAnalysis.cs</DependentUpon>
     </EmbeddedResource>

@@ -12,8 +12,9 @@ namespace ReframeAnalyzer.Graph
     public class ClassAnalysisGraph : AnalysisGraph
     {
         public ClassAnalysisGraph(string source)
-            :base(source)
         {
+            Source = source;
+
             XElement xReactor = XElement.Parse(source);
             XElement xGraph = xReactor.Element("Graph");
 
@@ -66,34 +67,6 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeNodes(IEnumerable<INode> nodes)
-        {
-            if (nodes.Count() == 0)
-            {
-                return;
-            }
-
-            foreach (var node in nodes)
-            {
-                Type t = node.OwnerObject.GetType();
-                uint identifier = (uint)t.GUID.GetHashCode();
-
-                if (ContainsNode(identifier) == false)
-                {
-                    var classNode = new ClassAnalysisNode()
-                    {
-                        Identifier = identifier,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString(),  
-                    };
-
-                    AddNode(classNode);
-                }
-            }
-        }
-
         private void InitializeGraphDependencies(IEnumerable<XElement> xNodes)
         {
             foreach (var xNode in xNodes)
@@ -117,32 +90,6 @@ namespace ReframeAnalyzer.Graph
                     {
                         analysisNode.AddSuccesor(successorAnalysisNode);
                         successorAnalysisNode.AddPredecessor(analysisNode);
-                    }
-                }
-            }
-        }
-
-        private void InitializeDependencies(IEnumerable<INode> nodes)
-        {
-            if (nodes.Count() == 0)
-            {
-                return;
-            }
-
-            foreach (var node in nodes)
-            {
-                Type t = node.OwnerObject.GetType();
-                uint identifier = (uint)t.GUID.GetHashCode();
-
-                var predecessor = GetNode(identifier);
-                foreach (var s in node.Successors)
-                {
-                    uint sTypeIdentifier = (uint)s.OwnerObject.GetType().GUID.GetHashCode();
-                    var successor = GetNode(sTypeIdentifier);
-                    if (successor != null)
-                    {
-                        predecessor.AddSuccesor(successor);
-                        successor.AddPredecessor(predecessor);
                     }
                 }
             }

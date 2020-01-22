@@ -45,70 +45,9 @@ namespace ReframeTools.GUI
             rtxtXMLSource.Text = xmlSource;
         }
 
-        public virtual void ShowTable(string xmlSource)
-        {
-            dgvAnalysis.Rows.Clear();
-
-            try
-            {
-                XElement document = XElement.Parse(xmlSource);
-                IEnumerable<XElement> nodes = from n in document.Descendants("Node") select n;
-
-                foreach (var node in nodes)
-                {
-                    string identifier = node.Element("Identifier").Value;
-                    string name = node.Element("Name").Value;
-                    string namespc = node.Element("Namespace").Value;
-                    string assembly = node.Element("Assembly").Value;
-                    string degree = node.Element("Degree").Value;
-                    string inDegree = node.Element("InDegree").Value;
-                    string outDegree = node.Element("OutDegree").Value;
-                    string predecessorsCount = node.Element("PredecessorsCount").Value;
-                    string successorsCount = node.Element("SuccessorsCount").Value;
-
-                    dgvAnalysis.Rows.Add(new string[] 
-                    {
-                        identifier,
-                        name,
-                        namespc,
-                        assembly,
-                        degree,
-                        inDegree,
-                        outDegree
-                    });
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
         public virtual void ShowTable(IEnumerable<IAnalysisNode> nodes)
         {
-            dgvAnalysis.Rows.Clear();
-
-            try
-            {
-                if (nodes != null)
-                {
-                    foreach (var node in nodes)
-                    {
-                        dgvAnalysis.Rows.Add(new string[]
-                        {
-                        node.Identifier.ToString(),
-                        node.Name,
-                        node.Degree.ToString(),
-                        node.InDegree.ToString(),
-                        node.OutDegree.ToString()
-                        });
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            
         }
 
         public virtual void ShowDescription(string description)

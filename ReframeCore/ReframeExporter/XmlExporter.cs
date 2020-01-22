@@ -141,69 +141,101 @@ namespace ReframeExporter
 
         private void WriteNodeBasicData(INode node, XmlWriter xmlWriter)
         {
-            xmlWriter.WriteStartElement("Identifier");
-            xmlWriter.WriteString(node.Identifier.ToString());
-            xmlWriter.WriteEndElement();
+            if (node != null)
+            {
+                xmlWriter.WriteStartElement("Identifier");
+                xmlWriter.WriteString(node.Identifier.ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("MemberName");
-            xmlWriter.WriteString(node.MemberName);
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("MemberName");
+                xmlWriter.WriteString(node.MemberName);
+                xmlWriter.WriteEndElement();
+            }
         }
 
         private void WriteNodeDetails(INode node, XmlWriter xmlWriter)
         {
-            WriteClassDetails(node, xmlWriter);
+            if (node != null)
+            {
+                WriteClassDetails(node, xmlWriter);
 
-            xmlWriter.WriteStartElement("OwnerObject");
-            uint objectIdentifier = (uint)node.OwnerObject.GetHashCode();
-            xmlWriter.WriteString(objectIdentifier.ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("OwnerObject");
+                uint objectIdentifier = (uint)node.OwnerObject.GetHashCode();
+                xmlWriter.WriteString(objectIdentifier.ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("Layer");
-            xmlWriter.WriteString(node.Layer.ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("Layer");
+                xmlWriter.WriteString(node.Layer.ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("NodeType");
-            xmlWriter.WriteString(node.GetType().ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("NodeType");
+                xmlWriter.WriteString(node.GetType().ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("PredecessorsCount");
-            xmlWriter.WriteString(node.Predecessors.Count.ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("PredecessorsCount");
+                xmlWriter.WriteString(node.Predecessors.Count.ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("SuccessorsCount");
-            xmlWriter.WriteString(node.Successors.Count.ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("SuccessorsCount");
+                xmlWriter.WriteString(node.Successors.Count.ToString());
+                xmlWriter.WriteEndElement();
+            }
         }
 
+        private string tempLog;
         private void WriteClassDetails(INode node, XmlWriter xmlWriter)
         {
-            Type type = node.OwnerObject.GetType();
+            try
+            {
+                tempLog = "TEMP LOG:"+Environment.NewLine;
+                tempLog += $"Node: {node != null}" + Environment.NewLine;
+                tempLog += $"Node member name: {node.MemberName}" + Environment.NewLine;
+                tempLog += $"Node owner object: {node.OwnerObject != null}" + Environment.NewLine;
 
-            xmlWriter.WriteStartElement("OwnerClass");
+                Type type = node.OwnerObject.GetType();
+                tempLog += $"Type: {type != null}" + Environment.NewLine;
 
-            xmlWriter.WriteStartElement("Identifier");
-            uint classIdentifier = (uint)type.GUID.GetHashCode();
-            xmlWriter.WriteString(classIdentifier.ToString());
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("OwnerClass");
 
-            xmlWriter.WriteStartElement("Name");
-            xmlWriter.WriteString(type.Name);
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("Identifier");
+                uint classIdentifier = (uint)type.GUID.GetHashCode();
+                xmlWriter.WriteString(classIdentifier.ToString());
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("FullName");
-            xmlWriter.WriteString(type.FullName);
-            xmlWriter.WriteEndElement();
+                tempLog += $"ClassIdentifier: {classIdentifier}" + Environment.NewLine;
 
-            xmlWriter.WriteStartElement("Namespace");
-            xmlWriter.WriteString(type.Namespace);
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("Name");
+                xmlWriter.WriteString(type.Name);
+                xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("Assembly");
-            xmlWriter.WriteString(type.Assembly.ManifestModule.ToString());
-            xmlWriter.WriteEndElement();
+                tempLog += $"Type name: {type.Name}" + Environment.NewLine;
 
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("FullName");
+                xmlWriter.WriteString(type.FullName);
+                xmlWriter.WriteEndElement();
+
+                tempLog += $"Type fullname: {type.FullName}" + Environment.NewLine;
+
+                xmlWriter.WriteStartElement("Namespace");
+                xmlWriter.WriteString(type.Namespace);
+                xmlWriter.WriteEndElement();
+
+                tempLog += $"Type namespace: {type.Namespace}" + Environment.NewLine;
+
+                xmlWriter.WriteStartElement("Assembly");
+                xmlWriter.WriteString(type.Assembly.ManifestModule.ToString());
+                xmlWriter.WriteEndElement();
+
+                tempLog += $"Assembly: {type.Assembly.ManifestModule != null}" + Environment.NewLine;
+
+                xmlWriter.WriteEndElement();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message+Environment.NewLine + tempLog);
+            }
+            
         }
 
         private void WriteSuccessors(INode node, XmlWriter xmlWriter)

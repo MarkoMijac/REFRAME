@@ -50,6 +50,7 @@
     <Compile Include="Exceptions\AnalyzerException.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
+    <Compile Include="Graph\AssemblyAnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisGraph.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisGraphFactory.cs" />

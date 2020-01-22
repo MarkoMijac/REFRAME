@@ -54,6 +54,7 @@
             this.displayLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assemblylevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +74,7 @@
             // reactorToolStripMenuItem
             // 
             this.reactorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.assemblylevelAnalysisToolStripMenuItem,
             this.classlevelAnalysisToolStripMenuItem});
             this.reactorToolStripMenuItem.Name = "reactorToolStripMenuItem";
             this.reactorToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -264,6 +266,13 @@
             this.displayOrphanNodesToolStripMenuItem.Text = "Display orphan nodes";
             this.displayOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.displayOrphanNodesToolStripMenuItem_Click);
             // 
+            // assemblylevelAnalysisToolStripMenuItem
+            // 
+            this.assemblylevelAnalysisToolStripMenuItem.Name = "assemblylevelAnalysisToolStripMenuItem";
+            this.assemblylevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.assemblylevelAnalysisToolStripMenuItem.Text = "Assembly-level analysis";
+            this.assemblylevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.assemblylevelAnalysisToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +320,7 @@
         private System.Windows.Forms.ToolStripMenuItem displayLeafNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem displayIntermediaryNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem displayOrphanNodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assemblylevelAnalysisToolStripMenuItem;
     }
 }
 

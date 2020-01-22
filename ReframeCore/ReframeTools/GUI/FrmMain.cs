@@ -27,6 +27,22 @@ namespace ReframeTools.GUI
             
         }
 
+        private AnalysisController GetController(Form form)
+        {
+            if (form is FrmClassLevelAnalysis)
+            {
+                return new ClassAnalysisController(form as FrmClassLevelAnalysis);
+            }
+            else if (form is FrmAssemblyLevelAnalysis)
+            {
+                return new AssemblyAnalysisController(form as FrmAssemblyLevelAnalysis);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private void FrmMain_Load(object sender, EventArgs e)
         {
             formReactors = new FrmReactors();
@@ -48,7 +64,7 @@ namespace ReframeTools.GUI
 
         private void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowSourceNodes();
         }
 
@@ -67,31 +83,31 @@ namespace ReframeTools.GUI
 
         private void showEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowEntireGraph();
         }
 
         private void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowSinkNodes();
         }
 
         private void showLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowLeafNodes();
         }
 
         private void showOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowOrphanNodes();
         }
 
         private void showIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowIntermediaryNodes();
         }
 
@@ -116,19 +132,19 @@ namespace ReframeTools.GUI
 
         private void showPredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowPredecessorNodes();
         }
 
         private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowSuccessorNodes();
         }
 
         private void showNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var controller = new ClassAnalysisController(currentForm as FrmAnalysis);
+            var controller = GetController(currentForm);
             controller.ShowNeighbourNodes();
         }
 
@@ -200,6 +216,14 @@ namespace ReframeTools.GUI
                 ClassVisualizationController controller = new ClassVisualizationController(classAnalysisForm);
                 controller.ShowOrphanNodes();
             }
+        }
+
+        private void assemblylevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string reactorIdentifier = formReactors.GetSelectedReactorIdentifier();
+
+            var form = new FrmAssemblyLevelAnalysis(reactorIdentifier);
+            DisplayForm(form);
         }
     }
 }

@@ -12,16 +12,6 @@ namespace ReframeAnalyzer.Graph
     {
         public string Source { get; protected set; }
 
-        public AnalysisGraph()
-        {
-
-        }
-
-        public AnalysisGraph(string source)
-        {
-            Source = source;
-        }
-
         public string Identifier { get; protected set; }
 
         private List<IAnalysisNode> _nodes = new List<IAnalysisNode>();
