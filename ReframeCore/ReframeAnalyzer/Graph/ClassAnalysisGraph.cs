@@ -11,11 +11,6 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassAnalysisGraph : AnalysisGraph
     {
-        public ClassAnalysisGraph()
-        {
-                
-        }
-
         public ClassAnalysisGraph(string source)
             :base(source)
         {

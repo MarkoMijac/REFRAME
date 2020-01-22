@@ -18,7 +18,7 @@ namespace ReframeTools.Controllers
     {
         private IAnalysisGraph AnalysisGraph { get; set; }
         private VisualGraphFactory VisualGraphFactory { get; set; } = new VisualGraphFactory();
-        public ClassLevelAnalyzer Analyzer { get; set; } = new ClassLevelAnalyzer();
+        public Analyzer Analyzer { get; set; } = new Analyzer();
 
         protected FrmAnalysis _form;
 

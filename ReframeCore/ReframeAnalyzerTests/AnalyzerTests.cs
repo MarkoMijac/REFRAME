@@ -9,7 +9,6 @@ using IPCServer;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
-using ReframeAnalyzer.Xml;
 using System.Collections;
 using System.Collections.Generic;
 using ReframeExporter;
@@ -19,15 +18,7 @@ namespace ReframeAnalyzerTests
     [TestClass]
     public class AnalyzerTests
     {
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            string xml = @"<ServerCommand><RouterIdentifier>AnalyzerRouter</RouterIdentifier><CommandName>GetRegisteredGraphs</CommandName><Parameters/></ServerCommand>";
-
-            string identifier = CommandRouter.GetRouterIdentifier(xml);
-
-            Assert.AreEqual("AnalyzerRouter", identifier);
-        }
+        private AnalysisGraphFactory graphFactory = new AnalysisGraphFactory();
 
         [TestMethod]
         public void CreateGraph()
@@ -46,8 +37,8 @@ namespace ReframeAnalyzerTests
             //Act
             XmlExporter xmlExporter = new XmlExporter();
             string xmlSource = xmlExporter.Export(reactor);
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsNotNull(analysisGraph);
@@ -88,8 +79,8 @@ namespace ReframeAnalyzerTests
             var xmlSource = xmlExporter.Export(reactor);
 
             //Act
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            var analyzer = new Analyzer();
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             IEnumerable<IAnalysisNode> sourceNodes = analyzer.GetSourceNodes(analysisGraph);
 
@@ -121,8 +112,8 @@ namespace ReframeAnalyzerTests
             //Act
             XmlExporter xmlExporter = new XmlExporter();
             string xmlSource = xmlExporter.Export(reactor);
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            var analyzer = new Analyzer();
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
             
             IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString());
@@ -156,8 +147,8 @@ namespace ReframeAnalyzerTests
             //Act
             var xmlExporter = new XmlExporter();
             string xmlSource = xmlExporter.Export(reactor);
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            var analyzer = new Analyzer();
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
 
             IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString(), 3);
@@ -191,8 +182,8 @@ namespace ReframeAnalyzerTests
             //Act
             var xmlExporter = new XmlExporter();
             string xmlSource = xmlExporter.Export(reactor);
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            var analyzer = new Analyzer();
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));
 
             IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(analysisGraph, startingNode.Identifier.ToString(), 2);

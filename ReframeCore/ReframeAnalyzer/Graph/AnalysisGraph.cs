@@ -53,33 +53,5 @@ namespace ReframeAnalyzer.Graph
                 _nodes.Remove(node);
             }
         }
-
-        public IReadOnlyList<IAnalysisNode> GetOrphanNodes()
-        {
-            return _nodes.FindAll(n => n.Degree == 0).AsReadOnly();
-        }
-
-        public IReadOnlyList<IAnalysisNode> GetLeafNodes()
-        {
-            return _nodes.FindAll(
-                n => (n.InDegree == 0 || n.OutDegree == 0) == true 
-                && (n.InDegree == 0 && n.OutDegree == 0) == false
-                );
-        }
-
-        public IReadOnlyList<IAnalysisNode> GetSourceNodes()
-        {
-            return _nodes.FindAll(n => n.InDegree == 0 && n.OutDegree > 0).AsReadOnly();
-        }
-
-        public IReadOnlyList<IAnalysisNode> GetSinkNodes()
-        {
-            return _nodes.FindAll(n => n.InDegree > 0 && n.OutDegree == 0).AsReadOnly();
-        }
-
-        public IReadOnlyList<IAnalysisNode> GetIntermediaryNodes()
-        {
-            return _nodes.FindAll(n => n.InDegree > 0 && n.OutDegree > 0).AsReadOnly();
-        }
     }
 }

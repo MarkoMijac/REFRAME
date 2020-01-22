@@ -15,7 +15,7 @@ namespace ReframeTools.Controllers
     {
         protected FrmAnalysis _form;
 
-        private ClassLevelAnalyzer Analyzer { get; set; } = new ClassLevelAnalyzer();
+        private Analyzer Analyzer { get; set; } = new Analyzer();
 
         private IAnalysisGraph AnalysisGraph { get; set; }
 

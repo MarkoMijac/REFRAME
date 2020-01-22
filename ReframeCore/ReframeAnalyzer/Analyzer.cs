@@ -1,5 +1,4 @@
 ﻿using ReframeAnalyzer.Graph;
-using ReframeAnalyzer.Xml;
 using ReframeCore;
 using ReframeCore.Factories;
 using System;
@@ -10,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer
 {
-    public abstract class GraphAnalyzer
+    public class Analyzer
     {
         #region Constructors
 
-        public GraphAnalyzer()
+        public Analyzer()
         {
 
         }
@@ -22,8 +21,6 @@ namespace ReframeAnalyzer
         #endregion
 
         #region Methods
-
-        public abstract IAnalysisGraph CreateGraph(string source);
 
         public IEnumerable<IAnalysisNode> GetOrphanNodes(IAnalysisGraph analysisGraph)
         {

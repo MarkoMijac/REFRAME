@@ -13,6 +13,8 @@ namespace ReframeAnalyzerTests
     [TestClass]
     public class ClassAnalysisGraphTests
     {
+        private AnalysisGraphFactory graphFactory = new AnalysisGraphFactory();
+
         [TestMethod]
         public void GetSourceNodes()
         {
@@ -30,14 +32,14 @@ namespace ReframeAnalyzerTests
             XmlExporter xmlExporter = new XmlExporter();
             var xmlSource = xmlExporter.Export(reactor);
 
-            var analyzer = new ClassLevelAnalyzer();
-            var analysisGraph = analyzer.CreateGraph(xmlSource);
+            var analyzer = new Analyzer();
+            var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Act
-            IReadOnlyList<IAnalysisNode> sourceNodes = analysisGraph.GetSourceNodes();
+            IEnumerable<IAnalysisNode> sourceNodes = analyzer.GetSourceNodes(analysisGraph);
 
             //Assert
-            Assert.IsTrue(sourceNodes.Count == 2);
+            Assert.IsTrue(sourceNodes!=null);
         }
     }
 }

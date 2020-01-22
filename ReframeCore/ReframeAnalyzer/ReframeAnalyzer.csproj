@@ -46,11 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphAnalyzer.cs" />
-    <Compile Include="ClassLevelAnalyzer.cs" />
-    <Compile Include="AnalyzerRouter.cs" />
+    <Compile Include="Analyzer.cs" />
     <Compile Include="Exceptions\AnalyzerException.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\ClassAnalysisGraph.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisGraphFactory.cs" />
@@ -59,12 +58,6 @@
     <Compile Include="Graph\AnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlExporterImpl.cs" />
-    <Compile Include="Xml\IXmlExporter.cs" />
-    <Compile Include="Xml\XmlClassGraphExporter.cs" />
-    <Compile Include="Xml\XmlGraphExporter.cs" />
-    <Compile Include="Xml\XmlNodesExporter.cs" />
-    <Compile Include="Xml\XmlReactorExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IPCServer\IPCServer.csproj">

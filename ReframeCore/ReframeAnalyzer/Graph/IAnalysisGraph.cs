@@ -18,11 +18,5 @@ namespace ReframeAnalyzer.Graph
         void RemoveNode(IAnalysisNode node);
         bool ContainsNode(uint identifier);
         IAnalysisNode GetNode(uint identifier);
-
-        IReadOnlyList<IAnalysisNode> GetOrphanNodes();
-        IReadOnlyList<IAnalysisNode> GetLeafNodes();
-        IReadOnlyList<IAnalysisNode> GetSourceNodes();
-        IReadOnlyList<IAnalysisNode> GetSinkNodes();
-        IReadOnlyList<IAnalysisNode> GetIntermediaryNodes();
     }
 }
