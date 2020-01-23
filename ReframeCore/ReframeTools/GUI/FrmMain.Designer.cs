@@ -58,6 +58,7 @@
             this.displayLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classMemberlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,8 +80,9 @@
             this.reactorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.objectlevelAnalysisToolStripMenuItem,
             this.objectlevelAnalysisToolStripMenuItem1,
-            this.assemblylevelAnalysisToolStripMenuItem,
+            this.classMemberlevelAnalysisToolStripMenuItem,
             this.classlevelAnalysisToolStripMenuItem,
+            this.assemblylevelAnalysisToolStripMenuItem,
             this.namespacelevelAnalysisToolStripMenuItem});
             this.reactorToolStripMenuItem.Name = "reactorToolStripMenuItem";
             this.reactorToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -300,6 +302,13 @@
             this.displayOrphanNodesToolStripMenuItem.Text = "Display orphan nodes";
             this.displayOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.displayOrphanNodesToolStripMenuItem_Click);
             // 
+            // classMemberlevelAnalysisToolStripMenuItem
+            // 
+            this.classMemberlevelAnalysisToolStripMenuItem.Name = "classMemberlevelAnalysisToolStripMenuItem";
+            this.classMemberlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.classMemberlevelAnalysisToolStripMenuItem.Text = "ClassMember-level analysis";
+            this.classMemberlevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.classMemberlevelAnalysisToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -351,6 +360,7 @@
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectlevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectlevelAnalysisToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem classMemberlevelAnalysisToolStripMenuItem;
     }
 }
 

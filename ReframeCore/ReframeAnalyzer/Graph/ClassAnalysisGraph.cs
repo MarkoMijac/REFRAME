@@ -58,17 +58,5 @@ namespace ReframeAnalyzer.Graph
         {
             Identifier = objectAnalysisGraph.Identifier;
         }
-
-        private IEnumerable<XElement> FetchNodes(XElement xGraph)
-        {
-            IEnumerable<XElement> xNodes = null;
-
-            if (xGraph != null)
-            {
-                xNodes = xGraph.Descendants("Node");
-            }
-
-            return xNodes;
-        }
     }
 }

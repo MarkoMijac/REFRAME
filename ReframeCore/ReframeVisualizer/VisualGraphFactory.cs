@@ -25,6 +25,11 @@ namespace ReframeVisualizer
                         visualGraph = new ObjectVisualGraph(analysisNodes);
                         break;
                     }
+                case AnalysisLevel.ClassMemberLevel:
+                    {
+                        visualGraph = new ClassMemberVisualGraph(analysisNodes);
+                        break;
+                    }
                 case AnalysisLevel.ClassLevel:
                     {
                         visualGraph = new ClassVisualGraph(analysisNodes);

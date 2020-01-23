@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeAnalyzer.Graph;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +11,63 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmClassMemberLevelAnalysis : Form
+    public partial class FrmClassMemberLevelAnalysis : FrmAnalysis
     {
-        public FrmClassMemberLevelAnalysis()
+        public FrmClassMemberLevelAnalysis(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
+            AddColumns();
+        }
+
+        protected override void SetFormTitle()
+        {
+            Text = $"ClassMember-level analysis for Reactor [{ReactorIdentifier}]";
+            ShowDescription($"ClassMember-level analysis for Reactor [{ReactorIdentifier}]");
+        }
+
+        public override void ShowTable(IEnumerable<IAnalysisNode> nodes)
+        {
+            dgvAnalysis.Rows.Clear();
+
+            try
+            {
+                if (nodes != null)
+                {
+                    foreach (ClassMemberAnalysisNode node in nodes)
+                    {
+                        dgvAnalysis.Rows.Add(new string[]
+                        {
+                        node.Identifier.ToString(),
+                        node.Name,
+                        node.NodeType,
+                        node.OwnerClass.Identifier.ToString(),
+                        node.OwnerClass.Name,
+                        node.Degree.ToString(),
+                        node.InDegree.ToString(),
+                        node.OutDegree.ToString()
+                        });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void AddColumns()
+        {
+            if (dgvAnalysis.Columns.Count == 0)
+            {
+                dgvAnalysis.Columns.Add("colIdentifier", "Identifier");
+                dgvAnalysis.Columns.Add("colName", "Name");
+                dgvAnalysis.Columns.Add("colNodeType", "NodeType");
+                dgvAnalysis.Columns.Add("colClassIdentifier", "ClassIdentifier");
+                dgvAnalysis.Columns.Add("colClassName", "ClassName");
+                dgvAnalysis.Columns.Add("colDegree", "Degree");
+                dgvAnalysis.Columns.Add("colInDegree", "In Degree");
+                dgvAnalysis.Columns.Add("colOutDegree", "Out Degree");
+            }
         }
     }
 }

@@ -49,6 +49,10 @@ namespace ReframeTools.GUI
             {
                 return new ObjectAnalysisController(form as FrmObjectLevelAnalysis);
             }
+            else if (form is FrmClassMemberLevelAnalysis)
+            {
+                return new ClassMemberAnalysisController(form as FrmClassMemberLevelAnalysis);
+            }
             else
             {
                 return null;
@@ -76,6 +80,10 @@ namespace ReframeTools.GUI
             else if (form is FrmObjectLevelAnalysis)
             {
                 return new ObjectVisualizationController(form as FrmObjectLevelAnalysis);
+            }
+            else if (form is FrmClassMemberLevelAnalysis)
+            {
+                return new ClassMemberVisualizationController(form as FrmClassMemberLevelAnalysis);
             }
             else
             {
@@ -250,6 +258,13 @@ namespace ReframeTools.GUI
         {
             string reactorIdentifier = formReactors.GetSelectedReactorIdentifier();
             var form = new FrmObjectLevelAnalysis(reactorIdentifier);
+            DisplayForm(form);
+        }
+
+        private void classMemberlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string reactorIdentifier = formReactors.GetSelectedReactorIdentifier();
+            var form = new FrmClassMemberLevelAnalysis(reactorIdentifier);
             DisplayForm(form);
         }
     }

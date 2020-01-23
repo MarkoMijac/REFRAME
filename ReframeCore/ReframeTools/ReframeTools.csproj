@@ -59,6 +59,8 @@
     <Compile Include="Controllers\AssemblyAnalysisController.cs" />
     <Compile Include="Controllers\AssemblyVisualizationController.cs" />
     <Compile Include="Controllers\ClassAnalysisController.cs" />
+    <Compile Include="Controllers\ClassMemberAnalysisController.cs" />
+    <Compile Include="Controllers\ClassMemberVisualizationController.cs" />
     <Compile Include="Controllers\ClassVisualizationController.cs" />
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\NamespaceVisualizationController.cs" />
