@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ReframeVisualizer
 {
-    public class ObjectMemberVisualGraph : VisualGraph
+    public class ObjectVisualGraph : VisualGraph
     {
-        public ObjectMemberVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public ObjectVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
 
         }
@@ -18,8 +18,7 @@ namespace ReframeVisualizer
         protected override void AddCustomProperties()
         {
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", System.Type.GetType("System.String"));
+            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Class", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
             _dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
@@ -45,12 +44,11 @@ namespace ReframeVisualizer
 
         protected override void AddNodesToGraph()
         {
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (ObjectAnalysisNode node in _analysisNodes)
             {
                 GraphNode g = _dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("NodeType", node.NodeType);
-                g.SetValue("OwnerObjectIdentifier", node.OwnerObject.Identifier);
+                g.SetValue("Name", node.OwnerClass.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);

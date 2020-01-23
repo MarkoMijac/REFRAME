@@ -53,6 +53,7 @@
     <Compile Include="IVisualGraph.cs" />
     <Compile Include="NamespaceVisualGraph.cs" />
     <Compile Include="ObjectMemberVisualGraph.cs" />
+    <Compile Include="ObjectVisualGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualGraph.cs" />
     <Compile Include="VisualGraphFactory.cs" />

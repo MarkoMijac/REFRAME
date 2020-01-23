@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeAnalyzer.Graph;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,14 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ReframeAnalyzer.Graph;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmClassLevelAnalysis : FrmAnalysis
+    public partial class FrmObjectLevelAnalysis : FrmAnalysis
     {
-        public FrmClassLevelAnalysis(string reactorIdentifier)
-            :base(reactorIdentifier)
+        public FrmObjectLevelAnalysis(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
             AddColumns();
@@ -22,26 +21,25 @@ namespace ReframeTools.GUI
 
         protected override void SetFormTitle()
         {
-            Text = $"Class-level analysis for Reactor [{ReactorIdentifier}]";
-            ShowDescription($"Class-level analysis for Reactor [{ReactorIdentifier}]");
+            Text = $"Object-level analysis for Reactor [{ReactorIdentifier}]";
+            ShowDescription($"Object-level analysis for Reactor [{ReactorIdentifier}]");
         }
 
         public override void ShowTable(IEnumerable<IAnalysisNode> nodes)
         {
             dgvAnalysis.Rows.Clear();
-            
+
             try
             {
                 if (nodes != null)
                 {
-                    foreach (ClassAnalysisNode node in nodes)
+                    foreach (ObjectAnalysisNode node in nodes)
                     {
                         dgvAnalysis.Rows.Add(new string[]
                         {
                         node.Identifier.ToString(),
                         node.Name,
-                        node.OwnerNamespace.Name,
-                        node.OwnerAssembly.Name,
+                        node.OwnerClass.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),
                         node.OutDegree.ToString()
@@ -61,8 +59,7 @@ namespace ReframeTools.GUI
             {
                 dgvAnalysis.Columns.Add("colIdentifier", "Identifier");
                 dgvAnalysis.Columns.Add("colName", "Name");
-                dgvAnalysis.Columns.Add("colNamespace", "Namespace");
-                dgvAnalysis.Columns.Add("colAssembly", "Assembly");
+                dgvAnalysis.Columns.Add("colClass", "Class");
                 dgvAnalysis.Columns.Add("colDegree", "Degree");
                 dgvAnalysis.Columns.Add("colInDegree", "In Degree");
                 dgvAnalysis.Columns.Add("colOutDegree", "Out Degree");

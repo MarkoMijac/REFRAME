@@ -7,12 +7,16 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class AssemblyAnalysisNode : AnalysisNode
+    public class ObjectAnalysisNode : AnalysisNode
     {
-        public AssemblyAnalysisNode(XElement xNode)
+        public ClassAnalysisNode OwnerClass { get; set; }
+
+        public ObjectAnalysisNode(XElement xNode)
         {
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
-            Name = xNode.Element("Name").Value;
+            Name = Identifier.ToString();
+
+            OwnerClass = new ClassAnalysisNode(xNode.Element("OwnerClass"));
         }
     }
 }

@@ -15,6 +15,16 @@ namespace ReframeVisualizer
 
             switch (level)
             {
+                case AnalysisLevel.ObjectMemberLevel:
+                    {
+                        visualGraph = new ObjectMemberVisualGraph(analysisNodes);
+                        break;
+                    }
+                case AnalysisLevel.ObjectLevel:
+                    {
+                        visualGraph = new ObjectVisualGraph(analysisNodes);
+                        break;
+                    }
                 case AnalysisLevel.ClassLevel:
                     {
                         visualGraph = new ClassVisualGraph(analysisNodes);
@@ -30,11 +40,7 @@ namespace ReframeVisualizer
                         visualGraph = new NamespaceVisualGraph(analysisNodes);
                         break;
                     }
-                case AnalysisLevel.ObjectMemberLevel:
-                    {
-                        visualGraph = new ObjectMemberVisualGraph(analysisNodes);
-                        break;
-                    }
+                
                 default:
                     visualGraph = null;
                     break;

@@ -62,8 +62,10 @@
     <Compile Include="Controllers\ClassVisualizationController.cs" />
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\NamespaceVisualizationController.cs" />
+    <Compile Include="Controllers\ObjectAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberVisualizationController.cs" />
+    <Compile Include="Controllers\ObjectVisualizationController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyLevelAnalysis.cs">
       <SubType>Form</SubType>
@@ -100,6 +102,12 @@
     </Compile>
     <Compile Include="GUI\FrmNamespaceLevelAnalysis.Designer.cs">
       <DependentUpon>FrmNamespaceLevelAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectLevelAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectLevelAnalysis.Designer.cs">
+      <DependentUpon>FrmObjectLevelAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmObjectMemberLevelAnalysis.cs">
       <SubType>Form</SubType>

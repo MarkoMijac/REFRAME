@@ -11,21 +11,52 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassAnalysisGraph : AnalysisGraph
     {
-        public ClassAnalysisGraph(string source)
+        public ClassAnalysisGraph(ObjectAnalysisGraph objectAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.ClassLevel;
-            Source = source;
 
-            XElement xReactor = XElement.Parse(source);
-            XElement xGraph = xReactor.Element("Graph");
-
-            InitializeGraphBasicData(xGraph);
-            IEnumerable<XElement> xNodes = FetchNodes(xGraph);
-            if (xNodes.Count() > 0)
+            if (objectAnalysisGraph != null)
             {
-                InitializeGraphNodes(xNodes);
-                InitializeGraphDependencies(xNodes);
+                InitializeGraphBasicData(objectAnalysisGraph);
+                if (objectAnalysisGraph.Nodes.Count > 0)
+                {
+                    InitializeGraphNodes(objectAnalysisGraph.Nodes);
+                    InitializeGraphDependencies(objectAnalysisGraph.Nodes);
+                }
             }
+        }
+
+        private void InitializeGraphDependencies(List<IAnalysisNode> objectNodes)
+        {
+            foreach (ObjectAnalysisNode objectNode in objectNodes)
+            {
+                var classNode = GetNode(objectNode.OwnerClass.Identifier);
+
+                foreach (ObjectAnalysisNode objectNodeSuccessor in objectNode.Successors)
+                {
+                    var successorClassNode = GetNode(objectNodeSuccessor.OwnerClass.Identifier);
+                    if (successorClassNode != null && classNode != successorClassNode)
+                    {
+                        classNode.AddSuccesor(successorClassNode);
+                    }
+                }
+            }
+        }
+
+        private void InitializeGraphNodes(List<IAnalysisNode> objectNodes)
+        {
+            foreach (ObjectAnalysisNode objectNode in objectNodes)
+            {
+                if (ContainsNode(objectNode.OwnerClass.Identifier) == false)
+                {
+                    AddNode(objectNode.OwnerClass);
+                }
+            }
+        }
+
+        private void InitializeGraphBasicData(ObjectAnalysisGraph objectAnalysisGraph)
+        {
+            Identifier = objectAnalysisGraph.Identifier;
         }
 
         private IEnumerable<XElement> FetchNodes(XElement xGraph)
@@ -38,62 +69,6 @@ namespace ReframeAnalyzer.Graph
             }
 
             return xNodes;
-        }
-
-        private void InitializeGraphBasicData(XElement xGraph)
-        {
-            Identifier = xGraph.Element("Identifier").Value;
-        }
-
-        private void InitializeGraphNodes(IEnumerable<XElement> xNodes)
-        {
-            foreach (var xNode in xNodes)
-            {
-                XElement xClass = xNode.Element("OwnerClass");
-                uint xClassIdentifier = uint.Parse(xClass.Element("Identifier").Value);
-
-                if (ContainsNode(xClassIdentifier) == false)
-                {
-                    var classNode = new ClassAnalysisNode()
-                    {
-                        Identifier = xClassIdentifier,
-                        Name = xClass.Element("Name").Value,
-                        FullName = xClass.Element("FullName").Value,
-                        Namespace = xClass.Element("Namespace").Value,
-                        Assembly = xClass.Element("Assembly").Value
-                    };
-
-                    AddNode(classNode);
-                }
-            }
-        }
-
-        private void InitializeGraphDependencies(IEnumerable<XElement> xNodes)
-        {
-            foreach (var xNode in xNodes)
-            {
-                XElement xClass = xNode.Element("OwnerClass");
-                uint xClassIdentifier = uint.Parse(xClass.Element("Identifier").Value);
-
-                var analysisNode = GetNode(xClassIdentifier);
-                IEnumerable<XElement> xSuccessors = xNode.Descendants("Successor");
-
-                foreach (var xSuccessor in xSuccessors)
-                {
-                    string xSuccessorIdentifier = xSuccessor.Element("Identifier").Value;
-                    XElement xSuccessorNode = xNodes.First(x => x.Element("Identifier").Value == xSuccessorIdentifier);
-                    XElement xSuccessorNodeClass = xSuccessorNode.Element("OwnerClass");
-                    uint xSuccessorNodeClassIdentifier = uint.Parse(xSuccessorNodeClass.Element("Identifier").Value);
-
-                    var successorAnalysisNode = GetNode(xSuccessorNodeClassIdentifier);
-                    
-                    if (successorAnalysisNode != null)
-                    {
-                        analysisNode.AddSuccesor(successorAnalysisNode);
-                        successorAnalysisNode.AddPredecessor(analysisNode);
-                    }
-                }
-            }
         }
     }
 }

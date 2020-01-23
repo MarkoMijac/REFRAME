@@ -53,8 +53,8 @@ namespace ReframeVisualizer
                 GraphNode g = _dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
                 g.SetValue("FullName", node.FullName);
-                g.SetValue("Namespace", node.Namespace);
-                g.SetValue("Assembly", node.Assembly);
+                g.SetValue("Namespace", node.OwnerNamespace.Name);
+                g.SetValue("Assembly", node.OwnerAssembly.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);

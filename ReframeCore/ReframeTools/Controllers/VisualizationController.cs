@@ -38,7 +38,6 @@ namespace ReframeTools.Controllers
 
             string fileName = new Random().Next().ToString() + "_" + Form.ReactorIdentifier;
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
-            MessageBox.Show(analysisDescription);
         }
 
         public void ShowEntireGraph(string description = "")

@@ -32,16 +32,9 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                uint namespaceIdentifier = (uint)classNode.Namespace.GetHashCode();
-                if (ContainsNode(namespaceIdentifier) == false)
+                if (ContainsNode(classNode.OwnerNamespace.Identifier) == false)
                 {
-                    var namespaceNode = new NamespaceAnalysisNode
-                    {
-                        Identifier = namespaceIdentifier,
-                        Name = classNode.Namespace
-                    };
-
-                    AddNode(namespaceNode);
+                    AddNode(classNode.OwnerNamespace);
                 }
             }
         }
@@ -50,13 +43,11 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                uint namespaceIdentifier = (uint)classNode.Namespace.GetHashCode();
-                var namespaceNode = GetNode(namespaceIdentifier);
+                var namespaceNode = GetNode(classNode.OwnerNamespace.Identifier);
 
                 foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
                 {
-                    uint successorNamespaceIdentifier = (uint)classNodeSuccessor.Namespace.GetHashCode();
-                    var successorNamespaceNode = GetNode(successorNamespaceIdentifier);
+                    var successorNamespaceNode = GetNode(classNodeSuccessor.OwnerNamespace.Identifier);
                     if (successorNamespaceNode != null && namespaceNode != successorNamespaceNode)
                     {
                         namespaceNode.AddSuccesor(successorNamespaceNode);

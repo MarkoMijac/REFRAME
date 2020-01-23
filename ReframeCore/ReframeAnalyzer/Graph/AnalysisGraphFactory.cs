@@ -9,44 +9,56 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ObjectMemberLevel };
+    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ObjectLevel, ObjectMemberLevel };
 
     public class AnalysisGraphFactory
     {
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
-            IAnalysisGraph analysisGraph;
+            IAnalysisGraph result;
 
             switch (analysisLevel)
             {
+                case AnalysisLevel.ObjectMemberLevel:
+                    {
+                        result = new ObjectMemberAnalysisGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.ObjectLevel:
+                    {
+                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        result = new ObjectAnalysisGraph(objectMemberGraph);
+                        break;
+                    }
                 case AnalysisLevel.ClassLevel:
                     {
-                        analysisGraph = new ClassAnalysisGraph(xmlSource);
+                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
+                        result = new ClassAnalysisGraph(objectGraph);
                         break;
                     }
                 case AnalysisLevel.AssemblyLevel:
                     {
-                        var classAnalysisGraph = new ClassAnalysisGraph(xmlSource);
-                        analysisGraph = new AssemblyAnalysisGraph(classAnalysisGraph);
+                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
+                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        result = new AssemblyAnalysisGraph(classAnalysisGraph);
                         break;
                     }
                 case AnalysisLevel.NamespaceLevel:
                     {
-                        var classAnalysisGraph = new ClassAnalysisGraph(xmlSource);
-                        analysisGraph = new NamespaceAnalysisGraph(classAnalysisGraph);
-                        break;
-                    }
-                case AnalysisLevel.ObjectMemberLevel:
-                    {
-                        analysisGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
+                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        result = new NamespaceAnalysisGraph(classAnalysisGraph);
                         break;
                     }
                 default:
-                    analysisGraph = null;
+                    result = null;
                     break;
             }
 
-            return analysisGraph;
+            return result;
         }
     }
 }

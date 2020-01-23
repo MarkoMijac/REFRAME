@@ -32,16 +32,9 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                uint assemblyIdentifier = (uint)classNode.Assembly.GetHashCode();
-                if (ContainsNode(assemblyIdentifier) == false)
+                if (ContainsNode(classNode.OwnerAssembly.Identifier) == false)
                 {
-                    var assemblyNode = new AssemblyAnalysisNode
-                    {
-                        Identifier = assemblyIdentifier,
-                        Name = classNode.Assembly
-                    };
-
-                    AddNode(assemblyNode);
+                    AddNode(classNode.OwnerAssembly);
                 }
             }
         }
@@ -50,13 +43,11 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                uint assemblyIdentifier = (uint)classNode.Assembly.GetHashCode();
-                var assemblyNode = GetNode(assemblyIdentifier);
+                var assemblyNode = GetNode(classNode.OwnerAssembly.Identifier);
 
                 foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
                 {
-                    uint successorAssemblyIdentifier = (uint)classNodeSuccessor.Assembly.GetHashCode();
-                    var successorAssemblyNode = GetNode(successorAssemblyIdentifier);
+                    var successorAssemblyNode = GetNode(classNodeSuccessor.OwnerAssembly.Identifier);
                     if (successorAssemblyNode != null && assemblyNode != successorAssemblyNode)
                     {
                         assemblyNode.AddSuccesor(successorAssemblyNode);
