@@ -1,6 +1,6 @@
 ﻿namespace ReframeTools.GUI
 {
-    partial class FrmObjectLevelAnalysis
+    partial class FrmObjectMemberLevelAnalysis
     {
         /// <summary>
         /// Required designer variable.

@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmObjectLevelAnalysis : FrmAnalysis
+    public partial class FrmObjectMemberLevelAnalysis : FrmAnalysis
     {
-        public FrmObjectLevelAnalysis(string reactorIdentifier) : base(reactorIdentifier)
+        public FrmObjectMemberLevelAnalysis(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
             AddColumns();
@@ -33,7 +33,7 @@ namespace ReframeTools.GUI
             {
                 if (nodes != null)
                 {
-                    foreach (ObjectAnalysisNode node in nodes)
+                    foreach (ObjectMemberAnalysisNode node in nodes)
                     {
                         dgvAnalysis.Rows.Add(new string[]
                         {

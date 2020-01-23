@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ObjectAnalysisNode : AnalysisNode
+    public class ObjectMemberAnalysisNode : AnalysisNode
     {
+        public string NodeType { get; set; }
+        public string OwnerObjectIdentifier { get; set; }
 
     }
 }

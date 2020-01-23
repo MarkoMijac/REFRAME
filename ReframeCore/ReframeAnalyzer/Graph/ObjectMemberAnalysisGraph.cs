@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ObjectAnalysisGraph : AnalysisGraph
+    public class ObjectMemberAnalysisGraph : AnalysisGraph
     {
-        public ObjectAnalysisGraph(string source)
+        public ObjectMemberAnalysisGraph(string source)
         {
-            AnalysisLevel = AnalysisLevel.ObjectLevel;
+            AnalysisLevel = AnalysisLevel.ObjectMemberLevel;
             Source = source;
 
             XElement xReactor = XElement.Parse(source);
@@ -50,10 +50,12 @@ namespace ReframeAnalyzer.Graph
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (ContainsNode(nodeIdentifier) == false)
                 {
-                    var node = new ObjectAnalysisNode
+                    var node = new ObjectMemberAnalysisNode
                     {
                         Identifier = nodeIdentifier,
                         Name = xNode.Element("MemberName").Value,
+                        NodeType = xNode.Element("NodeType").Value,
+                        OwnerObjectIdentifier = xNode.Element("OwnerObject").Value
                     };
 
                     AddNode(node);
