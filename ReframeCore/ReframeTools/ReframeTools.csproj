@@ -69,59 +69,53 @@
     <Compile Include="Controllers\ObjectMemberVisualizationController.cs" />
     <Compile Include="Controllers\ObjectVisualizationController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
-    <Compile Include="GUI\FrmAssemblyLevelAnalysis.cs">
+    <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmAssemblyLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmAssemblyLevelAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
+      <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmAnalysis.cs">
+    <Compile Include="GUI\FrmClassAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmAnalysis.Designer.cs">
-      <DependentUpon>FrmAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmClassAnalysisView.Designer.cs">
+      <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassLevelAnalysis.cs">
+    <Compile Include="GUI\FrmClassMemberAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmClassLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmClassLevelAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmClassMemberAnalysisView.Designer.cs">
+      <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassMemberLevelAnalysis.cs">
+    <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmClassMemberLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmClassMemberLevelAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmNamespaceAnalysisView.Designer.cs">
+      <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmMain.cs">
+    <Compile Include="GUI\FrmObjectAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmMain.Designer.cs">
-      <DependentUpon>FrmMain.cs</DependentUpon>
+    <Compile Include="GUI\FrmObjectAnalysisView.Designer.cs">
+      <DependentUpon>FrmObjectAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmNamespaceLevelAnalysis.cs">
+    <Compile Include="GUI\FrmAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmNamespaceLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmNamespaceLevelAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmAnalysisView.Designer.cs">
+      <DependentUpon>FrmAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectLevelAnalysis.cs">
+    <Compile Include="GUI\FrmObjectMemberAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmObjectLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmObjectLevelAnalysis.cs</DependentUpon>
+    <Compile Include="GUI\FrmObjectMemberAnalysisView.Designer.cs">
+      <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectMemberLevelAnalysis.cs">
+    <Compile Include="GUI\FrmRegisteredReactors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmObjectMemberLevelAnalysis.Designer.cs">
-      <DependentUpon>FrmObjectMemberLevelAnalysis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmReactors.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmReactors.Designer.cs">
-      <DependentUpon>FrmReactors.cs</DependentUpon>
+    <Compile Include="GUI\FrmRegisteredReactors.Designer.cs">
+      <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefPckgcs.cs" />
@@ -245,17 +239,29 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI\FrmAssemblyLevelAnalysis.resx">
-      <DependentUpon>FrmAssemblyLevelAnalysis.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\FrmAssemblyAnalysisView.resx">
+      <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmAnalysis.resx">
-      <DependentUpon>FrmAnalysis.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\FrmClassAnalysisView.resx">
+      <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmMain.resx">
-      <DependentUpon>FrmMain.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\FrmClassMemberAnalysisView.resx">
+      <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmReactors.resx">
-      <DependentUpon>FrmReactors.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\FrmAnalysisView.resx">
+      <DependentUpon>FrmAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmNamespaceAnalysisView.resx">
+      <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectAnalysisView.resx">
+      <DependentUpon>FrmObjectAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectMemberAnalysisView.resx">
+      <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
+      <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

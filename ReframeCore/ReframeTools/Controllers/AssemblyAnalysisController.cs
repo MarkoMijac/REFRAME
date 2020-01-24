@@ -13,9 +13,9 @@ namespace ReframeTools.Controllers
 {
     public class AssemblyAnalysisController : AnalysisController
     {
-        public AssemblyAnalysisController(FrmAssemblyLevelAnalysis form) : base(form)
+        public AssemblyAnalysisController(FrmAssemblyAnalysisView view) : base(view)
         {
-            CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.AssemblyLevel);
+            CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.AssemblyLevel);
         }
     }
 }

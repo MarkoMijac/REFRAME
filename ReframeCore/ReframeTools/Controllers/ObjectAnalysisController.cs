@@ -10,9 +10,9 @@ namespace ReframeTools.Controllers
 {
     public class ObjectAnalysisController : AnalysisController
     {
-        public ObjectAnalysisController(FrmObjectLevelAnalysis form) : base(form)
+        public ObjectAnalysisController(FrmObjectAnalysisView view) : base(view)
         {
-            CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.ObjectLevel);
+            CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.ObjectLevel);
         }
     }
 }

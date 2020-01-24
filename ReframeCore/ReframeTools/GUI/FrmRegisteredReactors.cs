@@ -12,9 +12,9 @@ using System.Xml.Linq;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmReactors : Form
+    public partial class FrmRegisteredReactors : Form
     {
-        public FrmReactors()
+        public FrmRegisteredReactors()
         {
             InitializeComponent();
         }
@@ -31,7 +31,7 @@ namespace ReframeTools.GUI
             {
                 MessageBox.Show("Unable to fetch reactors!");
             }
-            
+
         }
 
         private List<object> ParseReactors(string xmlReactors)
@@ -60,7 +60,7 @@ namespace ReframeTools.GUI
             return list;
         }
 
-        private void FrmReactors_Load(object sender, EventArgs e)
+        private void FrmRegisteredReactors_Load(object sender, EventArgs e)
         {
             DisplayReactors();
         }
@@ -72,6 +72,42 @@ namespace ReframeTools.GUI
                 return dgvReactors.CurrentRow.Cells[0].Value.ToString();
             }
             return "";
+        }
+
+        private void objectMemberlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmObjectMemberAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
+        }
+
+        private void objectlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmObjectAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
+        }
+
+        private void classMemberlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmClassMemberAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
+        }
+
+        private void classlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmClassAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
+        }
+
+        private void assemblylevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmAssemblyAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
+        }
+
+        private void namespacelevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmNamespaceAnalysisView(GetSelectedReactorIdentifier());
+            form.ShowDialog();
         }
     }
 }

@@ -15,14 +15,14 @@ namespace ReframeTools.Controllers
 {
     public abstract class VisualizationController
     {
-        protected FrmAnalysis Form { get; set; }
+        protected FrmAnalysisView View { get; set; }
         protected IAnalysisGraph AnalysisGraph { get; set; }
         protected VisualGraphFactory VisualGraphFactory { get; set; } = new VisualGraphFactory();
         protected Analyzer Analyzer { get; set; } = new Analyzer();
 
-        public VisualizationController(FrmAnalysis form)
+        public VisualizationController(FrmAnalysisView view)
         {
-            Form = form;
+            View = view;
         }
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
@@ -36,11 +36,11 @@ namespace ReframeTools.Controllers
         {
             var dgmlGraph = visualGraph.GetDGML();
 
-            string fileName = new Random().Next().ToString() + "_" + Form.ReactorIdentifier;
+            string fileName = new Random().Next().ToString() + "_" + View.ReactorIdentifier;
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
         }
 
-        public void ShowEntireGraph(string description = "")
+        public void DisplayEntireGraph(string description = "")
         {
             try
             {
@@ -55,7 +55,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSourceNodes(string description = "")
+        public void DisplaySourceNodes(string description = "")
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSinkNodes(string description = "")
+        public void DisplaySinkNodes(string description = "")
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowLeafNodes(string description = "")
+        public void DisplayLeafNodes(string description = "")
         {
             try
             {
@@ -97,7 +97,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowOrphanNodes(string description = "")
+        public void DisplayOrphanNodes(string description = "")
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowIntermediaryNodes(string description = "")
+        public void DisplayIntermediaryNodes(string description = "")
         {
             try
             {
@@ -125,11 +125,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowPredecessorNodes(string description = "")
+        public void DisplayPredecessorNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var predecessors = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
@@ -144,11 +143,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSuccessorNodes(string description = "")
+        public void DisplaySuccessorNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var successors = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
@@ -163,11 +161,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowNeighbourNodes(string description = "")
+        public void DisplayNeighbourNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var neighbours = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);

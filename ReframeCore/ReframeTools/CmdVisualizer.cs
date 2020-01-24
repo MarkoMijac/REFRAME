@@ -95,7 +95,7 @@ namespace ReframeTools
                 throw new Exception("Failed to get DTE service!");
             }
             SolutionServices.Solution = dte.Solution;
-            FrmMain form = new FrmMain();
+            FrmRegisteredReactors form = new FrmRegisteredReactors();
             form.Show();
         }
     }

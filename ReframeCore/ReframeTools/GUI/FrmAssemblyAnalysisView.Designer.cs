@@ -1,6 +1,6 @@
 ﻿namespace ReframeTools.GUI
 {
-    partial class FrmAssemblyLevelAnalysis
+    partial class FrmAssemblyAnalysisView
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // FrmAssemblyLevelAnalysis
+            // FrmAssemblyAnalysisView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 633);
-            this.Name = "FrmAssemblyLevelAnalysis";
-            this.Text = "FrmAssemblyLevelAnalysis";
+            this.ClientSize = new System.Drawing.Size(684, 389);
+            this.Name = "FrmAssemblyAnalysisView";
+            this.Text = "FrmAssemblyAnalysisView";
             this.ResumeLayout(false);
 
         }

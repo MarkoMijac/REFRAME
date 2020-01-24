@@ -10,9 +10,9 @@ namespace ReframeTools.Controllers
 {
     public class ClassMemberAnalysisController : AnalysisController
     {
-        public ClassMemberAnalysisController(FrmClassMemberLevelAnalysis form) : base(form)
+        public ClassMemberAnalysisController(FrmClassMemberAnalysisView view) : base(view)
         {
-            CreateAnalysisGraph(Form.ReactorIdentifier, AnalysisLevel.ClassMemberLevel);
+            CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.ClassMemberLevel);
         }
     }
 }

@@ -13,14 +13,14 @@ namespace ReframeTools.Controllers
 {
     public abstract class AnalysisController
     {
-        protected FrmAnalysis Form { get; set; }
+        protected FrmAnalysisView View { get; set; }
         protected IAnalysisGraph AnalysisGraph { get; set; }
         protected Analyzer Analyzer { get; set; } = new Analyzer();
         protected AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
 
-        public AnalysisController(FrmAnalysis form)
+        public AnalysisController(FrmAnalysisView form)
         {
-            Form = form;
+            View = form;
         }
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
@@ -31,9 +31,10 @@ namespace ReframeTools.Controllers
 
         protected virtual void ShowGraph(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> nodes, string analysisDescription)
         {
-            Form.ShowXMLSource(analysisGraph.Source);
-            Form.ShowTable(nodes);
-            Form.ShowDescription(analysisDescription);
+            if (View != null)
+            {
+                View.ShowAnalysis(nodes);
+            }
         }
 
         public virtual void ShowEntireGraph(string description = "")
@@ -113,11 +114,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowPredecessorNodes(string description = "")
+        public void ShowPredecessorNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var predecessors = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
@@ -130,11 +130,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSuccessorNodes(string description = "")
+        public void ShowSuccessorNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var successors = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
@@ -147,11 +146,10 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowNeighbourNodes(string description = "")
+        public void ShowNeighbourNodes(string nodeIdentifier, string description = "")
         {
             try
             {
-                string nodeIdentifier = Form.GetSelectedNodeIdentifier();
                 if (nodeIdentifier != "")
                 {
                     var neighbours = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);

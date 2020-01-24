@@ -1,6 +1,6 @@
 ﻿namespace ReframeTools.GUI
 {
-    partial class FrmClassLevelAnalysis
+    partial class FrmClassAnalysisView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // FrmClassAnalysisView
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "FrmClassLevelAnalysis";
+            this.ClientSize = new System.Drawing.Size(684, 389);
+            this.Name = "FrmClassAnalysisView";
+            this.Text = "FrmClassAnalysisView";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
