@@ -14,11 +14,13 @@ namespace ReframeVisualizer
         protected Graph _dgmlGraph;
         protected IEnumerable<IAnalysisNode> _analysisNodes;
 
+        public VisualizationOptions VisualizationOptions { get; protected set; } = new VisualizationOptions();
+
         public VisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
         {
-            _dgmlGraph = new Graph();
             _analysisNodes = analysisNodes;
-
+            Initialize();
+            
             try
             {
                 AddCustomProperties();
@@ -32,6 +34,11 @@ namespace ReframeVisualizer
             
         }
 
+        protected virtual void Initialize()
+        {
+            _dgmlGraph = new Graph();
+            
+        }
         protected abstract void AddCustomProperties();
         protected abstract void AddNodesToGraph();
         protected abstract void AddDependenciesToGraph();

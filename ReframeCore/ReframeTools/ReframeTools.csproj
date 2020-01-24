@@ -111,11 +111,23 @@
     <Compile Include="GUI\FrmObjectMemberAnalysisView.Designer.cs">
       <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmOptions.Designer.cs">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmRegisteredReactors.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\FrmRegisteredReactors.Designer.cs">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmVisualizationOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmVisualizationOptions.Designer.cs">
+      <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefPckgcs.cs" />
@@ -260,8 +272,14 @@
     <EmbeddedResource Include="GUI\FrmObjectMemberAnalysisView.resx">
       <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmOptions.resx">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmVisualizationOptions.resx">
+      <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

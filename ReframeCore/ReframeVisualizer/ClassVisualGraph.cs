@@ -14,7 +14,10 @@ namespace ReframeVisualizer
         public ClassVisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
             :base(analysisNodes)
         {
-
+            VisualizationOptions = new VisualizationOptions
+            {
+                AllowedGroupingLevels = new List<GroupingLevel>() { GroupingLevel.NoGrouping, GroupingLevel.AssemblyLevel, GroupingLevel.NamespaceLevel}
+            };
         }
 
         protected override void AddCustomProperties()

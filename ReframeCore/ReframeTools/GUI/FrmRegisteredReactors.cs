@@ -14,6 +14,8 @@ namespace ReframeTools.GUI
 {
     public partial class FrmRegisteredReactors : Form
     {
+        private FrmAnalysisView _currentForm;
+
         public FrmRegisteredReactors()
         {
             InitializeComponent();
@@ -77,37 +79,57 @@ namespace ReframeTools.GUI
         private void objectMemberlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmObjectMemberAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
         }
 
         private void objectlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmObjectAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
         }
 
         private void classMemberlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmClassMemberAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
         }
 
         private void classlevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmClassAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
         }
 
         private void assemblylevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmAssemblyAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
         }
 
         private void namespacelevelAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FrmNamespaceAnalysisView(GetSelectedReactorIdentifier());
-            form.ShowDialog();
+            DisplayForm(form);
+        }
+
+        private void DisplayForm(FrmAnalysisView form)
+        {
+            if (form != null)
+            {
+                if (form == _currentForm)
+                {
+                    form.Show();
+                }
+                else
+                {
+                    if (_currentForm != null)
+                    {
+                        _currentForm.Close();
+                    }
+                    _currentForm = form;
+                    form.Show();
+                }
+            }
         }
     }
 }

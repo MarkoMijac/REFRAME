@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualGraph.cs" />
     <Compile Include="VisualGraphFactory.cs" />
+    <Compile Include="VisualizationOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

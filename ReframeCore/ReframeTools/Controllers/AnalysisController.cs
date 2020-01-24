@@ -13,14 +13,16 @@ namespace ReframeTools.Controllers
 {
     public abstract class AnalysisController
     {
+        protected FrmOptions Options { get; set; }
         protected FrmAnalysisView View { get; set; }
         protected IAnalysisGraph AnalysisGraph { get; set; }
         protected Analyzer Analyzer { get; set; } = new Analyzer();
         protected AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
 
-        public AnalysisController(FrmAnalysisView form)
+        public AnalysisController(FrmAnalysisView form, FrmOptions frmOptions = null)
         {
             View = form;
+            Options = frmOptions;
         }
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)

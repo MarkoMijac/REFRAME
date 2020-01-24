@@ -12,7 +12,10 @@ namespace ReframeVisualizer
     {
         public NamespaceVisualGraph(IEnumerable<IAnalysisNode> analysisNode) : base(analysisNode)
         {
-
+            VisualizationOptions = new VisualizationOptions
+            {
+                AllowedGroupingLevels = new List<GroupingLevel> { GroupingLevel.NoGrouping }
+            };
         }
 
         protected override void AddCustomProperties()
