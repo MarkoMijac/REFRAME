@@ -18,43 +18,131 @@ namespace ReframeVisualizer
             };
         }
 
-        protected override void AddCustomProperties()
+        protected override void AddCustomProperties(Graph dgmlgraph)
         {
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Class", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
-            _dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
+            dgmlgraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
+            dgmlgraph.DocumentSchema.Properties.AddNewProperty("Class", System.Type.GetType("System.String"));
+            dgmlgraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
+            dgmlgraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
+            dgmlgraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
         }
 
-        protected override void AddDependenciesToGraph()
+        protected override void AddDependenciesToGraph(Graph dgmlgraph)
         {
             GraphNode dgmlPredecessor;
             GraphNode dgmlSuccessor;
             foreach (var analysisNode in _analysisNodes)
             {
-                dgmlPredecessor = _dgmlGraph.Nodes.Get(analysisNode.Identifier.ToString());
+                dgmlPredecessor = dgmlgraph.Nodes.Get(analysisNode.Identifier.ToString());
                 foreach (var analysisSuccessor in analysisNode.Successors)
                 {
-                    dgmlSuccessor = _dgmlGraph.Nodes.Get(analysisSuccessor.Identifier.ToString());
+                    dgmlSuccessor = dgmlgraph.Nodes.Get(analysisSuccessor.Identifier.ToString());
                     if (dgmlSuccessor != null)
                     {
-                        GraphLink dependency = _dgmlGraph.Links.GetOrCreate(dgmlPredecessor, dgmlSuccessor);
+                        GraphLink dependency = dgmlgraph.Links.GetOrCreate(dgmlPredecessor, dgmlSuccessor);
                     }
                 }
             }
         }
 
-        protected override void AddNodesToGraph()
+        protected override void AddNodesToGraph(Graph dgmlgraph)
+        {
+            AddGroupNodes(dgmlgraph);
+            AddNodes(dgmlgraph);
+        }
+
+        private void AddGroupNodes(Graph dgmlGraph)
+        {
+            if (VisualizationOptions.GroupingLevel == GroupingLevel.NoGrouping)
+            {
+
+            }
+            else if (VisualizationOptions.GroupingLevel == GroupingLevel.ClassLevel)
+            {
+                AddClassGroups(dgmlGraph);
+            }
+            else if (VisualizationOptions.GroupingLevel == GroupingLevel.NamespaceLevel)
+            {
+                AddNamespaceGroups(dgmlGraph);
+                AddClassGroups(dgmlGraph);
+            }
+            else if (VisualizationOptions.GroupingLevel == GroupingLevel.AssemblyLevel)
+            {
+                AddAssemblyGroups(dgmlGraph);
+                AddNamespaceGroups(dgmlGraph);
+                AddClassGroups(dgmlGraph);
+            }
+        }
+
+        private void AddAssemblyGroups(Graph dgmlGraph)
         {
             foreach (ObjectAnalysisNode node in _analysisNodes)
             {
-                GraphNode g = _dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
+                AssemblyAnalysisNode ownerAssembly = node.OwnerClass.OwnerAssembly;
+                GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
+                groupNode.IsGroup = true;
+                groupNode.SetValue("Name", ownerAssembly.Name);
+            }
+        }
+
+        private void AddNamespaceGroups(Graph dgmlGraph)
+        {
+            GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
+
+            foreach (ObjectAnalysisNode node in _analysisNodes)
+            {
+                NamespaceAnalysisNode ownerNamespace = node.OwnerClass.OwnerNamespace;
+                GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
+                namespaceNode.IsGroup = true;
+                namespaceNode.SetValue("Name", ownerNamespace.Name);
+
+                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.OwnerClass.OwnerAssembly.Identifier.ToString());
+                if (assembyNode != null)
+                {
+                    dgmlGraph.Links.GetOrCreate(assembyNode, namespaceNode, "", catContains);
+                }
+            }
+        }
+
+        private void AddClassGroups(Graph dgmlGraph)
+        {
+            GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
+
+            foreach (ObjectAnalysisNode node in _analysisNodes)
+            {
+                ClassAnalysisNode ownerClass = node.OwnerClass;
+                GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
+                classNode.IsGroup = true;
+                classNode.SetValue("Name", ownerClass.Name);
+                classNode.SetValue("FullName", ownerClass.FullName);
+                classNode.SetValue("Namespace", ownerClass.OwnerNamespace.Name);
+                classNode.SetValue("Assembly", ownerClass.OwnerAssembly.Name);
+
+                GraphNode namespaceNode = dgmlGraph.Nodes.Get(ownerClass.OwnerNamespace.Identifier.ToString());
+                if (namespaceNode != null)
+                {
+                    dgmlGraph.Links.GetOrCreate(namespaceNode, classNode, "", catContains);
+                }
+            }
+        }
+
+        private void AddNodes(Graph dgmlGraph)
+        {
+            GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
+            foreach (ObjectAnalysisNode node in _analysisNodes)
+            {
+                GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
                 g.SetValue("Name", node.OwnerClass.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
+
+                GraphNode classNode = dgmlGraph.Nodes.Get(node.OwnerClass.Identifier.ToString());
+                if (classNode != null)
+                {
+                    dgmlGraph.Links.GetOrCreate(g, classNode, "", catContains);
+                }
             }
         }
     }

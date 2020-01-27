@@ -47,8 +47,12 @@ namespace ReframeTools.Controllers
             try
             {
                 var visualGraph = VisualGraphFactory.CreateGraph(AnalysisGraph.Nodes, AnalysisGraph.AnalysisLevel);
-                var dgmlGraph = visualGraph.GetDGML();
-
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
+                
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)

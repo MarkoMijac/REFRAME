@@ -10,7 +10,7 @@ namespace ReframeTools.Controllers
 {
     public class NamespaceVisualizationController : VisualizationController
     {
-        public NamespaceVisualizationController(FrmNamespaceAnalysisView view) : base(view)
+        public NamespaceVisualizationController(FrmNamespaceAnalysisView view, FrmVisualizationOptions frmOptions) : base(view, frmOptions)
         {
             CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.NamespaceLevel);
         }

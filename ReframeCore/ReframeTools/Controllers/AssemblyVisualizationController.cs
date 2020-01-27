@@ -10,7 +10,7 @@ namespace ReframeTools.Controllers
 {
     public class AssemblyVisualizationController : VisualizationController
     {
-        public AssemblyVisualizationController(FrmAssemblyAnalysisView view) : base(view)
+        public AssemblyVisualizationController(FrmAssemblyAnalysisView view, FrmVisualizationOptions frmOptions) : base(view, frmOptions)
         {
             CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.AssemblyLevel);
         }

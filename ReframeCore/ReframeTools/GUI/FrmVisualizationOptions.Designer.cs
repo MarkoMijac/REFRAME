@@ -68,6 +68,7 @@
             this.btnApply.TabIndex = 4;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // FrmVisualizationOptions
             // 
@@ -81,6 +82,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FrmVisualizationOptions";
             this.Text = "Visualization options";
+            this.Load += new System.EventHandler(this.FrmVisualizationOptions_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -11,7 +11,6 @@ namespace ReframeVisualizer
 {
     public abstract class VisualGraph : IVisualGraph
     {
-        protected Graph _dgmlGraph;
         protected IEnumerable<IAnalysisNode> _analysisNodes;
 
         public VisualizationOptions VisualizationOptions { get; protected set; } = new VisualizationOptions();
@@ -20,32 +19,26 @@ namespace ReframeVisualizer
         {
             _analysisNodes = analysisNodes;
             Initialize();
-            
-            try
-            {
-                AddCustomProperties();
-                AddNodesToGraph();
-                AddDependenciesToGraph();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            
         }
 
         protected virtual void Initialize()
         {
-            _dgmlGraph = new Graph();
-            
+
         }
-        protected abstract void AddCustomProperties();
-        protected abstract void AddNodesToGraph();
-        protected abstract void AddDependenciesToGraph();
+
+        protected abstract void AddCustomProperties(Graph dgmlGraph);
+        protected abstract void AddNodesToGraph(Graph dgmlGraph);
+        protected abstract void AddDependenciesToGraph(Graph dgmlGraph);
 
         public Graph GetDGML()
         {
-            return _dgmlGraph;
+            Graph dgmlGraph = new Graph();
+
+            AddCustomProperties(dgmlGraph);
+            AddNodesToGraph(dgmlGraph);
+            AddDependenciesToGraph(dgmlGraph);
+
+            return dgmlGraph;
         }
     }
 }

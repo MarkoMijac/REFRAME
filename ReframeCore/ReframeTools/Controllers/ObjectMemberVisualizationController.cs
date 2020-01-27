@@ -10,7 +10,7 @@ namespace ReframeTools.Controllers
 {
     public class ObjectMemberVisualizationController : VisualizationController
     {
-        public ObjectMemberVisualizationController(FrmObjectMemberAnalysisView view) : base(view)
+        public ObjectMemberVisualizationController(FrmObjectMemberAnalysisView view, FrmVisualizationOptions frmOptions) : base(view, frmOptions)
         {
             CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.ObjectMemberLevel);
         }

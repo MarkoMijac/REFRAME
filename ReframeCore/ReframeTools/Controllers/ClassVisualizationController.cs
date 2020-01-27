@@ -16,7 +16,7 @@ namespace ReframeTools.Controllers
 {
     public class ClassVisualizationController : VisualizationController
     {
-        public ClassVisualizationController(FrmClassAnalysisView view) : base(view)
+        public ClassVisualizationController(FrmClassAnalysisView view, FrmVisualizationOptions frmOptions) : base(view, frmOptions)
         {
             CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.ClassLevel);
         }

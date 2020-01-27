@@ -18,7 +18,7 @@ namespace ReframeTools.GUI
         {
             InitializeComponent();
             AnalysisController = new ObjectMemberAnalysisController(this);
-            VisualizationController = new ObjectMemberVisualizationController(this);
+            VisualizationController = new ObjectMemberVisualizationController(this, new FrmVisualizationOptions());
         }
 
         public override void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)

@@ -16,5 +16,10 @@ namespace ReframeTools.GUI
         {
             InitializeComponent();
         }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
