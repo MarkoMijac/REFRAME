@@ -67,6 +67,11 @@ namespace ReframeTools.Controllers
             {
                 var sourceNodes = Analyzer.GetSourceNodes(AnalysisGraph);
                 var visualGraph = VisualGraphFactory.CreateGraph(sourceNodes, AnalysisGraph.AnalysisLevel);
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)
@@ -81,6 +86,11 @@ namespace ReframeTools.Controllers
             {
                 var sinkNodes = Analyzer.GetSinkNodes(AnalysisGraph);
                 var visualGraph = VisualGraphFactory.CreateGraph(sinkNodes, AnalysisGraph.AnalysisLevel);
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)
@@ -95,6 +105,11 @@ namespace ReframeTools.Controllers
             {
                 var leafNodes = Analyzer.GetLeafNodes(AnalysisGraph);
                 var visualGraph = VisualGraphFactory.CreateGraph(leafNodes, AnalysisGraph.AnalysisLevel);
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)
@@ -109,6 +124,11 @@ namespace ReframeTools.Controllers
             {
                 var orphanNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
                 var visualGraph = VisualGraphFactory.CreateGraph(orphanNodes, AnalysisGraph.AnalysisLevel);
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)
@@ -123,6 +143,11 @@ namespace ReframeTools.Controllers
             {
                 var intermediaryNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
                 var visualGraph = VisualGraphFactory.CreateGraph(intermediaryNodes, AnalysisGraph.AnalysisLevel);
+                if (FrmOptions != null)
+                {
+                    FrmOptions.VisualGraph = visualGraph;
+                    FrmOptions.ShowDialog();
+                }
                 ShowGraph(visualGraph, description);
             }
             catch (Exception e)
@@ -139,6 +164,11 @@ namespace ReframeTools.Controllers
                 {
                     var predecessors = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
                     var visualGraph = VisualGraphFactory.CreateGraph(predecessors, AnalysisGraph.AnalysisLevel);
+                    if (FrmOptions != null)
+                    {
+                        FrmOptions.VisualGraph = visualGraph;
+                        FrmOptions.ShowDialog();
+                    }
 
                     ShowGraph(visualGraph, description);
                 }
@@ -157,6 +187,11 @@ namespace ReframeTools.Controllers
                 {
                     var successors = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
                     var visualGraph = VisualGraphFactory.CreateGraph(successors, AnalysisGraph.AnalysisLevel);
+                    if (FrmOptions != null)
+                    {
+                        FrmOptions.VisualGraph = visualGraph;
+                        FrmOptions.ShowDialog();
+                    }
 
                     ShowGraph(visualGraph, description);
                 }
@@ -175,6 +210,11 @@ namespace ReframeTools.Controllers
                 {
                     var neighbours = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
                     var visualGraph = VisualGraphFactory.CreateGraph(neighbours, AnalysisGraph.AnalysisLevel);
+                    if (FrmOptions != null)
+                    {
+                        FrmOptions.VisualGraph = visualGraph;
+                        FrmOptions.ShowDialog();
+                    }
 
                     ShowGraph(visualGraph, description);
                 }

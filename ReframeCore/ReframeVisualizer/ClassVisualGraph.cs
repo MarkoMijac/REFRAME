@@ -119,7 +119,7 @@ namespace ReframeVisualizer
                 GraphNode namespaceNode = dgmlGraph.Nodes.Get(node.OwnerNamespace.Identifier.ToString());
                 if (namespaceNode != null)
                 {
-                    dgmlGraph.Links.GetOrCreate(g, namespaceNode, "", catContains);
+                    dgmlGraph.Links.GetOrCreate(namespaceNode, g, "", catContains);
                 }
             }
         }
