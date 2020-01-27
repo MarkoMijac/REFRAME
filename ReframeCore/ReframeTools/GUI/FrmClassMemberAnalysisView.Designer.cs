@@ -36,8 +36,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 389);
             this.Name = "FrmClassMemberAnalysisView";
-            this.Text = "FrmClassMemberAnalysisView";
+            this.Text = "ClassMember-level analysis";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

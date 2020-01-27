@@ -36,7 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 389);
             this.Name = "FrmObjectMemberAnalysisView";
-            this.Text = "FrmObjectMemberAnalysisView";
+            this.Text = "ObjectMember- level analysis";
             this.ResumeLayout(false);
             this.PerformLayout();
 
