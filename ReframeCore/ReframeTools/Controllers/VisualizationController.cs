@@ -13,13 +13,10 @@ using System.Windows.Forms;
 
 namespace ReframeTools.Controllers
 {
-    public abstract class VisualizationController
+    public class VisualizationController
     {
         protected FrmAnalysisView View { get; set; }
         protected FrmVisualizationOptions FrmOptions { get; set; }
-        protected IAnalysisGraph AnalysisGraph { get; set; }
-        protected VisualGraphFactory VisualGraphFactory { get; set; } = new VisualGraphFactory();
-        protected Analyzer Analyzer { get; set; } = new Analyzer();
 
         public VisualizationController(FrmAnalysisView view, FrmVisualizationOptions frmOptions = null)
         {
@@ -29,9 +26,6 @@ namespace ReframeTools.Controllers
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
         {
-            string xmlSource = ClientQueries.GetReactor(reactorIdentifier);
-            var analysisGraphFactory = new AnalysisGraphFactory();
-            AnalysisGraph = analysisGraphFactory.CreateGraph(xmlSource, analysisLevel);
         }
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
@@ -42,182 +36,19 @@ namespace ReframeTools.Controllers
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
         }
 
-        public void DisplayEntireGraph(string description = "")
+        public void Visualize(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> analysisNodes)
         {
             try
             {
-                var visualGraph = VisualGraphFactory.CreateGraph(AnalysisGraph.Nodes, AnalysisGraph.AnalysisLevel);
+                var factory = new VisualGraphFactory();
+                var visualGraph = factory.CreateGraph(analysisNodes, analysisGraph.AnalysisLevel);
                 if (FrmOptions != null)
                 {
                     FrmOptions.VisualGraph = visualGraph;
                     FrmOptions.ShowDialog();
                 }
-                
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
 
-        public void DisplaySourceNodes(string description = "")
-        {
-            try
-            {
-                var sourceNodes = Analyzer.GetSourceNodes(AnalysisGraph);
-                var visualGraph = VisualGraphFactory.CreateGraph(sourceNodes, AnalysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplaySinkNodes(string description = "")
-        {
-            try
-            {
-                var sinkNodes = Analyzer.GetSinkNodes(AnalysisGraph);
-                var visualGraph = VisualGraphFactory.CreateGraph(sinkNodes, AnalysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplayLeafNodes(string description = "")
-        {
-            try
-            {
-                var leafNodes = Analyzer.GetLeafNodes(AnalysisGraph);
-                var visualGraph = VisualGraphFactory.CreateGraph(leafNodes, AnalysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplayOrphanNodes(string description = "")
-        {
-            try
-            {
-                var orphanNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
-                var visualGraph = VisualGraphFactory.CreateGraph(orphanNodes, AnalysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplayIntermediaryNodes(string description = "")
-        {
-            try
-            {
-                var intermediaryNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
-                var visualGraph = VisualGraphFactory.CreateGraph(intermediaryNodes, AnalysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
-                ShowGraph(visualGraph, description);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplayPredecessorNodes(string nodeIdentifier, string description = "")
-        {
-            try
-            {
-                if (nodeIdentifier != "")
-                {
-                    var predecessors = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
-                    var visualGraph = VisualGraphFactory.CreateGraph(predecessors, AnalysisGraph.AnalysisLevel);
-                    if (FrmOptions != null)
-                    {
-                        FrmOptions.VisualGraph = visualGraph;
-                        FrmOptions.ShowDialog();
-                    }
-
-                    ShowGraph(visualGraph, description);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplaySuccessorNodes(string nodeIdentifier, string description = "")
-        {
-            try
-            {
-                if (nodeIdentifier != "")
-                {
-                    var successors = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
-                    var visualGraph = VisualGraphFactory.CreateGraph(successors, AnalysisGraph.AnalysisLevel);
-                    if (FrmOptions != null)
-                    {
-                        FrmOptions.VisualGraph = visualGraph;
-                        FrmOptions.ShowDialog();
-                    }
-
-                    ShowGraph(visualGraph, description);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
-        }
-
-        public void DisplayNeighbourNodes(string nodeIdentifier, string description = "")
-        {
-            try
-            {
-                if (nodeIdentifier != "")
-                {
-                    var neighbours = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
-                    var visualGraph = VisualGraphFactory.CreateGraph(neighbours, AnalysisGraph.AnalysisLevel);
-                    if (FrmOptions != null)
-                    {
-                        FrmOptions.VisualGraph = visualGraph;
-                        FrmOptions.ShowDialog();
-                    }
-
-                    ShowGraph(visualGraph, description);
-                }
+                ShowGraph(visualGraph, "");
             }
             catch (Exception e)
             {

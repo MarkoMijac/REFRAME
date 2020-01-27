@@ -25,6 +25,7 @@ namespace ReframeTools.GUI
         public FrmAnalysisView(string reactorIdentifier) : this()
         {
             ReactorIdentifier = reactorIdentifier;
+            VisualizationController = new VisualizationController(this, new FrmVisualizationOptions());
             AddColumns();
         }
 
@@ -105,49 +106,9 @@ namespace ReframeTools.GUI
             AnalysisController.ShowNeighbourNodes(GetSelectedNodeIdentifier());
         }
 
-        private void displayEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnVisualize_Click(object sender, EventArgs e)
         {
-            VisualizationController.DisplayEntireGraph();
-        }
-
-        private void displaySourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplaySourceNodes();
-        }
-
-        private void displaySinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplaySinkNodes();
-        }
-
-        private void displayLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplayLeafNodes();
-        }
-
-        private void displayOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplayOrphanNodes();
-        }
-
-        private void displayIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplayIntermediaryNodes();
-        }
-
-        private void displayNodesPredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplayPredecessorNodes(GetSelectedNodeIdentifier());
-        }
-
-        private void displayNodesSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplaySuccessorNodes(GetSelectedNodeIdentifier());
-        }
-
-        private void displayNodesNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VisualizationController.DisplayNeighbourNodes(GetSelectedNodeIdentifier());
+            VisualizationController.Visualize(AnalysisController.AnalysisGraph, AnalysisController.AnalysisNodes);
         }
     }
 }
