@@ -37,6 +37,7 @@
             this.classlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.assemblylevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +78,8 @@
             this.classMemberlevelAnalysisToolStripMenuItem,
             this.classlevelAnalysisToolStripMenuItem,
             this.assemblylevelAnalysisToolStripMenuItem,
-            this.namespacelevelAnalysisToolStripMenuItem});
+            this.namespacelevelAnalysisToolStripMenuItem,
+            this.toolStripSeparator1});
             this.chooseAnalysislevelToolStripMenuItem.Name = "chooseAnalysislevelToolStripMenuItem";
             this.chooseAnalysislevelToolStripMenuItem.Size = new System.Drawing.Size(132, 20);
             this.chooseAnalysislevelToolStripMenuItem.Text = "Choose analysis-level";
@@ -124,6 +126,11 @@
             this.namespacelevelAnalysisToolStripMenuItem.Text = "Namespace-level analysis";
             this.namespacelevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.namespacelevelAnalysisToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
+            // 
             // FrmRegisteredReactors
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,5 +162,6 @@
         private System.Windows.Forms.ToolStripMenuItem classlevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem assemblylevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

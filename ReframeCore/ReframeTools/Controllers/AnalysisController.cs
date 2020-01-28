@@ -13,17 +13,17 @@ namespace ReframeTools.Controllers
 {
     public abstract class AnalysisController
     {
-        protected FrmOptions Options { get; set; }
+        protected FrmFilterAnalysis FilterView { get; set; }
         protected FrmAnalysisView View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         protected Analyzer Analyzer { get; set; } = new Analyzer();
         protected AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
 
-        public AnalysisController(FrmAnalysisView form, FrmOptions frmOptions = null)
+        public AnalysisController(FrmAnalysisView form, FrmFilterAnalysis frmFilter = null)
         {
             View = form;
-            Options = frmOptions;
+            FilterView = frmFilter;
         }
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
@@ -32,7 +32,7 @@ namespace ReframeTools.Controllers
             AnalysisGraph = GraphFactory.CreateGraph(xmlSource, analysisLevel);
         }
 
-        protected virtual void ShowGraph(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> nodes, string analysisDescription)
+        protected virtual void ShowGraph(IEnumerable<IAnalysisNode> nodes, string analysisDescription)
         {
             if (View != null)
             {
@@ -40,12 +40,32 @@ namespace ReframeTools.Controllers
             }
         }
 
+        private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)
+        {
+            IEnumerable<IAnalysisNode> filteredNodes;
+            if (FilterView != null)
+            {
+                FilterView.OriginalNodes = originalNodes;
+                FilterView.ShowDialog();
+
+                var filter = FilterView.Filter;
+                filteredNodes = filter.Apply();
+            }
+            else
+            {
+                filteredNodes = originalNodes;
+            }
+
+            return filteredNodes;
+        }
+
         public virtual void ShowEntireGraph(string description = "")
         {
             try
             {
-                AnalysisNodes = AnalysisGraph.Nodes;
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = AnalysisGraph.Nodes;
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -57,8 +77,9 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                AnalysisNodes = Analyzer.GetSourceNodes(AnalysisGraph);
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = Analyzer.GetSourceNodes(AnalysisGraph);
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -70,8 +91,9 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                AnalysisNodes = Analyzer.GetSinkNodes(AnalysisGraph);
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = Analyzer.GetSinkNodes(AnalysisGraph);
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -83,8 +105,9 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                AnalysisNodes = Analyzer.GetLeafNodes(AnalysisGraph);
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = Analyzer.GetLeafNodes(AnalysisGraph);
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -96,8 +119,9 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                AnalysisNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -109,8 +133,9 @@ namespace ReframeTools.Controllers
         {
             try
             {
-                AnalysisNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
-                ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                var originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes, description);
             }
             catch (Exception e)
             {
@@ -124,8 +149,9 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != "")
                 {
-                    AnalysisNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
-                    ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                    var originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes, description);
                 }
             }
             catch (Exception e)
@@ -140,8 +166,9 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != "")
                 {
-                    AnalysisNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
-                    ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                    var originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes, description);
                 }
             }
             catch (Exception e)
@@ -156,8 +183,9 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != "")
                 {
-                    AnalysisNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
-                    ShowGraph(AnalysisGraph, AnalysisNodes, description);
+                    var originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes, description);
                 }
             }
             catch (Exception e)

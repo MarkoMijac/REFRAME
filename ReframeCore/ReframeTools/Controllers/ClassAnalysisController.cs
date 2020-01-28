@@ -13,7 +13,7 @@ namespace ReframeTools.Controllers
 {
     public class ClassAnalysisController : AnalysisController
     {
-        public ClassAnalysisController(FrmClassAnalysisView view) : base(view)
+        public ClassAnalysisController(FrmClassAnalysisView view, FrmFilterClassAnalysis filterView) : base(view, filterView)
         {
             CreateAnalysisGraph(View.ReactorIdentifier, AnalysisLevel.ClassLevel);
         }

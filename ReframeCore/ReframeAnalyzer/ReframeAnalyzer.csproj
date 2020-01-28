@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisFilter.cs" />
     <Compile Include="Analyzer.cs" />
     <Compile Include="Exceptions\AnalyzerException.cs" />
+    <Compile Include="ClassAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Graph\ObjectAnalysisNode.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
+    <Compile Include="IAnalysisFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

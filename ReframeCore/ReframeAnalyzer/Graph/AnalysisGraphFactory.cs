@@ -13,6 +13,16 @@ namespace ReframeAnalyzer.Graph
 
     public class AnalysisGraphFactory
     {
+        public AssemblyAnalysisGraph CreateAssemblyGraph(ClassAnalysisGraph classGraph)
+        {
+            return new AssemblyAnalysisGraph(classGraph);
+        }
+
+        public NamespaceAnalysisGraph CreateNamespaceGraph(ClassAnalysisGraph classGraph)
+        {
+            return new NamespaceAnalysisGraph(classGraph);
+        }
+
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
             IAnalysisGraph result;

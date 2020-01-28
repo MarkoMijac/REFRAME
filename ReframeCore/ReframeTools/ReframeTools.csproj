@@ -69,6 +69,12 @@
     <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmFilterClassAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmFilterClassAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterClassAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmClassAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,11 +111,11 @@
     <Compile Include="GUI\FrmObjectMemberAnalysisView.Designer.cs">
       <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmOptions.cs">
+    <Compile Include="GUI\FrmFilterAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\FrmOptions.Designer.cs">
-      <DependentUpon>FrmOptions.cs</DependentUpon>
+    <Compile Include="GUI\FrmFilterAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmRegisteredReactors.cs">
       <SubType>Form</SubType>
@@ -248,6 +254,9 @@
     <EmbeddedResource Include="GUI\FrmAssemblyAnalysisView.resx">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterClassAnalysis.resx">
+      <DependentUpon>FrmFilterClassAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmClassAnalysisView.resx">
       <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
@@ -266,8 +275,8 @@
     <EmbeddedResource Include="GUI\FrmObjectMemberAnalysisView.resx">
       <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmOptions.resx">
-      <DependentUpon>FrmOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\FrmFilterAnalysis.resx">
+      <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
