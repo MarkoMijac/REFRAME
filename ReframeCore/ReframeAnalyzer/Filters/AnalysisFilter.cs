@@ -29,7 +29,7 @@ namespace ReframeAnalyzer.Filters
             SelectAllClassNodes();
         }
 
-        protected void AddNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
+        private void AddNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
         {
             if (node!=null && chosenNodes.Contains(node) == false)
             {
@@ -37,7 +37,7 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        protected void RemoveNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
+        private void RemoveNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
         {
             if (node != null && chosenNodes.Contains(node) == true)
             {
@@ -45,59 +45,61 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public bool IsSelected(NamespaceAnalysisNode node)
+        
+
+        private bool IsSelected(NamespaceAnalysisNode node)
         {
             return SelectedNamespaceNodes.Exists(n => n.Identifier == node.Identifier);
         }
 
-        public bool IsSelected(AssemblyAnalysisNode node)
+        private bool IsSelected(AssemblyAnalysisNode node)
         {
             return SelectedAssemblyNodes.Exists(n => n.Identifier == node.Identifier);
         }
 
-        public bool IsSelected(ClassAnalysisNode node)
+        private bool IsSelected(ClassAnalysisNode node)
         {
             return SelectedClassNodes.Exists(n => n.Identifier == node.Identifier);
         }
 
-        public bool IsSelected(ObjectAnalysisNode node)
+        private bool IsSelected(ObjectAnalysisNode node)
         {
             return SelectedObjectNodes.Exists(n => n.Identifier == node.Identifier);
         }
 
-        public void SelectAssemblyNode(AssemblyAnalysisNode node)
+        private void SelectNode(AssemblyAnalysisNode node)
         {
             AddNode(SelectedAssemblyNodes, node);
         }
 
-        public void DeselectAssemblyNode(AssemblyAnalysisNode node)
+        private void DeselectNode(AssemblyAnalysisNode node)
         {
             RemoveNode(SelectedAssemblyNodes, node);
         }
 
-        public void SelectNamespaceNode(NamespaceAnalysisNode node)
+        private void SelectNode(NamespaceAnalysisNode node)
         {
             AddNode(SelectedNamespaceNodes, node);
             SelectAllClassNodes(node);
         }
 
-        public void DeselectNamespaceNode(NamespaceAnalysisNode node)
+        private void DeselectNode(NamespaceAnalysisNode node)
         {
             RemoveNode(SelectedNamespaceNodes, node);
             DeselectAllClassNodes(node);
         }
 
-        public void SelectClassNode(ClassAnalysisNode node)
+        private void SelectNode(ClassAnalysisNode node)
         {
             AddNode(SelectedClassNodes, node);
         }
 
-        public void DeselectClassNode(ClassAnalysisNode node)
+        private void DeselectNode(ClassAnalysisNode node)
         {
             RemoveNode(SelectedClassNodes, node);
         }
 
-        protected void SelectAllClassNodes()
+        private void SelectAllClassNodes()
         {
             foreach (ClassAnalysisNode classNode in GetAvailableClassNodes())
             {
@@ -158,6 +160,10 @@ namespace ReframeAnalyzer.Filters
             SelectedAssemblyNodes.Clear();
         }
 
+        #region Public methods
+
+        public abstract IEnumerable<IAnalysisNode> Apply();
+
         public virtual List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
             return new List<IAnalysisNode>();
@@ -171,6 +177,72 @@ namespace ReframeAnalyzer.Filters
             return new List<IAnalysisNode>();
         }
 
-        public abstract IEnumerable<IAnalysisNode> Apply();
+        public virtual List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        {
+            return new List<IAnalysisNode>();
+        }
+
+        public void SelectNode(IAnalysisNode node)
+        {
+            if (node is NamespaceAnalysisNode)
+            {
+                SelectNode(node as NamespaceAnalysisNode);
+            }
+            else if (node is AssemblyAnalysisNode)
+            {
+                SelectNode(node as AssemblyAnalysisNode);
+            }
+            else if (node is ClassAnalysisNode)
+            {
+                SelectNode(node as ClassAnalysisNode);
+            }
+            else if (node is ObjectAnalysisNode)
+            {
+                SelectNode(node as ObjectAnalysisNode);
+            }
+        }
+
+        public void DeselectNode(IAnalysisNode node)
+        {
+            if (node is NamespaceAnalysisNode)
+            {
+                DeselectNode(node as NamespaceAnalysisNode);
+            }
+            else if (node is AssemblyAnalysisNode)
+            {
+                DeselectNode(node as AssemblyAnalysisNode);
+            }
+            else if (node is ClassAnalysisNode)
+            {
+                DeselectNode(node as ClassAnalysisNode);
+            }
+            else if (node is ObjectAnalysisNode)
+            {
+                DeselectNode(node as ObjectAnalysisNode);
+            }
+        }
+
+        public bool IsSelected(IAnalysisNode node)
+        {
+            if (node is NamespaceAnalysisNode)
+            {
+                return IsSelected(node as NamespaceAnalysisNode);
+            }
+            else if (node is AssemblyAnalysisNode)
+            {
+                return IsSelected(node as AssemblyAnalysisNode);
+            }
+            else if (node is ClassAnalysisNode)
+            {
+                return IsSelected(node as ClassAnalysisNode);
+            }
+            else if (node is ObjectAnalysisNode)
+            {
+                return IsSelected(node as ObjectAnalysisNode);
+            }
+            return false;
+        }
+
+        #endregion
     }
 }

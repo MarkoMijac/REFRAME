@@ -24,156 +24,36 @@ namespace ReframeTools.GUI
             base.Initialize();
             Level = AnalysisLevel.ClassMemberLevel;
             Filter = new ClassMemberAnalysisFilter(OriginalNodes);
-
             rbClassMemberLevel.Checked = true;
-            HandleCheckListsVisibility();
+        }
+
+        protected override void HandleCheckListsVisibility()
+        {
+            base.HandleCheckListsVisibility();
+            MakeAssemblyNodesVisible(true);
+            MakeNamespaceNodesVisible(true);
+            MakeClassNodesVisible(true);
+            MakeObjectNodesVisible(false);
+
+            int offset = 130;
+
+            gbFilterByParent.Size = new Size(gbFilterByParent.Size.Width, gbFilterByParent.Size.Height - offset);
+            btnApply.Location = new Point(btnApply.Location.X, btnApply.Location.Y - offset);
+            this.Size = new Size(this.Size.Width, this.Size.Height - offset);
+        }
+
+        protected override void LoadNodes()
+        {
             LoadAssemblyNodes();
             LoadNamespaceNodes();
         }
 
-        private void HandleCheckListsVisibility()
+        protected override void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            clbAssemblyNodes.Enabled = true;
-            clbNamespaceNodes.Enabled = true;
-            clbClassNodes.Enabled = true;
-            clbObjectNodes.Enabled = false;
-        }
+            base.clbNamespaceNodes_ItemCheck(sender, e);
 
-        private void LoadAssemblyNodes()
-        {
-            var classMemberFilter = Filter as ClassMemberAnalysisFilter;
-            clbAssemblyNodes.Items.Clear();
-            List<IAnalysisNode> assemblyNodes = classMemberFilter.GetAvailableAssemblyNodes();
-
-            foreach (AssemblyAnalysisNode assemblyNode in assemblyNodes)
-            {
-                bool checkedItem = classMemberFilter.IsSelected(assemblyNode);
-                clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
-            }
-        }
-
-        private void LoadNamespaceNodes()
-        {
-            var classMemberFilter = Filter as ClassMemberAnalysisFilter;
-            clbNamespaceNodes.Items.Clear();
-            List<IAnalysisNode> namespaceNodes = classMemberFilter.GetAvailableNamespaceNodes();
-            foreach (NamespaceAnalysisNode namespaceNode in namespaceNodes)
-            {
-                bool checkedItem = classMemberFilter.IsSelected(namespaceNode);
-                clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
-            }
-        }
-
-        private void LoadClassNodes(NamespaceAnalysisNode namespaceNode)
-        {
-            if (namespaceNode == null) return;
-
-            var classMemberFilter = Filter as ClassMemberAnalysisFilter;
-            clbClassNodes.Items.Clear();
-
-            List<IAnalysisNode> classNodes = classMemberFilter.GetAvailableClassNodes(namespaceNode);
-            foreach (ClassAnalysisNode classNode in classNodes)
-            {
-                bool checkedItem = classMemberFilter.IsSelected(classNode);
-                clbClassNodes.Items.Add(classNode, checkedItem);
-            }
-        }
-
-        private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
             var namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
             LoadClassNodes(namespaceNode);
-            clbClassNodes.Enabled = classFilter.IsSelected(namespaceNode);
-        }
-
-        private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            ClassAnalysisNode classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                classFilter.SelectClassNode(classNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                classFilter.DeselectClassNode(classNode);
-            }
-        }
-
-        private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            NamespaceAnalysisNode namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                classFilter.SelectNamespaceNode(namespaceNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                classFilter.DeselectNamespaceNode(namespaceNode);
-            }
-
-            LoadClassNodes(namespaceNode);
-        }
-
-        private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-
-            AssemblyAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as AssemblyAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                classFilter.SelectAssemblyNode(assemblyNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                classFilter.DeselectAssemblyNode(assemblyNode);
-            }
-        }
-
-        protected override void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            classFilter.SelectAllAssemblyNodes();
-            LoadAssemblyNodes();
-        }
-
-        protected override void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            classFilter.DeselectAllAssemblyNodes();
-            LoadAssemblyNodes();
-        }
-
-        protected override void btnSelectAllNamespaces_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            classFilter.SelectAllNamespaceNodes();
-            LoadNamespaceNodes();
-        }
-
-        protected override void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            classFilter.DeselectAllNamespaceNodes();
-            LoadNamespaceNodes();
-        }
-
-        protected override void btnSelectAllClasses_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
-            classFilter.SelectAllClassNodes(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
-        }
-
-        protected override void btnDeselectAllClasses_Click(object sender, EventArgs e)
-        {
-            var classFilter = Filter as ClassMemberAnalysisFilter;
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
-            classFilter.DeselectAllClassNodes(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
         }
     }
 }

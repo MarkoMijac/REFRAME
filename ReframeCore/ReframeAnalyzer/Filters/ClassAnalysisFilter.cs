@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ClassAnalysisNode classNode in OriginalNodes)
             {
-                if (IsSelected(classNode.OwnerAssembly) && IsSelected(classNode.OwnerNamespace))
+                if (IsSelected(classNode.OwnerAssembly) && IsSelected(classNode.OwnerNamespace) && IsSelected(classNode))
                 {
                     filteredNodes.Add(classNode);
                 }
@@ -57,6 +57,33 @@ namespace ReframeAnalyzer.Filters
             }
 
             return namespaceNodes;
+        }
+
+        public override List<IAnalysisNode> GetAvailableClassNodes()
+        {
+            List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
+
+            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            {
+                classNodes.Add(classNode);
+            }
+
+            return classNodes;
+        }
+
+        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        {
+            List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
+
+            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            {
+                if (classNode.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == classNode.Identifier) == false)
+                {
+                    classNodes.Add(classNode);
+                }
+            }
+
+            return classNodes;
         }
     }
 }

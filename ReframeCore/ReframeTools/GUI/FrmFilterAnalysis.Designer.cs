@@ -45,13 +45,13 @@
             this.btnSelectAllNamespaces = new System.Windows.Forms.Button();
             this.btnDeselectAllAssemblies = new System.Windows.Forms.Button();
             this.btnSelecteAllAssemblies = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblObjectNodes = new System.Windows.Forms.Label();
             this.clbObjectNodes = new System.Windows.Forms.CheckedListBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblClassNodes = new System.Windows.Forms.Label();
             this.clbClassNodes = new System.Windows.Forms.CheckedListBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblNamespaces = new System.Windows.Forms.Label();
             this.clbNamespaceNodes = new System.Windows.Forms.CheckedListBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblAssemblies = new System.Windows.Forms.Label();
             this.clbAssemblyNodes = new System.Windows.Forms.CheckedListBox();
             this.gbAnalysisLevel.SuspendLayout();
             this.gbFilterByParent.SuspendLayout();
@@ -156,13 +156,13 @@
             this.gbFilterByParent.Controls.Add(this.btnSelectAllNamespaces);
             this.gbFilterByParent.Controls.Add(this.btnDeselectAllAssemblies);
             this.gbFilterByParent.Controls.Add(this.btnSelecteAllAssemblies);
-            this.gbFilterByParent.Controls.Add(this.label5);
+            this.gbFilterByParent.Controls.Add(this.lblObjectNodes);
             this.gbFilterByParent.Controls.Add(this.clbObjectNodes);
-            this.gbFilterByParent.Controls.Add(this.label4);
+            this.gbFilterByParent.Controls.Add(this.lblClassNodes);
             this.gbFilterByParent.Controls.Add(this.clbClassNodes);
-            this.gbFilterByParent.Controls.Add(this.label3);
+            this.gbFilterByParent.Controls.Add(this.lblNamespaces);
             this.gbFilterByParent.Controls.Add(this.clbNamespaceNodes);
-            this.gbFilterByParent.Controls.Add(this.label2);
+            this.gbFilterByParent.Controls.Add(this.lblAssemblies);
             this.gbFilterByParent.Controls.Add(this.clbAssemblyNodes);
             this.gbFilterByParent.Location = new System.Drawing.Point(12, 84);
             this.gbFilterByParent.Name = "gbFilterByParent";
@@ -251,15 +251,15 @@
             this.btnSelecteAllAssemblies.UseVisualStyleBackColor = true;
             this.btnSelecteAllAssemblies.Click += new System.EventHandler(this.btnSelecteAllAssemblies_Click);
             // 
-            // label5
+            // lblObjectNodes
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(20, 427);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Object nodes:";
+            this.lblObjectNodes.AutoSize = true;
+            this.lblObjectNodes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblObjectNodes.Location = new System.Drawing.Point(20, 427);
+            this.lblObjectNodes.Name = "lblObjectNodes";
+            this.lblObjectNodes.Size = new System.Drawing.Size(86, 13);
+            this.lblObjectNodes.TabIndex = 7;
+            this.lblObjectNodes.Text = "Object nodes:";
             // 
             // clbObjectNodes
             // 
@@ -268,16 +268,17 @@
             this.clbObjectNodes.Name = "clbObjectNodes";
             this.clbObjectNodes.Size = new System.Drawing.Size(419, 109);
             this.clbObjectNodes.TabIndex = 6;
+            this.clbObjectNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbObjectNodes_ItemCheck);
             // 
-            // label4
+            // lblClassNodes
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(20, 294);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Class nodes:";
+            this.lblClassNodes.AutoSize = true;
+            this.lblClassNodes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblClassNodes.Location = new System.Drawing.Point(20, 294);
+            this.lblClassNodes.Name = "lblClassNodes";
+            this.lblClassNodes.Size = new System.Drawing.Size(79, 13);
+            this.lblClassNodes.TabIndex = 5;
+            this.lblClassNodes.Text = "Class nodes:";
             // 
             // clbClassNodes
             // 
@@ -286,16 +287,18 @@
             this.clbClassNodes.Name = "clbClassNodes";
             this.clbClassNodes.Size = new System.Drawing.Size(419, 109);
             this.clbClassNodes.TabIndex = 4;
+            this.clbClassNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbClassNodes_ItemCheck);
+            this.clbClassNodes.SelectedIndexChanged += new System.EventHandler(this.clbClassNodes_SelectedIndexChanged);
             // 
-            // label3
+            // lblNamespaces
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(20, 159);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Namespace nodes:";
+            this.lblNamespaces.AutoSize = true;
+            this.lblNamespaces.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblNamespaces.Location = new System.Drawing.Point(20, 159);
+            this.lblNamespaces.Name = "lblNamespaces";
+            this.lblNamespaces.Size = new System.Drawing.Size(115, 13);
+            this.lblNamespaces.TabIndex = 3;
+            this.lblNamespaces.Text = "Namespace nodes:";
             // 
             // clbNamespaceNodes
             // 
@@ -304,16 +307,18 @@
             this.clbNamespaceNodes.Name = "clbNamespaceNodes";
             this.clbNamespaceNodes.Size = new System.Drawing.Size(419, 109);
             this.clbNamespaceNodes.TabIndex = 2;
+            this.clbNamespaceNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbNamespaceNodes_ItemCheck);
+            this.clbNamespaceNodes.SelectedIndexChanged += new System.EventHandler(this.clbNamespaceNodes_SelectedIndexChanged);
             // 
-            // label2
+            // lblAssemblies
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(21, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Assembly nodes:";
+            this.lblAssemblies.AutoSize = true;
+            this.lblAssemblies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblAssemblies.Location = new System.Drawing.Point(21, 19);
+            this.lblAssemblies.Name = "lblAssemblies";
+            this.lblAssemblies.Size = new System.Drawing.Size(101, 13);
+            this.lblAssemblies.TabIndex = 1;
+            this.lblAssemblies.Text = "Assembly nodes:";
             // 
             // clbAssemblyNodes
             // 
@@ -322,6 +327,8 @@
             this.clbAssemblyNodes.Name = "clbAssemblyNodes";
             this.clbAssemblyNodes.Size = new System.Drawing.Size(418, 109);
             this.clbAssemblyNodes.TabIndex = 0;
+            this.clbAssemblyNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbAssemblyNodes_ItemCheck);
+            this.clbAssemblyNodes.SelectedIndexChanged += new System.EventHandler(this.clbAssemblyNodes_SelectedIndexChanged);
             // 
             // FrmFilterAnalysis
             // 
@@ -344,12 +351,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button btnApply;
-        private System.Windows.Forms.GroupBox gbFilterByParent;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblObjectNodes;
+        private System.Windows.Forms.Label lblClassNodes;
+        private System.Windows.Forms.Label lblNamespaces;
+        private System.Windows.Forms.Label lblAssemblies;
         protected System.Windows.Forms.CheckedListBox clbObjectNodes;
         protected System.Windows.Forms.CheckedListBox clbClassNodes;
         protected System.Windows.Forms.CheckedListBox clbNamespaceNodes;
@@ -369,5 +374,7 @@
         private System.Windows.Forms.Button btnSelectAllNamespaces;
         private System.Windows.Forms.Button btnDeselectAllAssemblies;
         private System.Windows.Forms.Button btnSelecteAllAssemblies;
+        protected System.Windows.Forms.Button btnApply;
+        protected System.Windows.Forms.GroupBox gbFilterByParent;
     }
 }
