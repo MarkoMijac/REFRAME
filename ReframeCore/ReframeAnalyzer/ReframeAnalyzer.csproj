@@ -52,6 +52,7 @@
     <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
     <Compile Include="Filters\ClassAnalysisFilter.cs" />
     <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
+    <Compile Include="Filters\NamespaceAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />

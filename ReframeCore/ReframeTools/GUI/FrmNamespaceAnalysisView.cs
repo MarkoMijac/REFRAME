@@ -17,7 +17,7 @@ namespace ReframeTools.GUI
         public FrmNamespaceAnalysisView(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
-            AnalysisController = new NamespaceAnalysisController(this);
+            AnalysisController = new NamespaceAnalysisController(this, new FrmFilterNamespaceAnalysis());
         }
 
         public override void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)

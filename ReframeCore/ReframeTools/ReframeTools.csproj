@@ -99,6 +99,12 @@
     <Compile Include="GUI\FrmFilterClassMemberAnalysis.Designer.cs">
       <DependentUpon>FrmFilterClassMemberAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmFilterNamespaceAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmFilterNamespaceAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterNamespaceAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
