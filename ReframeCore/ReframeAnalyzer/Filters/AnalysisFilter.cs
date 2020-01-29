@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeAnalyzer
+namespace ReframeAnalyzer.Filters
 {
     public abstract class AnalysisFilter : IAnalysisFilter
     {
@@ -18,7 +18,7 @@ namespace ReframeAnalyzer
 
         protected void AddNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
         {
-            if (chosenNodes.Contains(node) == false)
+            if (node!=null && chosenNodes.Contains(node) == false)
             {
                 chosenNodes.Add(node);
             }
@@ -26,7 +26,7 @@ namespace ReframeAnalyzer
 
         protected void RemoveNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
         {
-            if (chosenNodes.Contains(node) == true)
+            if (node != null && chosenNodes.Contains(node) == true)
             {
                 chosenNodes.Remove(node);
             }

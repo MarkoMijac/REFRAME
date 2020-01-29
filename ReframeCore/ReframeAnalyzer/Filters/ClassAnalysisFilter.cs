@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReframeAnalyzer.Graph;
 
-namespace ReframeAnalyzer
+namespace ReframeAnalyzer.Filters
 {
     public class ClassAnalysisFilter : AnalysisFilter
     {

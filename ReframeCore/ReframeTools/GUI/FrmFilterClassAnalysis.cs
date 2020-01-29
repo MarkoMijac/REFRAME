@@ -1,4 +1,5 @@
 ﻿using ReframeAnalyzer;
+using ReframeAnalyzer.Filters;
 using ReframeAnalyzer.Graph;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace ReframeTools.GUI
 
             foreach (AssemblyAnalysisNode assemblyNode in assemblyNodes)
             {
-                bool checkedItem = classFilter.ChosenAssemblyNodes.Contains(assemblyNode);
+                bool checkedItem = classFilter.ChosenAssemblyNodes.Exists(n => n.Identifier == assemblyNode.Identifier);
                 clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
             }
         }
@@ -59,7 +60,7 @@ namespace ReframeTools.GUI
             List<IAnalysisNode> namespaceNodes = classFilter.GetAvailableNamespaceNodes();
             foreach (NamespaceAnalysisNode namespaceNode in namespaceNodes)
             {
-                bool checkedItem = classFilter.ChosenNamespaceNodes.Contains(namespaceNode);
+                bool checkedItem = classFilter.ChosenNamespaceNodes.Exists(n => n.Identifier == namespaceNode.Identifier);
                 clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
             }
         }

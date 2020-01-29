@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnApply = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.gbAnalysisLevel = new System.Windows.Forms.GroupBox();
             this.rbAssemblyLevel = new System.Windows.Forms.RadioButton();
             this.rbNamespaceLevel = new System.Windows.Forms.RadioButton();
@@ -38,6 +37,14 @@
             this.rbObjectLevel = new System.Windows.Forms.RadioButton();
             this.rbObjectMemberLevel = new System.Windows.Forms.RadioButton();
             this.gbFilterByParent = new System.Windows.Forms.GroupBox();
+            this.btnDeselectAllObjects = new System.Windows.Forms.Button();
+            this.btnSelectAllObjects = new System.Windows.Forms.Button();
+            this.btnDeselectAllClasses = new System.Windows.Forms.Button();
+            this.btnSelectAllClasses = new System.Windows.Forms.Button();
+            this.btnDeselectAllNamespaces = new System.Windows.Forms.Button();
+            this.btnSelectAllNamespaces = new System.Windows.Forms.Button();
+            this.btnDeselectAllAssemblies = new System.Windows.Forms.Button();
+            this.btnSelecteAllAssemblies = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.clbObjectNodes = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -52,22 +59,13 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(310, 672);
+            this.btnApply.Location = new System.Drawing.Point(209, 654);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.Size = new System.Drawing.Size(102, 23);
             this.btnApply.TabIndex = 2;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(391, 672);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // gbAnalysisLevel
             // 
@@ -81,7 +79,7 @@
             this.gbAnalysisLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.gbAnalysisLevel.Location = new System.Drawing.Point(12, 12);
             this.gbAnalysisLevel.Name = "gbAnalysisLevel";
-            this.gbAnalysisLevel.Size = new System.Drawing.Size(454, 80);
+            this.gbAnalysisLevel.Size = new System.Drawing.Size(538, 66);
             this.gbAnalysisLevel.TabIndex = 4;
             this.gbAnalysisLevel.TabStop = false;
             this.gbAnalysisLevel.Text = "Analysis level:";
@@ -150,6 +148,14 @@
             // 
             // gbFilterByParent
             // 
+            this.gbFilterByParent.Controls.Add(this.btnDeselectAllObjects);
+            this.gbFilterByParent.Controls.Add(this.btnSelectAllObjects);
+            this.gbFilterByParent.Controls.Add(this.btnDeselectAllClasses);
+            this.gbFilterByParent.Controls.Add(this.btnSelectAllClasses);
+            this.gbFilterByParent.Controls.Add(this.btnDeselectAllNamespaces);
+            this.gbFilterByParent.Controls.Add(this.btnSelectAllNamespaces);
+            this.gbFilterByParent.Controls.Add(this.btnDeselectAllAssemblies);
+            this.gbFilterByParent.Controls.Add(this.btnSelecteAllAssemblies);
             this.gbFilterByParent.Controls.Add(this.label5);
             this.gbFilterByParent.Controls.Add(this.clbObjectNodes);
             this.gbFilterByParent.Controls.Add(this.label4);
@@ -158,12 +164,92 @@
             this.gbFilterByParent.Controls.Add(this.clbNamespaceNodes);
             this.gbFilterByParent.Controls.Add(this.label2);
             this.gbFilterByParent.Controls.Add(this.clbAssemblyNodes);
-            this.gbFilterByParent.Location = new System.Drawing.Point(12, 97);
+            this.gbFilterByParent.Location = new System.Drawing.Point(12, 84);
             this.gbFilterByParent.Name = "gbFilterByParent";
-            this.gbFilterByParent.Size = new System.Drawing.Size(454, 569);
+            this.gbFilterByParent.Size = new System.Drawing.Size(538, 564);
             this.gbFilterByParent.TabIndex = 5;
             this.gbFilterByParent.TabStop = false;
             this.gbFilterByParent.Text = "Filter by parent:";
+            // 
+            // btnDeselectAllObjects
+            // 
+            this.btnDeselectAllObjects.Location = new System.Drawing.Point(444, 472);
+            this.btnDeselectAllObjects.Name = "btnDeselectAllObjects";
+            this.btnDeselectAllObjects.Size = new System.Drawing.Size(75, 23);
+            this.btnDeselectAllObjects.TabIndex = 15;
+            this.btnDeselectAllObjects.Text = "Deselect All";
+            this.btnDeselectAllObjects.UseVisualStyleBackColor = true;
+            this.btnDeselectAllObjects.Click += new System.EventHandler(this.btnDeselectAllObjects_Click);
+            // 
+            // btnSelectAllObjects
+            // 
+            this.btnSelectAllObjects.Location = new System.Drawing.Point(444, 443);
+            this.btnSelectAllObjects.Name = "btnSelectAllObjects";
+            this.btnSelectAllObjects.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAllObjects.TabIndex = 14;
+            this.btnSelectAllObjects.Text = "Select All";
+            this.btnSelectAllObjects.UseVisualStyleBackColor = true;
+            this.btnSelectAllObjects.Click += new System.EventHandler(this.btnSelectAllObjects_Click);
+            // 
+            // btnDeselectAllClasses
+            // 
+            this.btnDeselectAllClasses.Location = new System.Drawing.Point(444, 339);
+            this.btnDeselectAllClasses.Name = "btnDeselectAllClasses";
+            this.btnDeselectAllClasses.Size = new System.Drawing.Size(75, 23);
+            this.btnDeselectAllClasses.TabIndex = 13;
+            this.btnDeselectAllClasses.Text = "Deselect All";
+            this.btnDeselectAllClasses.UseVisualStyleBackColor = true;
+            this.btnDeselectAllClasses.Click += new System.EventHandler(this.btnDeselectAllClasses_Click);
+            // 
+            // btnSelectAllClasses
+            // 
+            this.btnSelectAllClasses.Location = new System.Drawing.Point(444, 310);
+            this.btnSelectAllClasses.Name = "btnSelectAllClasses";
+            this.btnSelectAllClasses.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAllClasses.TabIndex = 12;
+            this.btnSelectAllClasses.Text = "Select All";
+            this.btnSelectAllClasses.UseVisualStyleBackColor = true;
+            this.btnSelectAllClasses.Click += new System.EventHandler(this.btnSelectAllClasses_Click);
+            // 
+            // btnDeselectAllNamespaces
+            // 
+            this.btnDeselectAllNamespaces.Location = new System.Drawing.Point(444, 204);
+            this.btnDeselectAllNamespaces.Name = "btnDeselectAllNamespaces";
+            this.btnDeselectAllNamespaces.Size = new System.Drawing.Size(75, 23);
+            this.btnDeselectAllNamespaces.TabIndex = 11;
+            this.btnDeselectAllNamespaces.Text = "Deselect All";
+            this.btnDeselectAllNamespaces.UseVisualStyleBackColor = true;
+            this.btnDeselectAllNamespaces.Click += new System.EventHandler(this.btnDeselectAllNamespaces_Click);
+            // 
+            // btnSelectAllNamespaces
+            // 
+            this.btnSelectAllNamespaces.Location = new System.Drawing.Point(444, 175);
+            this.btnSelectAllNamespaces.Name = "btnSelectAllNamespaces";
+            this.btnSelectAllNamespaces.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAllNamespaces.TabIndex = 10;
+            this.btnSelectAllNamespaces.Text = "Select All";
+            this.btnSelectAllNamespaces.UseVisualStyleBackColor = true;
+            this.btnSelectAllNamespaces.Click += new System.EventHandler(this.btnSelectAllNamespaces_Click);
+            // 
+            // btnDeselectAllAssemblies
+            // 
+            this.btnDeselectAllAssemblies.Location = new System.Drawing.Point(444, 64);
+            this.btnDeselectAllAssemblies.Name = "btnDeselectAllAssemblies";
+            this.btnDeselectAllAssemblies.Size = new System.Drawing.Size(75, 23);
+            this.btnDeselectAllAssemblies.TabIndex = 9;
+            this.btnDeselectAllAssemblies.Text = "Deselect All";
+            this.btnDeselectAllAssemblies.UseVisualStyleBackColor = true;
+            this.btnDeselectAllAssemblies.Click += new System.EventHandler(this.btnDeselectAllAssemblies_Click);
+            // 
+            // btnSelecteAllAssemblies
+            // 
+            this.btnSelecteAllAssemblies.Location = new System.Drawing.Point(444, 35);
+            this.btnSelecteAllAssemblies.Name = "btnSelecteAllAssemblies";
+            this.btnSelecteAllAssemblies.Size = new System.Drawing.Size(75, 23);
+            this.btnSelecteAllAssemblies.TabIndex = 8;
+            this.btnSelecteAllAssemblies.Text = "Select All";
+            this.btnSelecteAllAssemblies.UseVisualStyleBackColor = true;
+            this.btnSelecteAllAssemblies.Click += new System.EventHandler(this.btnSelecteAllAssemblies_Click);
             // 
             // label5
             // 
@@ -237,17 +323,16 @@
             this.clbAssemblyNodes.Size = new System.Drawing.Size(418, 109);
             this.clbAssemblyNodes.TabIndex = 0;
             // 
-            // FrmAdvancedAnalysis
+            // FrmFilterAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(478, 704);
+            this.ClientSize = new System.Drawing.Size(564, 683);
             this.Controls.Add(this.gbFilterByParent);
             this.Controls.Add(this.gbAnalysisLevel);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
-            this.Name = "FrmAdvancedAnalysis";
+            this.Name = "FrmFilterAnalysis";
             this.Text = "Options:";
             this.Load += new System.EventHandler(this.FrmOptions_Load);
             this.gbAnalysisLevel.ResumeLayout(false);
@@ -260,7 +345,6 @@
 
         #endregion
         private System.Windows.Forms.Button btnApply;
-        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.GroupBox gbFilterByParent;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -277,5 +361,13 @@
         protected System.Windows.Forms.RadioButton rbObjectMemberLevel;
         protected System.Windows.Forms.RadioButton rbAssemblyLevel;
         protected System.Windows.Forms.RadioButton rbNamespaceLevel;
+        private System.Windows.Forms.Button btnDeselectAllObjects;
+        private System.Windows.Forms.Button btnSelectAllObjects;
+        private System.Windows.Forms.Button btnDeselectAllClasses;
+        private System.Windows.Forms.Button btnSelectAllClasses;
+        private System.Windows.Forms.Button btnDeselectAllNamespaces;
+        private System.Windows.Forms.Button btnSelectAllNamespaces;
+        private System.Windows.Forms.Button btnDeselectAllAssemblies;
+        private System.Windows.Forms.Button btnSelecteAllAssemblies;
     }
 }
