@@ -17,7 +17,7 @@ namespace ReframeTools.GUI
         public FrmAssemblyAnalysisView(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
-            AnalysisController = new AssemblyAnalysisController(this);
+            AnalysisController = new AssemblyAnalysisController(this, new FrmFilterAssemblyAnalysis());
         }
 
         public override void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)

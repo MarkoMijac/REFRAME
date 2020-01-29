@@ -69,6 +69,12 @@
     <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmFilterAssemblyAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmFilterAssemblyAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterAssemblyAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmFilterClassAnalysis.cs">
       <SubType>Form</SubType>
     </Compile>
