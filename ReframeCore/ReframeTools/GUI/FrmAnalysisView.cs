@@ -49,33 +49,43 @@ namespace ReframeTools.GUI
             
         }
 
+        protected virtual AnalysisController CreateAnalysisController()
+        {
+            return null;
+        }
+
         protected virtual void showEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowEntireGraph();
         }
 
         protected virtual void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController.ShowSourceNodes();
+            CreateAnalysisController().ShowSourceNodes();
         }
 
         protected virtual void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSinkNodes();
         }
 
         protected virtual void showLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowLeafNodes();
         }
 
         protected virtual void showOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowOrphanNodes();
         }
 
         protected virtual void showIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowIntermediaryNodes();
         }
 
@@ -93,16 +103,19 @@ namespace ReframeTools.GUI
 
         private void showNodePredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowPredecessorNodes(GetSelectedNodeIdentifier());
         }
 
         private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSuccessorNodes(GetSelectedNodeIdentifier());
         }
 
         private void showNodesNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowNeighbourNodes(GetSelectedNodeIdentifier());
         }
 

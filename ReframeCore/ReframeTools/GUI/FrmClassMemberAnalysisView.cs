@@ -17,7 +17,6 @@ namespace ReframeTools.GUI
         public FrmClassMemberAnalysisView(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
-            AnalysisController = new ClassMemberAnalysisController(this, new FrmFilterClassMemberAnalysis());
         }
 
         public override void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)
@@ -62,6 +61,11 @@ namespace ReframeTools.GUI
                 dgvNodes.Columns.Add("colInDegree", "In Degree");
                 dgvNodes.Columns.Add("colOutDegree", "Out Degree");
             }
+        }
+
+        protected override AnalysisController CreateAnalysisController()
+        {
+            return new ClassMemberAnalysisController(this, new FrmFilterClassMemberAnalysis());
         }
     }
 }

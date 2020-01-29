@@ -17,7 +17,6 @@ namespace ReframeTools.GUI
         public FrmObjectAnalysisView(string reactorIdentifier) : base(reactorIdentifier)
         {
             InitializeComponent();
-            AnalysisController = new ObjectAnalysisController(this, new FrmFilterObjectAnalysis());
         }
 
         public override void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)
@@ -60,5 +59,9 @@ namespace ReframeTools.GUI
             }
         }
 
+        protected override AnalysisController CreateAnalysisController()
+        {
+            return new ObjectAnalysisController(this, new FrmFilterObjectAnalysis());
+        }
     }
 }
