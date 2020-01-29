@@ -47,7 +47,7 @@ namespace ReframeTools.GUI
 
             foreach (AssemblyAnalysisNode assemblyNode in assemblyNodes)
             {
-                bool checkedItem = classMemberFilter.SelectedAssemblyNodes.Exists(n => n.Identifier == assemblyNode.Identifier);
+                bool checkedItem = classMemberFilter.IsSelected(assemblyNode);
                 clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
             }
         }
@@ -59,7 +59,7 @@ namespace ReframeTools.GUI
             List<IAnalysisNode> namespaceNodes = classMemberFilter.GetAvailableNamespaceNodes();
             foreach (NamespaceAnalysisNode namespaceNode in namespaceNodes)
             {
-                bool checkedItem = classMemberFilter.SelectedNamespaceNodes.Exists(n => n.Identifier == namespaceNode.Identifier);
+                bool checkedItem = classMemberFilter.IsSelected(namespaceNode);
                 clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
             }
         }
@@ -74,7 +74,7 @@ namespace ReframeTools.GUI
             List<IAnalysisNode> classNodes = classMemberFilter.GetAvailableClassNodes(namespaceNode);
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                bool checkedItem = classMemberFilter.SelectedClassNodes.Exists(n => n != null &&  n.Identifier == classNode.Identifier);
+                bool checkedItem = classMemberFilter.IsSelected(classNode);
                 clbClassNodes.Items.Add(classNode, checkedItem);
             }
         }

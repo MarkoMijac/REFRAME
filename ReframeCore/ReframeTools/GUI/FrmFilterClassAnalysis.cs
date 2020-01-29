@@ -48,7 +48,7 @@ namespace ReframeTools.GUI
 
             foreach (AssemblyAnalysisNode assemblyNode in assemblyNodes)
             {
-                bool checkedItem = classFilter.ChosenAssemblyNodes.Exists(n => n.Identifier == assemblyNode.Identifier);
+                bool checkedItem = classFilter.IsSelected(assemblyNode);
                 clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
             }
         }
@@ -60,7 +60,7 @@ namespace ReframeTools.GUI
             List<IAnalysisNode> namespaceNodes = classFilter.GetAvailableNamespaceNodes();
             foreach (NamespaceAnalysisNode namespaceNode in namespaceNodes)
             {
-                bool checkedItem = classFilter.ChosenNamespaceNodes.Exists(n => n.Identifier == namespaceNode.Identifier);
+                bool checkedItem = classFilter.IsSelected(namespaceNode);
                 clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
             }
         }
@@ -72,11 +72,11 @@ namespace ReframeTools.GUI
             AssemblyAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as AssemblyAnalysisNode;
             if (e.NewValue == CheckState.Checked)
             {
-                classFilter.AddAssemblyNode(assemblyNode);
+                classFilter.SelectAssemblyNode(assemblyNode);
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                classFilter.RemoveAssemblyNode(assemblyNode);
+                classFilter.DeselectAssemblyNode(assemblyNode);
             }
         }
 
@@ -86,11 +86,11 @@ namespace ReframeTools.GUI
             NamespaceAnalysisNode namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
             if (e.NewValue == CheckState.Checked)
             {
-                classFilter.AddNamespaceNode(namespaceNode);
+                classFilter.SelectNamespaceNode(namespaceNode);
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                classFilter.RemoveNamespaceNode(namespaceNode);
+                classFilter.DeselectNamespaceNode(namespaceNode);
             }
         }
 

@@ -9,9 +9,6 @@ namespace ReframeAnalyzer.Filters
 {
     public class ClassAnalysisFilter : AnalysisFilter
     {
-        public List<IAnalysisNode> ChosenAssemblyNodes { get; set; } = new List<IAnalysisNode>();
-        public List<IAnalysisNode> ChosenNamespaceNodes { get; set; } = new List<IAnalysisNode>();        
-
         public ClassAnalysisFilter(IEnumerable<IAnalysisNode> originalNodes) : base(originalNodes)
         {
 
@@ -23,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ClassAnalysisNode classNode in OriginalNodes)
             {
-                if (ChosenAssemblyNodes.Exists(n => n.Identifier == classNode.OwnerAssembly.Identifier) && ChosenNamespaceNodes.Exists(n => n.Identifier == classNode.OwnerNamespace.Identifier))
+                if (IsSelected(classNode.OwnerAssembly) && IsSelected(classNode.OwnerNamespace))
                 {
                     filteredNodes.Add(classNode);
                 }
@@ -32,7 +29,7 @@ namespace ReframeAnalyzer.Filters
             return filteredNodes;
         }
 
-        public List<IAnalysisNode> GetAvailableAssemblyNodes()
+        public override List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
@@ -47,7 +44,7 @@ namespace ReframeAnalyzer.Filters
             return assemblyNodes;
         }
 
-        public List<IAnalysisNode> GetAvailableNamespaceNodes()
+        public override List<IAnalysisNode> GetAvailableNamespaceNodes()
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
@@ -60,26 +57,6 @@ namespace ReframeAnalyzer.Filters
             }
 
             return namespaceNodes;
-        }
-
-        public void AddAssemblyNode(AssemblyAnalysisNode node)
-        {
-            AddNode(ChosenAssemblyNodes, node);
-        }
-
-        public void RemoveAssemblyNode(AssemblyAnalysisNode node)
-        {
-            RemoveNode(ChosenAssemblyNodes, node);
-        }
-
-        public void AddNamespaceNode(NamespaceAnalysisNode node)
-        {
-            AddNode(ChosenNamespaceNodes, node);
-        }
-
-        public void RemoveNamespaceNode(NamespaceAnalysisNode node)
-        {
-            RemoveNode(ChosenNamespaceNodes, node);
         }
     }
 }
