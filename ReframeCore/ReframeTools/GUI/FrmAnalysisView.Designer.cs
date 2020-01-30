@@ -32,7 +32,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.generalAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showEntireGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.showSourceNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSinkNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +79,6 @@
             this.generalAnalysesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.generalAnalysesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showEntireGraphToolStripMenuItem,
-            this.toolStripSeparator1,
             this.showSourceNodesToolStripMenuItem,
             this.showSinkNodesToolStripMenuItem,
             this.showLeafNodesToolStripMenuItem,
@@ -92,18 +90,15 @@
             // 
             // showEntireGraphToolStripMenuItem
             // 
+            this.showEntireGraphToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showEntireGraphToolStripMenuItem.Name = "showEntireGraphToolStripMenuItem";
             this.showEntireGraphToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showEntireGraphToolStripMenuItem.Text = "Show entire graph";
+            this.showEntireGraphToolStripMenuItem.Text = "Show graph...";
             this.showEntireGraphToolStripMenuItem.Click += new System.EventHandler(this.showEntireGraphToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(205, 6);
             // 
             // showSourceNodesToolStripMenuItem
             // 
+            this.showSourceNodesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showSourceNodesToolStripMenuItem.Name = "showSourceNodesToolStripMenuItem";
             this.showSourceNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.showSourceNodesToolStripMenuItem.Text = "Show source nodes";
@@ -111,6 +106,7 @@
             // 
             // showSinkNodesToolStripMenuItem
             // 
+            this.showSinkNodesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showSinkNodesToolStripMenuItem.Name = "showSinkNodesToolStripMenuItem";
             this.showSinkNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.showSinkNodesToolStripMenuItem.Text = "Show sink nodes";
@@ -118,6 +114,7 @@
             // 
             // showLeafNodesToolStripMenuItem
             // 
+            this.showLeafNodesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showLeafNodesToolStripMenuItem.Name = "showLeafNodesToolStripMenuItem";
             this.showLeafNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.showLeafNodesToolStripMenuItem.Text = "Show leaf nodes";
@@ -125,6 +122,7 @@
             // 
             // showOrphanNodesToolStripMenuItem
             // 
+            this.showOrphanNodesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showOrphanNodesToolStripMenuItem.Name = "showOrphanNodesToolStripMenuItem";
             this.showOrphanNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.showOrphanNodesToolStripMenuItem.Text = "Show orphan nodes";
@@ -132,6 +130,7 @@
             // 
             // showIntermediaryNodesToolStripMenuItem
             // 
+            this.showIntermediaryNodesToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showIntermediaryNodesToolStripMenuItem.Name = "showIntermediaryNodesToolStripMenuItem";
             this.showIntermediaryNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.showIntermediaryNodesToolStripMenuItem.Text = "Show intermediary nodes";
@@ -150,6 +149,7 @@
             // 
             // showNodePredecessorsToolStripMenuItem
             // 
+            this.showNodePredecessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodePredecessorsToolStripMenuItem.Name = "showNodePredecessorsToolStripMenuItem";
             this.showNodePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.showNodePredecessorsToolStripMenuItem.Text = "Show node\'s predecessors";
@@ -157,6 +157,7 @@
             // 
             // showSuccessorsToolStripMenuItem
             // 
+            this.showSuccessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showSuccessorsToolStripMenuItem.Name = "showSuccessorsToolStripMenuItem";
             this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.showSuccessorsToolStripMenuItem.Text = "Show node\'s successors";
@@ -164,6 +165,7 @@
             // 
             // showNodesNeighboursToolStripMenuItem
             // 
+            this.showNodesNeighboursToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodesNeighboursToolStripMenuItem.Name = "showNodesNeighboursToolStripMenuItem";
             this.showNodesNeighboursToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.showNodesNeighboursToolStripMenuItem.Text = "Show node\'s neighbours";
@@ -172,12 +174,14 @@
             // btnVisualize
             // 
             this.btnVisualize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVisualize.Location = new System.Drawing.Point(597, 383);
+            this.btnVisualize.BackColor = System.Drawing.Color.LightCoral;
+            this.btnVisualize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVisualize.Location = new System.Drawing.Point(576, 383);
             this.btnVisualize.Name = "btnVisualize";
-            this.btnVisualize.Size = new System.Drawing.Size(75, 23);
+            this.btnVisualize.Size = new System.Drawing.Size(96, 23);
             this.btnVisualize.TabIndex = 3;
             this.btnVisualize.Text = "Visualize...";
-            this.btnVisualize.UseVisualStyleBackColor = true;
+            this.btnVisualize.UseVisualStyleBackColor = false;
             this.btnVisualize.Click += new System.EventHandler(this.btnVisualize_Click);
             // 
             // FrmAnalysisView
@@ -205,7 +209,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem generalAnalysesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showEntireGraphToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem showSourceNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showSinkNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showLeafNodesToolStripMenuItem;

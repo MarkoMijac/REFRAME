@@ -37,7 +37,6 @@
             this.classlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.assemblylevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,14 +77,14 @@
             this.classMemberlevelAnalysisToolStripMenuItem,
             this.classlevelAnalysisToolStripMenuItem,
             this.assemblylevelAnalysisToolStripMenuItem,
-            this.namespacelevelAnalysisToolStripMenuItem,
-            this.toolStripSeparator1});
+            this.namespacelevelAnalysisToolStripMenuItem});
             this.chooseAnalysislevelToolStripMenuItem.Name = "chooseAnalysislevelToolStripMenuItem";
             this.chooseAnalysislevelToolStripMenuItem.Size = new System.Drawing.Size(132, 20);
             this.chooseAnalysislevelToolStripMenuItem.Text = "Choose analysis-level";
             // 
             // objectMemberlevelAnalysisToolStripMenuItem
             // 
+            this.objectMemberlevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.objectMemberlevelAnalysisToolStripMenuItem.Name = "objectMemberlevelAnalysisToolStripMenuItem";
             this.objectMemberlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.objectMemberlevelAnalysisToolStripMenuItem.Text = "ObjectMember-level analysis";
@@ -93,6 +92,7 @@
             // 
             // objectlevelAnalysisToolStripMenuItem
             // 
+            this.objectlevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.objectlevelAnalysisToolStripMenuItem.Name = "objectlevelAnalysisToolStripMenuItem";
             this.objectlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.objectlevelAnalysisToolStripMenuItem.Text = "Object-level analysis";
@@ -100,6 +100,7 @@
             // 
             // classMemberlevelAnalysisToolStripMenuItem
             // 
+            this.classMemberlevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.classMemberlevelAnalysisToolStripMenuItem.Name = "classMemberlevelAnalysisToolStripMenuItem";
             this.classMemberlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.classMemberlevelAnalysisToolStripMenuItem.Text = "ClassMember-level analysis";
@@ -107,6 +108,7 @@
             // 
             // classlevelAnalysisToolStripMenuItem
             // 
+            this.classlevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.classlevelAnalysisToolStripMenuItem.Name = "classlevelAnalysisToolStripMenuItem";
             this.classlevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.classlevelAnalysisToolStripMenuItem.Text = "Class-level analysis";
@@ -114,6 +116,7 @@
             // 
             // assemblylevelAnalysisToolStripMenuItem
             // 
+            this.assemblylevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.assemblylevelAnalysisToolStripMenuItem.Name = "assemblylevelAnalysisToolStripMenuItem";
             this.assemblylevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.assemblylevelAnalysisToolStripMenuItem.Text = "Assembly-level analysis";
@@ -121,15 +124,11 @@
             // 
             // namespacelevelAnalysisToolStripMenuItem
             // 
+            this.namespacelevelAnalysisToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.namespacelevelAnalysisToolStripMenuItem.Name = "namespacelevelAnalysisToolStripMenuItem";
             this.namespacelevelAnalysisToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.namespacelevelAnalysisToolStripMenuItem.Text = "Namespace-level analysis";
             this.namespacelevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.namespacelevelAnalysisToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
             // 
             // FrmRegisteredReactors
             // 
@@ -162,6 +161,5 @@
         private System.Windows.Forms.ToolStripMenuItem classlevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem assemblylevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

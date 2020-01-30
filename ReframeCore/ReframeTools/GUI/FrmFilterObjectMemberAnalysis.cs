@@ -33,13 +33,12 @@ namespace ReframeTools.GUI
             MakeAssemblyNodesVisible(true);
             MakeNamespaceNodesVisible(true);
             MakeClassNodesVisible(true);
+            EnableClassNodes(false);
             MakeObjectNodesVisible(true);
+            EnableObjectNodes(false);
 
             int offset = 0;
-
-            gbFilterByParent.Size = new Size(gbFilterByParent.Size.Width, gbFilterByParent.Size.Height - offset);
-            btnApply.Location = new Point(btnApply.Location.X, btnApply.Location.Y - offset);
-            this.Size = new Size(this.Size.Width, this.Size.Height - offset);
+            AdjustFormSize(offset);
         }
 
         protected override void LoadNodes()

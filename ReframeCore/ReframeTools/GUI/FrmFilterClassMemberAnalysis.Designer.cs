@@ -29,20 +29,12 @@
         private void InitializeComponent()
         {
             this.gbAnalysisLevel.SuspendLayout();
+            this.gbFilterByParent.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // clbClassNodes
-            // 
-            this.clbClassNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbClassNodes_ItemCheck);
             // 
             // clbNamespaceNodes
             // 
             this.clbNamespaceNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbNamespaceNodes_ItemCheck);
-            this.clbNamespaceNodes.SelectedIndexChanged += new System.EventHandler(this.clbNamespaceNodes_SelectedIndexChanged);
-            // 
-            // clbAssemblyNodes
-            // 
-            this.clbAssemblyNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbAssemblyNodes_ItemCheck);
             // 
             // FrmFilterClassMemberAnalysis
             // 
@@ -50,9 +42,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 701);
             this.Name = "FrmFilterClassMemberAnalysis";
-            this.Text = "FrmFilterClassMemberAnalysis";
+            this.Text = "Filter:";
             this.gbAnalysisLevel.ResumeLayout(false);
             this.gbAnalysisLevel.PerformLayout();
+            this.gbFilterByParent.ResumeLayout(false);
+            this.gbFilterByParent.PerformLayout();
             this.ResumeLayout(false);
 
         }

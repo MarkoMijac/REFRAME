@@ -133,6 +133,15 @@ namespace ReframeTools.GUI
             LoadNodes();
         }
 
+        protected void AdjustFormSize(int verticalOffset)
+        {
+            if (verticalOffset == 0) return;
+
+            gbFilterByParent.Size = new Size(gbFilterByParent.Size.Width, gbFilterByParent.Size.Height - verticalOffset);
+            btnApply.Location = new Point(btnApply.Location.X, btnApply.Location.Y - verticalOffset);
+            this.Size = new Size(this.Size.Width, this.Size.Height - verticalOffset);
+        }
+
         protected virtual void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
             Filter.SelectAllAssemblyNodes();
@@ -278,17 +287,16 @@ namespace ReframeTools.GUI
             var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
             LoadObjectNodes(classNode);
             EnableObjectNodes(Filter.IsSelected(classNode));
-
         }
 
-        private void EnableClassNodes(bool enable)
+        protected void EnableClassNodes(bool enable)
         {
             clbClassNodes.Enabled = enable;
             btnSelectAllClasses.Enabled = enable;
             btnDeselectAllClasses.Enabled = enable;
         }
 
-        private void EnableObjectNodes(bool enable)
+        protected void EnableObjectNodes(bool enable)
         {
             clbObjectNodes.Enabled = enable;
             btnSelectAllObjects.Enabled = enable;

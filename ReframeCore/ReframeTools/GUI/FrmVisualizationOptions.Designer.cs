@@ -39,7 +39,7 @@
             this.cmbGroupLevel.FormattingEnabled = true;
             this.cmbGroupLevel.Location = new System.Drawing.Point(91, 12);
             this.cmbGroupLevel.Name = "cmbGroupLevel";
-            this.cmbGroupLevel.Size = new System.Drawing.Size(121, 21);
+            this.cmbGroupLevel.Size = new System.Drawing.Size(188, 21);
             this.cmbGroupLevel.TabIndex = 3;
             // 
             // label1
@@ -53,21 +53,25 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(357, 325);
+            this.btnCancel.BackColor = System.Drawing.Color.Salmon;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Location = new System.Drawing.Point(204, 39);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(276, 325);
+            this.btnApply.BackColor = System.Drawing.Color.Salmon;
+            this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApply.Location = new System.Drawing.Point(123, 39);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 4;
             this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.UseVisualStyleBackColor = false;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // FrmVisualizationOptions
@@ -75,7 +79,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(444, 360);
+            this.ClientSize = new System.Drawing.Size(290, 72);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.cmbGroupLevel);

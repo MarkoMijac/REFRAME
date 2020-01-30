@@ -284,6 +284,9 @@
     <EmbeddedResource Include="GUI\FrmAssemblyAnalysisView.resx">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterAssemblyAnalysis.resx">
+      <DependentUpon>FrmFilterAssemblyAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmFilterClassAnalysis.resx">
       <DependentUpon>FrmFilterClassAnalysis.cs</DependentUpon>
     </EmbeddedResource>
@@ -298,6 +301,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmFilterClassMemberAnalysis.resx">
       <DependentUpon>FrmFilterClassMemberAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterNamespaceAnalysis.resx">
+      <DependentUpon>FrmFilterNamespaceAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterObjectAnalysis.resx">
+      <DependentUpon>FrmFilterObjectAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterObjectMemberAnalysis.resx">
+      <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmNamespaceAnalysisView.resx">
       <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>

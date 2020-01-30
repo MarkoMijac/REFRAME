@@ -28,9 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.gbAnalysisLevel.SuspendLayout();
+            this.gbFilterByParent.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // FrmFilterObjectAnalysis
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "FrmFilterObjectAnalysis";
+            this.ClientSize = new System.Drawing.Size(564, 683);
+            this.Name = "FrmFilterObjectAnalysis";
+            this.Text = "Filter:";
+            this.gbAnalysisLevel.ResumeLayout(false);
+            this.gbAnalysisLevel.PerformLayout();
+            this.gbFilterByParent.ResumeLayout(false);
+            this.gbFilterByParent.PerformLayout();
+            this.ResumeLayout(false);
+
         }
 
         #endregion

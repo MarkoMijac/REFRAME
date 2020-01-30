@@ -29,15 +29,12 @@
         private void InitializeComponent()
         {
             this.gbAnalysisLevel.SuspendLayout();
+            this.gbFilterByParent.SuspendLayout();
             this.SuspendLayout();
             // 
             // clbNamespaceNodes
             // 
             this.clbNamespaceNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbNamespaceNodes_ItemCheck);
-            // 
-            // clbAssemblyNodes
-            // 
-            this.clbAssemblyNodes.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbAssemblyNodes_ItemCheck);
             // 
             // FrmFilterClassAnalysis
             // 
@@ -45,9 +42,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 701);
             this.Name = "FrmFilterClassAnalysis";
-            this.Text = "Filter analysis";
+            this.Text = "Filter:";
             this.gbAnalysisLevel.ResumeLayout(false);
             this.gbAnalysisLevel.PerformLayout();
+            this.gbFilterByParent.ResumeLayout(false);
+            this.gbFilterByParent.PerformLayout();
             this.ResumeLayout(false);
 
         }

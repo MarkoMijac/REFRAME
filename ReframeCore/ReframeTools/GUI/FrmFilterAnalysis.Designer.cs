@@ -59,12 +59,14 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(209, 654);
+            this.btnApply.BackColor = System.Drawing.Color.LightCoral;
+            this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApply.Location = new System.Drawing.Point(448, 654);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(102, 23);
             this.btnApply.TabIndex = 2;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Text = "OK";
+            this.btnApply.UseVisualStyleBackColor = false;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // gbAnalysisLevel
@@ -173,82 +175,98 @@
             // 
             // btnDeselectAllObjects
             // 
+            this.btnDeselectAllObjects.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeselectAllObjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeselectAllObjects.Location = new System.Drawing.Point(444, 472);
             this.btnDeselectAllObjects.Name = "btnDeselectAllObjects";
             this.btnDeselectAllObjects.Size = new System.Drawing.Size(75, 23);
             this.btnDeselectAllObjects.TabIndex = 15;
             this.btnDeselectAllObjects.Text = "Deselect All";
-            this.btnDeselectAllObjects.UseVisualStyleBackColor = true;
+            this.btnDeselectAllObjects.UseVisualStyleBackColor = false;
             this.btnDeselectAllObjects.Click += new System.EventHandler(this.btnDeselectAllObjects_Click);
             // 
             // btnSelectAllObjects
             // 
+            this.btnSelectAllObjects.BackColor = System.Drawing.Color.LightCoral;
+            this.btnSelectAllObjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelectAllObjects.Location = new System.Drawing.Point(444, 443);
             this.btnSelectAllObjects.Name = "btnSelectAllObjects";
             this.btnSelectAllObjects.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAllObjects.TabIndex = 14;
             this.btnSelectAllObjects.Text = "Select All";
-            this.btnSelectAllObjects.UseVisualStyleBackColor = true;
+            this.btnSelectAllObjects.UseVisualStyleBackColor = false;
             this.btnSelectAllObjects.Click += new System.EventHandler(this.btnSelectAllObjects_Click);
             // 
             // btnDeselectAllClasses
             // 
+            this.btnDeselectAllClasses.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeselectAllClasses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeselectAllClasses.Location = new System.Drawing.Point(444, 339);
             this.btnDeselectAllClasses.Name = "btnDeselectAllClasses";
             this.btnDeselectAllClasses.Size = new System.Drawing.Size(75, 23);
             this.btnDeselectAllClasses.TabIndex = 13;
             this.btnDeselectAllClasses.Text = "Deselect All";
-            this.btnDeselectAllClasses.UseVisualStyleBackColor = true;
+            this.btnDeselectAllClasses.UseVisualStyleBackColor = false;
             this.btnDeselectAllClasses.Click += new System.EventHandler(this.btnDeselectAllClasses_Click);
             // 
             // btnSelectAllClasses
             // 
+            this.btnSelectAllClasses.BackColor = System.Drawing.Color.LightCoral;
+            this.btnSelectAllClasses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelectAllClasses.Location = new System.Drawing.Point(444, 310);
             this.btnSelectAllClasses.Name = "btnSelectAllClasses";
             this.btnSelectAllClasses.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAllClasses.TabIndex = 12;
             this.btnSelectAllClasses.Text = "Select All";
-            this.btnSelectAllClasses.UseVisualStyleBackColor = true;
+            this.btnSelectAllClasses.UseVisualStyleBackColor = false;
             this.btnSelectAllClasses.Click += new System.EventHandler(this.btnSelectAllClasses_Click);
             // 
             // btnDeselectAllNamespaces
             // 
+            this.btnDeselectAllNamespaces.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeselectAllNamespaces.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeselectAllNamespaces.Location = new System.Drawing.Point(444, 204);
             this.btnDeselectAllNamespaces.Name = "btnDeselectAllNamespaces";
             this.btnDeselectAllNamespaces.Size = new System.Drawing.Size(75, 23);
             this.btnDeselectAllNamespaces.TabIndex = 11;
             this.btnDeselectAllNamespaces.Text = "Deselect All";
-            this.btnDeselectAllNamespaces.UseVisualStyleBackColor = true;
+            this.btnDeselectAllNamespaces.UseVisualStyleBackColor = false;
             this.btnDeselectAllNamespaces.Click += new System.EventHandler(this.btnDeselectAllNamespaces_Click);
             // 
             // btnSelectAllNamespaces
             // 
+            this.btnSelectAllNamespaces.BackColor = System.Drawing.Color.LightCoral;
+            this.btnSelectAllNamespaces.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelectAllNamespaces.Location = new System.Drawing.Point(444, 175);
             this.btnSelectAllNamespaces.Name = "btnSelectAllNamespaces";
             this.btnSelectAllNamespaces.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAllNamespaces.TabIndex = 10;
             this.btnSelectAllNamespaces.Text = "Select All";
-            this.btnSelectAllNamespaces.UseVisualStyleBackColor = true;
+            this.btnSelectAllNamespaces.UseVisualStyleBackColor = false;
             this.btnSelectAllNamespaces.Click += new System.EventHandler(this.btnSelectAllNamespaces_Click);
             // 
             // btnDeselectAllAssemblies
             // 
+            this.btnDeselectAllAssemblies.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDeselectAllAssemblies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeselectAllAssemblies.Location = new System.Drawing.Point(444, 64);
             this.btnDeselectAllAssemblies.Name = "btnDeselectAllAssemblies";
             this.btnDeselectAllAssemblies.Size = new System.Drawing.Size(75, 23);
             this.btnDeselectAllAssemblies.TabIndex = 9;
             this.btnDeselectAllAssemblies.Text = "Deselect All";
-            this.btnDeselectAllAssemblies.UseVisualStyleBackColor = true;
+            this.btnDeselectAllAssemblies.UseVisualStyleBackColor = false;
             this.btnDeselectAllAssemblies.Click += new System.EventHandler(this.btnDeselectAllAssemblies_Click);
             // 
             // btnSelecteAllAssemblies
             // 
+            this.btnSelecteAllAssemblies.BackColor = System.Drawing.Color.LightCoral;
+            this.btnSelecteAllAssemblies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelecteAllAssemblies.Location = new System.Drawing.Point(444, 35);
             this.btnSelecteAllAssemblies.Name = "btnSelecteAllAssemblies";
             this.btnSelecteAllAssemblies.Size = new System.Drawing.Size(75, 23);
             this.btnSelecteAllAssemblies.TabIndex = 8;
             this.btnSelecteAllAssemblies.Text = "Select All";
-            this.btnSelecteAllAssemblies.UseVisualStyleBackColor = true;
+            this.btnSelecteAllAssemblies.UseVisualStyleBackColor = false;
             this.btnSelecteAllAssemblies.Click += new System.EventHandler(this.btnSelecteAllAssemblies_Click);
             // 
             // lblObjectNodes

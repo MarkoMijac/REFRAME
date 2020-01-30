@@ -16,12 +16,10 @@ namespace ReframeTools.Controllers
     public class VisualizationController
     {
         protected FrmAnalysisView View { get; set; }
-        protected FrmVisualizationOptions FrmOptions { get; set; }
 
-        public VisualizationController(FrmAnalysisView view, FrmVisualizationOptions frmOptions = null)
+        public VisualizationController(FrmAnalysisView view)
         {
             View = view;
-            FrmOptions = frmOptions;
         }
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
@@ -42,11 +40,9 @@ namespace ReframeTools.Controllers
             {
                 var factory = new VisualGraphFactory();
                 var visualGraph = factory.CreateGraph(analysisNodes, analysisGraph.AnalysisLevel);
-                if (FrmOptions != null)
-                {
-                    FrmOptions.VisualGraph = visualGraph;
-                    FrmOptions.ShowDialog();
-                }
+
+                var formOptions = new FrmVisualizationOptions(visualGraph);
+                formOptions.ShowDialog();
 
                 ShowGraph(visualGraph, "");
             }

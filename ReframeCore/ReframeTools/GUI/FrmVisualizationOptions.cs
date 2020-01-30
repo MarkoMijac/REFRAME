@@ -15,9 +15,10 @@ namespace ReframeTools.GUI
     {
         public IVisualGraph VisualGraph { get; set; }
 
-        public FrmVisualizationOptions()
+        public FrmVisualizationOptions(IVisualGraph visualGraph)
         {
             InitializeComponent();
+            VisualGraph = visualGraph;
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -34,6 +35,8 @@ namespace ReframeTools.GUI
             {
                 cmbGroupLevel.Items.Add(level);
             }
+
+            cmbGroupLevel.SelectedIndex = 0;
         }
 
         private GroupingLevel DetermineGroupingLevel()

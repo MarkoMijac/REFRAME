@@ -31,15 +31,15 @@ namespace ReframeTools.GUI
         {
             base.HandleCheckListsVisibility();
             MakeAssemblyNodesVisible(true);
+            
             MakeNamespaceNodesVisible(false);
             MakeClassNodesVisible(false);
+            EnableClassNodes(false);
             MakeObjectNodesVisible(false);
+            EnableObjectNodes(false);
 
             int offset = 130 * 3;
-
-            gbFilterByParent.Size = new Size(gbFilterByParent.Size.Width, gbFilterByParent.Size.Height - offset);
-            btnApply.Location = new Point(btnApply.Location.X, btnApply.Location.Y - offset);
-            this.Size = new Size(this.Size.Width, this.Size.Height - offset);
+            AdjustFormSize(offset);
         }
 
         protected override void LoadNodes()
