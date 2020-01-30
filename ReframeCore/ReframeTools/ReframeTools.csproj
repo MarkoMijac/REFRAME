@@ -153,6 +153,12 @@
     <Compile Include="GUI\FrmRegisteredReactors.Designer.cs">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmMaxDepthLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmMaxDepthLevel.Designer.cs">
+      <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmVisualizationOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmMaxDepthLevel.resx">
+      <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmVisualizationOptions.resx">
       <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>

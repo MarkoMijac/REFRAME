@@ -36,6 +36,12 @@ namespace ReframeTools.Controllers
 
         public void Visualize(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> analysisNodes)
         {
+            if (analysisNodes == null || analysisNodes.Count() == 0)
+            {
+                MessageBox.Show($"No nodes available for visualization!");
+                return;
+            }
+
             try
             {
                 var factory = new VisualGraphFactory();

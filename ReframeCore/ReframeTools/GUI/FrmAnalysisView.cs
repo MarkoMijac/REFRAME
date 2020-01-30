@@ -37,11 +37,18 @@ namespace ReframeTools.GUI
         private void FrmObjectMemberAnalysis_Load(object sender, EventArgs e)
         {
             SetFormTitle();
+
+            bool notEmtpy = dgvNodes.SelectedRows.Count > 0;
+            generalNodeAnalysisToolStripMenuItem.Enabled = notEmtpy;
+            btnVisualize.Enabled = notEmtpy;
         }
 
         public virtual void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)
         {
             dgvNodes.Rows.Clear();
+            bool notEmtpy = nodes.Count() > 0;
+            generalNodeAnalysisToolStripMenuItem.Enabled = notEmtpy;
+            btnVisualize.Enabled = notEmtpy;
         }
 
         protected virtual void AddColumns()

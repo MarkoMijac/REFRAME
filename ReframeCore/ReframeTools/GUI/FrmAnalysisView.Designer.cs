@@ -151,24 +151,24 @@
             // 
             this.showNodePredecessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodePredecessorsToolStripMenuItem.Name = "showNodePredecessorsToolStripMenuItem";
-            this.showNodePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.showNodePredecessorsToolStripMenuItem.Text = "Show node\'s predecessors";
+            this.showNodePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.showNodePredecessorsToolStripMenuItem.Text = "Show node\'s predecessors...";
             this.showNodePredecessorsToolStripMenuItem.Click += new System.EventHandler(this.showNodePredecessorsToolStripMenuItem_Click);
             // 
             // showSuccessorsToolStripMenuItem
             // 
             this.showSuccessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showSuccessorsToolStripMenuItem.Name = "showSuccessorsToolStripMenuItem";
-            this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.showSuccessorsToolStripMenuItem.Text = "Show node\'s successors";
+            this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.showSuccessorsToolStripMenuItem.Text = "Show node\'s successors...";
             this.showSuccessorsToolStripMenuItem.Click += new System.EventHandler(this.showSuccessorsToolStripMenuItem_Click);
             // 
             // showNodesNeighboursToolStripMenuItem
             // 
             this.showNodesNeighboursToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodesNeighboursToolStripMenuItem.Name = "showNodesNeighboursToolStripMenuItem";
-            this.showNodesNeighboursToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.showNodesNeighboursToolStripMenuItem.Text = "Show node\'s neighbours";
+            this.showNodesNeighboursToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.showNodesNeighboursToolStripMenuItem.Text = "Show node\'s neighbours...";
             this.showNodesNeighboursToolStripMenuItem.Click += new System.EventHandler(this.showNodesNeighboursToolStripMenuItem_Click);
             // 
             // btnVisualize

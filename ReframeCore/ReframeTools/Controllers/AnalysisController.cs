@@ -32,7 +32,7 @@ namespace ReframeTools.Controllers
             AnalysisGraph = GraphFactory.CreateGraph(xmlSource, analysisLevel);
         }
 
-        protected virtual void ShowGraph(IEnumerable<IAnalysisNode> nodes, string analysisDescription)
+        protected virtual void ShowGraph(IEnumerable<IAnalysisNode> nodes)
         {
             if (View != null)
             {
@@ -59,13 +59,13 @@ namespace ReframeTools.Controllers
             return filteredNodes;
         }
 
-        public virtual void ShowEntireGraph(string description = "")
+        public virtual void ShowEntireGraph()
         {
             try
             {
                 var originalNodes = AnalysisGraph.Nodes;
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -73,13 +73,13 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public virtual void ShowSourceNodes(string description = "")
+        public virtual void ShowSourceNodes()
         {
             try
             {
                 var originalNodes = Analyzer.GetSourceNodes(AnalysisGraph);
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -87,13 +87,13 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSinkNodes(string description = "")
+        public void ShowSinkNodes()
         {
             try
             {
                 var originalNodes = Analyzer.GetSinkNodes(AnalysisGraph);
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -101,13 +101,13 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowLeafNodes(string description = "")
+        public void ShowLeafNodes()
         {
             try
             {
                 var originalNodes = Analyzer.GetLeafNodes(AnalysisGraph);
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -115,13 +115,13 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowOrphanNodes(string description = "")
+        public void ShowOrphanNodes()
         {
             try
             {
                 var originalNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -129,13 +129,13 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowIntermediaryNodes(string description = "")
+        public void ShowIntermediaryNodes()
         {
             try
             {
                 var originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
                 AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes, description);
+                ShowGraph(AnalysisNodes);
             }
             catch (Exception e)
             {
@@ -143,15 +143,25 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowPredecessorNodes(string nodeIdentifier, string description = "")
+        public void ShowPredecessorNodes(string nodeIdentifier)
         {
             try
             {
                 if (nodeIdentifier != "")
                 {
-                    var originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
+                    IEnumerable<IAnalysisNode> originalNodes;
+
+                    int maxDepth = GetMaxDepth();
+                    if (maxDepth == 0)
+                    {
+                        originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
+                    }
+                    else
+                    {
+                        originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier, maxDepth);
+                    }
                     AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes, description);
+                    ShowGraph(AnalysisNodes);
                 }
             }
             catch (Exception e)
@@ -160,15 +170,32 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSuccessorNodes(string nodeIdentifier, string description = "")
+        private int GetMaxDepth()
+        {
+            var depthForm = new FrmMaxDepthLevel();
+            depthForm.ShowDialog();
+
+            return depthForm.MaxDepthLevel;
+        }
+
+        public void ShowSuccessorNodes(string nodeIdentifier)
         {
             try
             {
                 if (nodeIdentifier != "")
                 {
-                    var originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
+                    IEnumerable<IAnalysisNode> originalNodes;
+                    int maxDepth = GetMaxDepth();
+                    if (maxDepth == 0)
+                    {
+                        originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
+                    }
+                    else
+                    {
+                        originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier, maxDepth);
+                    }
                     AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes, description);
+                    ShowGraph(AnalysisNodes);
                 }
             }
             catch (Exception e)
@@ -177,15 +204,25 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowNeighbourNodes(string nodeIdentifier, string description = "")
+        public void ShowNeighbourNodes(string nodeIdentifier)
         {
             try
             {
                 if (nodeIdentifier != "")
                 {
-                    var originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
+                    IEnumerable<IAnalysisNode> originalNodes;
+                    int maxDepth = GetMaxDepth();
+                    if (maxDepth == 0)
+                    {
+                        originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
+                    }
+                    else
+                    {
+                        originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier, maxDepth);
+                    }
+                    
                     AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes, description);
+                    ShowGraph(AnalysisNodes);
                 }
             }
             catch (Exception e)
