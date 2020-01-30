@@ -14,7 +14,7 @@ namespace ReframeAnalyzer.Graph
         public ObjectAnalysisNode(XElement xNode)
         {
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
-            Name = Identifier.ToString();
+            Name = xNode.Element("Name").Value;
 
             OwnerClass = new ClassAnalysisNode(xNode.Element("OwnerClass"));
         }

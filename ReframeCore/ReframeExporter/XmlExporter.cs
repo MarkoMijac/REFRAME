@@ -171,6 +171,10 @@ namespace ReframeExporter
             xmlWriter.WriteString(objectIdentifier.ToString());
             xmlWriter.WriteEndElement();
 
+            xmlWriter.WriteStartElement("Name");
+            xmlWriter.WriteString(ownerObject.ToString());
+            xmlWriter.WriteEndElement();
+
             WriteClassDetails(ownerObject.GetType(), xmlWriter);
 
             xmlWriter.WriteEndElement();

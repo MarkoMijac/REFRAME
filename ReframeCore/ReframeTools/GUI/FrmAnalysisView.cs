@@ -69,7 +69,8 @@ namespace ReframeTools.GUI
 
         protected virtual void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateAnalysisController().ShowSourceNodes();
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowSourceNodes();
         }
 
         protected virtual void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)

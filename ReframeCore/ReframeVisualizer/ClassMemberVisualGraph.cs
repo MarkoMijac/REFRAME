@@ -138,11 +138,14 @@ namespace ReframeVisualizer
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
             foreach (ClassMemberAnalysisNode node in _analysisNodes)
             {
-                GraphNode classMemberNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
+                string label = $"[{node.OwnerClass.Name}].{node.Name}";
+                GraphNode classMemberNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), label, null);
                 classMemberNode.SetValue("Name", node.Name);
                 classMemberNode.SetValue("NodeType", node.NodeType);
                 classMemberNode.SetValue("ClassIdentifier", node.OwnerClass.Identifier);
                 classMemberNode.SetValue("ClassName", node.OwnerClass.Name);
+                classMemberNode.SetValue("Namespace", node.OwnerClass.OwnerNamespace.Name);
+                classMemberNode.SetValue("Assembly", node.OwnerClass.OwnerAssembly.Name);
                 classMemberNode.SetValue("Degree", node.Degree);
                 classMemberNode.SetValue("InDegree", node.InDegree);
                 classMemberNode.SetValue("OutDegree", node.OutDegree);
