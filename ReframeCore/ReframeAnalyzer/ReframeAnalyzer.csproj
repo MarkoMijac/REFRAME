@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -40,11 +46,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\AnalysisFilter.cs" />
     <Compile Include="Analyzer.cs" />
-    <Compile Include="AnalyzerRouter.cs" />
+    <Compile Include="Exceptions\AnalyzerException.cs" />
+    <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
+    <Compile Include="Filters\ClassAnalysisFilter.cs" />
+    <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
+    <Compile Include="Filters\NamespaceAnalysisFilter.cs" />
+    <Compile Include="Filters\ObjectAnalysisFilter.cs" />
+    <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
+    <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
+    <Compile Include="Graph\AssemblyAnalysisNode.cs" />
+    <Compile Include="Graph\ClassAnalysisGraph.cs" />
+    <Compile Include="Graph\ClassMemberAnalysisGraph.cs" />
+    <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
+    <Compile Include="Graph\AnalysisGraphFactory.cs" />
+    <Compile Include="Graph\IAnalysisGraph.cs" />
+    <Compile Include="Graph\IAnalysisNode.cs" />
+    <Compile Include="Graph\AnalysisNode.cs" />
+    <Compile Include="Graph\ClassAnalysisNode.cs" />
+    <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
+    <Compile Include="Graph\NamespaceAnalysisNode.cs" />
+    <Compile Include="Graph\ObjectAnalysisGraph.cs" />
+    <Compile Include="Graph\ObjectAnalysisNode.cs" />
+    <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
+    <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
+    <Compile Include="Filters\IAnalysisFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticNode.cs" />
-    <Compile Include="XmlExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IPCServer\IPCServer.csproj">
@@ -55,6 +84,13 @@
       <Project>{f81ad39a-aab0-4ae0-babd-89ba79e945ed}</Project>
       <Name>ReframeCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
+      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
+      <Name>ReframeExporter</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

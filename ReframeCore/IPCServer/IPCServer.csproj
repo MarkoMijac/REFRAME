@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,10 +47,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandRouter.cs" />
+    <Compile Include="CoreRouter.cs" />
     <Compile Include="ICommandRouter.cs" />
     <Compile Include="PipeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamString.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
+      <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
+      <Name>ReframeCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
+      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
+      <Name>ReframeExporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

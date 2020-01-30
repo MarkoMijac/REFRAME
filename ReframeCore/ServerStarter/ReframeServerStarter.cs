@@ -1,5 +1,6 @@
 ﻿using IPCServer;
 using ReframeAnalyzer;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

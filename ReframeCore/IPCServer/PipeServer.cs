@@ -19,6 +19,11 @@ namespace IPCServer
         private static Thread server = null;
         private static bool continueListening = true;
 
+        static PipeServer()
+        {
+            CommandRouters.Add(new CoreRouter());
+        }
+
         public static void StartServer()
         {
             server = new Thread(Listening);
@@ -54,8 +59,11 @@ namespace IPCServer
             try
             {
                 incomingStream = stream.ReadString();
+                WriteLogEntry($"IncomingStream: {incomingStream}");
                 ICommandRouter activeRouter = GetActivatedRouter(incomingStream);
+                WriteLogEntry($"ActiveRouter: {activeRouter.Identifier}");
                 string result = activeRouter.RouteCommand(incomingStream);
+                WriteLogEntry($"Result: {result}");
                 stream.WriteString(result);
             }
             catch (Exception e)

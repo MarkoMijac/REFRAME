@@ -1,85 +1,204 @@
-﻿using ReframeCore;
-using ReframeCore.Nodes;
+﻿using ReframeAnalyzer.Graph;
+using ReframeCore;
+using ReframeCore.Factories;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using ReframeCore.Factories;
 
 namespace ReframeAnalyzer
 {
-    public static class Analyzer
+    public class Analyzer
     {
-        public static string GetRegisteredGraphs()
+        #region Constructors
+
+        public Analyzer()
         {
-            string xml = "";
 
-            IReadOnlyList<IReactor> registeredReactors = ReactorRegistry.Instance.GetReactors();
-            xml = XmlExporter.ExportGraphs(registeredReactors);
-
-            return xml;
         }
 
-        public static string GetGraphNodes(IDependencyGraph graph)
+        #endregion
+
+        #region Methods
+
+        public IEnumerable<IAnalysisNode> GetOrphanNodes(IAnalysisGraph analysisGraph)
         {
-            string xml = "";
-
-            xml = XmlExporter.ExportNodes(graph.Nodes);
-
-            return xml;
+            return analysisGraph.Nodes.Where(n => n.Degree == 0);
         }
 
-        public static string GetClassNodes(IDependencyGraph graph)
+        public IEnumerable<IAnalysisNode> GetLeafNodes(IAnalysisGraph analysisGraph)
         {
-            string xml = "";
+            return analysisGraph.Nodes.Where(
+                n => (n.InDegree == 0 || n.OutDegree == 0) == true
+                && (n.InDegree == 0 && n.OutDegree == 0) == false
+                );
+        }
 
-            List<StaticNode> classGraph = new List<StaticNode>();
+        public IEnumerable<IAnalysisNode> GetSourceNodes(IAnalysisGraph analysisGraph)
+        {
+            return analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
+        }
 
-            foreach (var node in graph.Nodes)
+        public IEnumerable<IAnalysisNode> GetSinkNodes(IAnalysisGraph analysisGraph)
+        {
+            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
+        }
+
+        public IEnumerable<IAnalysisNode> GetIntermediaryNodes(IAnalysisGraph analysisGraph)
+        {
+            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
+        }
+
+        public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            uint id = uint.Parse(nodeIdentifier);
+            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+
+            var predecessors = new List<IAnalysisNode>();
+
+            if (startingNode != null)
             {
-                Type t = node.OwnerObject.GetType();
-                int identifier = t.GUID.GetHashCode();
-
-                if (classGraph.Exists(n => n.Identifier == identifier) == false)
-                {
-                    var classNode = new StaticNode()
-                    {
-                        Identifier = identifier,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        Namespace = t.Namespace,
-                        Assembly = t.Assembly.ManifestModule.ToString()
-                    };
-
-                    classGraph.Add(classNode);
-                }
+                TraversePredecessors(startingNode, predecessors);
             }
 
-            foreach (var node in graph.Nodes)
+            return predecessors;
+        }
+
+        private void TraversePredecessors(IAnalysisNode analysisNode, List<IAnalysisNode> list)
+        {
+            if (list.Contains(analysisNode) == false)
             {
-                Type t = node.OwnerObject.GetType();
-                int identifier = t.GUID.GetHashCode();
+                list.Add(analysisNode);
 
-                StaticNode predecessor = classGraph.FirstOrDefault(n => n.Identifier == identifier);
-                foreach (var s in node.Successors)
+                foreach (var p in analysisNode.Predecessors)
                 {
-                    int sTypeIdentifier = s.OwnerObject.GetType().GUID.GetHashCode();
-                    StaticNode successor = classGraph.FirstOrDefault(n => n.Identifier == sTypeIdentifier);
+                    TraversePredecessors(p, list);
+                }
+            }
+        }
 
-                    if (predecessor.Successors.Contains(successor) == false)
+        public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
+        {
+            uint id = uint.Parse(nodeIdentifier);
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+
+            Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
+            dict.Add(initialNode, 0);
+
+            for (int i = 1; i <= maxDepth; i++)
+            {
+                ProcessDepthLevel(dict, i);
+            }
+
+            return dict.Keys.ToList();
+        }
+
+        private void ProcessDepthLevel(Dictionary<IAnalysisNode, int> dict, int currentDepth)
+        {
+            int prevDepth = currentDepth - 1;
+            var itemsToProcess = dict.Where(p => p.Value == prevDepth).ToDictionary(i => i.Key, i => i.Value);
+
+            foreach (var item in itemsToProcess)
+            {
+                IAnalysisNode node = item.Key;
+                foreach (var p in node.Predecessors)
+                {
+                    if (dict.ContainsKey(p) == false)
                     {
-                        predecessor.Successors.Add(successor);
+                        dict.Add(p, currentDepth);
                     }
                 }
             }
-
-            xml = XmlExporter.ExportClassNodes(classGraph);
-
-            return xml;
         }
 
+        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            uint id = uint.Parse(nodeIdentifier);
+            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+
+            var successors = new List<IAnalysisNode>();
+
+            if (startingNode != null)
+            {
+                TraverseSuccessors(startingNode, successors);
+            }
+
+            return successors;
+        }
+
+        private void TraverseSuccessors(IAnalysisNode analysisNode, List<IAnalysisNode> list)
+        {
+            if (list.Contains(analysisNode) == false)
+            {
+                list.Add(analysisNode);
+
+                foreach (var p in analysisNode.Successors)
+                {
+                    TraverseSuccessors(p, list);
+                }
+            }
+        }
+
+        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
+        {
+            uint id = uint.Parse(nodeIdentifier);
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+
+            Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
+            dict.Add(initialNode, 0);
+
+            for (int i = 1; i <= maxDepth; i++)
+            {
+                ProcessSuccessorsAtDepth(dict, i);
+            }
+
+            return dict.Keys.ToList();
+        }
+
+        private void ProcessSuccessorsAtDepth(Dictionary<IAnalysisNode, int> dict, int currentDepth)
+        {
+            int prevDepth = currentDepth - 1;
+            var itemsToProcess = dict.Where(p => p.Value == prevDepth).ToDictionary(i => i.Key, i => i.Value);
+
+            foreach (var item in itemsToProcess)
+            {
+                IAnalysisNode node = item.Key;
+                foreach (var p in node.Successors)
+                {
+                    if (dict.ContainsKey(p) == false)
+                    {
+                        dict.Add(p, currentDepth);
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier, 1);
+            IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier, 1);
+
+            List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
+            foreach (var p in predecessors)
+            {
+                if (neighbours.Contains(p) == false)
+                {
+                    neighbours.Add(p);
+                }
+            }
+
+            foreach (var s in successors)
+            {
+                if (neighbours.Contains(s) == false)
+                {
+                    neighbours.Add(s);
+                }
+            }
+
+            return neighbours;
+        }
+
+        #endregion
     }
 }

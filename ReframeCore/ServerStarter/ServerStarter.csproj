@@ -52,6 +52,10 @@
       <Project>{87bae3e0-a197-4dc1-9e97-e5945f7cc652}</Project>
       <Name>ReframeAnalyzer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
+      <Project>{2BECC201-155A-4FD4-81E0-3D6A33C6838D}</Project>
+      <Name>ReframeVisualizer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
