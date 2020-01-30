@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmFilterObjectAnalysis : FrmFilterAnalysis
+    public partial class FrmFilterObjectMemberAnalysis : FrmFilterAnalysis
     {
-        public FrmFilterObjectAnalysis() : base()
+        public FrmFilterObjectMemberAnalysis() : base()
         {
             InitializeComponent();
         }
@@ -22,9 +22,9 @@ namespace ReframeTools.GUI
         protected override void Initialize()
         {
             base.Initialize();
-            Level = AnalysisLevel.ObjectLevel;
-            Filter = new ObjectAnalysisFilter(OriginalNodes);
-            rbObjectLevel.Checked = true;
+            Level = AnalysisLevel.ObjectMemberLevel;
+            Filter = new ObjectMemberAnalysisFilter(OriginalNodes);
+            rbObjectMemberLevel.Checked = true;
         }
 
         protected override void HandleCheckListsVisibility()

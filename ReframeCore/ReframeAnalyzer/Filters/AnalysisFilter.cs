@@ -27,6 +27,7 @@ namespace ReframeAnalyzer.Filters
             SelectAllAssemblyNodes();
             SelectAllNamespaceNodes();
             SelectAllClassNodes();
+            SelectAllObjectNodes();
         }
 
         private void AddNode(List<IAnalysisNode> chosenNodes, IAnalysisNode node)
@@ -81,22 +82,47 @@ namespace ReframeAnalyzer.Filters
         {
             AddNode(SelectedNamespaceNodes, node);
             SelectAllClassNodes(node);
+            SelectAllObjectNodes(node);
         }
 
         private void DeselectNode(NamespaceAnalysisNode node)
         {
             RemoveNode(SelectedNamespaceNodes, node);
             DeselectAllClassNodes(node);
+            DeselectAllObjectNodes(node);
         }
 
         private void SelectNode(ClassAnalysisNode node)
         {
             AddNode(SelectedClassNodes, node);
+            SelectAllObjectNodes(node);
         }
 
         private void DeselectNode(ClassAnalysisNode node)
         {
             RemoveNode(SelectedClassNodes, node);
+            DeselectAllObjectNodes(node);
+        }
+
+        private void DeselectNode(ObjectAnalysisNode node)
+        {
+            RemoveNode(SelectedObjectNodes, node);
+        }
+
+        private void SelectNode(ObjectAnalysisNode node)
+        {
+            AddNode(SelectedObjectNodes, node);
+        }
+
+        private void SelectAllObjectNodes()
+        {
+            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            {
+                if (SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                {
+                    SelectedObjectNodes.Add(objectNode);
+                }
+            }
         }
 
         private void SelectAllClassNodes()
@@ -108,6 +134,44 @@ namespace ReframeAnalyzer.Filters
                     SelectedClassNodes.Add(classNode);
                 }
             }
+        }
+
+        public void SelectAllObjectNodes(ClassAnalysisNode classNode)
+        {
+            if (classNode == null) return;
+
+            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            {
+                if (objectNode.OwnerClass.Identifier == classNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                {
+                    SelectedObjectNodes.Add(objectNode);
+                }
+            }
+        }
+
+        public void SelectAllObjectNodes(NamespaceAnalysisNode namespaceNode)
+        {
+            if (namespaceNode == null) return;
+
+            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            {
+                if (objectNode.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                {
+                    SelectedObjectNodes.Add(objectNode);
+                }
+            }
+        }
+
+        public void DeselectAllObjectNodes(ClassAnalysisNode classNode)
+        {
+            if (classNode == null) return;
+            SelectedObjectNodes.RemoveAll(n => (n as ObjectAnalysisNode).OwnerClass.Identifier == classNode.Identifier);
+        }
+
+        public void DeselectAllObjectNodes(NamespaceAnalysisNode namespaceNode)
+        {
+            if (namespaceNode == null) return;
+            SelectedObjectNodes.RemoveAll(n => (n as ObjectAnalysisNode).OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier);
         }
 
         public void SelectAllClassNodes(NamespaceAnalysisNode namespaceNode)
@@ -134,14 +198,17 @@ namespace ReframeAnalyzer.Filters
             {
                 if (SelectedNamespaceNodes.Exists(n => n.Identifier == namespaceNode.Identifier) == false)
                 {
-                    SelectedNamespaceNodes.Add(namespaceNode);
+                    SelectNode(namespaceNode);
                 }
             }
         }
 
         public void DeselectAllNamespaceNodes()
         {
-            SelectedNamespaceNodes.Clear();
+            for (int i = SelectedNamespaceNodes.Count; i > 0; i--)
+            {
+                DeselectNode(SelectedNamespaceNodes[i-1]);
+            }
         }
 
         public void SelectAllAssemblyNodes()
@@ -178,6 +245,16 @@ namespace ReframeAnalyzer.Filters
         }
 
         public virtual List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        {
+            return new List<IAnalysisNode>();
+        }
+
+        public virtual List<IAnalysisNode> GetAvailableObjectNodes()
+        {
+            return new List<IAnalysisNode>();
+        }
+
+        public virtual List<IAnalysisNode> GetAvailableObjectNodes(ClassAnalysisNode classNode)
         {
             return new List<IAnalysisNode>();
         }

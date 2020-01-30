@@ -59,7 +59,7 @@ namespace ReframeTools.GUI
 
         protected override AnalysisController CreateAnalysisController()
         {
-            return new ObjectMemberAnalysisController(this);
+            return new ObjectMemberAnalysisController(this, new FrmFilterObjectMemberAnalysis());
         }
     }
 }

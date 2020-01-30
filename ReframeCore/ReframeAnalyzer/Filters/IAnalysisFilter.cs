@@ -17,6 +17,10 @@ namespace ReframeAnalyzer.Filters
         List<IAnalysisNode> GetAvailableNamespaceNodes();
         List<IAnalysisNode> GetAvailableClassNodes();
         List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode);
+        List<IAnalysisNode> GetAvailableObjectNodes();
+        List<IAnalysisNode> GetAvailableObjectNodes(ClassAnalysisNode classNode);
+        void SelectAllObjectNodes(ClassAnalysisNode classNode);
+        void DeselectAllObjectNodes(ClassAnalysisNode classNode);
         void SelectAllClassNodes(NamespaceAnalysisNode namespaceNode);
         void DeselectAllClassNodes(NamespaceAnalysisNode namespaceNode);
         void SelectAllNamespaceNodes();

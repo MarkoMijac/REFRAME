@@ -111,6 +111,12 @@
     <Compile Include="GUI\FrmFilterObjectAnalysis.Designer.cs">
       <DependentUpon>FrmFilterObjectAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmFilterObjectMemberAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmFilterObjectMemberAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
