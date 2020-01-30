@@ -41,6 +41,12 @@
             this.showNodePredecessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showNodesNeighboursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSourceNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSinkNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showLeafNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIntermediaryPredecessorsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIntermediarySuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showIntermediaryNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnVisualize = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNodes)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -142,7 +148,13 @@
             this.generalNodeAnalysisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showNodePredecessorsToolStripMenuItem,
             this.showSuccessorsToolStripMenuItem,
-            this.showNodesNeighboursToolStripMenuItem});
+            this.showNodesNeighboursToolStripMenuItem,
+            this.showSourceNodesToolStripMenuItem1,
+            this.showSinkNodesToolStripMenuItem1,
+            this.showLeafNodesToolStripMenuItem1,
+            this.showIntermediaryPredecessorsToolStripMenuItem1,
+            this.showIntermediarySuccessorsToolStripMenuItem,
+            this.showIntermediaryNodesToolStripMenuItem1});
             this.generalNodeAnalysisToolStripMenuItem.Name = "generalNodeAnalysisToolStripMenuItem";
             this.generalNodeAnalysisToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
             this.generalNodeAnalysisToolStripMenuItem.Text = "Node analysis";
@@ -151,25 +163,73 @@
             // 
             this.showNodePredecessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodePredecessorsToolStripMenuItem.Name = "showNodePredecessorsToolStripMenuItem";
-            this.showNodePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.showNodePredecessorsToolStripMenuItem.Text = "Show node\'s predecessors...";
+            this.showNodePredecessorsToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showNodePredecessorsToolStripMenuItem.Text = "Show predecessors...";
             this.showNodePredecessorsToolStripMenuItem.Click += new System.EventHandler(this.showNodePredecessorsToolStripMenuItem_Click);
             // 
             // showSuccessorsToolStripMenuItem
             // 
             this.showSuccessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showSuccessorsToolStripMenuItem.Name = "showSuccessorsToolStripMenuItem";
-            this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.showSuccessorsToolStripMenuItem.Text = "Show node\'s successors...";
+            this.showSuccessorsToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showSuccessorsToolStripMenuItem.Text = "Show successors...";
             this.showSuccessorsToolStripMenuItem.Click += new System.EventHandler(this.showSuccessorsToolStripMenuItem_Click);
             // 
             // showNodesNeighboursToolStripMenuItem
             // 
             this.showNodesNeighboursToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
             this.showNodesNeighboursToolStripMenuItem.Name = "showNodesNeighboursToolStripMenuItem";
-            this.showNodesNeighboursToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.showNodesNeighboursToolStripMenuItem.Text = "Show node\'s neighbours...";
+            this.showNodesNeighboursToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showNodesNeighboursToolStripMenuItem.Text = "Show neighbours...";
             this.showNodesNeighboursToolStripMenuItem.Click += new System.EventHandler(this.showNodesNeighboursToolStripMenuItem_Click);
+            // 
+            // showSourceNodesToolStripMenuItem1
+            // 
+            this.showSourceNodesToolStripMenuItem1.BackColor = System.Drawing.Color.Salmon;
+            this.showSourceNodesToolStripMenuItem1.Name = "showSourceNodesToolStripMenuItem1";
+            this.showSourceNodesToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
+            this.showSourceNodesToolStripMenuItem1.Text = "Show source nodes...";
+            this.showSourceNodesToolStripMenuItem1.Click += new System.EventHandler(this.showSourceNodesToolStripMenuItem1_Click);
+            // 
+            // showSinkNodesToolStripMenuItem1
+            // 
+            this.showSinkNodesToolStripMenuItem1.BackColor = System.Drawing.Color.Salmon;
+            this.showSinkNodesToolStripMenuItem1.Name = "showSinkNodesToolStripMenuItem1";
+            this.showSinkNodesToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
+            this.showSinkNodesToolStripMenuItem1.Text = "Show sink nodes...";
+            this.showSinkNodesToolStripMenuItem1.Click += new System.EventHandler(this.showSinkNodesToolStripMenuItem1_Click);
+            // 
+            // showLeafNodesToolStripMenuItem1
+            // 
+            this.showLeafNodesToolStripMenuItem1.BackColor = System.Drawing.Color.Salmon;
+            this.showLeafNodesToolStripMenuItem1.Name = "showLeafNodesToolStripMenuItem1";
+            this.showLeafNodesToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
+            this.showLeafNodesToolStripMenuItem1.Text = "Show leaf nodes...";
+            this.showLeafNodesToolStripMenuItem1.Click += new System.EventHandler(this.showLeafNodesToolStripMenuItem1_Click);
+            // 
+            // showIntermediaryPredecessorsToolStripMenuItem1
+            // 
+            this.showIntermediaryPredecessorsToolStripMenuItem1.BackColor = System.Drawing.Color.Salmon;
+            this.showIntermediaryPredecessorsToolStripMenuItem1.Name = "showIntermediaryPredecessorsToolStripMenuItem1";
+            this.showIntermediaryPredecessorsToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
+            this.showIntermediaryPredecessorsToolStripMenuItem1.Text = "Show intermediary predecessors...";
+            this.showIntermediaryPredecessorsToolStripMenuItem1.Click += new System.EventHandler(this.showIntermediaryPredecessorsToolStripMenuItem1_Click);
+            // 
+            // showIntermediarySuccessorsToolStripMenuItem
+            // 
+            this.showIntermediarySuccessorsToolStripMenuItem.BackColor = System.Drawing.Color.Salmon;
+            this.showIntermediarySuccessorsToolStripMenuItem.Name = "showIntermediarySuccessorsToolStripMenuItem";
+            this.showIntermediarySuccessorsToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showIntermediarySuccessorsToolStripMenuItem.Text = "Show intermediary successors...";
+            this.showIntermediarySuccessorsToolStripMenuItem.Click += new System.EventHandler(this.showIntermediarySuccessorsToolStripMenuItem_Click);
+            // 
+            // showIntermediaryNodesToolStripMenuItem1
+            // 
+            this.showIntermediaryNodesToolStripMenuItem1.BackColor = System.Drawing.Color.Salmon;
+            this.showIntermediaryNodesToolStripMenuItem1.Name = "showIntermediaryNodesToolStripMenuItem1";
+            this.showIntermediaryNodesToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
+            this.showIntermediaryNodesToolStripMenuItem1.Text = "Show intermediary nodes...";
+            this.showIntermediaryNodesToolStripMenuItem1.Click += new System.EventHandler(this.showIntermediaryNodesToolStripMenuItem1_Click);
             // 
             // btnVisualize
             // 
@@ -220,5 +280,11 @@
         private System.Windows.Forms.ToolStripMenuItem showNodesNeighboursToolStripMenuItem;
         protected System.Windows.Forms.DataGridView dgvNodes;
         private System.Windows.Forms.Button btnVisualize;
+        private System.Windows.Forms.ToolStripMenuItem showSourceNodesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showSinkNodesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showLeafNodesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showIntermediaryPredecessorsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showIntermediarySuccessorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showIntermediaryNodesToolStripMenuItem1;
     }
 }

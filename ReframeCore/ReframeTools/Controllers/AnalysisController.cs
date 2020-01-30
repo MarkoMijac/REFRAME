@@ -231,6 +231,108 @@ namespace ReframeTools.Controllers
             }
         }
 
+        public void ShowSourceNodes(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        public void ShowSinkNodes(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        public void ShowLeafNodes(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        public void ShowIntermediaryPredecessors(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        public void ShowIntermediarySuccessors(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        public void ShowIntermediaryNodes(string nodeIdentifier)
+        {
+            try
+            {
+                if (nodeIdentifier != "")
+                {
+                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier);
+                    AnalysisNodes = GetFilteredNodes(originalNodes);
+                    ShowGraph(AnalysisNodes);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
         protected void DisplayError(Exception e)
         {
             MessageBox.Show($"Unable to fetch and display data! Error:{e.Message}!");

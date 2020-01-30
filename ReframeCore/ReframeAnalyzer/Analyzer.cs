@@ -24,12 +24,22 @@ namespace ReframeAnalyzer
 
         public IEnumerable<IAnalysisNode> GetOrphanNodes(IAnalysisGraph analysisGraph)
         {
-            return analysisGraph.Nodes.Where(n => n.Degree == 0);
+            return GetOrphanNodes(analysisGraph.Nodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetOrphanNodes(IEnumerable<IAnalysisNode> nodes)
+        {
+            return nodes.Where(n => n.Degree == 0);
         }
 
         public IEnumerable<IAnalysisNode> GetLeafNodes(IAnalysisGraph analysisGraph)
         {
-            return analysisGraph.Nodes.Where(
+            return GetLeafNodes(analysisGraph.Nodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetLeafNodes(IEnumerable<IAnalysisNode> nodes)
+        {
+            return nodes.Where(
                 n => (n.InDegree == 0 || n.OutDegree == 0) == true
                 && (n.InDegree == 0 && n.OutDegree == 0) == false
                 );
@@ -37,17 +47,32 @@ namespace ReframeAnalyzer
 
         public IEnumerable<IAnalysisNode> GetSourceNodes(IAnalysisGraph analysisGraph)
         {
-            return analysisGraph.Nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
+            return GetSourceNodes(analysisGraph.Nodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetSourceNodes(IEnumerable<IAnalysisNode> nodes)
+        {
+            return nodes.Where(n => n.InDegree == 0 && n.OutDegree > 0);
         }
 
         public IEnumerable<IAnalysisNode> GetSinkNodes(IAnalysisGraph analysisGraph)
         {
-            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
+            return GetSinkNodes(analysisGraph.Nodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetSinkNodes(IEnumerable<IAnalysisNode> nodes)
+        {
+            return nodes.Where(n => n.InDegree > 0 && n.OutDegree == 0);
         }
 
         public IEnumerable<IAnalysisNode> GetIntermediaryNodes(IAnalysisGraph analysisGraph)
         {
-            return analysisGraph.Nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
+            return GetIntermediaryNodes(analysisGraph.Nodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetIntermediaryNodes(IEnumerable<IAnalysisNode> nodes)
+        {
+            return nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0);
         }
 
         public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
@@ -222,6 +247,42 @@ namespace ReframeAnalyzer
             }
 
             return neighbours;
+        }
+
+        public IEnumerable<IAnalysisNode> GetSourceNodes(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var predecessorNodes = GetPredecessors(analysisGraph, nodeIdentifier);
+            return GetSourceNodes(predecessorNodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetSinkNodes(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var successorNodes = GetSuccessors(analysisGraph, nodeIdentifier);
+            return GetSinkNodes(successorNodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetLeafNodes(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var neighbourNodes = GetNeighbours(analysisGraph, nodeIdentifier);
+            return GetLeafNodes(neighbourNodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetIntermediaryPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var predecessorNodes = GetPredecessors(analysisGraph, nodeIdentifier);
+            return GetIntermediaryNodes(predecessorNodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetIntermediarySuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var successorNodes = GetSuccessors(analysisGraph, nodeIdentifier);
+            return GetIntermediaryNodes(successorNodes);
+        }
+
+        public IEnumerable<IAnalysisNode> GetIntermediaryNodes(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        {
+            var neighbourNodes = GetNeighbours(analysisGraph, nodeIdentifier);
+            return GetIntermediaryNodes(neighbourNodes);
         }
 
         #endregion

@@ -130,5 +130,41 @@ namespace ReframeTools.GUI
         {
             VisualizationController.Visualize(AnalysisController.AnalysisGraph, AnalysisController.AnalysisNodes);
         }
+
+        private void showSinkNodesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowSinkNodes(GetSelectedNodeIdentifier());
+        }
+
+        private void showLeafNodesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowLeafNodes(GetSelectedNodeIdentifier());
+        }
+
+        private void showSourceNodesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowSourceNodes(GetSelectedNodeIdentifier());
+        }
+
+        private void showIntermediaryPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowIntermediaryPredecessors(GetSelectedNodeIdentifier());
+        }
+
+        private void showIntermediarySuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowIntermediarySuccessors(GetSelectedNodeIdentifier());
+        }
+
+        private void showIntermediaryNodesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AnalysisController = CreateAnalysisController();
+            AnalysisController.ShowIntermediaryNodes(GetSelectedNodeIdentifier());
+        }
     }
 }
