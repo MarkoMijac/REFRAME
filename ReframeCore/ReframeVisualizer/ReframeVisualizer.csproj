@@ -64,17 +64,9 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IPCServer\IPCServer.csproj">
-      <Project>{C6D1CF84-2C60-43DE-9038-4529485592E8}</Project>
-      <Name>IPCServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
       <Project>{87BAE3E0-A197-4DC1-9E97-E5945F7CC652}</Project>
       <Name>ReframeAnalyzer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
-      <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
-      <Name>ReframeCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -38,7 +38,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.GraphModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -55,22 +54,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IPCServer\IPCServer.csproj">
-      <Project>{C6D1CF84-2C60-43DE-9038-4529485592E8}</Project>
-      <Name>IPCServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
-      <Project>{87BAE3E0-A197-4DC1-9E97-E5945F7CC652}</Project>
-      <Name>ReframeAnalyzer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">
-      <Project>{2551C41C-AAA2-42D5-A96D-95A44474DF92}</Project>
-      <Name>ReframeCoreExamples</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
-      <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
-      <Name>ReframeCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
       <Project>{2BECC201-155A-4FD4-81E0-3D6A33C6838D}</Project>
       <Name>ReframeVisualizer</Name>
