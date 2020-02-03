@@ -1,13 +1,4 @@
-﻿using ReframeAnalyzer.Exceptions;
-using ReframeCore;
-using ReframeExporter;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReframeAnalyzer.Graph
+﻿namespace ReframeAnalyzer.Graph
 {
     public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel };
 
