@@ -1,12 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq.Expressions;
-using ReframeCore.FluentAPI;
 using ReframeCoreExamples.E00;
-using System.Reflection;
-using ReframeCore.Helpers;
 using ReframeCoreExamples.E01;
 using ReframeCoreExamples.E07;
+using ReframeCoreFluentAPI;
 
 namespace ReframeCoreTests
 {

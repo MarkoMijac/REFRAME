@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore;
 using ReframeAnalyzer.Graph;
 using ReframeAnalyzer.Exceptions;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
-using ReframeCore.FluentAPI;
 using ReframeExporter;
+using ReframeCoreFluentAPI;
 
 namespace ReframeAnalyzerTests
 {

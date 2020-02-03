@@ -3,11 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore.Factories;
 using ReframeExporter;
 using System.Collections.Generic;
-using ReframeCore;
-using ReframeCore.FluentAPI;
 using System.Xml.Linq;
 using System.Linq;
 using ReframeCoreExamples.E09;
+using ReframeCoreFluentAPI;
 
 namespace ReframeExporterTests
 {

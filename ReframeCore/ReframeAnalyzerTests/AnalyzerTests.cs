@@ -1,17 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ReframeCore;
-using ReframeCore.Helpers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeAnalyzer;
-using ReframeCoreExamples.E00;
-using ReframeCore.FluentAPI;
-using IPCServer;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
-using System.Collections;
 using System.Collections.Generic;
 using ReframeExporter;
+using ReframeCoreFluentAPI;
 
 namespace ReframeAnalyzerTests
 {
