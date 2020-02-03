@@ -10,27 +10,27 @@ using System.Threading.Tasks;
 
 namespace IPCServer
 {
-    public static class PipeServer
+    public abstract class PipeServer
     {
-        public static List<ICommandRouter> CommandRouters { get; set; } = new List<ICommandRouter>();
+        public List<ICommandRouter> CommandRouters { get; set; } = new List<ICommandRouter>();
 
-        public static string communicationLog="";
+        public string communicationLog="";
 
-        private static Thread server = null;
-        private static bool continueListening = true;
+        private Thread server = null;
+        private bool continueListening = true;
 
-        static PipeServer()
+        public PipeServer()
         {
-            CommandRouters.Add(new CoreRouter());
+            
         }
 
-        public static void StartServer()
+        public void StartServer()
         {
             server = new Thread(Listening);
             server.Start();
         }
 
-        private static void Listening()
+        private void Listening()
         {
             WriteLogEntry("Server started on Thread number " + server.ManagedThreadId);
             while (true)
@@ -43,14 +43,14 @@ namespace IPCServer
             }
         }
 
-        private static Thread CreateListener()
+        private Thread CreateListener()
         {
             Thread listener = new Thread(CreatePipeServer);
             listener.Start();
             return listener;
         }
 
-        private static void CreatePipeServer()
+        private void CreatePipeServer()
         {
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
             pipeServer.WaitForConnection();
@@ -75,7 +75,7 @@ namespace IPCServer
             WriteLogEntry("Server #" + Thread.CurrentThread.ManagedThreadId + " has terminated!");
         }
 
-        private static ICommandRouter GetActivatedRouter(string commandXml)
+        private ICommandRouter GetActivatedRouter(string commandXml)
         {
             ICommandRouter sender = null;
 
@@ -85,12 +85,12 @@ namespace IPCServer
             return sender;
         }
 
-        private static void WriteLogEntry(string entry)
+        private void WriteLogEntry(string entry)
         {
             communicationLog += entry + Environment.NewLine;
         }
 
-        private static void ClearLog()
+        private void ClearLog()
         {
             communicationLog = "";
         }
