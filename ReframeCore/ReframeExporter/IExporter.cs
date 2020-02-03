@@ -9,7 +9,7 @@ namespace ReframeExporter
 {
     interface IExporter
     {
-        string Export(IReadOnlyList<IReactor> reactors);
-        string Export(IReactor reactor);
+        string ExportReactors();
+        string ExportReactor(string reactorIdentifier);
     }
 }

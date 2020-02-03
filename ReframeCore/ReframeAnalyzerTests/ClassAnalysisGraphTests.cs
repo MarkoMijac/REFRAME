@@ -29,7 +29,7 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             XmlExporter xmlExporter = new XmlExporter();
-            var xmlSource = xmlExporter.Export(reactor);
+            var xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
 
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);

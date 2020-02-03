@@ -35,7 +35,7 @@ namespace ReframeAnalyzerTests
             AnalysisGraphFactory factory = new AnalysisGraphFactory();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Assert
@@ -50,7 +50,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 3
@@ -67,7 +67,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             var classANode = analysisGraph.Nodes[0];
@@ -106,7 +106,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 3
@@ -123,7 +123,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             var classCNode = analysisGraph.Nodes[0];
@@ -163,7 +163,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1
@@ -178,7 +178,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var factory = new AnalysisGraphFactory();
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             var classANode = analysisGraph.Nodes[0];
@@ -213,7 +213,7 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objA.PA2);
 
             //Act
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1
@@ -234,7 +234,7 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objA.PA2);
 
             //Act
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             var classANode = analysisGraph.Nodes[0];
@@ -257,7 +257,7 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
 
             //Act
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2
@@ -280,7 +280,7 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
 
             //Act
-            var analysisGraph = factory.CreateGraph(xmlExporter.Export(reactor), AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlExporter.ExportReactor(reactor.Identifier), AnalysisLevel.ClassLevel);
 
             //Assert
             var classANode = analysisGraph.Nodes[0];

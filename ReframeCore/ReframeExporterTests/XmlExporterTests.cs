@@ -22,10 +22,9 @@ namespace ReframeExporterTests
             ReactorRegistry.Instance.GetOrCreateReactor("Graph_02");
             ReactorRegistry.Instance.GetOrCreateReactor("Graph_03");
             var xmlExporter = new XmlExporter();
-            var reactors = ReactorRegistry.Instance.GetReactors();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactors);
+            string xmlSource = xmlExporter.ExportReactors();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -45,10 +44,9 @@ namespace ReframeExporterTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var xmlExporter = new XmlExporter();
-            var reactors = ReactorRegistry.Instance.GetReactors();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactors);
+            string xmlSource = xmlExporter.ExportReactors();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -73,7 +71,7 @@ namespace ReframeExporterTests
             var xmlExporter = new XmlExporter();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -94,7 +92,7 @@ namespace ReframeExporterTests
             var xmlExporter = new XmlExporter();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);

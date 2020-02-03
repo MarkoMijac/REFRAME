@@ -30,7 +30,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             XmlExporter xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
             
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
@@ -70,7 +70,7 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             var xmlExporter = new XmlExporter();
-            var xmlSource = xmlExporter.Export(reactor);
+            var xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
 
             //Act
             var analyzer = new Analyzer();
@@ -105,7 +105,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             XmlExporter xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
@@ -140,7 +140,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
@@ -175,7 +175,7 @@ namespace ReframeAnalyzerTests
 
             //Act
             var xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.ExportReactor(reactor.Identifier);
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));

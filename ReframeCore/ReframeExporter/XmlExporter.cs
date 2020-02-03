@@ -28,7 +28,7 @@ namespace ReframeExporter
             SetDefaultSettings();
         }
 
-        public string Export(IReadOnlyList<IReactor> reactors)
+        private string Export(IReadOnlyList<IReactor> reactors)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -59,7 +59,7 @@ namespace ReframeExporter
             return builder.ToString();
         }
 
-        public string Export(IReactor reactor)
+        private string Export(IReactor reactor)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -273,8 +273,16 @@ namespace ReframeExporter
             xmlWriter.WriteEndElement();
         }
 
-        
+        public string ExportReactors()
+        {
+            var reactors = ReactorRegistry.Instance.GetReactors();
+            return Export(reactors);
+        }
 
-        
+        public string ExportReactor(string reactorIdentifier)
+        {
+            var reactor = ReactorRegistry.Instance.GetReactor(reactorIdentifier);
+            return Export(reactor);
+        }
     }
 }

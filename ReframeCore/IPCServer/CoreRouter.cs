@@ -1,6 +1,4 @@
-﻿using ReframeCore;
-using ReframeCore.Factories;
-using ReframeExporter;
+﻿using ReframeExporter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,16 +30,14 @@ namespace IPCServer
                     case "ExportRegisteredReactors":
                         {
                             var xmlExporter = new XmlExporter();
-                            IReadOnlyList<IReactor> reactors = ReactorRegistry.Instance.GetReactors();
-                            result = xmlExporter.Export(reactors);
+                            result = xmlExporter.ExportReactors();
                             break;
                         }
                     case "ExportReactor":
                         {
                             var xmlExporter = new XmlExporter();
                             string identifier = parameters["ReactorIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            result = xmlExporter.Export(reactor);
+                            result = xmlExporter.ExportReactor(identifier);
                             break;
                         }
                     default:
