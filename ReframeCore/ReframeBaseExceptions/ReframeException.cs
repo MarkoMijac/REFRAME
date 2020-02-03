@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCore.Exceptions
+namespace ReframeBaseExceptions
 {
     public class ReframeException : Exception
     {

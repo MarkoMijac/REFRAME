@@ -1,4 +1,5 @@
-﻿using ReframeCore.Exceptions;
+﻿using ReframeBaseExceptions;
+using ReframeCore.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -72,6 +72,10 @@
     <Compile Include="UpdaterTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
+      <Name>ReframeBaseExceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">
       <Project>{2551c41c-aaa2-42d5-a96d-95a44474df92}</Project>
       <Name>ReframeCoreExamples</Name>
