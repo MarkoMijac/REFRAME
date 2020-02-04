@@ -1,6 +1,7 @@
 ﻿using IPCClient;
 using ReframeAnalyzer;
 using ReframeAnalyzer.Graph;
+using ReframeClient;
 using ReframeTools.GUI;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,8 @@ namespace ReframeTools.Controllers
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
         {
-            string xmlSource = ClientQueries.GetReactor(reactorIdentifier);
+            var pipeClient = new ReframePipeClient();
+            string xmlSource = pipeClient.GetReactor(reactorIdentifier);
             AnalysisGraph = GraphFactory.CreateGraph(xmlSource, analysisLevel);
         }
 

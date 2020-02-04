@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeFluentAPI", "Reframe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeServer", "ReframeServer\ReframeServer.csproj", "{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeClient", "ReframeClient\ReframeClient.csproj", "{3E1F7606-8C9F-44CB-825B-E378570A59DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

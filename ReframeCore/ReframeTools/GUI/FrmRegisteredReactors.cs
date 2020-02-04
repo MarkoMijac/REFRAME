@@ -1,4 +1,5 @@
 ﻿using IPCClient;
+using ReframeClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace ReframeTools.GUI
             dgvReactors.DataSource = null;
             try
             {
-                string xmlReactors = ClientQueries.GetRegisteredReactors();
+                var pipeClient = new ReframePipeClient();
+                string xmlReactors = pipeClient.GetRegisteredReactors();
                 dgvReactors.DataSource = ParseReactors(xmlReactors);
             }
             catch (Exception)

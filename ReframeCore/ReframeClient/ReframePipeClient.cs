@@ -1,14 +1,15 @@
-﻿using System;
+﻿using IPCClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IPCClient
+namespace ReframeClient
 {
-    public static class ClientQueries
+    public class ReframePipeClient : PipeClient
     {
-        public static string GetRegisteredReactors()
+        public string GetRegisteredReactors()
         {
             ServerCommand command = new ServerCommand()
             {
@@ -16,11 +17,10 @@ namespace IPCClient
                 CommandName = "ExportRegisteredReactors"
             };
 
-            string result = PipeClient.ExecuteServerCommand(command);
-            return result;
+            return ExecuteServerCommand(command);
         }
 
-        public static string GetReactor(string identifier)
+        public string GetReactor(string identifier)
         {
             ServerCommand command = new ServerCommand()
             {
@@ -30,8 +30,7 @@ namespace IPCClient
 
             command.Parameters.Add("ReactorIdentifier", identifier);
 
-            string result = PipeClient.ExecuteServerCommand(command);
-            return result;
+            return ExecuteServerCommand(command);
         }
     }
 }
