@@ -41,6 +41,13 @@ namespace ReframeServer
                             result = xmlExporter.ExportReactor(identifier);
                             break;
                         }
+                    case "ExportUpdateInfo":
+                        {
+                            var xmlExporter = new XmlExporter();
+                            string identifier = parameters["ReactorIdentifier"];
+                            result = xmlExporter.ExportUpdateInfo(identifier);
+                            break;
+                        }
                     default:
                         result = "No such command!";
                         break;

@@ -32,5 +32,18 @@ namespace ReframeClient
 
             return ExecuteServerCommand(command);
         }
+
+        public string GetUpdateInfo(string identifier)
+        {
+            ServerCommand command = new ServerCommand()
+            {
+                RouterIdentifier = "CoreRouter",
+                CommandName = "ExportUpdateInfo"
+            };
+
+            command.Parameters.Add("ReactorIdentifier", identifier);
+
+            return ExecuteServerCommand(command);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmRegisteredReactors : Form
     {
-        private FrmAnalysisView _currentForm;
+        private Form _currentForm;
 
         public FrmRegisteredReactors()
         {
@@ -109,7 +109,7 @@ namespace ReframeTools.GUI
             DisplayForm(form);
         }
 
-        private void DisplayForm(FrmAnalysisView form)
+        private void DisplayForm(Form form)
         {
             if (form != null)
             {
@@ -127,6 +127,12 @@ namespace ReframeTools.GUI
                     form.Show();
                 }
             }
+        }
+
+        private void getLatestUpdateInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmUpdateProcessInfo();
+            DisplayForm(form);
         }
     }
 }

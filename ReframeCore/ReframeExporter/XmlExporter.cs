@@ -1,5 +1,6 @@
 ﻿using ReframeCore;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,20 @@ namespace ReframeExporter
             }
 
             return builder.ToString();
+        }
+
+        public string ExportUpdateInfo(string identifier)
+        {
+            string updateInfo = "";
+
+            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
+            ILoggable loggable = reactor.Updater as ILoggable;
+            if (loggable != null)
+            {
+                updateInfo = loggable.NodeLog.GetLoggedNodesDetails();
+            }
+
+            return updateInfo;
         }
 
         private string Export(IReactor reactor)

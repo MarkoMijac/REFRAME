@@ -62,6 +62,7 @@
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\ObjectAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
+    <Compile Include="Controllers\UpdateProcessController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
       <SubType>Form</SubType>
@@ -158,6 +159,12 @@
     </Compile>
     <Compile Include="GUI\FrmMaxDepthLevel.Designer.cs">
       <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.Designer.cs">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmVisualizationOptions.cs">
       <SubType>Form</SubType>
@@ -334,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmMaxDepthLevel.resx">
       <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateProcessInfo.resx">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmVisualizationOptions.resx">
       <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
