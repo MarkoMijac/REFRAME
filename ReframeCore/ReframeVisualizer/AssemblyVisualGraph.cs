@@ -20,10 +20,7 @@ namespace ReframeVisualizer
 
         protected override void AddCustomProperties(Graph dgmlGraph)
         {
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
+            base.AddCustomProperties(dgmlGraph);
         }
 
         protected override void AddDependenciesToGraph(Graph dgmlGraph)
@@ -64,6 +61,7 @@ namespace ReframeVisualizer
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
+                g.SetValue("Tag", node.Tag);
             }
         }
     }

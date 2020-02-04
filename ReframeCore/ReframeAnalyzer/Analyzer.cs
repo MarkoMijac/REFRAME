@@ -73,13 +73,14 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode initial = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            initial.Tag = "Initial";
 
             var predecessors = new List<IAnalysisNode>();
 
-            if (startingNode != null)
+            if (initial != null)
             {
-                TraversePredecessors(startingNode, predecessors);
+                TraversePredecessors(initial, predecessors);
             }
 
             return predecessors;
@@ -102,6 +103,7 @@ namespace ReframeAnalyzer
         {
             uint id = uint.Parse(nodeIdentifier);
             IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            initialNode.Tag = "Initial";
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
             dict.Add(initialNode, 0);
@@ -135,13 +137,14 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            initialNode.Tag = "Initial";
 
             var successors = new List<IAnalysisNode>();
 
-            if (startingNode != null)
+            if (initialNode != null)
             {
-                TraverseSuccessors(startingNode, successors);
+                TraverseSuccessors(initialNode, successors);
             }
 
             return successors;
@@ -164,6 +167,7 @@ namespace ReframeAnalyzer
         {
             uint id = uint.Parse(nodeIdentifier);
             IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            initialNode.Tag = "Initial";
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
             dict.Add(initialNode, 0);
