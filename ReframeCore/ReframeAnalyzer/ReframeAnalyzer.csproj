@@ -73,6 +73,8 @@
     <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
     <Compile Include="Filters\IAnalysisFilter.cs" />
+    <Compile Include="Graph\UpdateAnalysisGraph.cs" />
+    <Compile Include="Graph\UpdateAnalysisNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

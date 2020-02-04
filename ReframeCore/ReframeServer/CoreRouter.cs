@@ -30,22 +30,22 @@ namespace ReframeServer
                 {
                     case "ExportRegisteredReactors":
                         {
-                            var xmlExporter = new XmlExporter();
-                            result = xmlExporter.ExportReactors();
+                            var xmlExporter = new XmlReactorsExporter();
+                            result = xmlExporter.Export();
                             break;
                         }
                     case "ExportReactor":
                         {
-                            var xmlExporter = new XmlExporter();
                             string identifier = parameters["ReactorIdentifier"];
-                            result = xmlExporter.ExportReactor(identifier);
+                            var xmlExporter = new XmlReactorDetailExporter(identifier);
+                            result = xmlExporter.Export();
                             break;
                         }
                     case "ExportUpdateInfo":
                         {
-                            var xmlExporter = new XmlExporter();
                             string identifier = parameters["ReactorIdentifier"];
-                            result = xmlExporter.ExportUpdateInfo(identifier);
+                            var xmlExporter = new XmlUpdaterInfoExporter(identifier);
+                            result = xmlExporter.Export();
                             break;
                         }
                     default:

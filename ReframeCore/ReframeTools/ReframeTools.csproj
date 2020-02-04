@@ -62,7 +62,7 @@
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\ObjectAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
-    <Compile Include="Controllers\UpdateProcessController.cs" />
+    <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
       <SubType>Form</SubType>

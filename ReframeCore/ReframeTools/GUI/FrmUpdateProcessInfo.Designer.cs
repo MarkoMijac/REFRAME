@@ -51,6 +51,7 @@
             this.Controls.Add(this.dgvUpdateInfo);
             this.Name = "FrmUpdateProcessInfo";
             this.Text = "Update process information";
+            this.Load += new System.EventHandler(this.FrmUpdateProcessInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).EndInit();
             this.ResumeLayout(false);
 

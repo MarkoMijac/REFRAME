@@ -131,7 +131,7 @@ namespace ReframeTools.GUI
 
         private void getLatestUpdateInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new FrmUpdateProcessInfo();
+            var form = new FrmUpdateProcessInfo(GetSelectedReactorIdentifier());
             DisplayForm(form);
         }
     }

@@ -46,9 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XmlExporter.cs" />
+    <Compile Include="Exporter.cs" />
+    <Compile Include="XmlReactorDetailExporter.cs" />
     <Compile Include="IExporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlReactorsExporter.cs" />
+    <Compile Include="XmlUpdaterInfoExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">

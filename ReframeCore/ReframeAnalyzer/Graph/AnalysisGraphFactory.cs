@@ -1,6 +1,6 @@
 ﻿namespace ReframeAnalyzer.Graph
 {
-    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel };
+    public enum AnalysisLevel { None, AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel };
 
     public class AnalysisGraphFactory
     {
@@ -64,6 +64,16 @@
                     result = null;
                     break;
             }
+
+            return result;
+        }
+
+        public IAnalysisGraph CreateGraph(string xmlSource, string xmlUpdateInfo)
+        {
+            IAnalysisGraph result = null;
+
+            var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+            result = new UpdateAnalysisGraph(xmlUpdateInfo, objectMemberGraph);
 
             return result;
         }

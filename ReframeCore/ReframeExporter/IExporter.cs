@@ -9,7 +9,6 @@ namespace ReframeExporter
 {
     interface IExporter
     {
-        string ExportReactors();
-        string ExportReactor(string reactorIdentifier);
+        string Export();
     }
 }

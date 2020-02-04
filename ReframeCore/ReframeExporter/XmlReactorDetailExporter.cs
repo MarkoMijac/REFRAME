@@ -12,66 +12,13 @@ using System.Xml;
 
 namespace ReframeExporter
 {
-    public class XmlExporter : IExporter
+    public class XmlReactorDetailExporter : Exporter
     {
-        protected XmlWriterSettings _defaultXmlSettings;
+        protected string ReactorIdentifier { get; set; }
 
-        private void SetDefaultSettings()
+        public XmlReactorDetailExporter(string reactorIdentifier) : base()
         {
-            _defaultXmlSettings = new XmlWriterSettings()
-            {
-                Indent = true
-            };
-        }
-
-        public XmlExporter()
-        {
-            SetDefaultSettings();
-        }
-
-        private string Export(IReadOnlyList<IReactor> reactors)
-        {
-            StringBuilder builder = new StringBuilder();
-
-            using (var stringWriter = new StringWriter(builder))
-            using (var xmlWriter = XmlWriter.Create(stringWriter, _defaultXmlSettings))
-            {
-                xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("Reactors");
-
-                foreach (var reactor in reactors)
-                {
-                    var graph = reactor.Graph;
-
-                    xmlWriter.WriteStartElement("Reactor");
-                    WriteBasicReactorData(xmlWriter, reactor);
-
-                    xmlWriter.WriteStartElement("Graph");
-                    WriteBasicGraphData(xmlWriter, reactor.Graph);
-                    xmlWriter.WriteEndElement();
-
-                    xmlWriter.WriteEndElement();
-                }
-
-                xmlWriter.WriteEndElement();
-                xmlWriter.WriteEndDocument();
-            }
-
-            return builder.ToString();
-        }
-
-        public string ExportUpdateInfo(string identifier)
-        {
-            string updateInfo = "";
-
-            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-            ILoggable loggable = reactor.Updater as ILoggable;
-            if (loggable != null)
-            {
-                updateInfo = loggable.NodeLog.GetLoggedNodesDetails();
-            }
-
-            return updateInfo;
+            ReactorIdentifier = reactorIdentifier;
         }
 
         private string Export(IReactor reactor)
@@ -94,13 +41,6 @@ namespace ReframeExporter
             return builder.ToString();
         }
 
-        private void WriteBasicReactorData(XmlWriter xmlWriter, IReactor reactor)
-        {
-            xmlWriter.WriteStartElement("Identifier");
-            xmlWriter.WriteString(reactor.Identifier.ToString());
-            xmlWriter.WriteEndElement();
-        }
-
         private void WriteGraph(XmlWriter xmlWriter, IDependencyGraph graph)
         {
             xmlWriter.WriteStartElement("Graph");
@@ -108,17 +48,6 @@ namespace ReframeExporter
             WriteBasicGraphData(xmlWriter, graph);
             WriteNodes(xmlWriter, graph.Nodes);
 
-            xmlWriter.WriteEndElement();
-        }
-
-        private void WriteBasicGraphData(XmlWriter xmlWriter, IDependencyGraph graph)
-        {
-            xmlWriter.WriteStartElement("Identifier");
-            xmlWriter.WriteString(graph.Identifier.ToString());
-            xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteStartElement("NodeCount");
-            xmlWriter.WriteString(graph.Nodes.Count.ToString());
             xmlWriter.WriteEndElement();
         }
 
@@ -288,15 +217,9 @@ namespace ReframeExporter
             xmlWriter.WriteEndElement();
         }
 
-        public string ExportReactors()
+        public override string Export()
         {
-            var reactors = ReactorRegistry.Instance.GetReactors();
-            return Export(reactors);
-        }
-
-        public string ExportReactor(string reactorIdentifier)
-        {
-            var reactor = ReactorRegistry.Instance.GetReactor(reactorIdentifier);
+            var reactor = ReactorRegistry.Instance.GetReactor(ReactorIdentifier);
             return Export(reactor);
         }
     }

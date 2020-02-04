@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReframeTools.Controllers
 {
-    public class UpdateProcessController
+    public class UpdateProcessAnalysisController
     {
         protected FrmUpdateProcessInfo View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
@@ -18,16 +18,28 @@ namespace ReframeTools.Controllers
         public Analyzer Analyzer { get; set; } = new Analyzer();
         public AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
 
-        public UpdateProcessController(FrmUpdateProcessInfo form)
+        public UpdateProcessAnalysisController(FrmUpdateProcessInfo form)
         {
             View = form;
+            CreateAnalysisGraph(View.ReactorIdentifier);
         }
 
         private void CreateAnalysisGraph(string reactorIdentifier)
         {
             var pipeClient = new ReframePipeClient();
-            string xmlSource = pipeClient.GetUpdateInfo(reactorIdentifier);
-            AnalysisGraph = GraphFactory.CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
+            string xmlUpdateInfo = pipeClient.GetUpdateInfo(reactorIdentifier);
+            string xmlReactor = pipeClient.GetReactor(reactorIdentifier);
+
+            AnalysisGraph = GraphFactory.CreateGraph(xmlReactor, xmlUpdateInfo);
+            AnalysisNodes = AnalysisGraph.Nodes;
+        }
+
+        public void ShowGraph()
+        {
+            if (View != null)
+            {
+                View.ShowAnalysis(AnalysisNodes);
+            }
         }
     }
 }
