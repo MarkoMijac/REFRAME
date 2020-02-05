@@ -19,6 +19,10 @@ namespace ReframeAnalyzer.Graph
         public string FailedNodeOwner { get; set; }
         public string SourceException { get; set; }
         public string StackTrace { get; set; }
+        public string CauseMessage { get; set; }
+        public uint InitialNodeIdentifier { get; set; }
+        public string InitialNodeName { get; set; }
+        public string InitialNodeOwner { get; set; }
 
         public UpdateAnalysisGraph(string source)
         {
@@ -62,7 +66,19 @@ namespace ReframeAnalyzer.Graph
                 SourceException = xError.Element("SourceException").Value;
                 StackTrace = xError.Element("StackTrace").Value;
             }
-            
+
+            XElement xUpdateCause = xRoot.Element("UpdateCause");
+            if (xUpdateCause != null)
+            {
+                CauseMessage = xUpdateCause.Element("Message").Value;
+                XElement xInitialNode = xUpdateCause.Element("InitialNode");
+                if (xInitialNode != null)
+                {
+                    InitialNodeIdentifier = uint.Parse(xInitialNode.Element("Identifier").Value);
+                    InitialNodeName = xInitialNode.Element("MemberName").Value;
+                    InitialNodeOwner = xInitialNode.Element("OwnerObject").Value;
+                }
+            }
         }
 
         private IEnumerable<XElement> FetchNodes(XElement xUpdatedNodes)

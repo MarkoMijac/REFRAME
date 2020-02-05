@@ -37,7 +37,7 @@ namespace ReframeTools.Controllers
         {
             if (View != null)
             {
-                View.ShowAnalysis(AnalysisNodes);
+                View.ShowAnalysis(AnalysisGraph);
             }
         }
     }

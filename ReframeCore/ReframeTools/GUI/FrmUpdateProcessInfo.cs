@@ -23,15 +23,37 @@ namespace ReframeTools.GUI
             AddColumns();
         }
 
-        public void ShowAnalysis(IEnumerable<IAnalysisNode> analysisNodes)
+        public void ShowAnalysis(IAnalysisGraph analysisGraph)
+        {
+            ShowBasicInformation(analysisGraph as UpdateAnalysisGraph);
+            ShowUpdatedNodes(analysisGraph as UpdateAnalysisGraph);
+        }
+
+        private void ShowBasicInformation(UpdateAnalysisGraph analysisGraph)
+        {
+            txtGraphIdentifier.Text = analysisGraph.Identifier;
+            txtGraphTotalNodeCount.Text = analysisGraph.TotalNodeCount.ToString();
+            txtUpdatedNodesCount.Text = analysisGraph.Nodes.Count.ToString();
+            txtUpdateSuccessful.Text = analysisGraph.UpdateSuccessful.ToString();
+            txtUpdateStartedAt.Text = analysisGraph.UpdateStartedAt.ToString();
+            txtUpdateEndedAt.Text = analysisGraph.UpdateEndedAt.ToString();
+            txtUpdateDuration.Text = analysisGraph.UpdateDuration.ToString();
+
+            txtUpdateCause.Text = analysisGraph.CauseMessage;
+            txtInitialNodeIdentifier.Text = analysisGraph.InitialNodeIdentifier.ToString();
+            txtInitialNodeMemberName.Text = analysisGraph.InitialNodeName;
+            txtInitialNodeOwnerObject.Text = analysisGraph.InitialNodeOwner;
+        }
+
+        private void ShowUpdatedNodes(UpdateAnalysisGraph analysisGraph)
         {
             dgvUpdateInfo.Rows.Clear();
 
             try
             {
-                if (analysisNodes != null)
+                if (analysisGraph != null)
                 {
-                    foreach (UpdateAnalysisNode node in analysisNodes)
+                    foreach (UpdateAnalysisNode node in analysisGraph.Nodes)
                     {
                         dgvUpdateInfo.Rows.Add(new string[]
                             {
