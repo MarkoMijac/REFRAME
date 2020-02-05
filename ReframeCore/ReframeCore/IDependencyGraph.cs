@@ -26,6 +26,7 @@ namespace ReframeCore
         bool ContainsDependency(INode predecessor, INode successor);
 
         INode GetNode(INode node);
+        INode GetNode(uint identifier);
         INode GetNode(object ownerObject, string memberName);
 
         void AddDependency(INode predecessor, INode successor);

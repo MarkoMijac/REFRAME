@@ -10,23 +10,24 @@ namespace ReframeAnalyzer.Graph
     public class UpdateAnalysisNode : AnalysisNode
     {
         public string NodeType { get; set; }
-        public ObjectAnalysisNode OwnerObject { get; set; }
+        public int UpdateOrder { get; set; }
         public int UpdateLayer { get; set; }
         public string UpdateStartedAt { get; set; }
         public string UpdateCompletedAt { get; set; }
         public string UpdateDuration { get; set; }
+        public string CurrentValue { get; set; }
 
-        public UpdateAnalysisNode(XElement xNode, ObjectMemberAnalysisNode objectMemberNode)
+        public UpdateAnalysisNode(XElement xNode)
         {
-            Identifier = objectMemberNode.Identifier;
-            Name = objectMemberNode.Name;
-            NodeType = objectMemberNode.NodeType;
+            Identifier = uint.Parse(xNode.Element("Identifier").Value);
+            Name = xNode.Element("MemberName").Value;
+            NodeType = xNode.Element("NodeType").Value;
+            UpdateOrder = int.Parse(xNode.Element("UpdateOrder").Value);
             UpdateLayer = int.Parse(xNode.Element("UpdateLayer").Value);
             UpdateStartedAt = xNode.Element("UpdateStartedAt").Value;
             UpdateCompletedAt = xNode.Element("UpdateCompletedAt").Value;
             UpdateDuration = xNode.Element("UpdateDuration").Value;
-
-            OwnerObject = objectMemberNode.OwnerObject;
+            CurrentValue = xNode.Element("CurrentValue").Value;
         }
     }
 }

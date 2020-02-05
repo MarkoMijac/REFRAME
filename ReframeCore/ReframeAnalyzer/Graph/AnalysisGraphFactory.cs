@@ -68,14 +68,9 @@
             return result;
         }
 
-        public IAnalysisGraph CreateGraph(string xmlSource, string xmlUpdateInfo)
+        public IAnalysisGraph CreateGraph(string xmlUpdateInfo)
         {
-            IAnalysisGraph result = null;
-
-            var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-            result = new UpdateAnalysisGraph(xmlUpdateInfo, objectMemberGraph);
-
-            return result;
+            return new UpdateAnalysisGraph(xmlUpdateInfo);
         }
     }
 }

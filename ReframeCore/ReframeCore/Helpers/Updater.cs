@@ -156,10 +156,11 @@ namespace ReframeCore.Helpers
                 && UpdateSuspended == false;
         }
 
-        private void MarkUpdateStart()
+        private void MarkUpdateStart(INode initialNode)
         {
             Status = UpdateProcessStatus.Started;
             LatestUpdateInfo = new UpdateInfo();
+            LatestUpdateInfo.InitialNode = initialNode;
             LatestUpdateInfo.StartUpdate();
             OnUpdateStarted();
         }
@@ -289,9 +290,8 @@ namespace ReframeCore.Helpers
             {
                 PrepareForUpdate();
 
-                MarkUpdateStart();
-
                 INode initialNode = Graph.GetNode(ownerObject, memberName);
+                MarkUpdateStart(initialNode);
 
                 if (initialNode == null)
                 {
@@ -316,7 +316,7 @@ namespace ReframeCore.Helpers
             {
                 PrepareForUpdate();
 
-                MarkUpdateStart();
+                MarkUpdateStart(initialNode);
 
                 ValidateInitialNode(initialNode);
                 var nodesForUpdate = GetUpdateSchedule(initialNode, skipInitialNode);
@@ -337,7 +337,7 @@ namespace ReframeCore.Helpers
             {
                 PrepareForUpdate();
 
-                MarkUpdateStart();
+                MarkUpdateStart(null);
 
                 var nodesForUpdate = GetUpdateSchedule();
                 Update(nodesForUpdate);

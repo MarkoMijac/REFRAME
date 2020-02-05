@@ -9,20 +9,31 @@ namespace ReframeAnalyzer.Graph
 {
     public class UpdateAnalysisGraph : AnalysisGraph
     {
-        private ObjectMemberAnalysisGraph _objectMemberGraph;
+        public bool UpdateSuccessful { get; set; }
+        public string UpdateStartedAt { get; set; }
+        public string UpdateEndedAt { get; set; }
+        public string UpdateDuration { get; set; }
+        public int TotalNodeCount { get; set; }
+        public uint FailedNodeIdentifier { get; set; }
+        public string FailedNodeName { get; set; }
+        public string FailedNodeOwner { get; set; }
+        public string SourceException { get; set; }
+        public string StackTrace { get; set; }
 
-        public UpdateAnalysisGraph(string source, ObjectMemberAnalysisGraph objectMemberGraph)
+        public UpdateAnalysisGraph(string source)
         {
             AnalysisLevel = AnalysisLevel.ObjectMemberLevel;
             Source = source;
-            _objectMemberGraph = objectMemberGraph;
 
             XElement xRoot = XElement.Parse(source);
-            XElement xGraph = xRoot.Element("Graph");
-            XElement xUpdateInfos = xRoot.Element("UpdateInfos");
+            XElement xReactor = xRoot.Element("Reactor");
+            XElement xGraph = xReactor.Element("Graph");
 
+            XElement xUpdatedNodes = xRoot.Element("Nodes");
+
+            InitializeBasicData(xRoot);
             InitializeGraphBasicData(xGraph);
-            IEnumerable<XElement> xNodes = FetchNodes(xUpdateInfos);
+            IEnumerable<XElement> xNodes = FetchNodes(xUpdatedNodes);
             if (xNodes.Count() > 0)
             {
                 InitializeGraphNodes(xNodes);
@@ -30,13 +41,37 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private IEnumerable<XElement> FetchNodes(XElement xUpdateInfos)
+        private void InitializeBasicData(XElement xRoot)
+        {
+            UpdateSuccessful = bool.Parse(xRoot.Element("UpdateSuccessful").Value);
+            UpdateStartedAt = xRoot.Element("UpdateStartedAt").Value;
+            UpdateEndedAt = xRoot.Element("UpdateEndedAt").Value;
+            UpdateDuration = xRoot.Element("UpdateDuration").Value;
+
+            XElement xError = xRoot.Element("UpdateError");
+            if (xError != null)
+            {
+                XElement xFailedNode = xRoot.Element("FailedNode");
+                if (xFailedNode != null)
+                {
+                    FailedNodeIdentifier = uint.Parse(xFailedNode.Element("Identifier").Value);
+                    FailedNodeName = xFailedNode.Element("MemberName").Value;
+                    FailedNodeOwner = xFailedNode.Element("OwnerObject").Value;
+                }
+
+                SourceException = xError.Element("SourceException").Value;
+                StackTrace = xError.Element("StackTrace").Value;
+            }
+            
+        }
+
+        private IEnumerable<XElement> FetchNodes(XElement xUpdatedNodes)
         {
             IEnumerable<XElement> xNodes = null;
 
-            if (xUpdateInfos != null)
+            if (xUpdatedNodes != null)
             {
-                xNodes = xUpdateInfos.Descendants("UpdateInfo");
+                xNodes = xUpdatedNodes.Descendants("Node");
             }
 
             return xNodes;
@@ -45,6 +80,7 @@ namespace ReframeAnalyzer.Graph
         private void InitializeGraphBasicData(XElement xGraph)
         {
             Identifier = xGraph.Element("Identifier").Value;
+            TotalNodeCount = int.Parse(xGraph.Element("TotalNodeCount").Value);
         }
 
         private void InitializeGraphNodes(IEnumerable<XElement> xNodes)
@@ -54,12 +90,8 @@ namespace ReframeAnalyzer.Graph
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (ContainsNode(nodeIdentifier) == false)
                 {
-                    ObjectMemberAnalysisNode objectMemberNode = _objectMemberGraph.GetNode(nodeIdentifier) as ObjectMemberAnalysisNode;
-                    if (objectMemberNode != null)
-                    {
-                        var node = new UpdateAnalysisNode(xNode, objectMemberNode);
-                        AddNode(node);
-                    }
+                    var node = new UpdateAnalysisNode(xNode);
+                    AddNode(node);
                 }
             }
         }
@@ -70,11 +102,13 @@ namespace ReframeAnalyzer.Graph
             {
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 var analysisNode = GetNode(nodeIdentifier);
-                var objectMemberNode = _objectMemberGraph.GetNode(nodeIdentifier);
 
-                foreach (ObjectMemberAnalysisNode objectMemberSuccessor in objectMemberNode.Successors)
+                IEnumerable<XElement> xSuccessors = xNode.Descendants("Successor");
+
+                foreach (var xSuccessor in xSuccessors)
                 {
-                    var successorAnalysisNode = GetNode(objectMemberSuccessor.Identifier);
+                    uint successorIdentifier = uint.Parse(xSuccessor.Element("Identifier").Value);
+                    var successorAnalysisNode = GetNode(successorIdentifier);
                     if (successorAnalysisNode != null)
                     {
                         analysisNode.AddSuccesor(successorAnalysisNode);

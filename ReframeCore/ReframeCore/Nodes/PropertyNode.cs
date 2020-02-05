@@ -14,7 +14,7 @@ namespace ReframeCore.Nodes
     /// </summary>
     public class PropertyNode : Node
     {
-        private object LastValue { get; set; }
+        public object LastValue { get; private set; }
         private string _updateMethodName;
 
         #region Constructors
@@ -61,12 +61,16 @@ namespace ReframeCore.Nodes
             }
         }
 
+        public object GetCurrentValue()
+        {
+            return Reflector.GetPropertyValue(OwnerObject, MemberName);
+        }
+
         public override bool IsTriggered()
         {
-            object currentValue = Reflector.GetPropertyValue(OwnerObject, MemberName);
+            object currentValue = GetCurrentValue();
 
-            Type type = currentValue.GetType();
-            bool isChanged = !currentValue.Equals(LastValue);
+            bool isChanged = currentValue.Equals(LastValue) == false;
 
             return isChanged;
         }

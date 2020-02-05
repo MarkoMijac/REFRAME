@@ -40,7 +40,7 @@ namespace ReframeExporter
             xmlWriter.WriteString(graph.Identifier.ToString());
             xmlWriter.WriteEndElement();
 
-            xmlWriter.WriteStartElement("NodeCount");
+            xmlWriter.WriteStartElement("TotalNodeCount");
             xmlWriter.WriteString(graph.Nodes.Count.ToString());
             xmlWriter.WriteEndElement();
         }

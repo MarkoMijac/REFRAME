@@ -1,5 +1,7 @@
-﻿using ReframeCore.Factories;
+﻿using ReframeCore;
+using ReframeCore.Factories;
 using ReframeCore.Helpers;
+using ReframeCore.Nodes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,8 +23,9 @@ namespace ReframeExporter
 
         public override string Export()
         {
-            IReadOnlyCollection<string> updateInfos = GetUpdateInfo();
             var reactor = ReactorRegistry.Instance.GetReactor(ReactorIdentifier);
+            IReadOnlyCollection<string> logs = GetUpdateLog(reactor.Updater as ILoggable);
+            UpdateInfo updateInfo = (reactor.Updater as Updater).LatestUpdateInfo;
 
             StringBuilder builder = new StringBuilder();
 
@@ -30,17 +33,20 @@ namespace ReframeExporter
             using (var xmlWriter = XmlWriter.Create(stringWriter, _defaultXmlSettings))
             {
                 xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("UpdateProcessInfo");
+                xmlWriter.WriteStartElement("UpdateProcess");
+
+                WriteUpdateInfo(xmlWriter, updateInfo);
 
                 xmlWriter.WriteStartElement("Reactor");
-                WriteBasicReactorData(xmlWriter, reactor);
-                xmlWriter.WriteEndElement();
 
+                WriteBasicReactorData(xmlWriter, reactor);
                 xmlWriter.WriteStartElement("Graph");
                 WriteBasicGraphData(xmlWriter, reactor.Graph);
                 xmlWriter.WriteEndElement();
 
-                WriteUpdateInfos(xmlWriter, updateInfos);
+                xmlWriter.WriteEndElement();
+
+                WriteUpdatedNodes(xmlWriter, logs, reactor);
 
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
@@ -49,80 +55,234 @@ namespace ReframeExporter
             return builder.ToString();
         }
 
-        private void WriteUpdateInfos(XmlWriter xmlWriter, IReadOnlyCollection<string> updateInfos)
+        private void WriteUpdateInfo(XmlWriter xmlWriter, UpdateInfo updateInfo)
         {
-            xmlWriter.WriteStartElement("UpdateInfos");
+            xmlWriter.WriteStartElement("UpdateSuccessful");
+            xmlWriter.WriteString(updateInfo.UpdateSuccessfull.ToString());
+            xmlWriter.WriteEndElement();
 
-            foreach (var updateInfo in updateInfos)
+            xmlWriter.WriteStartElement("UpdateStartedAt");
+            xmlWriter.WriteString(GetFormatedTime(updateInfo.UpdateStartedAt));
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("UpdateEndedAt");
+            xmlWriter.WriteString(GetFormatedTime(updateInfo.UpdateEndedAt));
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("UpdateDuration");
+            xmlWriter.WriteString(updateInfo.UpdateDuration.ToString());
+            xmlWriter.WriteEndElement();
+
+            WriteUpdateCauseInfo(xmlWriter, updateInfo);
+            WriteUpdateErrorInfo(xmlWriter, updateInfo);
+        }
+
+        private void WriteUpdateCauseInfo(XmlWriter xmlWriter, UpdateInfo updateInfo)
+        {
+            xmlWriter.WriteStartElement("UpdateCause");
+
+            xmlWriter.WriteStartElement("Message");
+            xmlWriter.WriteString(updateInfo.CauseMessage);
+            xmlWriter.WriteEndElement();
+
+            if (updateInfo.InitialNode != null)
             {
-                WriteInfo(updateInfo, xmlWriter);
+                INode initialNode = updateInfo.InitialNode;
+                xmlWriter.WriteStartElement("InitialNode");
+                WriteNodeBasicData(initialNode, xmlWriter);
+                xmlWriter.WriteEndElement();
             }
 
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteInfo(string updateInfo, XmlWriter xmlWriter)
+        private void WriteUpdateErrorInfo(XmlWriter xmlWriter, UpdateInfo updateInfo)
         {
-            xmlWriter.WriteStartElement("UpdateInfo");
+            if (updateInfo.UpdateSuccessfull == false && updateInfo.ErrorData != null)
+            {
+                UpdateError updateError = updateInfo.ErrorData;
+                xmlWriter.WriteStartElement("UpdateError");
 
-            WriteBasicNodeData(updateInfo, xmlWriter);
-            WriteBasicUpdateInfo(updateInfo, xmlWriter);
+                xmlWriter.WriteStartElement("FailedNode");
+
+                WriteNodeBasicData(updateError.FailedNode, xmlWriter);
+
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("SourceException");
+                xmlWriter.WriteString(updateError.SourceException.Message);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("StackTrace");
+                xmlWriter.WriteString(updateError.SourceException.Message);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteEndElement();
+            }
+        }
+
+        private void WriteUpdatedNodes(XmlWriter xmlWriter, IReadOnlyCollection<string> logs, IReactor reactor)
+        {
+            xmlWriter.WriteStartElement("Nodes");
+            int orderNum = 1;
+            foreach (var log in logs)
+            {
+                uint nodeIdentifier = GetNodeIdentifier(log);
+                INode node = reactor.GetNode(nodeIdentifier);
+                
+                WriteUpdatedNode(orderNum, node, xmlWriter);
+                orderNum++;
+            }
 
             xmlWriter.WriteEndElement();
         }
 
-        private void WriteBasicUpdateInfo(string updateInfo, XmlWriter xmlWriter)
+        private uint GetNodeIdentifier(string log)
         {
-            if (updateInfo != "")
+            return uint.Parse(log.Split(';')[0]);
+        }
+
+        private void WriteUpdatedNode(int orderNum, INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Node");
+
+            WriteNodeData(node, xmlWriter);
+            WriteNodeUpdateInfo(orderNum, node, xmlWriter);
+
+            WritePredecessors(node, xmlWriter);
+            WriteSuccesors(node, xmlWriter);
+
+            xmlWriter.WriteEndElement();
+        }
+
+        private void WriteSuccesors(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Successors");
+            foreach (INode successor in node.Successors)
             {
-                string[] info = updateInfo.Split(';');
-                xmlWriter.WriteStartElement("UpdateLayer");
-                xmlWriter.WriteString(info[4]);
+                WriteSuccessor(successor, xmlWriter);
+            }
+            xmlWriter.WriteEndElement();
+        }
+
+        private void WriteSuccessor(INode successor, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Successor");
+
+            WriteNodeBasicData(successor, xmlWriter);
+
+            xmlWriter.WriteEndElement();
+        }
+
+        private void WritePredecessors(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Predecessors");
+            foreach (INode predecessor in node.Predecessors)
+            {
+                WritePredecessor(predecessor, xmlWriter);
+            }
+            xmlWriter.WriteEndElement();
+        }
+
+        private void WritePredecessor(INode predecessor, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Predecessor");
+
+            WriteNodeBasicData(predecessor, xmlWriter);
+
+            xmlWriter.WriteEndElement();
+        }
+
+        private string GetFormatedTime(DateTime dateTime)
+        {
+            return string.Format("{0}:{1}:{2}:{3}", dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond);
+        }
+
+        private void WriteNodeUpdateInfo(int orderNum, INode node, XmlWriter xmlWriter)
+        {
+            if (node != null)
+            {
+                ITimeInfoProvider timeInfo = node as ITimeInfoProvider;
+                xmlWriter.WriteStartElement("UpdateOrder");
+                xmlWriter.WriteString(orderNum.ToString());
                 xmlWriter.WriteEndElement();
 
+                xmlWriter.WriteStartElement("UpdateLayer");
+                xmlWriter.WriteString(node.Layer.ToString());
+                xmlWriter.WriteEndElement();
+
+                string updateStartedAt = "";
+                string updateCompletedAt = "";
+                string updateDuration = "";
+
+                if (timeInfo != null)
+                {
+                    updateStartedAt = GetFormatedTime(timeInfo.UpdateStartedAt);
+                    updateCompletedAt = GetFormatedTime(timeInfo.UpdateCompletedAt);
+                    updateDuration = timeInfo.UpdateDuration.ToString();
+                }
+
                 xmlWriter.WriteStartElement("UpdateStartedAt");
-                xmlWriter.WriteString(info[5]);
+                xmlWriter.WriteString(updateStartedAt);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("UpdateCompletedAt");
-                xmlWriter.WriteString(info[6]);
+                xmlWriter.WriteString(updateCompletedAt);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("UpdateDuration");
-                xmlWriter.WriteString(info[7]);
+                xmlWriter.WriteString(updateDuration);
                 xmlWriter.WriteEndElement();
             }
         }
 
-        private void WriteBasicNodeData(string updateInfo, XmlWriter xmlWriter)
+        private void WriteNodeData(INode node, XmlWriter xmlWriter)
         {
-            if (updateInfo != "")
+            if (node != null)
             {
-                string[] info = updateInfo.Split(';');
-                xmlWriter.WriteStartElement("Identifier");
-                xmlWriter.WriteString(info[0]);
-                xmlWriter.WriteEndElement();
+                WriteNodeBasicData(node, xmlWriter);
 
-                xmlWriter.WriteStartElement("MemberName");
-                xmlWriter.WriteString(info[1]);
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.WriteStartElement("OwnerObject");
-                xmlWriter.WriteString(info[2]);
+                xmlWriter.WriteStartElement("NodeType");
+                xmlWriter.WriteString(node.GetType().Name);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("ObjectIdentifier");
-                xmlWriter.WriteString(info[3]);
+                xmlWriter.WriteString(node.OwnerObject.GetHashCode().ToString());
+                xmlWriter.WriteEndElement();
+
+                string currentValue = "";
+
+                if (node is PropertyNode)
+                {
+                    PropertyNode propertyNode = node as PropertyNode;
+                    currentValue = propertyNode.GetCurrentValue().ToString();
+                }
+
+                xmlWriter.WriteStartElement("CurrentValue");
+                xmlWriter.WriteString(currentValue);
                 xmlWriter.WriteEndElement();
             }
         }
 
-        private IReadOnlyCollection<string> GetUpdateInfo()
+        private static void WriteNodeBasicData(INode node, XmlWriter xmlWriter)
+        {
+            xmlWriter.WriteStartElement("Identifier");
+            xmlWriter.WriteString(node.Identifier.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("MemberName");
+            xmlWriter.WriteString(node.MemberName);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("OwnerObject");
+            xmlWriter.WriteString(node.OwnerObject.GetType().Name);
+            xmlWriter.WriteEndElement();
+        }
+
+        private IReadOnlyCollection<string> GetUpdateLog(ILoggable loggable)
         {
             IReadOnlyCollection<string> updateInfo = null;
 
-            var reactor = ReactorRegistry.Instance.GetReactor(ReactorIdentifier);
-            ILoggable loggable = reactor.Updater as ILoggable;
             if (loggable != null)
             {
                 updateInfo = loggable.NodeLog.GetLoggedNodesDetails();

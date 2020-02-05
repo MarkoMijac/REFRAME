@@ -80,6 +80,11 @@ namespace ReframeCore
             return Graph.GetNode(node);
         }
 
+        public INode GetNode(uint identifier)
+        {
+            return Graph.GetNode(identifier);
+        }
+
         public INode GetNode(object ownerObject, string memberName)
         {
             return Graph.GetNode(ownerObject, memberName);

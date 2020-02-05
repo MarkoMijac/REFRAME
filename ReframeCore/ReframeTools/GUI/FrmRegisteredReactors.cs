@@ -45,7 +45,7 @@ namespace ReframeTools.GUI
                 string reactorIdentifier = reactor.Element("Identifier").Value;
                 XElement xeGraph = reactor.Element("Graph");
                 string graphIdentifier = xeGraph.Element("Identifier").Value;
-                string nodeCount = xeGraph.Element("NodeCount").Value;
+                string nodeCount = xeGraph.Element("TotalNodeCount").Value;
                 var g = new
                 {
                     Identifier = reactorIdentifier,

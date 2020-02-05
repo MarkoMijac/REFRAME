@@ -38,6 +38,8 @@ namespace ReframeTools.GUI
                                 node.Identifier.ToString(),
                                 node.Name,
                                 node.NodeType.ToString(),
+                                node.CurrentValue,
+                                node.UpdateOrder.ToString(),
                                 node.UpdateLayer.ToString(),
                                 node.UpdateStartedAt,
                                 node.UpdateCompletedAt,
@@ -62,6 +64,8 @@ namespace ReframeTools.GUI
                 dgvUpdateInfo.Columns.Add("colIdentifier", "Identifier");
                 dgvUpdateInfo.Columns.Add("colName", "Name");
                 dgvUpdateInfo.Columns.Add("colNodeType", "Node Type");
+                dgvUpdateInfo.Columns.Add("colCurrentValue", "Current Value");
+                dgvUpdateInfo.Columns.Add("colUpdateOrder", "Update Order");
                 dgvUpdateInfo.Columns.Add("colUpdateLayer", "Update Layer");
                 dgvUpdateInfo.Columns.Add("colStartedAt", "Started At");
                 dgvUpdateInfo.Columns.Add("colCompletedAt", "Completed At");
