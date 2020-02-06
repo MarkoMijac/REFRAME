@@ -1,5 +1,6 @@
 ﻿using ReframeCore;
 using ReframeCore.Factories;
+using ReframeCore.Helpers;
 
 namespace ReframeDemonstration
 {
@@ -9,7 +10,9 @@ namespace ReframeDemonstration
         {
             get
             {
-                return ReactorRegistry.Instance.GetOrCreateReactor("DEFAULT_REACTOR");
+                var reactor = ReactorRegistry.Instance.GetOrCreateReactor("DEFAULT_REACTOR");
+                (reactor.Updater as Updater).SkipUpdateIfInitialNodeNotChanged = true;
+                return reactor;
             }
         }
     }

@@ -55,28 +55,6 @@ namespace ReframeCoreTests
             return logger;
         }
 
-        [TestMethod]
-        public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateNotEnabled_SchedulesCorrectUpdateOrder()
-        {
-            //Arrange
-            var graph = new DependencyGraph("G");
-            GenericReactiveObject o = new GenericReactiveObject();
-
-            CreateCase(graph, o);
-            ISorter sorter = new DFS_Sorter();
-            var scheduler = new Scheduler(graph, sorter);
-            scheduler.SkipUpdateIfInitialNodeNotChanged = false;
-
-            //Act
-            IList<INode> nodesForUpdate = scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
-
-            //Assert
-            NodeLog actualNodesToUpdate = scheduler.NodeLog;
-            NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
-
-            Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
-        }
-
         private void CreateCase1(IDependencyGraph graph, GenericReactiveObject obj)
         {
             INode aNode = graph.AddNode(obj, "A");
@@ -236,27 +214,6 @@ namespace ReframeCoreTests
         }
 
         [TestMethod]
-        public void GetNodesForUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateEnabled_ShouldBeZeroNodesForUpdate()
-        {
-            //Arrange
-            var graph = new DependencyGraph("G");
-            GenericReactiveObject o = new GenericReactiveObject();
-
-            CreateCase(graph, o);
-            var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.SkipUpdateIfInitialNodeNotChanged = true;
-
-            //Act
-            scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
-
-            //Assert
-            NodeLog actualNodesToUpdate = scheduler.NodeLog;
-            NodeLog expectedNodesToUpdate = new NodeLog();
-
-            Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
-        }
-
-        [TestMethod]
         public void GetNodesForUpdate_TriggeredNodeValueChangedAndSkippingUpdateNotEnabled_SchedulerCorrectUpdateOrder()
         {
             //Arrange
@@ -265,14 +222,15 @@ namespace ReframeCoreTests
 
             CreateCase(graph, o);
             var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.SkipUpdateIfInitialNodeNotChanged = false;
+            var updater = new Updater(graph, scheduler);
+            updater.SkipUpdateIfInitialNodeNotChanged = false;
 
             //Act
             o.A = 5;
-            scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
+            updater.PerformUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog actualNodesToUpdate = updater.NodeLog;
             NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);
@@ -287,14 +245,15 @@ namespace ReframeCoreTests
 
             CreateCase(graph, o);
             var scheduler = new Scheduler(graph, new DFS_Sorter());
-            scheduler.SkipUpdateIfInitialNodeNotChanged = true;
+            var updater = new Updater(graph, scheduler);
+            updater.SkipUpdateIfInitialNodeNotChanged = true;
 
             //Act
             o.A = 5;
-            scheduler.GetNodesForUpdate(graph.GetNode(o, "A"), true);
+            updater.PerformUpdate(graph.GetNode(o, "A"), true);
 
             //Assert
-            NodeLog actualNodesToUpdate = scheduler.NodeLog;
+            NodeLog actualNodesToUpdate = updater.NodeLog;
             NodeLog expectedNodesToUpdate = CreateExpectedLogger_FullGraphUpdate(graph, o);
 
             Assert.AreEqual(expectedNodesToUpdate, actualNodesToUpdate);

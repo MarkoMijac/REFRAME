@@ -192,6 +192,11 @@ namespace ReframeCore.Nodes
             EndMeasuring(sw);
         }
 
+        public virtual void SaveValues()
+        {
+
+        }
+
         private Stopwatch StartMeasuring()
         {
             Stopwatch sw = new Stopwatch();

@@ -15,6 +15,8 @@ namespace ReframeCore.Nodes
     public class PropertyNode : Node
     {
         public object LastValue { get; private set; }
+        public object CurrentValue { get; private set; }
+
         private string _updateMethodName;
 
         #region Constructors
@@ -27,7 +29,7 @@ namespace ReframeCore.Nodes
         public PropertyNode(object ownerObject, string memberName) 
             :base(ownerObject, memberName)
         {
-            LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
+            SaveValues();
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace ReframeCore.Nodes
         {
             IsValidUpdateMethod(ownerObject, updateMethodName);
             _updateMethodName = updateMethodName;
-            LastValue = Reflector.GetPropertyValue(ownerObject, memberName);
+            SaveValues();
         }
 
         #endregion
@@ -68,11 +70,7 @@ namespace ReframeCore.Nodes
 
         public override bool IsTriggered()
         {
-            object currentValue = GetCurrentValue();
-
-            bool isChanged = currentValue.Equals(LastValue) == false;
-
-            return isChanged;
+            return CurrentValue.Equals(LastValue) == false;
         }
 
         protected override Action GetUpdateMethod()
@@ -97,6 +95,14 @@ namespace ReframeCore.Nodes
             }
             
             return true;
+        }
+
+        public override void SaveValues()
+        {
+            base.SaveValues();
+
+            LastValue = CurrentValue;
+            CurrentValue = GetCurrentValue();
         }
 
         #endregion

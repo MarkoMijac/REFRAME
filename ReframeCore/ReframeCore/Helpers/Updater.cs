@@ -34,6 +34,7 @@ namespace ReframeCore.Helpers
         public IDependencyGraph Graph { get; set; }
         public NodeLog NodeLog { get; private set; }
 
+        public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
         private bool UpdateSuspended { get; set; } = false;
         public bool LoggingEnabled { get; set; } = true;
 
@@ -148,6 +149,15 @@ namespace ReframeCore.Helpers
         private void PrepareForUpdate()
         {
             CleanGraph();
+        }
+
+        private void PrepareForUpdate(INode node)
+        {
+            CleanGraph();
+            if (node != null)
+            {
+                node.SaveValues();
+            }
         }
 
         private bool UpdateIsAllowed()
@@ -314,7 +324,7 @@ namespace ReframeCore.Helpers
         {
             if (UpdateIsAllowed())
             {
-                PrepareForUpdate();
+                PrepareForUpdate(initialNode);
 
                 MarkUpdateStart(initialNode);
 
@@ -383,8 +393,18 @@ namespace ReframeCore.Helpers
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
         private Dictionary<INode, bool> GetUpdateSchedule(INode node, bool skipInitialNode)
         {
-            IList<INode> nodesForUpdate = Scheduler.GetNodesForUpdate(node, skipInitialNode);
+            IList<INode> nodesForUpdate = null;
+            if (SkipUpdate(node) == false)
+            {
+                nodesForUpdate = Scheduler.GetNodesForUpdate(node, skipInitialNode);
+            }
+
             return ConvertToDictionary(nodesForUpdate);
+        }
+
+        private bool SkipUpdate(INode node)
+        {
+            return SkipUpdateIfInitialNodeNotChanged == true && node.IsTriggered() == false;
         }
 
         #endregion

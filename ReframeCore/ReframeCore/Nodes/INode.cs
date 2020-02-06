@@ -30,6 +30,7 @@ namespace ReframeCore.Nodes
         int ClearSuccessors();
 
         void Update();
+        void SaveValues();
         bool IsTriggered();
         int Layer { get; set; }
     }
