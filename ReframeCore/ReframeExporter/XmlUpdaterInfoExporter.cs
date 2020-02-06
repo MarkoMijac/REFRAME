@@ -46,7 +46,7 @@ namespace ReframeExporter
 
                 xmlWriter.WriteEndElement();
 
-                WriteUpdatedNodes(xmlWriter, logs, reactor);
+                WriteUpdatedNodes(xmlWriter, logs, reactor, updateInfo);
 
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
@@ -138,9 +138,15 @@ namespace ReframeExporter
             }
         }
 
-        private void WriteUpdatedNodes(XmlWriter xmlWriter, IReadOnlyCollection<string> logs, IReactor reactor)
+        private void WriteUpdatedNodes(XmlWriter xmlWriter, IReadOnlyCollection<string> logs, IReactor reactor, UpdateInfo updateInfo)
         {
             xmlWriter.WriteStartElement("Nodes");
+
+            if (updateInfo != null)
+            {
+                WriteUpdatedNode(0, updateInfo.InitialNode, xmlWriter, true);
+            }
+
             int orderNum = 1;
             foreach (var log in logs)
             {
@@ -159,17 +165,24 @@ namespace ReframeExporter
             return uint.Parse(log.Split(';')[0]);
         }
 
-        private void WriteUpdatedNode(int orderNum, INode node, XmlWriter xmlWriter)
+        private void WriteUpdatedNode(int orderNum, INode node, XmlWriter xmlWriter, bool initialNode = false)
         {
-            xmlWriter.WriteStartElement("Node");
+            if (node != null)
+            {
+                xmlWriter.WriteStartElement("Node");
+                if (initialNode == true)
+                {
+                    xmlWriter.WriteAttributeString("IsInitialNode", "Yes");
+                }
 
-            WriteNodeData(node, xmlWriter);
-            WriteNodeUpdateInfo(orderNum, node, xmlWriter);
+                WriteNodeData(node, xmlWriter);
+                WriteNodeUpdateInfo(orderNum, node, xmlWriter);
 
-            WritePredecessors(node, xmlWriter);
-            WriteSuccesors(node, xmlWriter);
+                WritePredecessors(node, xmlWriter);
+                WriteSuccesors(node, xmlWriter);
 
-            xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndElement();
+            }
         }
 
         private void WriteSuccesors(INode node, XmlWriter xmlWriter)

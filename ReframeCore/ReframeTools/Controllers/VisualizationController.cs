@@ -15,22 +15,18 @@ namespace ReframeTools.Controllers
 {
     public class VisualizationController
     {
-        protected FrmAnalysisView View { get; set; }
+        private string _reactorIdentifier;
 
-        public VisualizationController(FrmAnalysisView view)
+        public VisualizationController(string reactorIdentifier)
         {
-            View = view;
-        }
-
-        protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
-        {
+            _reactorIdentifier = reactorIdentifier;
         }
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
         {
             var dgmlGraph = visualGraph.GetDGML();
 
-            string fileName = new Random().Next().ToString() + "_" + View.ReactorIdentifier;
+            string fileName = new Random().Next().ToString() + "_" + _reactorIdentifier;
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
         }
 

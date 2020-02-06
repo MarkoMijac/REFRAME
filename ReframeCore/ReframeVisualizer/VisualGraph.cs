@@ -37,14 +37,20 @@ namespace ReframeVisualizer
 
         protected abstract void AddNodesToGraph(Graph dgmlGraph);
         protected abstract void AddDependenciesToGraph(Graph dgmlGraph);
-        private void PaintInitialNode(Graph dgmlGraph)
+
+        private void PaintSelectedNode(Graph dgmlGraph)
         {
-            GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "Initial");
+            GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "SelectedNode");
             if (initialNode != null)
             {
                 var painter = new GraphPainter();
                 painter.Paint(dgmlGraph, initialNode, "#FF339933");
             }
+        }
+
+        protected virtual void PaintGraph(Graph dgmlGraph)
+        {
+            PaintSelectedNode(dgmlGraph);
         }
 
         public Graph GetDGML()
@@ -54,7 +60,7 @@ namespace ReframeVisualizer
             AddCustomProperties(dgmlGraph);
             AddNodesToGraph(dgmlGraph);
             AddDependenciesToGraph(dgmlGraph);
-            PaintInitialNode(dgmlGraph);
+            PaintGraph(dgmlGraph);
 
             return dgmlGraph;
         }

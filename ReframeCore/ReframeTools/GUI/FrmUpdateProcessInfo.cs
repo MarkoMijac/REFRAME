@@ -15,7 +15,7 @@ namespace ReframeTools.GUI
     public partial class FrmUpdateProcessInfo : Form
     {
         public string ReactorIdentifier { get; set; }
-
+        private UpdateAnalysisGraph _analysisGraph;
         public FrmUpdateProcessInfo(string reactorIdentifier)
         {
             InitializeComponent();
@@ -25,37 +25,57 @@ namespace ReframeTools.GUI
 
         public void ShowAnalysis(IAnalysisGraph analysisGraph)
         {
-            ShowBasicInformation(analysisGraph as UpdateAnalysisGraph);
-            ShowUpdatedNodes(analysisGraph as UpdateAnalysisGraph);
+            _analysisGraph = analysisGraph as UpdateAnalysisGraph;
+            ShowBasicInformation();
+            ShowUpdatedNodes();
+            PaintInitialNode(analysisGraph);
         }
 
-        private void ShowBasicInformation(UpdateAnalysisGraph analysisGraph)
+        private void PaintInitialNode(IAnalysisGraph analysisGraph)
         {
-            txtGraphIdentifier.Text = analysisGraph.Identifier;
-            txtGraphTotalNodeCount.Text = analysisGraph.TotalNodeCount.ToString();
-            txtUpdatedNodesCount.Text = analysisGraph.Nodes.Count.ToString();
-            txtUpdateSuccessful.Text = analysisGraph.UpdateSuccessful.ToString();
-            txtUpdateStartedAt.Text = analysisGraph.UpdateStartedAt.ToString();
-            txtUpdateEndedAt.Text = analysisGraph.UpdateEndedAt.ToString();
-            txtUpdateDuration.Text = analysisGraph.UpdateDuration.ToString();
+            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => (n as UpdateAnalysisNode).IsInitialNode == true);
+            if (initialNode != null)
+            {
+                for (int i = 0; i < dgvUpdateInfo.Rows.Count; i++)
+                {
+                    if (dgvUpdateInfo.Rows[i].Cells["colIdentifier"].Value.ToString() == initialNode.Identifier.ToString())
+                    {
+                        dgvUpdateInfo.Rows[i].DefaultCellStyle.BackColor = Color.LightCoral;
+                        break;
+                    }
+                }
+            }
 
-            txtUpdateCause.Text = analysisGraph.CauseMessage;
-            txtInitialNodeIdentifier.Text = analysisGraph.InitialNodeIdentifier.ToString();
-            txtInitialNodeMemberName.Text = analysisGraph.InitialNodeName;
-            txtInitialNodeOwnerObject.Text = analysisGraph.InitialNodeOwner;
-            txtInitialNodeCurrentValue.Text = analysisGraph.InitialNodeCurrentValue;
-            txtInitialNodePreviousValue.Text = analysisGraph.InitialNodePreviousValue;
+            dgvUpdateInfo.ClearSelection();
         }
 
-        private void ShowUpdatedNodes(UpdateAnalysisGraph analysisGraph)
+        private void ShowBasicInformation()
+        {
+            txtGraphIdentifier.Text = _analysisGraph.Identifier;
+            txtGraphTotalNodeCount.Text = _analysisGraph.TotalNodeCount.ToString();
+            txtUpdatedNodesCount.Text = _analysisGraph.Nodes.Count.ToString();
+            txtUpdateSuccessful.Text = _analysisGraph.UpdateSuccessful.ToString();
+            txtUpdateStartedAt.Text = _analysisGraph.UpdateStartedAt.ToString();
+            txtUpdateEndedAt.Text = _analysisGraph.UpdateEndedAt.ToString();
+            txtUpdateDuration.Text = _analysisGraph.UpdateDuration.ToString();
+
+            txtUpdateCause.Text = _analysisGraph.CauseMessage;
+            txtInitialNodeIdentifier.Text = _analysisGraph.InitialNodeIdentifier.ToString();
+            txtInitialNodeMemberName.Text = _analysisGraph.InitialNodeName;
+            txtInitialNodeOwnerObject.Text = _analysisGraph.InitialNodeOwner;
+            txtInitialNodeCurrentValue.Text = _analysisGraph.InitialNodeCurrentValue;
+            txtInitialNodePreviousValue.Text = _analysisGraph.InitialNodePreviousValue;
+        }
+
+        private void ShowUpdatedNodes()
         {
             dgvUpdateInfo.Rows.Clear();
 
             try
             {
-                if (analysisGraph != null)
+                if (_analysisGraph != null)
                 {
-                    foreach (UpdateAnalysisNode node in analysisGraph.Nodes)
+                    foreach (UpdateAnalysisNode node in _analysisGraph.Nodes)
                     {
                         dgvUpdateInfo.Rows.Add(new string[]
                             {
@@ -106,6 +126,12 @@ namespace ReframeTools.GUI
         {
             UpdateProcessAnalysisController controller = new UpdateProcessAnalysisController(this);
             controller.ShowGraph();
+        }
+
+        private void btnVisualize_Click(object sender, EventArgs e)
+        {
+            VisualizationController visualizationController = new VisualizationController(ReactorIdentifier);
+            visualizationController.Visualize(_analysisGraph, _analysisGraph.Nodes);
         }
     }
 }

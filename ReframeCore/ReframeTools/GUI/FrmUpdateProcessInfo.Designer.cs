@@ -57,6 +57,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.txtInitialNodePreviousValue = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.btnVisualize = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -72,7 +73,7 @@
             this.dgvUpdateInfo.Name = "dgvUpdateInfo";
             this.dgvUpdateInfo.RowHeadersVisible = false;
             this.dgvUpdateInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUpdateInfo.Size = new System.Drawing.Size(828, 225);
+            this.dgvUpdateInfo.Size = new System.Drawing.Size(828, 228);
             this.dgvUpdateInfo.TabIndex = 0;
             // 
             // groupBox1
@@ -354,12 +355,26 @@
             this.label14.TabIndex = 24;
             this.label14.Text = "Previous value:";
             // 
+            // btnVisualize
+            // 
+            this.btnVisualize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnVisualize.BackColor = System.Drawing.Color.LightCoral;
+            this.btnVisualize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVisualize.Location = new System.Drawing.Point(744, 467);
+            this.btnVisualize.Name = "btnVisualize";
+            this.btnVisualize.Size = new System.Drawing.Size(96, 23);
+            this.btnVisualize.TabIndex = 23;
+            this.btnVisualize.Text = "Visualize...";
+            this.btnVisualize.UseVisualStyleBackColor = false;
+            this.btnVisualize.Click += new System.EventHandler(this.btnVisualize_Click);
+            // 
             // FrmUpdateProcessInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(852, 470);
+            this.ClientSize = new System.Drawing.Size(852, 508);
+            this.Controls.Add(this.btnVisualize);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvUpdateInfo);
@@ -405,5 +420,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtInitialNodeCurrentValue;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnVisualize;
     }
 }

@@ -45,7 +45,11 @@ namespace ReframeVisualizer
                         visualGraph = new NamespaceVisualGraph(analysisNodes);
                         break;
                     }
-                
+                case AnalysisLevel.UpdateAnalysisLevel:
+                    {
+                        visualGraph = new UpdateVisualGraph(analysisNodes);
+                        break;
+                    }
                 default:
                     visualGraph = null;
                     break;

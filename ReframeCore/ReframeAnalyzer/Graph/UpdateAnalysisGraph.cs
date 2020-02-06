@@ -26,9 +26,12 @@ namespace ReframeAnalyzer.Graph
         public string InitialNodeCurrentValue { get; set; }
         public string InitialNodePreviousValue { get; set; }
 
-        public UpdateAnalysisGraph(string source)
+        public ObjectMemberAnalysisGraph ObjectMemberGraph { get; set; }
+
+        public UpdateAnalysisGraph(string source, ObjectMemberAnalysisGraph objectMemberGraph)
         {
-            AnalysisLevel = AnalysisLevel.ObjectMemberLevel;
+            ObjectMemberGraph = objectMemberGraph;
+            AnalysisLevel = AnalysisLevel.UpdateAnalysisLevel;
             Source = source;
 
             XElement xRoot = XElement.Parse(source);
@@ -110,7 +113,8 @@ namespace ReframeAnalyzer.Graph
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (ContainsNode(nodeIdentifier) == false)
                 {
-                    var node = new UpdateAnalysisNode(xNode);
+                    ObjectMemberAnalysisNode objectMemberNode = ObjectMemberGraph.GetNode(nodeIdentifier) as ObjectMemberAnalysisNode;
+                    var node = new UpdateAnalysisNode(xNode, objectMemberNode);
                     AddNode(node);
                 }
             }

@@ -25,7 +25,7 @@ namespace ReframeTools.GUI
         public FrmAnalysisView(string reactorIdentifier) : this()
         {
             ReactorIdentifier = reactorIdentifier;
-            VisualizationController = new VisualizationController(this);
+            VisualizationController = new VisualizationController(ReactorIdentifier);
             AddColumns();
         }
 
