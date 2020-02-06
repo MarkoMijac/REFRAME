@@ -90,10 +90,27 @@ namespace ReframeExporter
                 INode initialNode = updateInfo.InitialNode;
                 xmlWriter.WriteStartElement("InitialNode");
                 WriteNodeBasicData(initialNode, xmlWriter);
+                WriteNodeValueData(initialNode, xmlWriter);
+
                 xmlWriter.WriteEndElement();
             }
 
             xmlWriter.WriteEndElement();
+        }
+
+        private void WriteNodeValueData(INode initialNode, XmlWriter xmlWriter)
+        {
+            PropertyNode propertyNode = initialNode as PropertyNode;
+            if (propertyNode != null)
+            {
+                xmlWriter.WriteStartElement("CurrentValue");
+                xmlWriter.WriteString(propertyNode.CurrentValue.ToString());
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("PreviousValue");
+                xmlWriter.WriteString(propertyNode.PreviousValue.ToString());
+                xmlWriter.WriteEndElement();
+            }
         }
 
         private void WriteUpdateErrorInfo(XmlWriter xmlWriter, UpdateInfo updateInfo)
@@ -251,15 +268,28 @@ namespace ReframeExporter
                 xmlWriter.WriteEndElement();
 
                 string currentValue = "";
-
+                string previousValue = "";
                 if (node is PropertyNode)
                 {
                     PropertyNode propertyNode = node as PropertyNode;
-                    currentValue = propertyNode.GetCurrentValue().ToString();
+                    try
+                    {
+                        currentValue = propertyNode.CurrentValue.ToString();
+                        previousValue = propertyNode.PreviousValue.ToString();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
                 }
 
                 xmlWriter.WriteStartElement("CurrentValue");
                 xmlWriter.WriteString(currentValue);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("PreviousValue");
+                xmlWriter.WriteString(previousValue);
                 xmlWriter.WriteEndElement();
             }
         }

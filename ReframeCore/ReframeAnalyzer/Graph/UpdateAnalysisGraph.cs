@@ -23,6 +23,8 @@ namespace ReframeAnalyzer.Graph
         public uint InitialNodeIdentifier { get; set; }
         public string InitialNodeName { get; set; }
         public string InitialNodeOwner { get; set; }
+        public string InitialNodeCurrentValue { get; set; }
+        public string InitialNodePreviousValue { get; set; }
 
         public UpdateAnalysisGraph(string source)
         {
@@ -77,6 +79,8 @@ namespace ReframeAnalyzer.Graph
                     InitialNodeIdentifier = uint.Parse(xInitialNode.Element("Identifier").Value);
                     InitialNodeName = xInitialNode.Element("MemberName").Value;
                     InitialNodeOwner = xInitialNode.Element("OwnerObject").Value;
+                    InitialNodeCurrentValue = xInitialNode.Element("CurrentValue").Value;
+                    InitialNodePreviousValue = xInitialNode.Element("PreviousValue").Value;
                 }
             }
         }

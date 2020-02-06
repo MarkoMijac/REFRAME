@@ -43,6 +43,8 @@ namespace ReframeTools.GUI
             txtInitialNodeIdentifier.Text = analysisGraph.InitialNodeIdentifier.ToString();
             txtInitialNodeMemberName.Text = analysisGraph.InitialNodeName;
             txtInitialNodeOwnerObject.Text = analysisGraph.InitialNodeOwner;
+            txtInitialNodeCurrentValue.Text = analysisGraph.InitialNodeCurrentValue;
+            txtInitialNodePreviousValue.Text = analysisGraph.InitialNodePreviousValue;
         }
 
         private void ShowUpdatedNodes(UpdateAnalysisGraph analysisGraph)
@@ -61,6 +63,7 @@ namespace ReframeTools.GUI
                                 node.Name,
                                 node.NodeType.ToString(),
                                 node.CurrentValue,
+                                node.PreviousValue,
                                 node.UpdateOrder.ToString(),
                                 node.UpdateLayer.ToString(),
                                 node.UpdateStartedAt,
@@ -87,6 +90,7 @@ namespace ReframeTools.GUI
                 dgvUpdateInfo.Columns.Add("colName", "Name");
                 dgvUpdateInfo.Columns.Add("colNodeType", "Node Type");
                 dgvUpdateInfo.Columns.Add("colCurrentValue", "Current Value");
+                dgvUpdateInfo.Columns.Add("colPreviousValue", "Previous Value");
                 dgvUpdateInfo.Columns.Add("colUpdateOrder", "Update Order");
                 dgvUpdateInfo.Columns.Add("colUpdateLayer", "Update Layer");
                 dgvUpdateInfo.Columns.Add("colStartedAt", "Started At");

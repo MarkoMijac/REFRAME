@@ -16,6 +16,7 @@ namespace ReframeAnalyzer.Graph
         public string UpdateCompletedAt { get; set; }
         public string UpdateDuration { get; set; }
         public string CurrentValue { get; set; }
+        public string PreviousValue { get; set; }
 
         public UpdateAnalysisNode(XElement xNode)
         {
@@ -28,6 +29,7 @@ namespace ReframeAnalyzer.Graph
             UpdateCompletedAt = xNode.Element("UpdateCompletedAt").Value;
             UpdateDuration = xNode.Element("UpdateDuration").Value;
             CurrentValue = xNode.Element("CurrentValue").Value;
+            PreviousValue = xNode.Element("PreviousValue").Value;
         }
     }
 }

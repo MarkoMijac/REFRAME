@@ -190,6 +190,8 @@ namespace ReframeCore.Nodes
             Stopwatch sw = StartMeasuring();
             UpdateMethod?.Invoke();
             EndMeasuring(sw);
+
+            SaveValues();
         }
 
         public virtual void SaveValues()

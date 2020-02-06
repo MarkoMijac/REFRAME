@@ -14,7 +14,7 @@ namespace ReframeCore.Nodes
     /// </summary>
     public class PropertyNode : Node
     {
-        public object LastValue { get; private set; }
+        public object PreviousValue { get; private set; }
         public object CurrentValue { get; private set; }
 
         private string _updateMethodName;
@@ -63,14 +63,14 @@ namespace ReframeCore.Nodes
             }
         }
 
-        public object GetCurrentValue()
+        private object GetCurrentValue()
         {
             return Reflector.GetPropertyValue(OwnerObject, MemberName);
         }
 
         public override bool IsTriggered()
         {
-            return CurrentValue.Equals(LastValue) == false;
+            return CurrentValue.Equals(PreviousValue) == false;
         }
 
         protected override Action GetUpdateMethod()
@@ -101,7 +101,7 @@ namespace ReframeCore.Nodes
         {
             base.SaveValues();
 
-            LastValue = CurrentValue;
+            PreviousValue = CurrentValue;
             CurrentValue = GetCurrentValue();
         }
 
