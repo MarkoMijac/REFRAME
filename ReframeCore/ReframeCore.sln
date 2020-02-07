@@ -29,6 +29,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporter", "ReframeE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporterTests", "ReframeExporterTests\ReframeExporterTests.csproj", "{EA249920-9709-42F9-B1A0-E50210BDD84F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeBaseExceptions", "ReframeBaseExceptions\ReframeBaseExceptions.csproj", "{D4B96CC8-D94C-42B9-88F1-92C4B728143D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeFluentAPI", "ReframeFluentAPI\ReframeFluentAPI.csproj", "{67586AE9-A71C-4948-8ECA-68235518B4F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeServer", "ReframeServer\ReframeServer.csproj", "{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeClient", "ReframeClient\ReframeClient.csproj", "{3E1F7606-8C9F-44CB-825B-E378570A59DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +95,22 @@ Global
 		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA249920-9709-42F9-B1A0-E50210BDD84F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B96CC8-D94C-42B9-88F1-92C4B728143D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B96CC8-D94C-42B9-88F1-92C4B728143D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B96CC8-D94C-42B9-88F1-92C4B728143D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B96CC8-D94C-42B9-88F1-92C4B728143D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67586AE9-A71C-4948-8ECA-68235518B4F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67586AE9-A71C-4948-8ECA-68235518B4F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67586AE9-A71C-4948-8ECA-68235518B4F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67586AE9-A71C-4948-8ECA-68235518B4F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

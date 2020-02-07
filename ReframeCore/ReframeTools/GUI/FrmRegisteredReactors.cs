@@ -1,12 +1,8 @@
 ﻿using IPCClient;
+using ReframeClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -14,7 +10,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmRegisteredReactors : Form
     {
-        private FrmAnalysisView _currentForm;
+        private Form _currentForm;
 
         public FrmRegisteredReactors()
         {
@@ -26,7 +22,8 @@ namespace ReframeTools.GUI
             dgvReactors.DataSource = null;
             try
             {
-                string xmlReactors = ClientQueries.GetRegisteredReactors();
+                var pipeClient = new ReframePipeClient();
+                string xmlReactors = pipeClient.GetRegisteredReactors();
                 dgvReactors.DataSource = ParseReactors(xmlReactors);
             }
             catch (Exception)
@@ -48,7 +45,7 @@ namespace ReframeTools.GUI
                 string reactorIdentifier = reactor.Element("Identifier").Value;
                 XElement xeGraph = reactor.Element("Graph");
                 string graphIdentifier = xeGraph.Element("Identifier").Value;
-                string nodeCount = xeGraph.Element("NodeCount").Value;
+                string nodeCount = xeGraph.Element("TotalNodeCount").Value;
                 var g = new
                 {
                     Identifier = reactorIdentifier,
@@ -112,7 +109,7 @@ namespace ReframeTools.GUI
             DisplayForm(form);
         }
 
-        private void DisplayForm(FrmAnalysisView form)
+        private void DisplayForm(Form form)
         {
             if (form != null)
             {
@@ -129,6 +126,22 @@ namespace ReframeTools.GUI
                     _currentForm = form;
                     form.Show();
                 }
+            }
+        }
+
+        private void getLatestUpdateInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FrmUpdateProcessInfo(GetSelectedReactorIdentifier());
+            DisplayForm(form);
+        }
+
+        private void btnShowDetails_Click(object sender, EventArgs e)
+        {
+            string reactorIdentifier = GetSelectedReactorIdentifier();
+            if (reactorIdentifier != "")
+            {
+                var form = new FrmReactorDetails(reactorIdentifier);
+                DisplayForm(form);
             }
         }
     }

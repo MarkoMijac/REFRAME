@@ -776,11 +776,16 @@ namespace ReframeCoreTests
         public void IsValueChanged_GivenValueIsChanged_ReturnsTrue()
         {
             //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
             Building00 building = new Building00() { Width = 10 };
             INode node = new PropertyNode(building, "Width");
+            reactor.AddNode(node);
+            reactor.PerformUpdate(node);
 
             //Act
             building.Width = 12;
+            reactor.PerformUpdate(node);
 
             //Assert
             Assert.IsTrue(node.IsTriggered());
@@ -790,11 +795,16 @@ namespace ReframeCoreTests
         public void IsValueChanged_GivenValueIsSame_ReturnsFalse()
         {
             //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
             Building00 building = new Building00() { Width = 10 };
             INode node = new PropertyNode(building, "Width");
+            reactor.AddNode(node);
+            reactor.PerformUpdate(node);
 
             //Act
             building.Width = 10;
+            reactor.PerformUpdate(node);
 
             //Assert
             Assert.IsFalse(node.IsTriggered());
@@ -804,10 +814,16 @@ namespace ReframeCoreTests
         public void IsValueChanged_GivenNoLaterActionMade_ReturnsFalse()
         {
             //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
             Building00 building = new Building00() { Width = 10 };
             INode node = new PropertyNode(building, "Width");
 
+            reactor.AddNode(node);
+            reactor.PerformUpdate(node);
+
             //Act
+            reactor.PerformUpdate(node);
 
             //Assert
             Assert.IsFalse(node.IsTriggered());
@@ -817,11 +833,58 @@ namespace ReframeCoreTests
         public void IsValueChanged_GivenNoInitialValueSet_ReturnsTrue()
         {
             //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
             Building00 building = new Building00() { };
             INode node = new PropertyNode(building, "Width");
 
+            reactor.AddNode(node);
+            reactor.PerformUpdate(node);
+
             //Act
             building.Width = 10;
+            reactor.PerformUpdate(node);
+
+            //Assert
+            Assert.IsTrue(node.IsTriggered());
+        }
+
+        [TestMethod]
+        public void IsValueChanged_GivenTwoSameSuccessiveInputs_ReturnsFalse()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+            Building00 building = new Building00() { };
+            INode node = new PropertyNode(building, "Width");
+
+            reactor.AddNode(node);
+
+            //Act
+            building.Width = 10;
+            reactor.PerformUpdate(node);
+            building.Width = 10;
+            reactor.PerformUpdate(node);
+
+            //Assert
+            Assert.IsFalse(node.IsTriggered());
+        }
+
+        [TestMethod]
+        public void IsValueChanged_GivenTwoDifferentSuccessiveInputs_ReturnsTrue()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+            Building00 building = new Building00() { };
+            INode node = new PropertyNode(building, "Width");
+            reactor.AddNode(node);
+
+            //Act
+            building.Width = 10;
+            reactor.PerformUpdate(node);
+            building.Width = 12;
+            reactor.PerformUpdate(node);
 
             //Assert
             Assert.IsTrue(node.IsTriggered());

@@ -27,13 +27,10 @@ namespace ReframeVisualizer
 
         protected override void AddCustomProperties(Graph dgmlGraph)
         {
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
+            base.AddCustomProperties(dgmlGraph);
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", System.Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassIdentifier", System.Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassName", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
 
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
@@ -149,6 +146,7 @@ namespace ReframeVisualizer
                 classMemberNode.SetValue("Degree", node.Degree);
                 classMemberNode.SetValue("InDegree", node.InDegree);
                 classMemberNode.SetValue("OutDegree", node.OutDegree);
+                classMemberNode.SetValue("Tag", node.Tag);
 
                 GraphNode classNode = dgmlGraph.Nodes.Get(node.OwnerClass.Identifier.ToString());
                 if (classNode != null)

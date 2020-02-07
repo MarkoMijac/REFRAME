@@ -68,6 +68,10 @@
       <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
       <Name>ReframeExporter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeFluentAPI\ReframeFluentAPI.csproj">
+      <Project>{67586ae9-a71c-4948-8eca-68235518b4f8}</Project>
+      <Name>ReframeFluentAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

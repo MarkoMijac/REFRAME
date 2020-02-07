@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
-using ReframeCore.FluentAPI;
 using System.Collections.Generic;
 using ReframeExporter;
 using ReframeAnalyzer;
+using ReframeCoreFluentAPI;
 
 namespace ReframeAnalyzerTests
 {
@@ -29,8 +28,8 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
-            XmlExporter xmlExporter = new XmlExporter();
-            var xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            var xmlSource = xmlExporter.Export();
 
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);

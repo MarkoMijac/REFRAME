@@ -55,6 +55,7 @@
     <Compile Include="Filters\NamespaceAnalysisFilter.cs" />
     <Compile Include="Filters\ObjectAnalysisFilter.cs" />
     <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
+    <Compile Include="Filters\UpdateAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
@@ -73,16 +74,15 @@
     <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
     <Compile Include="Filters\IAnalysisFilter.cs" />
+    <Compile Include="Graph\UpdateAnalysisGraph.cs" />
+    <Compile Include="Graph\UpdateAnalysisNode.cs" />
+    <Compile Include="GraphMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IPCServer\IPCServer.csproj">
-      <Project>{c6d1cf84-2c60-43de-9038-4529485592e8}</Project>
-      <Name>IPCServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
-      <Project>{f81ad39a-aab0-4ae0-babd-89ba79e945ed}</Project>
-      <Name>ReframeCore</Name>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
+      <Name>ReframeBaseExceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
       <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>

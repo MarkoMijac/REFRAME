@@ -18,6 +18,20 @@ namespace ReframeCore.Helpers
         public Exception ThrownException { get; private set; }
 
         public UpdateError ErrorData { get; private set; }
+        public INode InitialNode { get; set; }
+        public string CauseMessage {
+            get
+            {
+                if (InitialNode == null)
+                {
+                    return "Complete graph update requested!";
+                }
+                else
+                {
+                    return "Update caused by triggering individual node!";
+                }
+            }
+        }
 
         public UpdateInfo()
         {

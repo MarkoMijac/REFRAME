@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace IPCClient
 {
-    public static class PipeClient
+    public abstract class PipeClient
     {
-        public static string ExecuteServerCommand(ServerCommand command)
+        protected string ExecuteServerCommand(ServerCommand command)
         {
             NamedPipeClientStream pipeClient = CreateClient();
             pipeClient.Connect(3000);
@@ -23,7 +23,7 @@ namespace IPCClient
             return result;
         }
 
-        private static NamedPipeClientStream CreateClient()
+        private NamedPipeClientStream CreateClient()
         {
             NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "testpipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
 

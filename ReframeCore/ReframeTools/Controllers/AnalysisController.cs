@@ -1,6 +1,7 @@
 ﻿using IPCClient;
 using ReframeAnalyzer;
 using ReframeAnalyzer.Graph;
+using ReframeClient;
 using ReframeTools.GUI;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,8 @@ namespace ReframeTools.Controllers
 
         protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
         {
-            string xmlSource = ClientQueries.GetReactor(reactorIdentifier);
+            var pipeClient = new ReframePipeClient();
+            string xmlSource = pipeClient.GetReactor(reactorIdentifier);
             AnalysisGraph = GraphFactory.CreateGraph(xmlSource, analysisLevel);
         }
 
@@ -37,7 +39,20 @@ namespace ReframeTools.Controllers
             if (View != null)
             {
                 View.ShowAnalysis(nodes);
+
+                SetGraphDetails();
+                View.DisplayDetails();
             }
+        }
+
+        private void SetGraphDetails()
+        {
+            View.GraphIdentifier = AnalysisGraph.Identifier;
+            View.GraphTotalNodeCount = GraphMetrics.GetNumberOfNodes(AnalysisGraph.Nodes).ToString();
+            View.NumberOfAnalyzedNodes = GraphMetrics.GetNumberOfNodes(AnalysisNodes).ToString();
+            View.NumberOfDependencies = GraphMetrics.GetNumberOfEdges(AnalysisNodes).ToString();
+            View.MaxNumberOfDependencies = GraphMetrics.GetMaximumNumberOfEdges(AnalysisNodes).ToString();
+            View.GraphDensity = GraphMetrics.GetGraphDensity(AnalysisNodes).ToString("N4");
         }
 
         private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)

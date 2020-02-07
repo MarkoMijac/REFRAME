@@ -62,6 +62,8 @@
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\ObjectAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
+    <Compile Include="Controllers\ReactorDetailsController.cs" />
+    <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
       <SubType>Form</SubType>
@@ -117,6 +119,12 @@
     <Compile Include="GUI\FrmFilterObjectMemberAnalysis.Designer.cs">
       <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmFilterUpdateAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmFilterUpdateAnalysis.Designer.cs">
+      <DependentUpon>FrmFilterUpdateAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +155,12 @@
     <Compile Include="GUI\FrmFilterAnalysis.Designer.cs">
       <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmReactorDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.Designer.cs">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmRegisteredReactors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +172,12 @@
     </Compile>
     <Compile Include="GUI\FrmMaxDepthLevel.Designer.cs">
       <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.Designer.cs">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmVisualizationOptions.cs">
       <SubType>Form</SubType>
@@ -317,6 +337,9 @@
     <EmbeddedResource Include="GUI\FrmFilterObjectMemberAnalysis.resx">
       <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmFilterUpdateAnalysis.resx">
+      <DependentUpon>FrmFilterUpdateAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmNamespaceAnalysisView.resx">
       <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
@@ -329,11 +352,17 @@
     <EmbeddedResource Include="GUI\FrmFilterAnalysis.resx">
       <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmReactorDetails.resx">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmMaxDepthLevel.resx">
       <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateProcessInfo.resx">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmVisualizationOptions.resx">
       <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
@@ -351,6 +380,10 @@
     <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
       <Project>{87bae3e0-a197-4dc1-9e97-e5945f7cc652}</Project>
       <Name>ReframeAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeClient\ReframeClient.csproj">
+      <Project>{3E1F7606-8C9F-44CB-825B-E378570A59DB}</Project>
+      <Name>ReframeClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
       <Project>{2becc201-155a-4fd4-81e0-3d6a33c6838d}</Project>

@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore.Factories;
 using ReframeCore;
 using ReframeCoreExamples.E00;
-using ReframeCore.FluentAPI;
 using ReframeCoreExamples.E07;
 using ReframeCore.Nodes;
 using System.Collections.Generic;
-using ReframeCore.Helpers;
 using ReframeCore.Exceptions;
+using ReframeCoreFluentAPI;
 
 namespace ReframeCoreTests
 {

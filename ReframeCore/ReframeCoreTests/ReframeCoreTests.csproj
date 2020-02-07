@@ -72,6 +72,10 @@
     <Compile Include="UpdaterTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
+      <Name>ReframeBaseExceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeCoreExamples\ReframeCoreExamples.csproj">
       <Project>{2551c41c-aaa2-42d5-a96d-95a44474df92}</Project>
       <Name>ReframeCoreExamples</Name>
@@ -79,6 +83,10 @@
     <ProjectReference Include="..\ReframeCore\ReframeCore.csproj">
       <Project>{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}</Project>
       <Name>ReframeCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeFluentAPI\ReframeFluentAPI.csproj">
+      <Project>{67586AE9-A71C-4948-8ECA-68235518B4F8}</Project>
+      <Name>ReframeFluentAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

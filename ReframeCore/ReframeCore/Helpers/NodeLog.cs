@@ -10,8 +10,6 @@ namespace ReframeCore.Helpers
 {
     public class NodeLog
     {
-        private Stopwatch _stopwatch = new Stopwatch();
-
         #region Public methods
 
         public int Count
@@ -56,29 +54,15 @@ namespace ReframeCore.Helpers
             }
         }
 
-        /// <summary>
-        /// Logs nodes.
-        /// </summary>
-        /// <param name="nodesToLog">Nodes to be logged.</param>
-        public void Log(Dictionary<INode, bool> nodesToLog)
-        {
-            if (nodesToLog != null)
-            {
-                foreach (var n in nodesToLog)
-                {
-                    Log(n);
-                }
-            }
-        }
-
         public void ClearLog()
         {
             _loggedNodes.Clear();
+            _loggedNodesDetails.Clear();
         }
 
         public override string ToString()
         {
-            return GetLoggedNodes();
+            return PrintLoggedNodes();
         }
 
         public override bool Equals(object obj)
@@ -88,7 +72,7 @@ namespace ReframeCore.Helpers
 
             if (item != null)
             {
-                equal = GetLoggedNodes() == item.GetLoggedNodes();
+                equal = PrintLoggedNodes() == item.PrintLoggedNodes();
             }
 
             return equal;
@@ -96,7 +80,7 @@ namespace ReframeCore.Helpers
 
         public override int GetHashCode()
         {
-            return GetLoggedNodes().GetHashCode();
+            return PrintLoggedNodes().GetHashCode();
         }
 
         #endregion
@@ -119,22 +103,22 @@ namespace ReframeCore.Helpers
             }
             else
             {
-                data += string.Format("Node identifier: {0}"+Environment.NewLine, node.Identifier);
-                data += string.Format("Node member name: {0}" + Environment.NewLine, node.MemberName);
-                data += string.Format("Owner object type: {0}" + Environment.NewLine, node.OwnerObject.GetType().ToString());
-                data += string.Format("Owner object hash: {0}" + Environment.NewLine, node.OwnerObject.GetHashCode().ToString());
-                data += string.Format("Layer: {0}" + Environment.NewLine, node.Layer);
+                data +=  node.Identifier+";";
+                data += node.MemberName+";";
+                data += node.OwnerObject.GetType().ToString() + ";";
+                data += node.OwnerObject.GetHashCode().ToString()+";";
+                data += node.Layer+";";
 
                 DateTime start = (node as ITimeInfoProvider).UpdateStartedAt;
-                data += string.Format("Update started at: {0}:{1}:{2}:{3}" + Environment.NewLine, start.Hour, start.Minute, start.Second, start.Millisecond);
+                data += string.Format("{0}:{1}:{2}:{3};", start.Hour, start.Minute, start.Second, start.Millisecond);
                 DateTime finish = (node as ITimeInfoProvider).UpdateCompletedAt;
-                data += string.Format("Update completed: {0}:{1}:{2}:{3}" + Environment.NewLine, finish.Hour, finish.Minute, finish.Second, finish.Millisecond);
-                data += string.Format("Update duration: {0}" + Environment.NewLine, (node as ITimeInfoProvider).UpdateDuration);
+                data += string.Format("{0}:{1}:{2}:{3};", finish.Hour, finish.Minute, finish.Second, finish.Millisecond);
+                data += string.Format("{0};", (node as ITimeInfoProvider).UpdateDuration);
             }
             return data;
         }
 
-        private string GetLoggedNodes()
+        private string PrintLoggedNodes()
         {
             string data = "";
 
@@ -146,7 +130,7 @@ namespace ReframeCore.Helpers
             return data;
         }
 
-        public string GetLoggedNodesDetails()
+        private string PrintLoggedNodesDetails()
         {
             string data = "";
 
@@ -156,6 +140,16 @@ namespace ReframeCore.Helpers
             }
 
             return data;
+        }
+
+        public IReadOnlyCollection<string> GetLoggedNodes()
+        {
+            return _loggedNodes.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<string> GetLoggedNodesDetails()
+        {
+            return _loggedNodesDetails.AsReadOnly();
         }
 
         #endregion

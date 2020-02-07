@@ -1,11 +1,6 @@
 ﻿using ReframeAnalyzer.Graph;
-using ReframeCore;
-using ReframeCore.Factories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReframeAnalyzer
 {
@@ -78,13 +73,14 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode selected = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            selected.Tag = "SelectedNode";
 
             var predecessors = new List<IAnalysisNode>();
 
-            if (startingNode != null)
+            if (selected != null)
             {
-                TraversePredecessors(startingNode, predecessors);
+                TraversePredecessors(selected, predecessors);
             }
 
             return predecessors;
@@ -106,10 +102,11 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            selectedNode.Tag = "SelectedNode";
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
-            dict.Add(initialNode, 0);
+            dict.Add(selectedNode, 0);
 
             for (int i = 1; i <= maxDepth; i++)
             {
@@ -140,13 +137,14 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode startingNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            selectedNode.Tag = "SelectedNode";
 
             var successors = new List<IAnalysisNode>();
 
-            if (startingNode != null)
+            if (selectedNode != null)
             {
-                TraverseSuccessors(startingNode, successors);
+                TraverseSuccessors(selectedNode, successors);
             }
 
             return successors;
@@ -168,10 +166,11 @@ namespace ReframeAnalyzer
         public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, string nodeIdentifier, int maxDepth)
         {
             uint id = uint.Parse(nodeIdentifier);
-            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == id);
+            selectedNode.Tag = "SelectedNode";
 
             Dictionary<IAnalysisNode, int> dict = new Dictionary<IAnalysisNode, int>();
-            dict.Add(initialNode, 0);
+            dict.Add(selectedNode, 0);
 
             for (int i = 1; i <= maxDepth; i++)
             {

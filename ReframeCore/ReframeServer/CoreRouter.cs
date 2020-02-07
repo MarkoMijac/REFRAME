@@ -1,5 +1,4 @@
-﻿using ReframeCore;
-using ReframeCore.Factories;
+﻿using IPCServer;
 using ReframeExporter;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace IPCServer
+namespace ReframeServer
 {
     public class CoreRouter : CommandRouter
     {
@@ -31,17 +30,22 @@ namespace IPCServer
                 {
                     case "ExportRegisteredReactors":
                         {
-                            var xmlExporter = new XmlExporter();
-                            IReadOnlyList<IReactor> reactors = ReactorRegistry.Instance.GetReactors();
-                            result = xmlExporter.Export(reactors);
+                            var xmlExporter = new XmlReactorsExporter();
+                            result = xmlExporter.Export();
                             break;
                         }
                     case "ExportReactor":
                         {
-                            var xmlExporter = new XmlExporter();
                             string identifier = parameters["ReactorIdentifier"];
-                            var reactor = ReactorRegistry.Instance.GetReactor(identifier);
-                            result = xmlExporter.Export(reactor);
+                            var xmlExporter = new XmlReactorDetailExporter(identifier);
+                            result = xmlExporter.Export();
+                            break;
+                        }
+                    case "ExportUpdateInfo":
+                        {
+                            string identifier = parameters["ReactorIdentifier"];
+                            var xmlExporter = new XmlUpdaterInfoExporter(identifier);
+                            result = xmlExporter.Export();
                             break;
                         }
                     default:

@@ -258,6 +258,16 @@ namespace ReframeCore
         }
 
         /// <summary>
+        /// Gets reactive node from dependency graph if exists, otherwise returns null.
+        /// </summary>
+        /// <param name="identifier">Node identifier.</param>
+        /// <returns>Reactive node if exists in dependency graph, otherwise null.</returns>
+        public INode GetNode(uint identifier)
+        {
+            return Nodes.FirstOrDefault(n => n.Identifier == identifier);
+        }
+
+        /// <summary>
         /// Gets existing reactive node from dependency graph, otherwise returns null.
         /// </summary>
         /// <param name="node">Reactive node which we want to find.</param>

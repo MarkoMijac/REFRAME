@@ -3,11 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeCore.Factories;
 using ReframeExporter;
 using System.Collections.Generic;
-using ReframeCore;
-using ReframeCore.FluentAPI;
 using System.Xml.Linq;
 using System.Linq;
 using ReframeCoreExamples.E09;
+using ReframeCoreFluentAPI;
 
 namespace ReframeExporterTests
 {
@@ -22,11 +21,10 @@ namespace ReframeExporterTests
             ReactorRegistry.Instance.GetOrCreateReactor("Graph_01");
             ReactorRegistry.Instance.GetOrCreateReactor("Graph_02");
             ReactorRegistry.Instance.GetOrCreateReactor("Graph_03");
-            var xmlExporter = new XmlExporter();
-            var reactors = ReactorRegistry.Instance.GetReactors();
+            var xmlExporter = new XmlReactorsExporter();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactors);
+            string xmlSource = xmlExporter.Export();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -45,11 +43,10 @@ namespace ReframeExporterTests
         {
             //Arrange
             ReactorRegistry.Instance.Clear();
-            var xmlExporter = new XmlExporter();
-            var reactors = ReactorRegistry.Instance.GetReactors();
+            var xmlExporter = new XmlReactorsExporter();
 
             //Act
-            string xmlSource = xmlExporter.Export(reactors);
+            string xmlSource = xmlExporter.Export();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -71,10 +68,10 @@ namespace ReframeExporterTests
             reactor.Let(() => classC.PC2).DependOn(() => classA.PA2);
             reactor.Let(() => classB.PB1).DependOn(() => classA.PA1);
 
-            var xmlExporter = new XmlExporter();
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
 
             //Act
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.Export();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);
@@ -92,10 +89,10 @@ namespace ReframeExporterTests
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.GetOrCreateReactor("Reactor_01");
 
-            var xmlExporter = new XmlExporter();
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
 
             //Act
-            string xmlSource = xmlExporter.Export(reactor);
+            string xmlSource = xmlExporter.Export();
 
             //Assert
             XElement xmlDocument = XElement.Parse(xmlSource);

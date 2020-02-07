@@ -17,8 +17,6 @@ namespace ReframeCore.Helpers
 
         public bool LoggingEnabled { get; set; } = true;
         public NodeLog NodeLog { get; private set; } = new NodeLog();
-        
-        public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
 
         public IDependencyGraph Graph { get; private set; }
         public ISorter Sorter { get; private set; }
@@ -171,22 +169,14 @@ namespace ReframeCore.Helpers
                 throw new NodeNullReferenceException("Reactive node set as initial node of the update process is not part of the graph!");
             }
 
-            if (SkipUpdate(initial) == false)
-            {
-                MakeTemporaryAdjustmentsToGraph(initialNode, omitInitialNode);
-                nodesForUpdate = GetTopologicallySortedGraph(initial, omitInitialNode);
-                SetNodeLayers(nodesForUpdate);
-                ResetGraphToInitialState();
-            }
+            MakeTemporaryAdjustmentsToGraph(initialNode, omitInitialNode);
+            nodesForUpdate = GetTopologicallySortedGraph(initial, omitInitialNode);
+            SetNodeLayers(nodesForUpdate);
+            ResetGraphToInitialState();
 
             LogSchedule(nodesForUpdate);
 
             return nodesForUpdate;
-        }
-
-        private bool SkipUpdate(INode node)
-        {
-            return SkipUpdateIfInitialNodeNotChanged == true && node.IsTriggered() == false;
         }
 
         private void MakeTemporaryAdjustmentsToGraph(INode initialNode, bool skipInitialNode)

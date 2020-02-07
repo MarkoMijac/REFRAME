@@ -1,12 +1,4 @@
-﻿using ReframeCore;
-using ReframeCore.FluentAPI;
-using ReframeCore.ReactiveCollections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReframeCore.Factories;
+﻿using ReframeCore.ReactiveCollections;
 using ReframeCore.Helpers;
 
 namespace ReframeCoreExamples.E08.E4

@@ -106,6 +106,10 @@
       <Project>{f81ad39a-aab0-4ae0-babd-89ba79e945ed}</Project>
       <Name>ReframeCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeFluentAPI\ReframeFluentAPI.csproj">
+      <Project>{67586AE9-A71C-4948-8ECA-68235518B4F8}</Project>
+      <Name>ReframeFluentAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

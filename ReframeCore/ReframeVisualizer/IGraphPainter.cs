@@ -9,6 +9,6 @@ namespace ReframeVisualizer
 {
     public interface IGraphPainter
     {
-        void Paint(Graph graph);
+        void Paint(Graph graph, GraphNode node, string colorCode);
     }
 }

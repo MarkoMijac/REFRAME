@@ -37,6 +37,11 @@
             this.classlevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.assemblylevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getLatestUpdateInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.archivedAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblReactors = new System.Windows.Forms.Label();
+            this.btnShowDetails = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,18 +55,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvReactors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReactors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvReactors.Location = new System.Drawing.Point(12, 27);
+            this.dgvReactors.Location = new System.Drawing.Point(12, 46);
             this.dgvReactors.Name = "dgvReactors";
             this.dgvReactors.RowHeadersVisible = false;
             this.dgvReactors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReactors.Size = new System.Drawing.Size(631, 292);
+            this.dgvReactors.Size = new System.Drawing.Size(631, 409);
             this.dgvReactors.TabIndex = 1;
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.MistyRose;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.chooseAnalysislevelToolStripMenuItem});
+            this.chooseAnalysislevelToolStripMenuItem,
+            this.updateAnalysisToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(655, 24);
@@ -79,8 +85,8 @@
             this.assemblylevelAnalysisToolStripMenuItem,
             this.namespacelevelAnalysisToolStripMenuItem});
             this.chooseAnalysislevelToolStripMenuItem.Name = "chooseAnalysislevelToolStripMenuItem";
-            this.chooseAnalysislevelToolStripMenuItem.Size = new System.Drawing.Size(132, 20);
-            this.chooseAnalysislevelToolStripMenuItem.Text = "Choose analysis-level";
+            this.chooseAnalysislevelToolStripMenuItem.Size = new System.Drawing.Size(145, 20);
+            this.chooseAnalysislevelToolStripMenuItem.Text = "Graph structure analysis";
             // 
             // objectMemberlevelAnalysisToolStripMenuItem
             // 
@@ -130,12 +136,58 @@
             this.namespacelevelAnalysisToolStripMenuItem.Text = "Namespace-level analysis";
             this.namespacelevelAnalysisToolStripMenuItem.Click += new System.EventHandler(this.namespacelevelAnalysisToolStripMenuItem_Click);
             // 
+            // updateAnalysisToolStripMenuItem
+            // 
+            this.updateAnalysisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getLatestUpdateInfoToolStripMenuItem,
+            this.archivedAnalysesToolStripMenuItem});
+            this.updateAnalysisToolStripMenuItem.Name = "updateAnalysisToolStripMenuItem";
+            this.updateAnalysisToolStripMenuItem.Size = new System.Drawing.Size(144, 20);
+            this.updateAnalysisToolStripMenuItem.Text = "Update process analysis";
+            // 
+            // getLatestUpdateInfoToolStripMenuItem
+            // 
+            this.getLatestUpdateInfoToolStripMenuItem.Name = "getLatestUpdateInfoToolStripMenuItem";
+            this.getLatestUpdateInfoToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.getLatestUpdateInfoToolStripMenuItem.Text = "Latest update";
+            this.getLatestUpdateInfoToolStripMenuItem.Click += new System.EventHandler(this.getLatestUpdateInfoToolStripMenuItem_Click);
+            // 
+            // archivedAnalysesToolStripMenuItem
+            // 
+            this.archivedAnalysesToolStripMenuItem.Name = "archivedAnalysesToolStripMenuItem";
+            this.archivedAnalysesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.archivedAnalysesToolStripMenuItem.Text = "Archived analyses";
+            // 
+            // lblReactors
+            // 
+            this.lblReactors.AutoSize = true;
+            this.lblReactors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblReactors.Location = new System.Drawing.Point(12, 30);
+            this.lblReactors.Name = "lblReactors";
+            this.lblReactors.Size = new System.Drawing.Size(62, 13);
+            this.lblReactors.TabIndex = 4;
+            this.lblReactors.Text = "Reactors:";
+            // 
+            // btnShowDetails
+            // 
+            this.btnShowDetails.BackColor = System.Drawing.Color.LightCoral;
+            this.btnShowDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowDetails.Location = new System.Drawing.Point(541, 461);
+            this.btnShowDetails.Name = "btnShowDetails";
+            this.btnShowDetails.Size = new System.Drawing.Size(102, 23);
+            this.btnShowDetails.TabIndex = 5;
+            this.btnShowDetails.Text = "Details...";
+            this.btnShowDetails.UseVisualStyleBackColor = false;
+            this.btnShowDetails.Click += new System.EventHandler(this.btnShowDetails_Click);
+            // 
             // FrmRegisteredReactors
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(655, 331);
+            this.ClientSize = new System.Drawing.Size(655, 501);
+            this.Controls.Add(this.btnShowDetails);
+            this.Controls.Add(this.lblReactors);
             this.Controls.Add(this.dgvReactors);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -161,5 +213,10 @@
         private System.Windows.Forms.ToolStripMenuItem classlevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem assemblylevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getLatestUpdateInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem archivedAnalysesToolStripMenuItem;
+        private System.Windows.Forms.Label lblReactors;
+        protected System.Windows.Forms.Button btnShowDetails;
     }
 }

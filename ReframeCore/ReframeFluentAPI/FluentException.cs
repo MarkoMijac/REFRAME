@@ -1,11 +1,6 @@
-﻿using ReframeCore.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ReframeBaseExceptions;
 
-namespace ReframeCore.FluentAPI
+namespace ReframeCoreFluentAPI
 {
     public class FluentException : ReframeException
     {

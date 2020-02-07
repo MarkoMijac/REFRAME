@@ -113,6 +113,75 @@ namespace ReframeCoreTests
             Assert.ThrowsException<NodeNullReferenceException>(() => updater.PerformUpdate(initialNode));
         }
 
+        [TestMethod]
+        public void PerformUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateNotEnabled_PerformsCorrectUpdate()
+        {
+            //Arrange
+            IDependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = nodeFactory.CreateNode(building, "Width");
+            INode lengthNode = nodeFactory.CreateNode(building, "Length");
+            INode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area");
+            INode heightNode = nodeFactory.CreateNode(building, "Height");
+            INode volumeNode = nodeFactory.CreateNode(building, "Volume");
+
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            INode initialNode = widthNode;
+            Updater updater = CreateUpdater(graph);
+
+            updater.SkipUpdateIfInitialNodeNotChanged = false;
+
+            //Act
+            updater.PerformUpdate(initialNode);
+
+            //Assert
+            NodeLog actualLogger = updater.NodeLog;
+            NodeLog expectedLogger = new NodeLog();
+            expectedLogger.Log(areaNode);
+            expectedLogger.Log(volumeNode);
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
+        [TestMethod]
+        public void PerformUpdate_TriggeredNodeValueNotChangedAndSkippingUpdateEnabled_PerformsNoUpdate()
+        {
+            //Arrange
+            IDependencyGraph graph = new DependencyGraph("G1");
+            Building00 building = new Building00();
+
+            INode widthNode = nodeFactory.CreateNode(building, "Width");
+            INode lengthNode = nodeFactory.CreateNode(building, "Length");
+            INode areaNode = nodeFactory.CreateNode(building, "Area", "Update_Area");
+            INode heightNode = nodeFactory.CreateNode(building, "Height");
+            INode volumeNode = nodeFactory.CreateNode(building, "Volume");
+
+            INode consumption = nodeFactory.CreateNode(building, "Consumption");
+
+            graph.AddDependency(widthNode, areaNode);
+            graph.AddDependency(lengthNode, areaNode);
+            graph.AddDependency(areaNode, volumeNode);
+            graph.AddDependency(heightNode, volumeNode);
+
+            INode initialNode = consumption;
+            Updater updater = CreateUpdater(graph);
+
+            updater.SkipUpdateIfInitialNodeNotChanged = true;
+
+            //Act
+            updater.PerformUpdate(initialNode);
+
+            //Assert
+            NodeLog actualLogger = updater.NodeLog;
+            NodeLog expectedLogger = new NodeLog();
+            Assert.AreEqual(expectedLogger, actualLogger);
+        }
+
         #endregion
 
         #region UpdateCompleted

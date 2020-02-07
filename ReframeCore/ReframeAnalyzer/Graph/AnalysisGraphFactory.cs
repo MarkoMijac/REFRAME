@@ -1,28 +1,9 @@
-﻿using ReframeAnalyzer.Exceptions;
-using ReframeCore;
-using ReframeExporter;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReframeAnalyzer.Graph
+﻿namespace ReframeAnalyzer.Graph
 {
-    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel };
+    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel, UpdateAnalysisLevel };
 
     public class AnalysisGraphFactory
     {
-        public AssemblyAnalysisGraph CreateAssemblyGraph(ClassAnalysisGraph classGraph)
-        {
-            return new AssemblyAnalysisGraph(classGraph);
-        }
-
-        public NamespaceAnalysisGraph CreateNamespaceGraph(ClassAnalysisGraph classGraph)
-        {
-            return new NamespaceAnalysisGraph(classGraph);
-        }
-
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
             IAnalysisGraph result;
@@ -69,6 +50,22 @@ namespace ReframeAnalyzer.Graph
                         result = new NamespaceAnalysisGraph(classAnalysisGraph);
                         break;
                     }
+                default:
+                    result = null;
+                    break;
+            }
+
+            return result;
+        }
+
+        public IAnalysisGraph CreateGraph(string xmlSource, IAnalysisGraph objectMemberGraph, AnalysisLevel analysisLevel)
+        {
+            IAnalysisGraph result;
+            switch (analysisLevel)
+            {
+                case AnalysisLevel.UpdateAnalysisLevel:
+                    result = new UpdateAnalysisGraph(xmlSource, objectMemberGraph as ObjectMemberAnalysisGraph);
+                    break;
                 default:
                     result = null;
                     break;

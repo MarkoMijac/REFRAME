@@ -34,6 +34,7 @@ namespace ReframeCore.Helpers
         public IDependencyGraph Graph { get; set; }
         public NodeLog NodeLog { get; private set; }
 
+        public bool SkipUpdateIfInitialNodeNotChanged { get; set; } = false;
         private bool UpdateSuspended { get; set; } = false;
         public bool LoggingEnabled { get; set; } = true;
 
@@ -150,16 +151,26 @@ namespace ReframeCore.Helpers
             CleanGraph();
         }
 
+        private void PrepareForUpdate(INode node)
+        {
+            CleanGraph();
+            if (node != null)
+            {
+                node.SaveValues();
+            }
+        }
+
         private bool UpdateIsAllowed()
         {
             return Status != UpdateProcessStatus.Started
                 && UpdateSuspended == false;
         }
 
-        private void MarkUpdateStart()
+        private void MarkUpdateStart(INode initialNode)
         {
             Status = UpdateProcessStatus.Started;
             LatestUpdateInfo = new UpdateInfo();
+            LatestUpdateInfo.InitialNode = initialNode;
             LatestUpdateInfo.StartUpdate();
             OnUpdateStarted();
         }
@@ -289,9 +300,8 @@ namespace ReframeCore.Helpers
             {
                 PrepareForUpdate();
 
-                MarkUpdateStart();
-
                 INode initialNode = Graph.GetNode(ownerObject, memberName);
+                MarkUpdateStart(initialNode);
 
                 if (initialNode == null)
                 {
@@ -314,9 +324,9 @@ namespace ReframeCore.Helpers
         {
             if (UpdateIsAllowed())
             {
-                PrepareForUpdate();
+                PrepareForUpdate(initialNode);
 
-                MarkUpdateStart();
+                MarkUpdateStart(initialNode);
 
                 ValidateInitialNode(initialNode);
                 var nodesForUpdate = GetUpdateSchedule(initialNode, skipInitialNode);
@@ -337,7 +347,7 @@ namespace ReframeCore.Helpers
             {
                 PrepareForUpdate();
 
-                MarkUpdateStart();
+                MarkUpdateStart(null);
 
                 var nodesForUpdate = GetUpdateSchedule();
                 Update(nodesForUpdate);
@@ -383,8 +393,18 @@ namespace ReframeCore.Helpers
         /// <returns>List of nodes from dependency graph that need to be updated.</returns>
         private Dictionary<INode, bool> GetUpdateSchedule(INode node, bool skipInitialNode)
         {
-            IList<INode> nodesForUpdate = Scheduler.GetNodesForUpdate(node, skipInitialNode);
+            IList<INode> nodesForUpdate = null;
+            if (SkipUpdate(node) == false)
+            {
+                nodesForUpdate = Scheduler.GetNodesForUpdate(node, skipInitialNode);
+            }
+
             return ConvertToDictionary(nodesForUpdate);
+        }
+
+        private bool SkipUpdate(INode node)
+        {
+            return SkipUpdateIfInitialNodeNotChanged == true && node.IsTriggered() == false;
         }
 
         #endregion

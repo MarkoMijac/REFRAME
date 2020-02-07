@@ -1,17 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ReframeCore;
-using ReframeCore.Helpers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReframeAnalyzer;
-using ReframeCoreExamples.E00;
-using ReframeCore.FluentAPI;
-using IPCServer;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;
 using ReframeAnalyzer.Graph;
-using System.Collections;
 using System.Collections.Generic;
 using ReframeExporter;
+using ReframeCoreFluentAPI;
 
 namespace ReframeAnalyzerTests
 {
@@ -35,8 +29,8 @@ namespace ReframeAnalyzerTests
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
             //Act
-            XmlExporter xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            string xmlSource = xmlExporter.Export();
             
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
@@ -75,8 +69,8 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objB.PB1, () => objC.PC1);
 
-            var xmlExporter = new XmlExporter();
-            var xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            var xmlSource = xmlExporter.Export();
 
             //Act
             var analyzer = new Analyzer();
@@ -110,8 +104,8 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            XmlExporter xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            string xmlSource = xmlExporter.Export();
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
@@ -145,8 +139,8 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            var xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            string xmlSource = xmlExporter.Export();
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
@@ -180,8 +174,8 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objC.PC1).DependOn(() => objA.PA1);
 
             //Act
-            var xmlExporter = new XmlExporter();
-            string xmlSource = xmlExporter.Export(reactor);
+            var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
+            string xmlSource = xmlExporter.Export();
             var analyzer = new Analyzer();
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));

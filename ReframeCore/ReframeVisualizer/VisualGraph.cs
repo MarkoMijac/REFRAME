@@ -26,9 +26,32 @@ namespace ReframeVisualizer
 
         }
 
-        protected abstract void AddCustomProperties(Graph dgmlGraph);
+        protected virtual void AddCustomProperties(Graph dgmlGraph)
+        {
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Tag", System.Type.GetType("System.String"));
+        }
+
         protected abstract void AddNodesToGraph(Graph dgmlGraph);
         protected abstract void AddDependenciesToGraph(Graph dgmlGraph);
+
+        private void PaintSelectedNode(Graph dgmlGraph)
+        {
+            GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "SelectedNode");
+            if (initialNode != null)
+            {
+                var painter = new GraphPainter();
+                painter.Paint(dgmlGraph, initialNode, "#FF339933");
+            }
+        }
+
+        protected virtual void PaintGraph(Graph dgmlGraph)
+        {
+            PaintSelectedNode(dgmlGraph);
+        }
 
         public Graph GetDGML()
         {
@@ -37,6 +60,7 @@ namespace ReframeVisualizer
             AddCustomProperties(dgmlGraph);
             AddNodesToGraph(dgmlGraph);
             AddDependenciesToGraph(dgmlGraph);
+            PaintGraph(dgmlGraph);
 
             return dgmlGraph;
         }

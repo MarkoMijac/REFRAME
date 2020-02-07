@@ -98,6 +98,8 @@ namespace ReframeAnalyzer.Graph
             return _successors.Contains(successor);
         }
 
+        public string Tag { get; set; }
+
         public override string ToString()
         {
             return $"[{Identifier}] {Name}";

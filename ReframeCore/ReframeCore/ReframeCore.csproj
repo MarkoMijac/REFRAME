@@ -65,16 +65,10 @@
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
     <Compile Include="Exceptions\ReactorException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
-    <Compile Include="Exceptions\ReframeException.cs" />
     <Compile Include="Exceptions\UpdaterException.cs" />
     <Compile Include="Factories\INodeFactory.cs" />
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\ReactorRegistry.cs" />
-    <Compile Include="FluentAPI\FluentException.cs" />
-    <Compile Include="FluentAPI\MemberReader.cs" />
-    <Compile Include="FluentAPI\ReactorExtension.cs" />
-    <Compile Include="FluentAPI\TransferObject.cs" />
-    <Compile Include="FluentAPI\TransferParameter.cs" />
     <Compile Include="Helpers\GraphUtility.cs" />
     <Compile Include="Helpers\ILoggable.cs" />
     <Compile Include="Helpers\IScheduler.cs" />
@@ -109,6 +103,13 @@
     <None Include="packages.config" />
     <None Include="ReframeCore.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{d4b96cc8-d94c-42b9-88f1-92c4b728143d}</Project>
+      <Name>ReframeBaseExceptions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

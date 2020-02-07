@@ -93,6 +93,10 @@
       <Project>{f81ad39a-aab0-4ae0-babd-89ba79e945ed}</Project>
       <Name>ReframeCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReframeFluentAPI\ReframeFluentAPI.csproj">
+      <Project>{67586ae9-a71c-4948-8eca-68235518b4f8}</Project>
+      <Name>ReframeFluentAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
