@@ -48,7 +48,7 @@ namespace ReframeAnalyzer.Graph
                 foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
                 {
                     var successorAssemblyNode = GetNode(classNodeSuccessor.OwnerAssembly.Identifier);
-                    if (successorAssemblyNode != null && assemblyNode != successorAssemblyNode)
+                    if (successorAssemblyNode != null)
                     {
                         assemblyNode.AddSuccesor(successorAssemblyNode);
                     }

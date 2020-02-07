@@ -48,7 +48,7 @@ namespace ReframeAnalyzer.Graph
                 foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
                 {
                     var successorNamespaceNode = GetNode(classNodeSuccessor.OwnerNamespace.Identifier);
-                    if (successorNamespaceNode != null && namespaceNode != successorNamespaceNode)
+                    if (successorNamespaceNode != null)
                     {
                         namespaceNode.AddSuccesor(successorNamespaceNode);
                     }

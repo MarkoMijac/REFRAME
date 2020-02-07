@@ -35,7 +35,7 @@ namespace ReframeAnalyzer.Graph
                 {
                     uint successorIdentifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNodeSuccessor.Name, objectMemberNodeSuccessor.OwnerObject.OwnerClass.Identifier);
                     var successorClassMemberNode = GetNode(successorIdentifier);
-                    if (successorClassMemberNode != null && classMemberNode != successorClassMemberNode)
+                    if (successorClassMemberNode != null)
                     {
                         classMemberNode.AddSuccesor(successorClassMemberNode);
                     }

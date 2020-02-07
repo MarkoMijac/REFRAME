@@ -1,4 +1,8 @@
-﻿namespace ReframeAnalyzer.Graph
+﻿using ReframeAnalyzer.Exceptions;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace ReframeAnalyzer.Graph
 {
     public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel, UpdateAnalysisLevel };
 
@@ -7,6 +11,8 @@
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
             IAnalysisGraph result;
+
+            ValidateXmlSource(xmlSource);
 
             switch (analysisLevel)
             {
@@ -56,6 +62,23 @@
             }
 
             return result;
+        }
+
+        private void ValidateXmlSource(string xmlSource)
+        {
+            if (xmlSource == "")
+            {
+                throw new AnalyzerException("XML source is empty!");
+            }
+
+            try
+            {
+                XElement.Parse(xmlSource);
+            }
+            catch (XmlException e)
+            {
+                throw new AnalyzerException("XML Source is not valid! "+e.Message);
+            }
         }
 
         public IAnalysisGraph CreateGraph(string xmlSource, IAnalysisGraph objectMemberGraph, AnalysisLevel analysisLevel)
