@@ -285,16 +285,14 @@ namespace ReframeExporter
                 if (node is PropertyNode)
                 {
                     PropertyNode propertyNode = node as PropertyNode;
-                    try
+                    if (propertyNode.CurrentValue != null)
                     {
                         currentValue = propertyNode.CurrentValue.ToString();
+                    }
+                    if (propertyNode.PreviousValue != null)
+                    {
                         previousValue = propertyNode.PreviousValue.ToString();
                     }
-                    catch (Exception)
-                    {
-
-                    }
-                    
                 }
 
                 xmlWriter.WriteStartElement("CurrentValue");

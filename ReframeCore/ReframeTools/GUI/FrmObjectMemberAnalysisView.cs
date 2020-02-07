@@ -32,6 +32,13 @@ namespace ReframeTools.GUI
                         {
                         node.Identifier.ToString(),
                         node.Name,
+                        node.NodeType,
+                        node.CurrentValue,
+                        node.PreviousValue,
+                        node.OwnerObject.Name,                        
+                        node.OwnerObject.OwnerClass.Name,
+                        node.OwnerObject.OwnerClass.OwnerNamespace.Name,
+                        node.OwnerObject.OwnerClass.OwnerAssembly.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),
                         node.OutDegree.ToString()
@@ -51,6 +58,13 @@ namespace ReframeTools.GUI
             {
                 dgvNodes.Columns.Add("colIdentifier", "Identifier");
                 dgvNodes.Columns.Add("colName", "Name");
+                dgvNodes.Columns.Add("colNodeType", "Node Type");
+                dgvNodes.Columns.Add("colCurrentValue", "Current Value");
+                dgvNodes.Columns.Add("colPreviousValue", "Previous Value");
+                dgvNodes.Columns.Add("colOwnerObject", "Owner Object");
+                dgvNodes.Columns.Add("colClass", "Class");
+                dgvNodes.Columns.Add("colNamespace", "Namespace");
+                dgvNodes.Columns.Add("colAssembly", "Assembly");
                 dgvNodes.Columns.Add("colDegree", "Degree");
                 dgvNodes.Columns.Add("colInDegree", "In Degree");
                 dgvNodes.Columns.Add("colOutDegree", "Out Degree");

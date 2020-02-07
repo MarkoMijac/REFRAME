@@ -103,6 +103,29 @@ namespace ReframeExporter
             xmlWriter.WriteString(node.GetType().Name);
             xmlWriter.WriteEndElement();
 
+            string currentValue = "";
+            string previousValue = "";
+            if (node is PropertyNode)
+            {
+                PropertyNode propertyNode = node as PropertyNode;
+                if (propertyNode.CurrentValue != null)
+                {
+                    currentValue = propertyNode.CurrentValue.ToString();
+                }
+                if (propertyNode.PreviousValue != null)
+                {
+                    previousValue = propertyNode.PreviousValue.ToString();
+                }                
+            }
+
+            xmlWriter.WriteStartElement("CurrentValue");
+            xmlWriter.WriteString(currentValue);
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("PreviousValue");
+            xmlWriter.WriteString(previousValue);
+            xmlWriter.WriteEndElement();
+
             WriteObjectDetails(node.OwnerObject, xmlWriter);
         }
 

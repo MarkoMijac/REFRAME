@@ -22,6 +22,14 @@ namespace ReframeTools.GUI
         public string ReactorIdentifier { get; set; }
         protected AnalysisController AnalysisController { get; set; }
         protected VisualizationController VisualizationController { get; set; }
+
+        public string GraphIdentifier { get; set; }
+        public string GraphTotalNodeCount { get; set; }
+        public string NumberOfAnalyzedNodes { get; set; }
+        public string NumberOfDependencies { get; set; }
+        public string MaxNumberOfDependencies { get; set; }
+        public string GraphDensity { get; set; }
+
         public FrmAnalysisView(string reactorIdentifier) : this()
         {
             ReactorIdentifier = reactorIdentifier;
@@ -49,6 +57,16 @@ namespace ReframeTools.GUI
             bool notEmtpy = nodes.Count() > 0;
             generalNodeAnalysisToolStripMenuItem.Enabled = notEmtpy;
             btnVisualize.Enabled = notEmtpy;
+        }
+
+        public virtual void DisplayDetails()
+        {
+            txtGraphIdentifier.Text = GraphIdentifier;
+            txtGraphTotalNodeCount.Text = GraphTotalNodeCount;
+            txtNumberOfAnalyzedNodes.Text = NumberOfAnalyzedNodes;
+            txtNumberOfDependencies.Text = NumberOfDependencies;
+            txtMaxNumOfDependencies.Text = MaxNumberOfDependencies;
+            txtGraphDensity.Text = GraphDensity;
         }
 
         protected virtual void AddColumns()

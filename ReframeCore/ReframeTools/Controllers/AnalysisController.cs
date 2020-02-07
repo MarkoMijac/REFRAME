@@ -39,7 +39,20 @@ namespace ReframeTools.Controllers
             if (View != null)
             {
                 View.ShowAnalysis(nodes);
+
+                SetGraphDetails();
+                View.DisplayDetails();
             }
+        }
+
+        private void SetGraphDetails()
+        {
+            View.GraphIdentifier = AnalysisGraph.Identifier;
+            View.GraphTotalNodeCount = GraphMetrics.GetNumberOfNodes(AnalysisGraph.Nodes).ToString();
+            View.NumberOfAnalyzedNodes = GraphMetrics.GetNumberOfNodes(AnalysisNodes).ToString();
+            View.NumberOfDependencies = GraphMetrics.GetNumberOfEdges(AnalysisNodes).ToString();
+            View.MaxNumberOfDependencies = GraphMetrics.GetMaximumNumberOfEdges(AnalysisNodes).ToString();
+            View.GraphDensity = GraphMetrics.GetGraphDensity(AnalysisNodes).ToString("N4");
         }
 
         private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)

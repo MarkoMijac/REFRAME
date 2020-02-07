@@ -33,6 +33,8 @@ namespace ReframeTools.GUI
                         node.Identifier.ToString(),
                         node.Name,
                         node.OwnerClass.Name,
+                        node.OwnerClass.OwnerNamespace.Name,
+                        node.OwnerClass.OwnerAssembly.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),
                         node.OutDegree.ToString()
@@ -53,6 +55,8 @@ namespace ReframeTools.GUI
                 dgvNodes.Columns.Add("colIdentifier", "Identifier");
                 dgvNodes.Columns.Add("colName", "Name");
                 dgvNodes.Columns.Add("colClass", "Class");
+                dgvNodes.Columns.Add("colNamespace", "Namespace");
+                dgvNodes.Columns.Add("colAssembly", "Assembly");
                 dgvNodes.Columns.Add("colDegree", "Degree");
                 dgvNodes.Columns.Add("colInDegree", "In Degree");
                 dgvNodes.Columns.Add("colOutDegree", "Out Degree");
