@@ -76,6 +76,7 @@
     <Compile Include="Filters\IAnalysisFilter.cs" />
     <Compile Include="Graph\UpdateAnalysisGraph.cs" />
     <Compile Include="Graph\UpdateAnalysisNode.cs" />
+    <Compile Include="GraphMetrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

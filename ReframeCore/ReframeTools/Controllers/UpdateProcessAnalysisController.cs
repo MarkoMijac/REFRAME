@@ -32,7 +32,7 @@ namespace ReframeTools.Controllers
             var pipeClient = new ReframePipeClient();
             string xmlUpdateInfo = pipeClient.GetUpdateInfo(reactorIdentifier);
             string xmlReactor = pipeClient.GetReactor(reactorIdentifier);
-            ObjectMemberAnalysisGraph objectMemberGraph = GraphFactory.CreateGraph(xmlReactor, AnalysisLevel.ObjectMemberLevel) as ObjectMemberAnalysisGraph;
+            var objectMemberGraph = GraphFactory.CreateGraph(xmlReactor, AnalysisLevel.ObjectMemberLevel);
 
             AnalysisGraph = GraphFactory.CreateGraph(xmlUpdateInfo, objectMemberGraph, AnalysisLevel.UpdateAnalysisLevel);
             AnalysisNodes = AnalysisGraph.Nodes;

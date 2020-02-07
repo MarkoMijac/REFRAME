@@ -62,6 +62,7 @@
     <Compile Include="Controllers\NamespaceAnalysisController.cs" />
     <Compile Include="Controllers\ObjectAnalysisController.cs" />
     <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
+    <Compile Include="Controllers\ReactorDetailsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
@@ -153,6 +154,12 @@
     </Compile>
     <Compile Include="GUI\FrmFilterAnalysis.Designer.cs">
       <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.Designer.cs">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmRegisteredReactors.cs">
       <SubType>Form</SubType>
@@ -344,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmFilterAnalysis.resx">
       <DependentUpon>FrmFilterAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmReactorDetails.resx">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>

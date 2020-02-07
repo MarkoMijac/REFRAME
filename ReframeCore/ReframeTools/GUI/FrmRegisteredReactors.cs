@@ -134,5 +134,15 @@ namespace ReframeTools.GUI
             var form = new FrmUpdateProcessInfo(GetSelectedReactorIdentifier());
             DisplayForm(form);
         }
+
+        private void btnShowDetails_Click(object sender, EventArgs e)
+        {
+            string reactorIdentifier = GetSelectedReactorIdentifier();
+            if (reactorIdentifier != "")
+            {
+                var form = new FrmReactorDetails(reactorIdentifier);
+                DisplayForm(form);
+            }
+        }
     }
 }
