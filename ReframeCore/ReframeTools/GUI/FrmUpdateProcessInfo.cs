@@ -16,11 +16,13 @@ namespace ReframeTools.GUI
     {
         public string ReactorIdentifier { get; set; }
         private UpdateAnalysisGraph _analysisGraph;
+        private IEnumerable<IAnalysisNode> _analysisNodes;
         public FrmUpdateProcessInfo(string reactorIdentifier)
         {
             InitializeComponent();
             ReactorIdentifier = reactorIdentifier;
             AddColumns();
+            rbtnAllNodes.Checked = true;
         }
 
         public void ShowAnalysis(IAnalysisGraph analysisGraph)
@@ -28,12 +30,43 @@ namespace ReframeTools.GUI
             _analysisGraph = analysisGraph as UpdateAnalysisGraph;
             ShowBasicInformation();
             ShowUpdatedNodes();
-            PaintInitialNode(analysisGraph);
+            PaintInitialNode();
         }
 
-        private void PaintInitialNode(IAnalysisGraph analysisGraph)
+        public void ShowAnalysis(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> analysisNodes)
         {
-            IAnalysisNode initialNode = analysisGraph.Nodes.FirstOrDefault(n => (n as UpdateAnalysisNode).IsInitialNode == true);
+            _analysisGraph = analysisGraph as UpdateAnalysisGraph;
+            _analysisNodes = analysisNodes;
+            ShowBasicInformation();
+            ShowUpdatedNodes();
+            PaintInitialNode();
+            PaintValueDifferences();
+        }
+
+        private void PaintValueDifferences()
+        {
+            for (int i = 0; i < dgvUpdateInfo.Rows.Count; i++)
+            {
+                if (dgvUpdateInfo.Rows[i].Cells["colCurrentValue"].Value.ToString() != dgvUpdateInfo.Rows[i].Cells["colPreviousValue"].Value.ToString())
+                {
+                    PaintValueCells(i, Color.DarkRed);
+                }
+                else
+                {
+                    PaintValueCells(i, Color.DarkGreen);
+                }
+            }
+        }
+
+        private void PaintValueCells(int i, Color color)
+        {
+            dgvUpdateInfo.Rows[i].Cells["colCurrentValue"].Style.BackColor = color;
+            dgvUpdateInfo.Rows[i].Cells["colPreviousValue"].Style.BackColor = color;
+        }
+
+        private void PaintInitialNode()
+        {
+            IAnalysisNode initialNode = _analysisNodes.FirstOrDefault(n => (n as UpdateAnalysisNode).IsInitialNode == true);
             if (initialNode != null)
             {
                 for (int i = 0; i < dgvUpdateInfo.Rows.Count; i++)
@@ -54,6 +87,7 @@ namespace ReframeTools.GUI
             txtGraphIdentifier.Text = _analysisGraph.Identifier;
             txtGraphTotalNodeCount.Text = _analysisGraph.TotalNodeCount.ToString();
             txtUpdatedNodesCount.Text = _analysisGraph.Nodes.Count.ToString();
+            txtDisplayedNodesCount.Text = _analysisNodes.Count().ToString();
             txtUpdateSuccessful.Text = _analysisGraph.UpdateSuccessful.ToString();
             txtUpdateStartedAt.Text = _analysisGraph.UpdateStartedAt.ToString();
             txtUpdateEndedAt.Text = _analysisGraph.UpdateEndedAt.ToString();
@@ -75,7 +109,7 @@ namespace ReframeTools.GUI
             {
                 if (_analysisGraph != null)
                 {
-                    foreach (UpdateAnalysisNode node in _analysisGraph.Nodes)
+                    foreach (UpdateAnalysisNode node in _analysisNodes)
                     {
                         dgvUpdateInfo.Rows.Add(new string[]
                             {
@@ -124,14 +158,88 @@ namespace ReframeTools.GUI
 
         private void FrmUpdateProcessInfo_Load(object sender, EventArgs e)
         {
-            UpdateProcessAnalysisController controller = new UpdateProcessAnalysisController(this);
-            controller.ShowGraph();
+            UpdateProcessAnalysisController controller = new UpdateProcessAnalysisController(this, new FrmFilterUpdateAnalysis());
+            controller.ShowUpdateAnalysis();
         }
 
         private void btnVisualize_Click(object sender, EventArgs e)
         {
             VisualizationController visualizationController = new VisualizationController(ReactorIdentifier);
-            visualizationController.Visualize(_analysisGraph, _analysisGraph.Nodes);
+            visualizationController.Visualize(_analysisGraph, _analysisNodes);
+        }
+
+        private void ShowOnlyRowsWithNoDifferences()
+        {
+            foreach (DataGridViewRow row in dgvUpdateInfo.Rows)
+            {
+                if (ValueChanged(row) == false)
+                {
+                    row.Visible = true;
+                }
+                else
+                {
+                    row.Visible = false;
+                }
+            }
+        }
+
+        private void ShowOnlyRowsWithDifferences()
+        {
+            foreach (DataGridViewRow row in dgvUpdateInfo.Rows)
+            {
+                if (ValueChanged(row) == true)
+                {
+                    row.Visible = true;
+                }
+                else
+                {
+                    row.Visible = false;
+                }
+            }
+        }
+
+        private void ShowAllRows()
+        {
+            foreach (DataGridViewRow row in dgvUpdateInfo.Rows)
+            {
+                row.Visible = true;
+            }
+        }
+
+        private bool ValueChanged(DataGridViewRow row)
+        {
+            bool changed = true;
+
+            if (row.Cells["colCurrentValue"].Value.ToString() == row.Cells["colPreviousValue"].Value.ToString())
+            {
+                changed = false;
+            }
+
+            return changed;
+        }
+
+        private void rbtnAllNodes_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbtnAllNodes.Checked == true)
+            {
+                ShowAllRows();
+            }
+        }
+
+        private void rbtnOnlyNodesWithDifferences_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbtnOnlyNodesWithDifferences.Checked == true)
+            {
+                ShowOnlyRowsWithDifferences();
+            }
+        }
+
+        private void rbtnOnlyNodesWithNoDifferences_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbtnOnlyNodesWithNoDifferences.Checked == true)
+            {
+                ShowOnlyRowsWithNoDifferences();
+            }
         }
     }
 }

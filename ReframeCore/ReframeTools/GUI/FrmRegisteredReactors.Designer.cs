@@ -39,6 +39,7 @@
             this.namespacelevelAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getLatestUpdateInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.archivedAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -136,7 +137,8 @@
             // updateAnalysisToolStripMenuItem
             // 
             this.updateAnalysisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getLatestUpdateInfoToolStripMenuItem});
+            this.getLatestUpdateInfoToolStripMenuItem,
+            this.archivedAnalysesToolStripMenuItem});
             this.updateAnalysisToolStripMenuItem.Name = "updateAnalysisToolStripMenuItem";
             this.updateAnalysisToolStripMenuItem.Size = new System.Drawing.Size(144, 20);
             this.updateAnalysisToolStripMenuItem.Text = "Update process analysis";
@@ -144,9 +146,15 @@
             // getLatestUpdateInfoToolStripMenuItem
             // 
             this.getLatestUpdateInfoToolStripMenuItem.Name = "getLatestUpdateInfoToolStripMenuItem";
-            this.getLatestUpdateInfoToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.getLatestUpdateInfoToolStripMenuItem.Text = "Get latest update info";
+            this.getLatestUpdateInfoToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.getLatestUpdateInfoToolStripMenuItem.Text = "Latest update";
             this.getLatestUpdateInfoToolStripMenuItem.Click += new System.EventHandler(this.getLatestUpdateInfoToolStripMenuItem_Click);
+            // 
+            // archivedAnalysesToolStripMenuItem
+            // 
+            this.archivedAnalysesToolStripMenuItem.Name = "archivedAnalysesToolStripMenuItem";
+            this.archivedAnalysesToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.archivedAnalysesToolStripMenuItem.Text = "Archived analyses";
             // 
             // FrmRegisteredReactors
             // 
@@ -181,5 +189,6 @@
         private System.Windows.Forms.ToolStripMenuItem namespacelevelAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getLatestUpdateInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem archivedAnalysesToolStripMenuItem;
     }
 }

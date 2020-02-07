@@ -30,6 +30,12 @@
         {
             this.dgvUpdateInfo = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDisplayedNodesCount = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtInitialNodePreviousValue = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtInitialNodeCurrentValue = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.txtInitialNodeOwnerObject = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtInitialNodeMemberName = new System.Windows.Forms.TextBox();
@@ -53,31 +59,36 @@
             this.txtGraphIdentifier = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.txtInitialNodeCurrentValue = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtInitialNodePreviousValue = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.btnVisualize = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbtnOnlyNodesWithDifferences = new System.Windows.Forms.RadioButton();
+            this.rbtnOnlyNodesWithNoDifferences = new System.Windows.Forms.RadioButton();
+            this.rbtnAllNodes = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvUpdateInfo
             // 
+            this.dgvUpdateInfo.AllowUserToAddRows = false;
+            this.dgvUpdateInfo.AllowUserToDeleteRows = false;
             this.dgvUpdateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvUpdateInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUpdateInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUpdateInfo.Location = new System.Drawing.Point(12, 233);
+            this.dgvUpdateInfo.Location = new System.Drawing.Point(12, 280);
             this.dgvUpdateInfo.Name = "dgvUpdateInfo";
             this.dgvUpdateInfo.RowHeadersVisible = false;
             this.dgvUpdateInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUpdateInfo.Size = new System.Drawing.Size(828, 228);
+            this.dgvUpdateInfo.Size = new System.Drawing.Size(828, 264);
             this.dgvUpdateInfo.TabIndex = 0;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtDisplayedNodesCount);
+            this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.txtInitialNodePreviousValue);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.txtInitialNodeCurrentValue);
@@ -110,6 +121,60 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Basic update process information";
+            // 
+            // txtDisplayedNodesCount
+            // 
+            this.txtDisplayedNodesCount.BackColor = System.Drawing.Color.MistyRose;
+            this.txtDisplayedNodesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDisplayedNodesCount.Location = new System.Drawing.Point(130, 95);
+            this.txtDisplayedNodesCount.Name = "txtDisplayedNodesCount";
+            this.txtDisplayedNodesCount.Size = new System.Drawing.Size(100, 20);
+            this.txtDisplayedNodesCount.TabIndex = 27;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 98);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(118, 13);
+            this.label15.TabIndex = 26;
+            this.label15.Text = "Displayed nodes count:";
+            // 
+            // txtInitialNodePreviousValue
+            // 
+            this.txtInitialNodePreviousValue.BackColor = System.Drawing.Color.MistyRose;
+            this.txtInitialNodePreviousValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtInitialNodePreviousValue.Location = new System.Drawing.Point(596, 149);
+            this.txtInitialNodePreviousValue.Name = "txtInitialNodePreviousValue";
+            this.txtInitialNodePreviousValue.Size = new System.Drawing.Size(179, 20);
+            this.txtInitialNodePreviousValue.TabIndex = 25;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(485, 151);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(80, 13);
+            this.label14.TabIndex = 24;
+            this.label14.Text = "Previous value:";
+            // 
+            // txtInitialNodeCurrentValue
+            // 
+            this.txtInitialNodeCurrentValue.BackColor = System.Drawing.Color.MistyRose;
+            this.txtInitialNodeCurrentValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtInitialNodeCurrentValue.Location = new System.Drawing.Point(596, 123);
+            this.txtInitialNodeCurrentValue.Name = "txtInitialNodeCurrentValue";
+            this.txtInitialNodeCurrentValue.Size = new System.Drawing.Size(179, 20);
+            this.txtInitialNodeCurrentValue.TabIndex = 23;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(485, 125);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(73, 13);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "Current value:";
             // 
             // txtInitialNodeOwnerObject
             // 
@@ -241,7 +306,7 @@
             // 
             this.txtUpdateSuccessful.BackColor = System.Drawing.Color.MistyRose;
             this.txtUpdateSuccessful.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUpdateSuccessful.Location = new System.Drawing.Point(130, 95);
+            this.txtUpdateSuccessful.Location = new System.Drawing.Point(130, 121);
             this.txtUpdateSuccessful.Name = "txtUpdateSuccessful";
             this.txtUpdateSuccessful.Size = new System.Drawing.Size(100, 20);
             this.txtUpdateSuccessful.TabIndex = 7;
@@ -249,7 +314,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 98);
+            this.label4.Location = new System.Drawing.Point(6, 124);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(98, 13);
             this.label4.TabIndex = 6;
@@ -313,54 +378,18 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label12.Location = new System.Drawing.Point(12, 217);
+            this.label12.Location = new System.Drawing.Point(12, 264);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(97, 13);
             this.label12.TabIndex = 22;
             this.label12.Text = "Updated nodes:";
-            // 
-            // txtInitialNodeCurrentValue
-            // 
-            this.txtInitialNodeCurrentValue.BackColor = System.Drawing.Color.MistyRose;
-            this.txtInitialNodeCurrentValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtInitialNodeCurrentValue.Location = new System.Drawing.Point(596, 123);
-            this.txtInitialNodeCurrentValue.Name = "txtInitialNodeCurrentValue";
-            this.txtInitialNodeCurrentValue.Size = new System.Drawing.Size(179, 20);
-            this.txtInitialNodeCurrentValue.TabIndex = 23;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(485, 125);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(73, 13);
-            this.label13.TabIndex = 22;
-            this.label13.Text = "Current value:";
-            // 
-            // txtInitialNodePreviousValue
-            // 
-            this.txtInitialNodePreviousValue.BackColor = System.Drawing.Color.MistyRose;
-            this.txtInitialNodePreviousValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtInitialNodePreviousValue.Location = new System.Drawing.Point(596, 149);
-            this.txtInitialNodePreviousValue.Name = "txtInitialNodePreviousValue";
-            this.txtInitialNodePreviousValue.Size = new System.Drawing.Size(179, 20);
-            this.txtInitialNodePreviousValue.TabIndex = 25;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(485, 151);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(80, 13);
-            this.label14.TabIndex = 24;
-            this.label14.Text = "Previous value:";
             // 
             // btnVisualize
             // 
             this.btnVisualize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnVisualize.BackColor = System.Drawing.Color.LightCoral;
             this.btnVisualize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVisualize.Location = new System.Drawing.Point(744, 467);
+            this.btnVisualize.Location = new System.Drawing.Point(744, 550);
             this.btnVisualize.Name = "btnVisualize";
             this.btnVisualize.Size = new System.Drawing.Size(96, 23);
             this.btnVisualize.TabIndex = 23;
@@ -368,12 +397,61 @@
             this.btnVisualize.UseVisualStyleBackColor = false;
             this.btnVisualize.Click += new System.EventHandler(this.btnVisualize_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rbtnAllNodes);
+            this.groupBox2.Controls.Add(this.rbtnOnlyNodesWithNoDifferences);
+            this.groupBox2.Controls.Add(this.rbtnOnlyNodesWithDifferences);
+            this.groupBox2.Location = new System.Drawing.Point(12, 209);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(828, 52);
+            this.groupBox2.TabIndex = 24;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Filter:";
+            // 
+            // rbtnOnlyNodesWithDifferences
+            // 
+            this.rbtnOnlyNodesWithDifferences.AutoSize = true;
+            this.rbtnOnlyNodesWithDifferences.Location = new System.Drawing.Point(112, 19);
+            this.rbtnOnlyNodesWithDifferences.Name = "rbtnOnlyNodesWithDifferences";
+            this.rbtnOnlyNodesWithDifferences.Size = new System.Drawing.Size(183, 17);
+            this.rbtnOnlyNodesWithDifferences.TabIndex = 0;
+            this.rbtnOnlyNodesWithDifferences.TabStop = true;
+            this.rbtnOnlyNodesWithDifferences.Text = "Show only nodes with differences";
+            this.rbtnOnlyNodesWithDifferences.UseVisualStyleBackColor = true;
+            this.rbtnOnlyNodesWithDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithDifferences_CheckedChanged);
+            // 
+            // rbtnOnlyNodesWithNoDifferences
+            // 
+            this.rbtnOnlyNodesWithNoDifferences.AutoSize = true;
+            this.rbtnOnlyNodesWithNoDifferences.Location = new System.Drawing.Point(301, 19);
+            this.rbtnOnlyNodesWithNoDifferences.Name = "rbtnOnlyNodesWithNoDifferences";
+            this.rbtnOnlyNodesWithNoDifferences.Size = new System.Drawing.Size(202, 17);
+            this.rbtnOnlyNodesWithNoDifferences.TabIndex = 1;
+            this.rbtnOnlyNodesWithNoDifferences.TabStop = true;
+            this.rbtnOnlyNodesWithNoDifferences.Text = "Show only nodes with NO differences";
+            this.rbtnOnlyNodesWithNoDifferences.UseVisualStyleBackColor = true;
+            this.rbtnOnlyNodesWithNoDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithNoDifferences_CheckedChanged);
+            // 
+            // rbtnAllNodes
+            // 
+            this.rbtnAllNodes.AutoSize = true;
+            this.rbtnAllNodes.Location = new System.Drawing.Point(9, 19);
+            this.rbtnAllNodes.Name = "rbtnAllNodes";
+            this.rbtnAllNodes.Size = new System.Drawing.Size(97, 17);
+            this.rbtnAllNodes.TabIndex = 2;
+            this.rbtnAllNodes.TabStop = true;
+            this.rbtnAllNodes.Text = "Show all nodes";
+            this.rbtnAllNodes.UseVisualStyleBackColor = true;
+            this.rbtnAllNodes.CheckedChanged += new System.EventHandler(this.rbtnAllNodes_CheckedChanged);
+            // 
             // FrmUpdateProcessInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(852, 508);
+            this.ClientSize = new System.Drawing.Size(852, 591);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnVisualize);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.groupBox1);
@@ -384,6 +462,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -421,5 +501,11 @@
         private System.Windows.Forms.TextBox txtInitialNodeCurrentValue;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnVisualize;
+        private System.Windows.Forms.TextBox txtDisplayedNodesCount;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rbtnAllNodes;
+        private System.Windows.Forms.RadioButton rbtnOnlyNodesWithNoDifferences;
+        private System.Windows.Forms.RadioButton rbtnOnlyNodesWithDifferences;
     }
 }
