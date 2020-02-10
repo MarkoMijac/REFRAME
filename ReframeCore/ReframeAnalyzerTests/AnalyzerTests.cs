@@ -357,38 +357,10 @@ namespace ReframeAnalyzerTests
 
         [TestMethod]
         [ExpectedException(typeof(AnalysisException))]
-        public void GetPredecessors_GivenEmptyNodeIdentifier_ThrowsException()
-        {
-            //Arrange
-            var reactor = AnalysisTestHelper.CreateCase1();
-            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
-            var analyzer = new Analyzer();
-            string nodeIdentifier = "";
-
-            //Act
-            var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(AnalysisException))]
-        public void GetPredecessors_GivenInvalidNodeIdentifier_ThrowsException()
-        {
-            //Arrange
-            string nodeIdentifier = "fdasdflk";
-            var reactor = AnalysisTestHelper.CreateCase1();
-            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
-            var analyzer = new Analyzer();
-
-            //Act
-            var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(AnalysisException))]
         public void GetPredecessors_GivenNonExistingNodeIdentifier_ThrowsException()
         {
             //Arrange
-            string nodeIdentifier = "11111111";
+            uint nodeIdentifier = 11111111;
             var reactor = AnalysisTestHelper.CreateCase1();
             var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
             var analyzer = new Analyzer();
@@ -405,7 +377,7 @@ namespace ReframeAnalyzerTests
             var reactor = AnalysisTestHelper.CreateCase1();
             IAnalysisGraph analysisGraph = null;
             var analyzer = new Analyzer();
-            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier.ToString();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
 
             //Act
             var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
@@ -470,7 +442,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
             
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString());
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier);
 
             //Assert
             Assert.IsTrue(predecessors != null);
@@ -505,7 +477,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
 
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier.ToString(), 3);
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier, 3);
 
             //Assert
             Assert.IsTrue(predecessors != null);
@@ -540,7 +512,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassC));
 
-            IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(analysisGraph, startingNode.Identifier.ToString(), 2);
+            IEnumerable<IAnalysisNode> successors = analyzer.GetSuccessors(analysisGraph, startingNode.Identifier, 2);
 
             //Assert
             Assert.IsTrue(successors != null);

@@ -115,34 +115,34 @@ namespace ReframeTools.GUI
             AnalysisController.ShowIntermediaryNodes();
         }
 
-        private string GetSelectedNodeIdentifier()
+        private uint GetSelectedNodeId()
         {
-            string identifier = "";
+            uint id = 0;
 
             if (dgvNodes.Rows.Count > 0)
             {
-                identifier = dgvNodes.CurrentRow.Cells[0].Value.ToString();
+                uint.TryParse(dgvNodes.CurrentRow.Cells[0].Value.ToString(), out id);
             }
 
-            return identifier;
+            return id;
         }
 
         private void showNodePredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowPredecessorNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowPredecessorNodes(GetSelectedNodeId());
         }
 
         private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowSuccessorNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowSuccessorNodes(GetSelectedNodeId());
         }
 
         private void showNodesNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowNeighbourNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowNeighbourNodes(GetSelectedNodeId());
         }
 
         private void btnVisualize_Click(object sender, EventArgs e)
@@ -153,37 +153,37 @@ namespace ReframeTools.GUI
         private void showSinkNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowSinkNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowSinkNodes(GetSelectedNodeId());
         }
 
         private void showLeafNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowLeafNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowLeafNodes(GetSelectedNodeId());
         }
 
         private void showSourceNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowSourceNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowSourceNodes(GetSelectedNodeId());
         }
 
         private void showIntermediaryPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowIntermediaryPredecessors(GetSelectedNodeIdentifier());
+            AnalysisController.ShowIntermediaryPredecessors(GetSelectedNodeId());
         }
 
         private void showIntermediarySuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowIntermediarySuccessors(GetSelectedNodeIdentifier());
+            AnalysisController.ShowIntermediarySuccessors(GetSelectedNodeId());
         }
 
         private void showIntermediaryNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AnalysisController = CreateAnalysisController();
-            AnalysisController.ShowIntermediaryNodes(GetSelectedNodeIdentifier());
+            AnalysisController.ShowIntermediaryNodes(GetSelectedNodeId());
         }
     }
 }
