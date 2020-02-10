@@ -16,7 +16,7 @@ namespace ReframeAnalyzerTests
         #region General
 
         [TestMethod]
-        [ExpectedException(typeof(AnalyzerException))]
+        [ExpectedException(typeof(AnalysisException))]
         public void CreateGraph_XmlSourceIsEmpty_ThrowsException()
         {
             //Arrange
@@ -27,7 +27,7 @@ namespace ReframeAnalyzerTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AnalyzerException))]
+        [ExpectedException(typeof(AnalysisException))]
         public void CreateGraph_XmlSourceNotValid_ThrowsException()
         {
             //Arrange
@@ -158,22 +158,11 @@ namespace ReframeAnalyzerTests
 
         #endregion
 
-
-
         #region CASE 1
 
         private static IReactor CreateCase1()
         {
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
-
-            ClassA objA = new ClassA("First object A");
-            ClassB objB = new ClassB("Second object B");
-            ClassC objC = new ClassC("Third object C");
-
-            reactor.Let(() => objA.PA1)
-                .DependOn(() => objB.PB1, () => objC.PC1);
-            return reactor;
+            return AnalysisTestCases.CreateCase1();
         }
 
         [TestMethod]
@@ -424,18 +413,7 @@ namespace ReframeAnalyzerTests
 
         private static IReactor CreateCase2()
         {
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
-
-            ClassA objA = new ClassA("Object A");
-            ClassB objB = new ClassB("Object B");
-            ClassC objC = new ClassC("Object C");
-            ClassG objG = new ClassG("Object G");
-
-            reactor.Let(() => objG.PG1)
-                .DependOn(() => objB.PB1, () => objC.PC1, () => objG.PG2);
-            reactor.Let(() => objB.PB1, () => objC.PC1).DependOn(() => objA.PA1);
-            return reactor;
+            return AnalysisTestCases.CreateCase2();
         }
 
         [TestMethod]
@@ -746,18 +724,7 @@ namespace ReframeAnalyzerTests
 
         private static IReactor CreateCase3()
         {
-            /*
-             * Same class, different objects, same member.
-             */
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
-
-            ClassA firstObject = new ClassA("First object A");
-            ClassA secondObject = new ClassA("Second object A");
-
-            reactor.Let(() => firstObject.PA1)
-                .DependOn(() => secondObject.PA1);
-            return reactor;
+            return AnalysisTestCases.CreateCase3();
         }
 
         [TestMethod]
@@ -995,17 +962,7 @@ namespace ReframeAnalyzerTests
         /// <returns></returns>
         private static IReactor CreateCase4()
         {
-            /*
-             * Same class, same objects, different members.
-             */
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
-            
-            ClassA objA = new ClassA("First object A");
-            reactor.Let(() => objA.PA1)
-                .DependOn(() => objA.PA2);
-
-            return reactor;
+            return AnalysisTestCases.CreateCase4();
         }
 
         [TestMethod]
@@ -1246,17 +1203,9 @@ namespace ReframeAnalyzerTests
         /// Two different classes, two objects, 4 members.
         /// </summary>
         /// <returns></returns>
-        private IReactor CreateCase5()
+        private static IReactor CreateCase5()
         {
-            ReactorRegistry.Instance.Clear();
-            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
-            ClassA objA = new ClassA("First object A");
-            ClassB objB = new ClassB("Second object B");
-
-            reactor.Let(() => objA.PA1).DependOn(() => objB.PB1);
-            reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
-
-            return reactor;
+            return AnalysisTestCases.CreateCase5();
         }
 
         [TestMethod]

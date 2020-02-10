@@ -68,7 +68,7 @@ namespace ReframeAnalyzer.Graph
         {
             if (xmlSource == "")
             {
-                throw new AnalyzerException("XML source is empty!");
+                throw new AnalysisException("XML source is empty!");
             }
 
             try
@@ -77,7 +77,7 @@ namespace ReframeAnalyzer.Graph
             }
             catch (XmlException e)
             {
-                throw new AnalyzerException("XML Source is not valid! "+e.Message);
+                throw new AnalysisException("XML Source is not valid! "+e.Message);
             }
         }
 

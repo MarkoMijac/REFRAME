@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Filters\AnalysisFilter.cs" />
     <Compile Include="Analyzer.cs" />
-    <Compile Include="Exceptions\AnalyzerException.cs" />
+    <Compile Include="Exceptions\AnalysisException.cs" />
     <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
     <Compile Include="Filters\ClassAnalysisFilter.cs" />
     <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
