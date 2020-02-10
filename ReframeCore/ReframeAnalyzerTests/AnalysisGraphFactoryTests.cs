@@ -162,7 +162,7 @@ namespace ReframeAnalyzerTests
 
         private static IReactor CreateCase1()
         {
-            return AnalysisTestCases.CreateCase1();
+            return AnalysisTestHelper.CreateCase1();
         }
 
         [TestMethod]
@@ -413,7 +413,7 @@ namespace ReframeAnalyzerTests
 
         private static IReactor CreateCase2()
         {
-            return AnalysisTestCases.CreateCase2();
+            return AnalysisTestHelper.CreateCase2();
         }
 
         [TestMethod]
@@ -724,7 +724,7 @@ namespace ReframeAnalyzerTests
 
         private static IReactor CreateCase3()
         {
-            return AnalysisTestCases.CreateCase3();
+            return AnalysisTestHelper.CreateCase3();
         }
 
         [TestMethod]
@@ -962,7 +962,7 @@ namespace ReframeAnalyzerTests
         /// <returns></returns>
         private static IReactor CreateCase4()
         {
-            return AnalysisTestCases.CreateCase4();
+            return AnalysisTestHelper.CreateCase4();
         }
 
         [TestMethod]
@@ -1205,7 +1205,7 @@ namespace ReframeAnalyzerTests
         /// <returns></returns>
         private static IReactor CreateCase5()
         {
-            return AnalysisTestCases.CreateCase5();
+            return AnalysisTestHelper.CreateCase5();
         }
 
         [TestMethod]

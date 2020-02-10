@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzerTests
 {
-    public static class AnalysisTestCases
+    public static class AnalysisTestHelper
     {
         public static IAnalysisGraph CreateAnalysisGraph(IReactor reactor, AnalysisLevel level)
         {
@@ -32,12 +32,16 @@ namespace ReframeAnalyzerTests
 
         public static IReactor CreateCase1()
         {
+            List<object> repository = new List<object>();
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("S1");
 
             ClassA objA = new ClassA("First object A");
             ClassB objB = new ClassB("Second object B");
             ClassC objC = new ClassC("Third object C");
+            repository.Add(objA);
+            repository.Add(objB);
+            repository.Add(objC);
 
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objB.PB1, () => objC.PC1);
@@ -49,10 +53,15 @@ namespace ReframeAnalyzerTests
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("S1");
 
+            List<object> repository = new List<object>();
             ClassA objA = new ClassA("Object A");
             ClassB objB = new ClassB("Object B");
             ClassC objC = new ClassC("Object C");
             ClassG objG = new ClassG("Object G");
+            repository.Add(objA);
+            repository.Add(objB);
+            repository.Add(objC);
+            repository.Add(objG);
 
             reactor.Let(() => objG.PG1)
                 .DependOn(() => objB.PB1, () => objC.PC1, () => objG.PG2);
@@ -67,9 +76,12 @@ namespace ReframeAnalyzerTests
              */
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("S1");
+            List<object> repository = new List<object>();
 
             ClassA firstObject = new ClassA("First object A");
             ClassA secondObject = new ClassA("Second object A");
+            repository.Add(firstObject);
+            repository.Add(secondObject);
 
             reactor.Let(() => firstObject.PA1)
                 .DependOn(() => secondObject.PA1);
@@ -92,6 +104,9 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objA.PA1)
                 .DependOn(() => objA.PA2);
 
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+
             return reactor;
         }
 
@@ -109,8 +124,93 @@ namespace ReframeAnalyzerTests
             reactor.Let(() => objA.PA1).DependOn(() => objB.PB1);
             reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
 
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+            repository.Add(objB);
+
             return reactor;
         }
 
+        /// <summary>
+        /// More complex graph with orphan nodes.
+        /// </summary>
+        /// <returns></returns>
+        public static IReactor CreateCase6()
+        {
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+            ClassD objD = new ClassD();
+            ClassE objE = new ClassE();
+            ClassF objF = new ClassF();
+            ClassG objG = new ClassG();
+
+            reactor.Let(() => objG.PG1).DependOn(() => objF.PF1, () => objE.PE1);
+            reactor.Let(() => objF.PF1).DependOn(() => objB.PB1);
+            reactor.Let(() => objE.PE1).DependOn(() => objB.PB1, () => objC.PC1);
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+            reactor.Let(() => objC.PC1).DependOn(() => objA.PA1, () => objD.PD1);
+
+            //Add few orphan nodes
+            reactor.AddNode(objA, nameof(objA.PA2));
+            reactor.AddNode(objB, nameof(objB.PB2));
+
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+            repository.Add(objB);
+            repository.Add(objC);
+            repository.Add(objD);
+            repository.Add(objE);
+            repository.Add(objF);
+            repository.Add(objG);
+
+            return reactor;
+        }
+
+        /// <summary>
+        /// Graph with only orphan nodes.
+        /// </summary>
+        /// <returns></returns>
+        public static IReactor CreateCase7()
+        {
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+
+            //Add few orphan nodes
+            reactor.AddNode(objA, nameof(objA.PA2));
+            reactor.AddNode(objB, nameof(objB.PB2));
+
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+            repository.Add(objB);
+
+            return reactor;
+        }
+
+        /// <summary>
+        /// Graph with no intermediary nodes.
+        /// </summary>
+        /// <returns></returns>
+        public static IReactor CreateCase8()
+        {
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+
+            //Add few orphan nodes
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+            reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
+
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+            repository.Add(objB);
+
+            return reactor;
+        }
     }
 }
