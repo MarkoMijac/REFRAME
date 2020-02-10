@@ -169,11 +169,11 @@ namespace ReframeTools.Controllers
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
                     {
-                        originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier);
+                        originalNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier);
                     }
                     else
                     {
-                        originalNodes = Analyzer.GetPredecessors(AnalysisGraph, nodeIdentifier, maxDepth);
+                        originalNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier, maxDepth);
                     }
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);

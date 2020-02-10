@@ -353,11 +353,11 @@ namespace ReframeAnalyzerTests
 
         #endregion
 
-        #region GetPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
+        #region GetNodeAndItsPredecessors(IAnalysisGraph analysisGraph, string nodeIdentifier)
 
         [TestMethod]
         [ExpectedException(typeof(AnalysisException))]
-        public void GetPredecessors_GivenNonExistingNodeIdentifier_ThrowsException()
+        public void GetNodeAndItsPredecessors_GivenNonExistingNodeIdentifier_ThrowsException()
         {
             //Arrange
             uint nodeIdentifier = 11111111;
@@ -366,12 +366,12 @@ namespace ReframeAnalyzerTests
             var analyzer = new Analyzer();
 
             //Act
-            var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
         }
 
         [TestMethod]
         [ExpectedException(typeof(AnalysisException))]
-        public void GetPredecessors_GivenAnalysisGraphIsNull_ThrowsException()
+        public void GetNodeAndItsPredecessors_GivenAnalysisGraphIsNull_ThrowsException()
         {
             //Arrange
             var reactor = AnalysisTestHelper.CreateCase1();
@@ -380,7 +380,353 @@ namespace ReframeAnalyzerTests
             var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
 
             //Act
-            var predecessors = analyzer.GetPredecessors(analysisGraph, nodeIdentifier);
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+        }
+
+        [TestMethod]
+        public void GetNodeAndItsPredecessors_GivenNodeHasNoPredecessors_ReturnOnlySelectedNode()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var sourceNodes = analyzer.GetSourceNodes(analysisGraph);
+            var nodeIdentifier = sourceNodes[0].Identifier;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(predecessors.Count == 1);
+            Assert.IsTrue(predecessors.Contains(sourceNodes[0]));
+        }
+
+        [TestMethod]
+        public void GetNodeAndItsPredecessors_GivenNodeHasPredecessors_ReturnsCorrectPredecessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[1].Identifier;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(predecessors.Count == 3);
+
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassF.PF1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassB.PB1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassA.PA1)));
+        }
+
+        #endregion
+
+        #region GetNodeAndItsPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetNodeAndItsPredecessors2_GivenNonExistingNodeIdentifier_ThrowsException()
+        {
+            //Arrange
+            uint nodeIdentifier = 11111111;
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            int maxDepth = 1;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, maxDepth);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetNodeAndItsPredecessors2_GivenAnalysisGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            IAnalysisGraph analysisGraph = null;
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
+            int maxDepth = 1;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, maxDepth);
+        }
+
+        [TestMethod]
+        public void GetNodeAndItsPredecessors2_GivenNodeHasNoPredecessors_ReturnsOnlySelectedNode()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var sourceNodes = analyzer.GetSourceNodes(analysisGraph);
+            var nodeIdentifier = sourceNodes[0].Identifier;
+            int maxDepth = 1;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, maxDepth);
+
+            //Assert
+            Assert.IsTrue(predecessors.Count == 1);
+            Assert.IsTrue(predecessors.Contains(sourceNodes[0]));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetNodeAndItsPredecessors2_GivenInvalidMaxDepth_ThrowsException()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[1].Identifier;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, 0);
+        }
+
+        [TestMethod]
+        public void GetNodeAndItsPredecessors2_GivenNodeHasPredecessors_ReturnsCorrectPredecessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
+            int maxDepth = 2;
+
+            //Act
+            var predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, maxDepth);
+
+            //Assert
+            Assert.IsTrue(predecessors.Count == 5);
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassG.PG1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassF.PF1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassE.PE1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassB.PB1)));
+            Assert.IsTrue(predecessors.Exists(n => n.Name == nameof(ClassC.PC1)));
+        }
+
+        #endregion
+
+        #region GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetSuccessors_GivenNonExistingNodeIdentifier_ThrowsException()
+        {
+            //Arrange
+            uint nodeIdentifier = 11111111;
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetSuccessors_GivenAnalysisGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            IAnalysisGraph analysisGraph = null;
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier);
+        }
+
+        [TestMethod]
+        public void GetSuccessors_GivenNodeHasNoSuccessors_ReturnsEmptySuccessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var sinkNodes = analyzer.GetSinkNodes(analysisGraph);
+            var nodeIdentifier = sinkNodes[0].Identifier;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(successors.Count == 0);
+        }
+
+        [TestMethod]
+        public void GetSuccessors_GivenNodeHasSuccessors_ReturnsCorrectSucessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[3].Identifier;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(successors.Count == 3);
+            var s1 = successors[0];
+            var s2 = successors[1];
+            var s3 = successors[2];
+
+            Assert.IsTrue(s1.Name == nameof(ClassF.PF1));
+            Assert.IsTrue(s2.Name == nameof(ClassG.PG1));
+            Assert.IsTrue(s3.Name == nameof(ClassE.PE1));
+        }
+
+        #endregion
+
+        #region GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetSuccessors2_GivenNonExistingNodeIdentifier_ThrowsException()
+        {
+            //Arrange
+            uint nodeIdentifier = 11111111;
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            int maxDepth = 1;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier, maxDepth);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetSuccessors2_GivenAnalysisGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            IAnalysisGraph analysisGraph = null;
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
+            int maxDepth = 1;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier, maxDepth);
+        }
+
+        [TestMethod]
+        public void GetSuccessors2_GivenNodeHasNoSuccessors_ReturnsEmptySuccessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var sinkNodes = analyzer.GetSinkNodes(analysisGraph);
+            var nodeIdentifier = sinkNodes[0].Identifier;
+            int maxDepth = 1;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier, maxDepth);
+
+            //Assert
+            Assert.IsTrue(successors.Count == 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetSuccessors2_GivenInvalidMaxDepth_ThrowsException()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[1].Identifier;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier, 0);
+        }
+
+        [TestMethod]
+        public void GetSuccessors2_GivenNodeHasSuccessors_ReturnsCorrectSuccessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[3].Identifier;
+            int maxDepth = 1;
+
+            //Act
+            var successors = analyzer.GetSuccessors(analysisGraph, nodeIdentifier, maxDepth);
+
+            //Assert
+            Assert.IsTrue(successors.Count == 2);
+            var p1 = successors[0];
+            var p2 = successors[1];
+
+            Assert.IsTrue(p1.Name == nameof(ClassF.PF1));
+            Assert.IsTrue(p2.Name == nameof(ClassE.PE1));
+        }
+
+        #endregion
+
+        #region GetNeighbours(IAnalysisGraph analysisGraph, uint nodeIdentifier)
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetNeighbours_GivenNonExistingNodeIdentifier_ThrowsException()
+        {
+            //Arrange
+            uint nodeIdentifier = 11111111;
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+
+            //Act
+            var neighbours = analyzer.GetNeighbours(analysisGraph, nodeIdentifier);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AnalysisException))]
+        public void GetNeighbours_GivenAnalysisGraphIsNull_ThrowsException()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            IAnalysisGraph analysisGraph = null;
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
+
+            //Act
+            var neighbours = analyzer.GetNeighbours(analysisGraph, nodeIdentifier);
+        }
+
+        [TestMethod]
+        public void GetNeighbours_GivenNodeHasNoNeighbours_ReturnsEmptySuccessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var orphanNodes = analyzer.GetOrphanNodes(analysisGraph);
+            var nodeIdentifier = orphanNodes[0].Identifier;
+
+            //Act
+            var neighbours = analyzer.GetNeighbours(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(neighbours.Count == 0);
+        }
+
+        [TestMethod]
+        public void GetNeighbours_GivenNodeHasSuccessors_ReturnsCorrectSucessorsCollection()
+        {
+            var reactor = AnalysisTestHelper.CreateCase6();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+            var analyzer = new Analyzer();
+            var nodeIdentifier = reactor.Graph.Nodes[3].Identifier;
+
+            //Act
+            var neighbours = analyzer.GetNeighbours(analysisGraph, nodeIdentifier);
+
+            //Assert
+            Assert.IsTrue(neighbours.Count == 5);
+            Assert.IsTrue(neighbours.Exists(n => n.Name == nameof(ClassA.PA1)));
+            Assert.IsTrue(neighbours.Exists(n => n.Name == nameof(ClassB.PB1)));
+            Assert.IsTrue(neighbours.Exists(n => n.Name == nameof(ClassF.PF1)));
+            Assert.IsTrue(neighbours.Exists(n => n.Name == nameof(ClassE.PE1)));
+            Assert.IsTrue(neighbours.Exists(n => n.Name == nameof(ClassG.PG1)));
+
         }
 
         #endregion
@@ -442,7 +788,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassD));
             
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier);
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, startingNode.Identifier);
 
             //Assert
             Assert.IsTrue(predecessors != null);
@@ -477,7 +823,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = graphFactory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
             var startingNode = analysisGraph.Nodes.Find(n => n.Name == nameof(ClassF));
 
-            IEnumerable<IAnalysisNode> predecessors = analyzer.GetPredecessors(analysisGraph, startingNode.Identifier, 3);
+            IEnumerable<IAnalysisNode> predecessors = analyzer.GetNodeAndItsPredecessors(analysisGraph, startingNode.Identifier, 3);
 
             //Assert
             Assert.IsTrue(predecessors != null);

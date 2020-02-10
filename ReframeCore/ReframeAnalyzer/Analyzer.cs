@@ -122,7 +122,7 @@ namespace ReframeAnalyzer
             return nodes.Where(n => n.InDegree > 0 && n.OutDegree > 0).ToList();
         }
 
-        public List<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
+        public List<IAnalysisNode> GetNodeAndItsPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
             ValidateAnalysisGraph(analysisGraph);
             ValidateNode(analysisGraph, nodeIdentifier);
@@ -170,9 +170,11 @@ namespace ReframeAnalyzer
             }
         }
 
-        public List<IAnalysisNode> GetPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
+        public List<IAnalysisNode> GetNodeAndItsPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
         {
+            ValidateAnalysisGraph(analysisGraph);
             ValidateNode(analysisGraph, nodeIdentifier);
+            ValidateMaxDepth(maxDepth);
 
             IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == nodeIdentifier);
             selectedNode.Tag = "SelectedNode";
@@ -186,6 +188,14 @@ namespace ReframeAnalyzer
             }
 
             return dict.Keys.ToList();
+        }
+
+        private void ValidateMaxDepth(int maxDepth)
+        {
+            if (maxDepth <= 0)
+            {
+                throw new AnalysisException("Invalid maximal depth level provided!");
+            }
         }
 
         private void ProcessDepthLevel(Dictionary<IAnalysisNode, int> dict, int currentDepth)
@@ -206,8 +216,11 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
+        public List<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
+            ValidateAnalysisGraph(analysisGraph);
+            ValidateNode(analysisGraph, nodeIdentifier);
+
             IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == nodeIdentifier);
             selectedNode.Tag = "SelectedNode";
 
@@ -217,6 +230,8 @@ namespace ReframeAnalyzer
             {
                 TraverseSuccessors(selectedNode, successors);
             }
+
+            successors.Remove(selectedNode);
 
             return successors;
         }
@@ -234,8 +249,11 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
+        public List<IAnalysisNode> GetSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
         {
+            ValidateAnalysisGraph(analysisGraph);
+            ValidateNode(analysisGraph, nodeIdentifier);
+            ValidateMaxDepth(maxDepth);
             IAnalysisNode selectedNode = analysisGraph.Nodes.FirstOrDefault(n => n.Identifier == nodeIdentifier);
             selectedNode.Tag = "SelectedNode";
 
@@ -246,6 +264,8 @@ namespace ReframeAnalyzer
             {
                 ProcessSuccessorsAtDepth(dict, i);
             }
+
+            dict.Remove(selectedNode);
 
             return dict.Keys.ToList();
         }
@@ -268,9 +288,9 @@ namespace ReframeAnalyzer
             }
         }
 
-        public IEnumerable<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, uint nodeIdentifier)
+        public List<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
-            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier);
+            IEnumerable<IAnalysisNode> predecessors = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
             IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier);
 
             List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
@@ -293,9 +313,9 @@ namespace ReframeAnalyzer
             return neighbours;
         }
 
-        public IEnumerable<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
+        public List<IAnalysisNode> GetNeighbours(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth)
         {
-            IEnumerable<IAnalysisNode> predecessors = GetPredecessors(analysisGraph, nodeIdentifier, maxDepth);
+            IEnumerable<IAnalysisNode> predecessors = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier, maxDepth);
             IEnumerable<IAnalysisNode> successors = GetSuccessors(analysisGraph, nodeIdentifier, maxDepth);
 
             List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
@@ -320,7 +340,7 @@ namespace ReframeAnalyzer
 
         public IEnumerable<IAnalysisNode> GetSourceNodes(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
-            var predecessorNodes = GetPredecessors(analysisGraph, nodeIdentifier);
+            var predecessorNodes = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
             return GetSourceNodes(predecessorNodes);
         }
 
@@ -338,7 +358,7 @@ namespace ReframeAnalyzer
 
         public IEnumerable<IAnalysisNode> GetIntermediaryPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
-            var predecessorNodes = GetPredecessors(analysisGraph, nodeIdentifier);
+            var predecessorNodes = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
             return GetIntermediaryNodes(predecessorNodes);
         }
 
