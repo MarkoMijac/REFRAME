@@ -202,13 +202,35 @@ namespace ReframeAnalyzerTests
             ClassA objA = new ClassA();
             ClassB objB = new ClassB();
 
-            //Add few orphan nodes
             reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
             reactor.Let(() => objB.PB2).DependOn(() => objA.PA2);
 
             List<object> repository = new List<object>();
             repository.Add(objA);
             repository.Add(objB);
+
+            return reactor;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static IReactor CreateCase9()
+        {
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("S1");
+            ClassA objA = new ClassA();
+            ClassB objB = new ClassB();
+            ClassC objC = new ClassC();
+
+            reactor.Let(() => objC.PC1).DependOn(() => objB.PB1);
+            reactor.Let(() => objB.PB1).DependOn(() => objA.PA1);
+
+            List<object> repository = new List<object>();
+            repository.Add(objA);
+            repository.Add(objB);
+            repository.Add(objC);
 
             return reactor;
         }

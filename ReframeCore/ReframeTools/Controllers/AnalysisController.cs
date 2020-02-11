@@ -203,11 +203,11 @@ namespace ReframeTools.Controllers
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
                     {
-                        originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier);
+                        originalNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier);
                     }
                     else
                     {
-                        originalNodes = Analyzer.GetSuccessors(AnalysisGraph, nodeIdentifier, maxDepth);
+                        originalNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier, maxDepth);
                     }
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
@@ -229,11 +229,11 @@ namespace ReframeTools.Controllers
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
                     {
-                        originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier);
+                        originalNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier);
                     }
                     else
                     {
-                        originalNodes = Analyzer.GetNeighbours(AnalysisGraph, nodeIdentifier, maxDepth);
+                        originalNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier, maxDepth);
                     }
                     
                     AnalysisNodes = GetFilteredNodes(originalNodes);
