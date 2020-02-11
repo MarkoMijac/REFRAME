@@ -86,7 +86,7 @@ namespace ReframeVisualizer
 
             foreach (ClassAnalysisNode node in _analysisNodes)
             {
-                NamespaceAnalysisNode ownerNamespace = node.OwnerNamespace;
+                IAnalysisNode ownerNamespace = node.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
@@ -107,14 +107,14 @@ namespace ReframeVisualizer
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
                 g.SetValue("FullName", node.FullName);
-                g.SetValue("Namespace", node.OwnerNamespace.Name);
+                g.SetValue("Namespace", node.Parent.Name);
                 g.SetValue("Assembly", node.OwnerAssembly.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
                 g.SetValue("Tag", node.Tag);
 
-                GraphNode namespaceNode = dgmlGraph.Nodes.Get(node.OwnerNamespace.Identifier.ToString());
+                GraphNode namespaceNode = dgmlGraph.Nodes.Get(node.Parent.Identifier.ToString());
                 if (namespaceNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(namespaceNode, g, "", catContains);

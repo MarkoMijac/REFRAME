@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMember in OriginalNodes)
             {
-                if (IsSelected(objectMember.OwnerObject.OwnerClass.OwnerAssembly) && IsSelected(objectMember.OwnerObject.OwnerClass.OwnerNamespace) && IsSelected(objectMember.OwnerObject.OwnerClass) && IsSelected(objectMember.OwnerObject))
+                if (IsSelected(objectMember.OwnerObject.OwnerClass.OwnerAssembly) && IsSelected(objectMember.OwnerObject.OwnerClass.Parent) && IsSelected(objectMember.OwnerObject.OwnerClass) && IsSelected(objectMember.OwnerObject))
                 {
                     filteredNodes.Add(objectMember);
                 }
@@ -50,9 +50,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace);
+                    namespaceNodes.Add(objectMemberNode.OwnerObject.OwnerClass.Parent);
                 }
             }
 
@@ -74,13 +74,13 @@ namespace ReframeAnalyzer.Filters
             return classNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public override List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
+                if (objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
                 {
                     classNodes.Add(objectMemberNode.OwnerObject.OwnerClass);
                 }

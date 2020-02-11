@@ -14,12 +14,19 @@ namespace ReframeAnalyzer.Graph
 
         public ClassMemberAnalysisNode(ObjectMemberAnalysisNode objectMemberNode)
         {
+            Level = AnalysisLevel.ClassMemberLevel;
+
             string memberName = objectMemberNode.Name;
             uint classIdentifier = objectMemberNode.OwnerObject.OwnerClass.Identifier;
             Identifier = GenerateIdentifier(memberName, classIdentifier);
             Name = memberName;
             NodeType = objectMemberNode.NodeType;
             OwnerClass = objectMemberNode.OwnerObject.OwnerClass;
+        }
+
+        public ClassMemberAnalysisNode(XElement xNode)
+        {
+
         }
 
         public static  uint GenerateIdentifier(string memberName, uint classIdentifier)

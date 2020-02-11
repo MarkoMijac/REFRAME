@@ -21,7 +21,7 @@ namespace ReframeAnalyzer.Filters
             foreach (UpdateAnalysisNode updateNode in OriginalNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = updateNode.ObjectMemberNode;
-                if (IsSelected(objectMemberNode.OwnerObject.OwnerClass.OwnerAssembly) && IsSelected(objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace) && IsSelected(objectMemberNode.OwnerObject.OwnerClass) && IsSelected(objectMemberNode.OwnerObject))
+                if (IsSelected(objectMemberNode.OwnerObject.OwnerClass.OwnerAssembly) && IsSelected(objectMemberNode.OwnerObject.OwnerClass.Parent) && IsSelected(objectMemberNode.OwnerObject.OwnerClass) && IsSelected(objectMemberNode.OwnerObject))
                 {
                     filteredNodes.Add(updateNode);
                 }
@@ -53,9 +53,9 @@ namespace ReframeAnalyzer.Filters
             foreach (UpdateAnalysisNode updateNode in OriginalNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = updateNode.ObjectMemberNode;
-                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace);
+                    namespaceNodes.Add(objectMemberNode.OwnerObject.OwnerClass.Parent);
                 }
             }
 
@@ -78,14 +78,14 @@ namespace ReframeAnalyzer.Filters
             return classNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public override List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
             foreach (UpdateAnalysisNode updateNode in OriginalNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = updateNode.ObjectMemberNode;
-                if (objectMemberNode.OwnerObject.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
+                if (objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
                 {
                     classNodes.Add(objectMemberNode.OwnerObject.OwnerClass);
                 }

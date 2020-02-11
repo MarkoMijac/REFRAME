@@ -95,7 +95,7 @@ namespace ReframeVisualizer
 
             foreach (ClassMemberAnalysisNode node in _analysisNodes)
             {
-                NamespaceAnalysisNode ownerNamespace = node.OwnerClass.OwnerNamespace;
+                IAnalysisNode ownerNamespace = node.OwnerClass.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
@@ -119,10 +119,10 @@ namespace ReframeVisualizer
                 classNode.IsGroup = true;
                 classNode.SetValue("Name", ownerClass.Name);
                 classNode.SetValue("FullName", ownerClass.FullName);
-                classNode.SetValue("Namespace", ownerClass.OwnerNamespace.Name);
+                classNode.SetValue("Namespace", ownerClass.Parent.Name);
                 classNode.SetValue("Assembly", ownerClass.OwnerAssembly.Name);
 
-                GraphNode namespaceNode = dgmlGraph.Nodes.Get(ownerClass.OwnerNamespace.Identifier.ToString());
+                GraphNode namespaceNode = dgmlGraph.Nodes.Get(ownerClass.Parent.Identifier.ToString());
                 if (namespaceNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(namespaceNode, classNode, "", catContains);
@@ -141,7 +141,7 @@ namespace ReframeVisualizer
                 classMemberNode.SetValue("NodeType", node.NodeType);
                 classMemberNode.SetValue("ClassIdentifier", node.OwnerClass.Identifier);
                 classMemberNode.SetValue("ClassName", node.OwnerClass.Name);
-                classMemberNode.SetValue("Namespace", node.OwnerClass.OwnerNamespace.Name);
+                classMemberNode.SetValue("Namespace", node.OwnerClass.Parent.Name);
                 classMemberNode.SetValue("Assembly", node.OwnerClass.OwnerAssembly.Name);
                 classMemberNode.SetValue("Degree", node.Degree);
                 classMemberNode.SetValue("InDegree", node.InDegree);

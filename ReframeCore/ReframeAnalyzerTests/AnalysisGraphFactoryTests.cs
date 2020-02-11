@@ -892,7 +892,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            NamespaceAnalysisNode firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == typeof(ClassA).Namespace);
         }
@@ -909,7 +909,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
 
             //Assert
-            NamespaceAnalysisNode firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
@@ -1135,7 +1135,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            var firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == typeof(ClassA).Namespace);
         }
@@ -1152,7 +1152,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
 
             //Assert
-            var firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
@@ -1404,7 +1404,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            var firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == typeof(ClassA).Namespace);
         }
@@ -1421,7 +1421,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
 
             //Assert
-            var firstNode = analysisGraph.Nodes[0] as NamespaceAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == typeof(ClassA).Namespace);
 

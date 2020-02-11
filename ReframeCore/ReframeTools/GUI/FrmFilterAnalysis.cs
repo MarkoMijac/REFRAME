@@ -91,14 +91,14 @@ namespace ReframeTools.GUI
         {
             clbNamespaceNodes.Items.Clear();
             List<IAnalysisNode> namespaceNodes = Filter.GetAvailableNamespaceNodes();
-            foreach (NamespaceAnalysisNode namespaceNode in namespaceNodes)
+            foreach (var namespaceNode in namespaceNodes)
             {
                 bool checkedItem = Filter.IsSelected(namespaceNode);
                 clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
             }
         }
 
-        protected void LoadClassNodes(NamespaceAnalysisNode namespaceNode)
+        protected void LoadClassNodes(IAnalysisNode namespaceNode)
         {
             clbClassNodes.Items.Clear();
             if (namespaceNode != null)
@@ -181,14 +181,14 @@ namespace ReframeTools.GUI
 
         private void RefreshClassNodes()
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(selectedNamespaceNode);
             EnableClassNodes(Filter.IsSelected(selectedNamespaceNode));
         }
 
         protected virtual void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             Filter.SelectAllClassNodes(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
 
@@ -197,7 +197,7 @@ namespace ReframeTools.GUI
 
         protected virtual void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             Filter.DeselectAllClassNodes(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
 
@@ -233,7 +233,7 @@ namespace ReframeTools.GUI
 
         protected virtual void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            NamespaceAnalysisNode namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
             {
                 Filter.SelectNode(namespaceNode);
@@ -280,13 +280,16 @@ namespace ReframeTools.GUI
 
         protected virtual void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(namespaceNode);
             EnableClassNodes(Filter.IsSelected(namespaceNode));
 
             var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
-            LoadObjectNodes(classNode);
-            EnableObjectNodes(Filter.IsSelected(classNode));
+            if (classNode != null)
+            {
+                LoadObjectNodes(classNode);
+                EnableObjectNodes(Filter.IsSelected(classNode));
+            }
         }
 
         protected void EnableClassNodes(bool enable)

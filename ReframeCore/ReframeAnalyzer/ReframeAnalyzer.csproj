@@ -58,6 +58,7 @@
     <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
     <Compile Include="Filters\UpdateAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\AnalysisNodeFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisGraph.cs" />

@@ -52,7 +52,7 @@ namespace ReframeTools.GUI
         protected override void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             base.clbNamespaceNodes_ItemCheck(sender, e);
-            var namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(namespaceNode);
         }
     }

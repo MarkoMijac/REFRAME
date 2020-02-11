@@ -10,16 +10,17 @@ namespace ReframeAnalyzer.Graph
     public class ClassAnalysisNode : AnalysisNode
     {
         public string FullName { get; set; }
-        public NamespaceAnalysisNode OwnerNamespace { get; set; }
         public AssemblyAnalysisNode OwnerAssembly { get; set; }
 
         public ClassAnalysisNode(XElement xNode)
         {
+            Level = AnalysisLevel.ClassLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
             FullName = xNode.Element("FullName").Value;
 
-            OwnerNamespace = new NamespaceAnalysisNode(xNode.Element("OwnerNamespace"));
+            Parent = NodeFactory.CreateNode(xNode.Element("OwnerNamespace"), AnalysisLevel.NamespaceLevel);
             OwnerAssembly = new AssemblyAnalysisNode(xNode.Element("OwnerAssembly"));
         }
 

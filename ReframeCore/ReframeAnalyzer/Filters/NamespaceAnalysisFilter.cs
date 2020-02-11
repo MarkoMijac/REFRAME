@@ -16,9 +16,9 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<NamespaceAnalysisNode> filteredNodes = new List<NamespaceAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (NamespaceAnalysisNode namespaceNode in OriginalNodes)
+            foreach (var namespaceNode in OriginalNodes)
             {
                 if (IsSelected(namespaceNode))
                 {
@@ -33,7 +33,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (NamespaceAnalysisNode namespaceNode in OriginalNodes)
+            foreach (var namespaceNode in OriginalNodes)
             {
                 namespaceNodes.Add(namespaceNode);
             }

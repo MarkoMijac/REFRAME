@@ -50,7 +50,7 @@ namespace ReframeAnalyzer.Graph
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (ContainsNode(nodeIdentifier) == false)
                 {
-                    var node = new ObjectMemberAnalysisNode(xNode);
+                    var node = NodeFactory.CreateNode(xNode, AnalysisLevel.ObjectMemberLevel);
                     AddNode(node);
                 }
             }

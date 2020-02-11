@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectAnalysisNode objectNode in OriginalNodes)
             {
-                if (IsSelected(objectNode.OwnerClass.OwnerAssembly) && IsSelected(objectNode.OwnerClass.OwnerNamespace) && IsSelected(objectNode.OwnerClass) && IsSelected(objectNode))
+                if (IsSelected(objectNode.OwnerClass.OwnerAssembly) && IsSelected(objectNode.OwnerClass.Parent) && IsSelected(objectNode.OwnerClass) && IsSelected(objectNode))
                 {
                     filteredNodes.Add(objectNode);
                 }
@@ -50,9 +50,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectAnalysisNode objectNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == objectNode.OwnerClass.OwnerNamespace.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectNode.OwnerClass.OwnerNamespace);
+                    namespaceNodes.Add(objectNode.OwnerClass.Parent);
                 }
             }
 
@@ -74,13 +74,13 @@ namespace ReframeAnalyzer.Filters
             return classNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public override List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
             foreach (ObjectAnalysisNode objectNode in OriginalNodes)
             {
-                if (objectNode.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Identifier) == false)
+                if (objectNode.OwnerClass.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Identifier) == false)
                 {
                     classNodes.Add(objectNode.OwnerClass);
                 }

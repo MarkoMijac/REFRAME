@@ -32,7 +32,7 @@ namespace ReframeTools.GUI
                         {
                         node.Identifier.ToString(),
                         node.Name,
-                        node.OwnerNamespace.Name,
+                        node.Parent.Name,
                         node.OwnerAssembly.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),

@@ -13,6 +13,8 @@ namespace ReframeAnalyzer.Graph
 
         public ObjectAnalysisNode(XElement xNode)
         {
+            Level = AnalysisLevel.ObjectLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
 

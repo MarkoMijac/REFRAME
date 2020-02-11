@@ -54,7 +54,7 @@ namespace ReframeVisualizer
 
         private void AddNodes(Graph dgmlGraph)
         {
-            foreach (NamespaceAnalysisNode node in _analysisNodes)
+            foreach (IAnalysisNode node in _analysisNodes)
             {
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);

@@ -22,6 +22,8 @@ namespace ReframeAnalyzer.Graph
 
         public UpdateAnalysisNode(XElement xNode, ObjectMemberAnalysisNode objectMemberNode)
         {
+            Level = AnalysisLevel.UpdateAnalysisLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("MemberName").Value;
             NodeType = xNode.Element("NodeType").Value;
