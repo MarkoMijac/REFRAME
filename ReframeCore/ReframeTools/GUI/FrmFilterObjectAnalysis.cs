@@ -23,7 +23,8 @@ namespace ReframeTools.GUI
         {
             base.Initialize();
             Level = AnalysisLevel.ObjectLevel;
-            Filter = new ObjectAnalysisFilter(OriginalNodes);
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ObjectLevel);
             rbObjectLevel.Checked = true;
         }
 

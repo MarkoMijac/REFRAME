@@ -24,7 +24,8 @@ namespace ReframeTools.GUI
         {
             base.Initialize();
             Level = AnalysisLevel.ClassLevel;
-            Filter = new ClassAnalysisFilter(OriginalNodes);
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ClassLevel);
             rbClassLevel.Checked = true;
         }
 

@@ -23,7 +23,8 @@ namespace ReframeTools.GUI
         {
             base.Initialize();
             Level = AnalysisLevel.AssemblyLevel;
-            Filter = new AssemblyAnalysisFilter(OriginalNodes);
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.AssemblyLevel);
             rbAssemblyLevel.Checked = true;
         }
 

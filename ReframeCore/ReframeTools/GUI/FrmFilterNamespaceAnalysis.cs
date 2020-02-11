@@ -23,7 +23,8 @@ namespace ReframeTools.GUI
         {
             base.Initialize();
             Level = AnalysisLevel.NamespaceLevel;
-            Filter = new NamespaceAnalysisFilter(OriginalNodes);
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.NamespaceLevel);
             rbNamespaceLevel.Checked = true;
         }
 
