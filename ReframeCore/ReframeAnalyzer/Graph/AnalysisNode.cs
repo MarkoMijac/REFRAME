@@ -19,6 +19,7 @@ namespace ReframeAnalyzer.Graph
         public int OutDegree { get => Successors.Count;}
 
         public IAnalysisNode Parent { get; protected set; }
+        public IAnalysisNode Parent2 { get; protected set; }
 
         public AnalysisLevel Level { get; protected set; }
 

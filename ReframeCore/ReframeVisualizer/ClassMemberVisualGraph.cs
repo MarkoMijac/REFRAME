@@ -82,7 +82,7 @@ namespace ReframeVisualizer
         {
             foreach (ClassMemberAnalysisNode node in _analysisNodes)
             {
-                AssemblyAnalysisNode ownerAssembly = node.OwnerClass.OwnerAssembly;
+                IAnalysisNode ownerAssembly = node.OwnerClass.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
                 groupNode.IsGroup = true;
                 groupNode.SetValue("Name", ownerAssembly.Name);
@@ -100,7 +100,7 @@ namespace ReframeVisualizer
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
 
-                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.OwnerClass.OwnerAssembly.Identifier.ToString());
+                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.OwnerClass.Parent2.Identifier.ToString());
                 if (assembyNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(assembyNode, namespaceNode, "", catContains);
@@ -120,7 +120,7 @@ namespace ReframeVisualizer
                 classNode.SetValue("Name", ownerClass.Name);
                 classNode.SetValue("FullName", ownerClass.FullName);
                 classNode.SetValue("Namespace", ownerClass.Parent.Name);
-                classNode.SetValue("Assembly", ownerClass.OwnerAssembly.Name);
+                classNode.SetValue("Assembly", ownerClass.Parent2.Name);
 
                 GraphNode namespaceNode = dgmlGraph.Nodes.Get(ownerClass.Parent.Identifier.ToString());
                 if (namespaceNode != null)
@@ -142,7 +142,7 @@ namespace ReframeVisualizer
                 classMemberNode.SetValue("ClassIdentifier", node.OwnerClass.Identifier);
                 classMemberNode.SetValue("ClassName", node.OwnerClass.Name);
                 classMemberNode.SetValue("Namespace", node.OwnerClass.Parent.Name);
-                classMemberNode.SetValue("Assembly", node.OwnerClass.OwnerAssembly.Name);
+                classMemberNode.SetValue("Assembly", node.OwnerClass.Parent2.Name);
                 classMemberNode.SetValue("Degree", node.Degree);
                 classMemberNode.SetValue("InDegree", node.InDegree);
                 classMemberNode.SetValue("OutDegree", node.OutDegree);

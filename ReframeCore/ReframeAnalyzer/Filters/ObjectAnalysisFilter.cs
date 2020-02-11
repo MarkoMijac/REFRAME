@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectAnalysisNode objectNode in OriginalNodes)
             {
-                if (IsSelected(objectNode.OwnerClass.OwnerAssembly) && IsSelected(objectNode.OwnerClass.Parent) && IsSelected(objectNode.OwnerClass) && IsSelected(objectNode))
+                if (IsSelected(objectNode.OwnerClass.Parent2) && IsSelected(objectNode.OwnerClass.Parent) && IsSelected(objectNode.OwnerClass) && IsSelected(objectNode))
                 {
                     filteredNodes.Add(objectNode);
                 }
@@ -35,9 +35,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectAnalysisNode objectNode in OriginalNodes)
             {
-                if (assemblyNodes.Exists(n => n.Identifier == objectNode.OwnerClass.OwnerAssembly.Identifier) == false)
+                if (assemblyNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Parent2.Identifier) == false)
                 {
-                    assemblyNodes.Add(objectNode.OwnerClass.OwnerAssembly);
+                    assemblyNodes.Add(objectNode.OwnerClass.Parent2);
                 }
             }
 

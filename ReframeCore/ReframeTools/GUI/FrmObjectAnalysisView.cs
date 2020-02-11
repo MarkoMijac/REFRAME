@@ -34,7 +34,7 @@ namespace ReframeTools.GUI
                         node.Name,
                         node.OwnerClass.Name,
                         node.OwnerClass.Parent.Name,
-                        node.OwnerClass.OwnerAssembly.Name,
+                        node.OwnerClass.Parent2.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),
                         node.OutDegree.ToString()

@@ -32,9 +32,9 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                if (ContainsNode(classNode.OwnerAssembly.Identifier) == false)
+                if (ContainsNode(classNode.Parent2.Identifier) == false)
                 {
-                    AddNode(classNode.OwnerAssembly);
+                    AddNode(classNode.Parent2);
                 }
             }
         }
@@ -43,11 +43,11 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ClassAnalysisNode classNode in classNodes)
             {
-                var assemblyNode = GetNode(classNode.OwnerAssembly.Identifier);
+                var assemblyNode = GetNode(classNode.Parent2.Identifier);
 
                 foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
                 {
-                    var successorAssemblyNode = GetNode(classNodeSuccessor.OwnerAssembly.Identifier);
+                    var successorAssemblyNode = GetNode(classNodeSuccessor.Parent2.Identifier);
                     if (successorAssemblyNode != null)
                     {
                         assemblyNode.AddSuccesor(successorAssemblyNode);
