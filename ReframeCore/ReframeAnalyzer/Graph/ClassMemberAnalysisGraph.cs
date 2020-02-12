@@ -9,21 +9,6 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassMemberAnalysisGraph : AnalysisGraph
     {
-        public ClassMemberAnalysisGraph(ObjectMemberAnalysisGraph objectMemberGraph)
-        {
-            AnalysisLevel = AnalysisLevel.ClassMemberLevel;
-
-            if (objectMemberGraph != null)
-            {
-                InitializeGraphBasicData(objectMemberGraph);
-                if (objectMemberGraph.Nodes.Count > 0)
-                {
-                    InitializeGraphNodes(objectMemberGraph.Nodes);
-                    InitializeGraphDependencies(objectMemberGraph.Nodes);
-                }
-            }
-        }
-
         public ClassMemberAnalysisGraph(string source)
         {
             AnalysisLevel = AnalysisLevel.ClassMemberLevel;

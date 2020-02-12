@@ -7,28 +7,28 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class UpdateAnalysisGraph : AnalysisGraph
+    public class UpdateAnalysisGraph : AnalysisGraph, IUpdateGraph
     {
-        public bool UpdateSuccessful { get; set; }
-        public string UpdateStartedAt { get; set; }
-        public string UpdateEndedAt { get; set; }
-        public string UpdateDuration { get; set; }
-        public int TotalNodeCount { get; set; }
-        public uint FailedNodeIdentifier { get; set; }
-        public string FailedNodeName { get; set; }
-        public string FailedNodeOwner { get; set; }
-        public string SourceException { get; set; }
-        public string StackTrace { get; set; }
-        public string CauseMessage { get; set; }
-        public uint InitialNodeIdentifier { get; set; }
-        public string InitialNodeName { get; set; }
-        public string InitialNodeOwner { get; set; }
-        public string InitialNodeCurrentValue { get; set; }
-        public string InitialNodePreviousValue { get; set; }
+        public bool UpdateSuccessful { get; private set; }
+        public string UpdateStartedAt { get; private set; }
+        public string UpdateEndedAt { get; private set; }
+        public string UpdateDuration { get; private set; }
+        public int TotalNodeCount { get; private set; }
+        public uint FailedNodeIdentifier { get; private set; }
+        public string FailedNodeName { get; private set; }
+        public string FailedNodeOwner { get; private set; }
+        public string SourceException { get; private set; }
+        public string StackTrace { get; private set; }
+        public string CauseMessage { get; private set; }
+        public uint InitialNodeIdentifier { get; private set; }
+        public string InitialNodeName { get; private set; }
+        public string InitialNodeOwner { get; private set; }
+        public string InitialNodeCurrentValue { get; private set; }
+        public string InitialNodePreviousValue { get; private set; }
 
-        public ObjectMemberAnalysisGraph ObjectMemberGraph { get; set; }
+        private IAnalysisGraph ObjectMemberGraph { get; set; }
 
-        public UpdateAnalysisGraph(string source, ObjectMemberAnalysisGraph objectMemberGraph)
+        public UpdateAnalysisGraph(string source, IAnalysisGraph objectMemberGraph)
         {
             ObjectMemberGraph = objectMemberGraph;
             AnalysisLevel = AnalysisLevel.UpdateAnalysisLevel;

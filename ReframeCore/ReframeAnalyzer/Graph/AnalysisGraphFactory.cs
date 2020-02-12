@@ -75,13 +75,13 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        public IAnalysisGraph CreateGraph(string xmlSource, IAnalysisGraph objectMemberGraph, AnalysisLevel analysisLevel)
+        public IUpdateGraph CreateGraph(string xmlSource, IAnalysisGraph objectMemberGraph, AnalysisLevel analysisLevel)
         {
-            IAnalysisGraph result;
+            IUpdateGraph result;
             switch (analysisLevel)
             {
                 case AnalysisLevel.UpdateAnalysisLevel:
-                    result = new UpdateAnalysisGraph(xmlSource, objectMemberGraph as ObjectMemberAnalysisGraph);
+                    result = new UpdateAnalysisGraph(xmlSource, objectMemberGraph);
                     break;
                 default:
                     result = null;
