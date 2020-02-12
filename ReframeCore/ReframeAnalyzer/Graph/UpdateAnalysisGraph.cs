@@ -113,7 +113,7 @@ namespace ReframeAnalyzer.Graph
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (ContainsNode(nodeIdentifier) == false)
                 {
-                    ObjectMemberAnalysisNode objectMemberNode = ObjectMemberGraph.GetNode(nodeIdentifier) as ObjectMemberAnalysisNode;
+                    var objectMemberNode = ObjectMemberGraph.GetNode(nodeIdentifier);
                     var node = new UpdateAnalysisNode(xNode, objectMemberNode);
                     AddNode(node);
                 }

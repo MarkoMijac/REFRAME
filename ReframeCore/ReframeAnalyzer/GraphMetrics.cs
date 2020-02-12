@@ -79,7 +79,7 @@ namespace ReframeAnalyzer
         {
             int afterCorrection = maxNumOfEdges;
 
-            if (analysisNodes.ElementAt(0) is ObjectMemberAnalysisNode)
+            if (analysisNodes.ElementAt(0).Level == AnalysisLevel.ObjectMemberLevel)
             {
                 afterCorrection = afterCorrection / 2;
             }

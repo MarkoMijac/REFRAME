@@ -30,7 +30,7 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphNodes(List<IAnalysisNode> memberNodes)
         {
-            foreach (ObjectMemberAnalysisNode memberNode in memberNodes)
+            foreach (var memberNode in memberNodes)
             {
                 if (ContainsNode(memberNode.Parent.Identifier) == false)
                 {
@@ -41,11 +41,11 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphDependencies(List<IAnalysisNode> memberNodes)
         {
-            foreach (ObjectMemberAnalysisNode memberNode in memberNodes)
+            foreach (var memberNode in memberNodes)
             {
                 var objectNode = GetNode(memberNode.Parent.Identifier);
 
-                foreach (ObjectMemberAnalysisNode memberNodeSuccessor in memberNode.Successors)
+                foreach (var memberNodeSuccessor in memberNode.Successors)
                 {
                     var successorMemberNode = GetNode(memberNodeSuccessor.Parent.Identifier);
                     if (successorMemberNode != null)

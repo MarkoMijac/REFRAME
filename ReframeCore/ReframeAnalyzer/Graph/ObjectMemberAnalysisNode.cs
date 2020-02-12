@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ObjectMemberAnalysisNode : AnalysisNode
+    public class ObjectMemberAnalysisNode : AnalysisNode, IHasType, IHasValues
     {
         public string NodeType { get; set; }
         public string CurrentValue { get; set; }

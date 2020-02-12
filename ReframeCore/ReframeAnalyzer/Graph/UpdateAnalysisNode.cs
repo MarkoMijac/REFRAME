@@ -17,10 +17,9 @@ namespace ReframeAnalyzer.Graph
         public string UpdateDuration { get; set; }
         public string CurrentValue { get; set; }
         public string PreviousValue { get; set; }
-        public ObjectMemberAnalysisNode ObjectMemberNode { get; set; }
         public bool IsInitialNode { get; set; } = false;
 
-        public UpdateAnalysisNode(XElement xNode, ObjectMemberAnalysisNode objectMemberNode)
+        public UpdateAnalysisNode(XElement xNode, IAnalysisNode objectMemberNode)
         {
             Level = AnalysisLevel.UpdateAnalysisLevel;
 
@@ -37,7 +36,7 @@ namespace ReframeAnalyzer.Graph
 
             XAttribute isInitialAttribute = xNode.Attribute("IsInitialNode");
             IsInitialNode = isInitialAttribute != null;
-            ObjectMemberNode = objectMemberNode;
+            Parent = objectMemberNode;
         }
     }
 }

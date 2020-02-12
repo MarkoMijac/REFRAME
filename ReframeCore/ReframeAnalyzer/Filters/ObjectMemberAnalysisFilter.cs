@@ -16,9 +16,9 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            var filteredNodes = new List<ObjectMemberAnalysisNode>();
+            var filteredNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMember in OriginalNodes)
+            foreach (var objectMember in OriginalNodes)
             {
                 if (IsSelected(objectMember.Parent.Parent.Parent2) && IsSelected(objectMember.Parent.Parent.Parent) && IsSelected(objectMember.Parent.Parent) && IsSelected(objectMember.Parent))
                 {
@@ -33,7 +33,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (assemblyNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Parent2.Identifier) == false)
                 {
@@ -48,7 +48,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Parent.Identifier) == false)
                 {
@@ -63,7 +63,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (classNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Identifier) == false)
                 {
@@ -78,7 +78,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (objectMemberNode.Parent.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Identifier) == false)
                 {
@@ -93,7 +93,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (objectNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Identifier) == false)
                 {
@@ -108,7 +108,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
+            foreach (var objectMemberNode in OriginalNodes)
             {
                 if (objectMemberNode.Parent.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Identifier) == false)
                 {

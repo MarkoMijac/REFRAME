@@ -10,9 +10,8 @@ namespace ReframeAnalyzer.Graph
     public class ClassMemberAnalysisNode : AnalysisNode
     {
         public string NodeType { get; set; }
-        public ClassAnalysisNode OwnerClass { get; set; }
 
-        public ClassMemberAnalysisNode(ObjectMemberAnalysisNode objectMemberNode)
+        public ClassMemberAnalysisNode(IAnalysisNode objectMemberNode)
         {
             Level = AnalysisLevel.ClassMemberLevel;
 
@@ -20,8 +19,8 @@ namespace ReframeAnalyzer.Graph
             uint classIdentifier = objectMemberNode.Parent.Parent.Identifier;
             Identifier = GenerateIdentifier(memberName, classIdentifier);
             Name = memberName;
-            NodeType = objectMemberNode.NodeType;
-            OwnerClass = objectMemberNode.Parent.Parent as ClassAnalysisNode;
+            NodeType = (objectMemberNode as IHasType).NodeType;
+            Parent = objectMemberNode.Parent.Parent;
         }
 
         public ClassMemberAnalysisNode(XElement xNode)

@@ -107,7 +107,7 @@ namespace ReframeVisualizer
         {
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
-                ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
+                var objectMemberNode = node.Parent;
                 IAnalysisNode ownerAssembly = objectMemberNode.Parent.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
                 groupNode.IsGroup = true;
@@ -121,7 +121,7 @@ namespace ReframeVisualizer
 
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
-                ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
+                var objectMemberNode = node.Parent;
                 IAnalysisNode ownerNamespace = objectMemberNode.Parent.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
@@ -141,7 +141,7 @@ namespace ReframeVisualizer
 
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
-                ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
+                var objectMemberNode = node.Parent;
                 var ownerClass = objectMemberNode.Parent.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
                 classNode.IsGroup = true;
@@ -164,7 +164,7 @@ namespace ReframeVisualizer
 
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
-                ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
+                var objectMemberNode = node.Parent;
                 var ownerObject = objectMemberNode.Parent;
                 GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(ownerObject.Identifier.ToString(), ownerObject.Name, null);
                 objectNode.IsGroup = true;
@@ -183,7 +183,7 @@ namespace ReframeVisualizer
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
-                ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
+                var objectMemberNode = node.Parent;
 
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(objectMemberNode.Identifier.ToString(), $"[{node.UpdateOrder}] {node.Name}", null);
                 g.SetValue("Name", node.Name);

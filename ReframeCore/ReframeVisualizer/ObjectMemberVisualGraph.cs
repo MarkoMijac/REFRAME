@@ -81,7 +81,7 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerAssembly = node.Parent.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
@@ -94,7 +94,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerNamespace = node.Parent.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
@@ -113,7 +113,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 var ownerClass = node.Parent.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
@@ -135,7 +135,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 var ownerObject = node.Parent;
                 GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(ownerObject.Identifier.ToString(), ownerObject.Name, null);
@@ -153,11 +153,11 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (ObjectMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("NodeType", node.NodeType);
+                g.SetValue("NodeType", (node as IHasType).NodeType);
                 g.SetValue("OwnerObjectIdentifier", node.Parent.Identifier);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);

@@ -69,6 +69,8 @@
     <Compile Include="Graph\IAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisNode.cs" />
+    <Compile Include="Graph\IHasType.cs" />
+    <Compile Include="Graph\IHasValues.cs" />
     <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
     <Compile Include="Graph\NamespaceAnalysisNode.cs" />
     <Compile Include="Graph\ObjectAnalysisGraph.cs" />
