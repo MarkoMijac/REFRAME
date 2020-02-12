@@ -8,7 +8,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class NamespaceAnalysisGraph : AnalysisGraph
     {
-        public NamespaceAnalysisGraph(ClassAnalysisGraph classAnalysisGraph)
+        public NamespaceAnalysisGraph(IAnalysisGraph classAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.NamespaceLevel;
 
@@ -23,7 +23,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphBasicData(ClassAnalysisGraph classAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
         {
             Identifier = classAnalysisGraph.Identifier;
         }

@@ -23,7 +23,7 @@ namespace ReframeAnalyzer.Graph
                     }
                 case AnalysisLevel.ObjectLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectMemberGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
                         result = new ObjectAnalysisGraph(objectMemberGraph);
                         break;
                     }
@@ -34,24 +34,19 @@ namespace ReframeAnalyzer.Graph
                     }
                 case AnalysisLevel.ClassLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
+                        var objectGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
                         result = new ClassAnalysisGraph(objectGraph);
                         break;
                     }
                 case AnalysisLevel.AssemblyLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
-                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
                         result = new AssemblyAnalysisGraph(classAnalysisGraph);
                         break;
                     }
                 case AnalysisLevel.NamespaceLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
-                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
                         result = new NamespaceAnalysisGraph(classAnalysisGraph);
                         break;
                     }

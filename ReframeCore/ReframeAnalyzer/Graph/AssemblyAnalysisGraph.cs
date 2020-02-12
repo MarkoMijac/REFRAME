@@ -8,7 +8,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class AssemblyAnalysisGraph : AnalysisGraph
     {
-        public AssemblyAnalysisGraph(ClassAnalysisGraph classAnalysisGraph)
+        public AssemblyAnalysisGraph(IAnalysisGraph classAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.AssemblyLevel;
 
@@ -23,7 +23,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphBasicData(ClassAnalysisGraph classAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
         {
             Identifier = classAnalysisGraph.Identifier;
         }

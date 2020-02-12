@@ -4,7 +4,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassAnalysisGraph : AnalysisGraph
     {
-        public ClassAnalysisGraph(ObjectAnalysisGraph objectAnalysisGraph)
+        public ClassAnalysisGraph(IAnalysisGraph objectAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.ClassLevel;
 
@@ -47,7 +47,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphBasicData(ObjectAnalysisGraph objectAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph objectAnalysisGraph)
         {
             Identifier = objectAnalysisGraph.Identifier;
         }
