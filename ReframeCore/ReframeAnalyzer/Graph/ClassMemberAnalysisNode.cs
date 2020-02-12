@@ -17,11 +17,11 @@ namespace ReframeAnalyzer.Graph
             Level = AnalysisLevel.ClassMemberLevel;
 
             string memberName = objectMemberNode.Name;
-            uint classIdentifier = objectMemberNode.OwnerObject.Parent.Identifier;
+            uint classIdentifier = objectMemberNode.Parent.Parent.Identifier;
             Identifier = GenerateIdentifier(memberName, classIdentifier);
             Name = memberName;
             NodeType = objectMemberNode.NodeType;
-            OwnerClass = objectMemberNode.OwnerObject.OwnerClass;
+            OwnerClass = objectMemberNode.Parent.Parent as ClassAnalysisNode;
         }
 
         public ClassMemberAnalysisNode(XElement xNode)

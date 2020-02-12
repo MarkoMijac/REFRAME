@@ -46,19 +46,9 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        private void DeselectNode(ObjectAnalysisNode node)
-        {
-            RemoveNode(SelectedObjectNodes, node);
-        }
-
-        private void SelectNode(ObjectAnalysisNode node)
-        {
-            AddNode(SelectedObjectNodes, node);
-        }
-
         private void SelectAllObjectNodes()
         {
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
                 if (SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
@@ -82,7 +72,7 @@ namespace ReframeAnalyzer.Filters
         {
             if (classNode == null) return;
 
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
                 if (objectNode.Parent.Identifier == classNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
@@ -95,7 +85,7 @@ namespace ReframeAnalyzer.Filters
         {
             if (namespaceNode == null) return;
 
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
                 if (objectNode.Parent.Parent.Identifier == namespaceNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
@@ -113,7 +103,7 @@ namespace ReframeAnalyzer.Filters
         public void DeselectAllObjectNodes(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
-            SelectedObjectNodes.RemoveAll(n => (n as ObjectAnalysisNode).Parent.Parent.Identifier == namespaceNode.Identifier);
+            SelectedObjectNodes.RemoveAll(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
         }
 
         public void SelectAllNamespaceClasses(IAnalysisNode namespaceNode)
@@ -220,7 +210,7 @@ namespace ReframeAnalyzer.Filters
             }
             else if (node.Level == AnalysisLevel.ObjectLevel)
             {
-                SelectNode(node as ObjectAnalysisNode);
+                AddNode(SelectedObjectNodes, node);
             }
         }
 
@@ -243,7 +233,7 @@ namespace ReframeAnalyzer.Filters
             }
             else if (node.Level == AnalysisLevel.ObjectLevel)
             {
-                DeselectNode(node as ObjectAnalysisNode);
+                RemoveNode(SelectedObjectNodes, node);
             }
         }
 

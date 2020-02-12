@@ -118,7 +118,7 @@ namespace ReframeTools.GUI
             if (classNode != null)
             {
                 List<IAnalysisNode> objectNodes = Filter.GetAvailableObjectNodes(classNode);
-                foreach (ObjectAnalysisNode objectNode in objectNodes)
+                foreach (var objectNode in objectNodes)
                 {
                     bool checkedItem = Filter.IsSelected(objectNode);
                     clbObjectNodes.Items.Add(objectNode, checkedItem);
@@ -259,7 +259,7 @@ namespace ReframeTools.GUI
 
         protected virtual void clbObjectNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            ObjectAnalysisNode objectNode = clbObjectNodes.SelectedItem as ObjectAnalysisNode;
+            var objectNode = clbObjectNodes.SelectedItem as IAnalysisNode;
             if (objectNode != null)
             {
                 if (e.NewValue == CheckState.Checked)

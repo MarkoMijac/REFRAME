@@ -26,7 +26,7 @@ namespace ReframeTools.GUI
             {
                 if (nodes != null)
                 {
-                    foreach (ObjectAnalysisNode node in nodes)
+                    foreach (var node in nodes)
                     {
                         dgvNodes.Rows.Add(new string[]
                         {

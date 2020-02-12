@@ -108,7 +108,7 @@ namespace ReframeVisualizer
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
-                IAnalysisNode ownerAssembly = objectMemberNode.OwnerObject.Parent.Parent2;
+                IAnalysisNode ownerAssembly = objectMemberNode.Parent.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
                 groupNode.IsGroup = true;
                 groupNode.SetValue("Name", ownerAssembly.Name);
@@ -122,12 +122,12 @@ namespace ReframeVisualizer
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
-                IAnalysisNode ownerNamespace = objectMemberNode.OwnerObject.Parent.Parent;
+                IAnalysisNode ownerNamespace = objectMemberNode.Parent.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
 
-                GraphNode assembyNode = dgmlGraph.Nodes.Get(objectMemberNode.OwnerObject.Parent.Parent2.Identifier.ToString());
+                GraphNode assembyNode = dgmlGraph.Nodes.Get(objectMemberNode.Parent.Parent.Parent2.Identifier.ToString());
                 if (assembyNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(assembyNode, namespaceNode, "", catContains);
@@ -142,7 +142,7 @@ namespace ReframeVisualizer
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
-                var ownerClass = objectMemberNode.OwnerObject.Parent;
+                var ownerClass = objectMemberNode.Parent.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
                 classNode.IsGroup = true;
                 classNode.SetValue("Name", ownerClass.Name);
@@ -165,7 +165,7 @@ namespace ReframeVisualizer
             foreach (UpdateAnalysisNode node in _analysisNodes)
             {
                 ObjectMemberAnalysisNode objectMemberNode = node.ObjectMemberNode;
-                ObjectAnalysisNode ownerObject = objectMemberNode.OwnerObject;
+                var ownerObject = objectMemberNode.Parent;
                 GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(ownerObject.Identifier.ToString(), ownerObject.Name, null);
                 objectNode.IsGroup = true;
                 objectNode.SetValue("Name", ownerObject.Name);
@@ -188,7 +188,7 @@ namespace ReframeVisualizer
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(objectMemberNode.Identifier.ToString(), $"[{node.UpdateOrder}] {node.Name}", null);
                 g.SetValue("Name", node.Name);
                 g.SetValue("NodeType", node.NodeType);
-                g.SetValue("OwnerObjectIdentifier", objectMemberNode.OwnerObject.Identifier);
+                g.SetValue("OwnerObjectIdentifier", objectMemberNode.Parent.Identifier);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
@@ -202,7 +202,7 @@ namespace ReframeVisualizer
                 g.SetValue("CurrentValue", node.CurrentValue);
                 g.SetValue("PreviousValue", node.CurrentValue);
 
-                GraphNode objectNode = dgmlGraph.Nodes.Get(objectMemberNode.OwnerObject.Identifier.ToString());
+                GraphNode objectNode = dgmlGraph.Nodes.Get(objectMemberNode.Parent.Identifier.ToString());
                 if (objectNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(objectNode, g, "", catContains);

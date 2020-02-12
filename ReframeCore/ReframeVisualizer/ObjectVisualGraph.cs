@@ -73,7 +73,7 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (ObjectAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerAssembly = node.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
@@ -86,7 +86,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ObjectAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerNamespace = node.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
@@ -105,7 +105,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ObjectAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 var ownerClass = node.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
@@ -126,7 +126,7 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (ObjectAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 objectNode.SetValue("Name", node.Name);

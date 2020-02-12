@@ -9,8 +9,6 @@ namespace ReframeAnalyzer.Graph
 {
     public class ObjectAnalysisNode : AnalysisNode
     {
-        public ClassAnalysisNode OwnerClass { get; set; }
-
         public ObjectAnalysisNode(XElement xNode)
         {
             Level = AnalysisLevel.ObjectLevel;
@@ -19,7 +17,6 @@ namespace ReframeAnalyzer.Graph
             Name = xNode.Element("Name").Value;
 
             Parent = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel);
-            OwnerClass = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel) as ClassAnalysisNode;
         }
     }
 }

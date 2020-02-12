@@ -27,13 +27,13 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ObjectMemberAnalysisNode objectMemberNode in nodes)
             {
-                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.OwnerObject.Parent.Identifier);
+                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.Parent.Parent.Identifier);
 
                 var classMemberNode = GetNode(identifier);
 
                 foreach (ObjectMemberAnalysisNode objectMemberNodeSuccessor in objectMemberNode.Successors)
                 {
-                    uint successorIdentifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNodeSuccessor.Name, objectMemberNodeSuccessor.OwnerObject.Parent.Identifier);
+                    uint successorIdentifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNodeSuccessor.Name, objectMemberNodeSuccessor.Parent.Parent.Identifier);
                     var successorClassMemberNode = GetNode(successorIdentifier);
                     if (successorClassMemberNode != null)
                     {
@@ -47,7 +47,7 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (ObjectMemberAnalysisNode objectMemberNode in nodes)
             {
-                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.OwnerObject.Parent.Identifier);
+                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.Parent.Parent.Identifier);
                
                 if (ContainsNode(identifier) == false)
                 {

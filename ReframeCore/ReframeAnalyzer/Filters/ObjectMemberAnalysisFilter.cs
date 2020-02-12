@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMember in OriginalNodes)
             {
-                if (IsSelected(objectMember.OwnerObject.Parent.Parent2) && IsSelected(objectMember.OwnerObject.Parent.Parent) && IsSelected(objectMember.OwnerObject.Parent) && IsSelected(objectMember.OwnerObject))
+                if (IsSelected(objectMember.Parent.Parent.Parent2) && IsSelected(objectMember.Parent.Parent.Parent) && IsSelected(objectMember.Parent.Parent) && IsSelected(objectMember.Parent))
                 {
                     filteredNodes.Add(objectMember);
                 }
@@ -35,9 +35,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (assemblyNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Parent2.Identifier) == false)
+                if (assemblyNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Parent2.Identifier) == false)
                 {
-                    assemblyNodes.Add(objectMemberNode.OwnerObject.Parent.Parent2);
+                    assemblyNodes.Add(objectMemberNode.Parent.Parent.Parent2);
                 }
             }
 
@@ -50,9 +50,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Parent.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectMemberNode.OwnerObject.Parent.Parent);
+                    namespaceNodes.Add(objectMemberNode.Parent.Parent.Parent);
                 }
             }
 
@@ -65,9 +65,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Identifier) == false)
+                if (classNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectMemberNode.OwnerObject.Parent);
+                    classNodes.Add(objectMemberNode.Parent.Parent);
                 }
             }
 
@@ -80,9 +80,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectMemberNode.OwnerObject.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Identifier) == false)
+                if (objectMemberNode.Parent.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectMemberNode.OwnerObject.Parent);
+                    classNodes.Add(objectMemberNode.Parent.Parent);
                 }
             }
 
@@ -95,9 +95,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Identifier) == false)
+                if (objectNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Identifier) == false)
                 {
-                    objectNodes.Add(objectMemberNode.OwnerObject);
+                    objectNodes.Add(objectMemberNode.Parent);
                 }
             }
 
@@ -110,9 +110,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectMemberNode.OwnerObject.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Identifier) == false)
+                if (objectMemberNode.Parent.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Identifier) == false)
                 {
-                    objectNodes.Add(objectMemberNode.OwnerObject);
+                    objectNodes.Add(objectMemberNode.Parent);
                 }
             }
 
