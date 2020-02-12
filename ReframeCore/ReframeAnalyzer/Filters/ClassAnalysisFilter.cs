@@ -16,9 +16,9 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<ClassAnalysisNode> filteredNodes = new List<ClassAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            foreach (var classNode in OriginalNodes)
             {
                 if (IsSelected(classNode.Parent2) && IsSelected(classNode.Parent) && IsSelected(classNode))
                 {
@@ -33,7 +33,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            foreach (var classNode in OriginalNodes)
             {
                 if (assemblyNodes.Exists(n => n.Identifier == classNode.Parent2.Identifier) == false)
                 {
@@ -48,7 +48,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            foreach (var classNode in OriginalNodes)
             {
                 if (namespaceNodes.Exists(n => n.Identifier == classNode.Parent.Identifier) == false)
                 {
@@ -63,7 +63,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            foreach (var classNode in OriginalNodes)
             {
                 classNodes.Add(classNode);
             }
@@ -75,7 +75,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassAnalysisNode classNode in OriginalNodes)
+            foreach (var classNode in OriginalNodes)
             {
                 if (classNode.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == classNode.Identifier) == false)
                 {

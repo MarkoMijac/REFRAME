@@ -56,7 +56,7 @@ namespace ReframeTools.GUI
         protected override void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             base.clbClassNodes_ItemCheck(sender, e);
-            var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             LoadObjectNodes(classNode);
         }
     }

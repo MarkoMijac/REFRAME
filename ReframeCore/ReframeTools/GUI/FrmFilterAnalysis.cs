@@ -104,7 +104,7 @@ namespace ReframeTools.GUI
             if (namespaceNode != null)
             {
                 List<IAnalysisNode> classNodes = Filter.GetAvailableClassNodes(namespaceNode);
-                foreach (ClassAnalysisNode classNode in classNodes)
+                foreach (var classNode in classNodes)
                 {
                     bool checkedItem = Filter.IsSelected(classNode);
                     clbClassNodes.Items.Add(classNode, checkedItem);
@@ -112,7 +112,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void LoadObjectNodes(ClassAnalysisNode classNode)
+        protected void LoadObjectNodes(IAnalysisNode classNode)
         {
             clbObjectNodes.Items.Clear();
             if (classNode != null)
@@ -165,7 +165,7 @@ namespace ReframeTools.GUI
 
         private void RefreshObjectNodes()
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
             LoadObjectNodes(selectedClassNode);
             EnableObjectNodes(Filter.IsSelected(selectedClassNode));
         }
@@ -189,7 +189,7 @@ namespace ReframeTools.GUI
         protected virtual void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            Filter.SelectAllClassNodes(selectedNamespaceNode);
+            Filter.SelectAllNamespaceClasses(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
 
             RefreshObjectNodes();
@@ -198,7 +198,7 @@ namespace ReframeTools.GUI
         protected virtual void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            Filter.DeselectAllClassNodes(selectedNamespaceNode);
+            Filter.DeselectAllNamespaceClasses(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
 
             RefreshObjectNodes();
@@ -206,15 +206,15 @@ namespace ReframeTools.GUI
 
         protected virtual void btnSelectAllObjects_Click(object sender, EventArgs e)
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
-            Filter.SelectAllObjectNodes(selectedClassNode);
+            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
+            Filter.SelectAllClassObjects(selectedClassNode);
             LoadObjectNodes(selectedClassNode);
         }
 
         protected virtual void btnDeselectAllObjects_Click(object sender, EventArgs e)
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
-            Filter.DeselectAllObjectNodes(selectedClassNode);
+            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
+            Filter.DeselectAllClassObjects(selectedClassNode);
             LoadObjectNodes(selectedClassNode);
         }
 
@@ -246,7 +246,7 @@ namespace ReframeTools.GUI
 
         protected virtual void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            ClassAnalysisNode classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
             {
                 Filter.SelectNode(classNode);
@@ -284,7 +284,7 @@ namespace ReframeTools.GUI
             LoadClassNodes(namespaceNode);
             EnableClassNodes(Filter.IsSelected(namespaceNode));
 
-            var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             if (classNode != null)
             {
                 LoadObjectNodes(classNode);
@@ -308,7 +308,7 @@ namespace ReframeTools.GUI
 
         protected virtual void clbClassNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             LoadObjectNodes(classNode);
             EnableObjectNodes(Filter.IsSelected(classNode));
 

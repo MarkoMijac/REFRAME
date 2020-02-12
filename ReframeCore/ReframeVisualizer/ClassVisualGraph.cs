@@ -71,7 +71,7 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerAssembly = node.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
@@ -84,7 +84,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerNamespace = node.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
@@ -102,11 +102,11 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("FullName", node.FullName);
+                g.SetValue("FullName", node.Name);
                 g.SetValue("Namespace", node.Parent.Name);
                 g.SetValue("Assembly", node.Parent2.Name);
                 g.SetValue("Degree", node.Degree);

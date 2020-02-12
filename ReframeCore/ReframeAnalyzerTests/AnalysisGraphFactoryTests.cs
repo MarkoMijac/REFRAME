@@ -855,7 +855,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            ClassAnalysisNode firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == nameof(ClassA));
         }
@@ -872,7 +872,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Assert
-            ClassAnalysisNode firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
@@ -1098,7 +1098,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            var firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == nameof(ClassA));
         }
@@ -1115,7 +1115,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Assert
-            var firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
@@ -1274,8 +1274,8 @@ namespace ReframeAnalyzerTests
             var firstNode = analysisGraph.Nodes[0] as ObjectAnalysisNode;
             var secondNode = analysisGraph.Nodes[1] as ObjectAnalysisNode;
 
-            Assert.IsTrue(firstNode.Name == "First object A" && firstNode.OwnerClass.Name == nameof(ClassA));
-            Assert.IsTrue(secondNode.Name == "Second object B" && secondNode.OwnerClass.Name == nameof(ClassB));
+            Assert.IsTrue(firstNode.Name == "First object A" && firstNode.Parent.Name == nameof(ClassA));
+            Assert.IsTrue(secondNode.Name == "Second object B" && secondNode.Parent.Name == nameof(ClassB));
         }
 
         [TestMethod]
@@ -1363,8 +1363,8 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
 
-            var firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
 
             Assert.IsTrue(firstNode.Name == nameof(ClassA));
             Assert.IsTrue(secondNode.Name == nameof(ClassB));
@@ -1383,8 +1383,8 @@ namespace ReframeAnalyzerTests
 
             //Assert
 
-            var firstNode = analysisGraph.Nodes[0] as ClassAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(secondNode));
             Assert.IsTrue(secondNode.Successors.Count == 1 && secondNode.HasSuccessor(firstNode));

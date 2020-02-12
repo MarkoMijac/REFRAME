@@ -18,7 +18,8 @@ namespace ReframeAnalyzer.Graph
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
 
-            OwnerClass = new ClassAnalysisNode(xNode.Element("OwnerClass"));
+            Parent = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel);
+            OwnerClass = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel) as ClassAnalysisNode;
         }
     }
 }

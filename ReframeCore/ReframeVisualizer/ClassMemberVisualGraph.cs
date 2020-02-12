@@ -114,11 +114,11 @@ namespace ReframeVisualizer
 
             foreach (ClassMemberAnalysisNode node in _analysisNodes)
             {
-                ClassAnalysisNode ownerClass = node.OwnerClass;
+                var ownerClass = node.OwnerClass;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
                 classNode.IsGroup = true;
                 classNode.SetValue("Name", ownerClass.Name);
-                classNode.SetValue("FullName", ownerClass.FullName);
+                classNode.SetValue("FullName", ownerClass.Name);
                 classNode.SetValue("Namespace", ownerClass.Parent.Name);
                 classNode.SetValue("Assembly", ownerClass.Parent2.Name);
 

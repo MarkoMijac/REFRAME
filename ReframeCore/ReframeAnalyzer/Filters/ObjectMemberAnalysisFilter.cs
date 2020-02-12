@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMember in OriginalNodes)
             {
-                if (IsSelected(objectMember.OwnerObject.OwnerClass.Parent2) && IsSelected(objectMember.OwnerObject.OwnerClass.Parent) && IsSelected(objectMember.OwnerObject.OwnerClass) && IsSelected(objectMember.OwnerObject))
+                if (IsSelected(objectMember.OwnerObject.Parent.Parent2) && IsSelected(objectMember.OwnerObject.Parent.Parent) && IsSelected(objectMember.OwnerObject.Parent) && IsSelected(objectMember.OwnerObject))
                 {
                     filteredNodes.Add(objectMember);
                 }
@@ -35,9 +35,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (assemblyNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Parent2.Identifier) == false)
+                if (assemblyNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Parent2.Identifier) == false)
                 {
-                    assemblyNodes.Add(objectMemberNode.OwnerObject.OwnerClass.Parent2);
+                    assemblyNodes.Add(objectMemberNode.OwnerObject.Parent.Parent2);
                 }
             }
 
@@ -50,9 +50,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectMemberNode.OwnerObject.OwnerClass.Parent);
+                    namespaceNodes.Add(objectMemberNode.OwnerObject.Parent.Parent);
                 }
             }
 
@@ -65,9 +65,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
+                if (classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectMemberNode.OwnerObject.OwnerClass);
+                    classNodes.Add(objectMemberNode.OwnerObject.Parent);
                 }
             }
 
@@ -80,9 +80,9 @@ namespace ReframeAnalyzer.Filters
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectMemberNode.OwnerObject.OwnerClass.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.OwnerClass.Identifier) == false)
+                if (objectMemberNode.OwnerObject.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectMemberNode.OwnerObject.OwnerClass);
+                    classNodes.Add(objectMemberNode.OwnerObject.Parent);
                 }
             }
 
@@ -104,13 +104,13 @@ namespace ReframeAnalyzer.Filters
             return objectNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableObjectNodes(ClassAnalysisNode classNode)
+        public override List<IAnalysisNode> GetAvailableObjectNodes(IAnalysisNode classNode)
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
             foreach (ObjectMemberAnalysisNode objectMemberNode in OriginalNodes)
             {
-                if (objectMemberNode.OwnerObject.OwnerClass.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Identifier) == false)
+                if (objectMemberNode.OwnerObject.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.OwnerObject.Identifier) == false)
                 {
                     objectNodes.Add(objectMemberNode.OwnerObject);
                 }

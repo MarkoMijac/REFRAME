@@ -17,7 +17,7 @@ namespace ReframeAnalyzer.Graph
             Level = AnalysisLevel.ClassMemberLevel;
 
             string memberName = objectMemberNode.Name;
-            uint classIdentifier = objectMemberNode.OwnerObject.OwnerClass.Identifier;
+            uint classIdentifier = objectMemberNode.OwnerObject.Parent.Identifier;
             Identifier = GenerateIdentifier(memberName, classIdentifier);
             Name = memberName;
             NodeType = objectMemberNode.NodeType;
