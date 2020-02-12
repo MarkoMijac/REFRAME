@@ -80,7 +80,7 @@ namespace ReframeTools.GUI
             clbAssemblyNodes.Items.Clear();
             List<IAnalysisNode> assemblyNodes = Filter.GetAvailableAssemblyNodes();
 
-            foreach (AssemblyAnalysisNode assemblyNode in assemblyNodes)
+            foreach (var assemblyNode in assemblyNodes)
             {
                 bool checkedItem = Filter.IsSelected(assemblyNode);
                 clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
@@ -220,7 +220,7 @@ namespace ReframeTools.GUI
 
         protected virtual void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            AssemblyAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as AssemblyAnalysisNode;
+            IAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
             {
                 Filter.SelectNode(assemblyNode);

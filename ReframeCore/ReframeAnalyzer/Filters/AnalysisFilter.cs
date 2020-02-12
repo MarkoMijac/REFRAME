@@ -46,16 +46,6 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        private void SelectNode(AssemblyAnalysisNode node)
-        {
-            AddNode(SelectedAssemblyNodes, node);
-        }
-
-        private void DeselectNode(AssemblyAnalysisNode node)
-        {
-            RemoveNode(SelectedAssemblyNodes, node);
-        }
-
         private void SelectNode(ClassAnalysisNode node)
         {
             AddNode(SelectedClassNodes, node);
@@ -177,7 +167,7 @@ namespace ReframeAnalyzer.Filters
 
         public void SelectAllAssemblyNodes()
         {
-            foreach (AssemblyAnalysisNode assemblyNode in GetAvailableAssemblyNodes())
+            foreach (var assemblyNode in GetAvailableAssemblyNodes())
             {
                 if (SelectedAssemblyNodes.Exists(n => n.Identifier == assemblyNode.Identifier) == false)
                 {
@@ -233,7 +223,7 @@ namespace ReframeAnalyzer.Filters
             }
             else if (node.Level == AnalysisLevel.AssemblyLevel)
             {
-                SelectNode(node as AssemblyAnalysisNode);
+                AddNode(SelectedAssemblyNodes, node);
             }
             else if (node.Level == AnalysisLevel.ClassLevel)
             {
@@ -255,7 +245,7 @@ namespace ReframeAnalyzer.Filters
             }
             else if (node.Level == AnalysisLevel.AssemblyLevel)
             {
-                DeselectNode(node as AssemblyAnalysisNode);
+                RemoveNode(SelectedAssemblyNodes, node);
             }
             else if (node.Level == AnalysisLevel.ClassLevel)
             {

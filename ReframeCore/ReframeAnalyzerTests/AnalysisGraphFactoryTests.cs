@@ -929,7 +929,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            AssemblyAnalysisNode firstNode = analysisGraph.Nodes[0] as AssemblyAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == typeof(ClassA).Assembly.ManifestModule.Name);
         }
@@ -946,7 +946,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
 
             //Assert
-            AssemblyAnalysisNode firstNode = analysisGraph.Nodes[0] as AssemblyAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
