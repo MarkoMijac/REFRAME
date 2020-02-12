@@ -16,9 +16,9 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<ClassMemberAnalysisNode> filteredNodes = new List<ClassMemberAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
                 if (IsSelected(classMemberNode.Parent.Parent2) && IsSelected(classMemberNode.Parent.Parent) && IsSelected(classMemberNode.Parent))
                 {
@@ -33,7 +33,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
                 if (assemblyNodes.Exists(n => n.Identifier == classMemberNode.Parent.Parent2.Identifier) == false)
                 {
@@ -48,7 +48,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
                 if (namespaceNodes.Exists(n => n.Identifier == classMemberNode.Parent.Parent.Identifier) == false)
                 {
@@ -63,7 +63,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
                 if (classNodes.Exists(n => n.Identifier == classMemberNode.Parent.Identifier) == false)
                 {
@@ -78,7 +78,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
                 if (classMemberNode.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == classMemberNode.Parent.Identifier) == false)
                 {

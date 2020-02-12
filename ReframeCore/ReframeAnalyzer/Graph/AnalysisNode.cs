@@ -105,6 +105,8 @@ namespace ReframeAnalyzer.Graph
 
         public string Tag { get; set; }
 
+        public string Source { get; protected set; }
+
         public override string ToString()
         {
             return $"[{Identifier}] {Name}";

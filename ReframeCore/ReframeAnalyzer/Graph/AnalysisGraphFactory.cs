@@ -29,8 +29,7 @@ namespace ReframeAnalyzer.Graph
                     }
                 case AnalysisLevel.ClassMemberLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        result = new ClassMemberAnalysisGraph(objectMemberGraph);
+                        result = new ClassMemberAnalysisGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.ClassLevel:

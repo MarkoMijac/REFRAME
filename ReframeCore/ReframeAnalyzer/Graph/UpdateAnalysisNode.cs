@@ -37,6 +37,8 @@ namespace ReframeAnalyzer.Graph
             XAttribute isInitialAttribute = xNode.Attribute("IsInitialNode");
             IsInitialNode = isInitialAttribute != null;
             Parent = objectMemberNode;
+
+            Source = xNode.ToString();
         }
     }
 }

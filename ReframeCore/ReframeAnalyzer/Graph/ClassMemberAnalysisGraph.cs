@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
@@ -23,18 +24,38 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
+        public ClassMemberAnalysisGraph(string source)
+        {
+            AnalysisLevel = AnalysisLevel.ClassMemberLevel;
+
+            var graphFactory = new AnalysisGraphFactory();
+            var objectMemberGraph = graphFactory.CreateGraph(source, AnalysisLevel.ObjectMemberLevel);
+
+            if (objectMemberGraph != null)
+            {
+                InitializeGraphBasicData(objectMemberGraph);
+                if (objectMemberGraph.Nodes.Count > 0)
+                {
+                    InitializeGraphNodes(objectMemberGraph.Nodes);
+                    InitializeGraphDependencies(objectMemberGraph.Nodes);
+                }
+            }
+        }
+
         private void InitializeGraphDependencies(List<IAnalysisNode> nodes)
         {
             foreach (var objectMemberNode in nodes)
             {
-                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.Parent.Parent.Identifier);
+                XElement xNode = XElement.Parse(objectMemberNode.Source);
+                var node = NodeFactory.CreateNode(xNode, AnalysisLevel.ClassMemberLevel);
 
-                var classMemberNode = GetNode(identifier);
+                var classMemberNode = GetNode(node.Identifier);
 
                 foreach (var objectMemberNodeSuccessor in objectMemberNode.Successors)
                 {
-                    uint successorIdentifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNodeSuccessor.Name, objectMemberNodeSuccessor.Parent.Parent.Identifier);
-                    var successorClassMemberNode = GetNode(successorIdentifier);
+                    XElement xSNode = XElement.Parse(objectMemberNodeSuccessor.Source);
+                    var sNode = NodeFactory.CreateNode(xSNode, AnalysisLevel.ClassMemberLevel);
+                    var successorClassMemberNode = GetNode(sNode.Identifier);
                     if (successorClassMemberNode != null)
                     {
                         classMemberNode.AddSuccesor(successorClassMemberNode);
@@ -47,17 +68,17 @@ namespace ReframeAnalyzer.Graph
         {
             foreach (var objectMemberNode in nodes)
             {
-                uint identifier = ClassMemberAnalysisNode.GenerateIdentifier(objectMemberNode.Name, objectMemberNode.Parent.Parent.Identifier);
-               
-                if (ContainsNode(identifier) == false)
+                XElement xNode = XElement.Parse(objectMemberNode.Source);
+                var classMemberNode = NodeFactory.CreateNode(xNode, AnalysisLevel.ClassMemberLevel);
+
+                if (classMemberNode!=null && ContainsNode(classMemberNode.Identifier) == false)
                 {
-                    var classMemberNode = new ClassMemberAnalysisNode(objectMemberNode);
                     AddNode(classMemberNode);
                 }
             }
         }
 
-        private void InitializeGraphBasicData(ObjectMemberAnalysisGraph objectMemberGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph objectMemberGraph)
         {
             Identifier = objectMemberGraph.Identifier;
         }

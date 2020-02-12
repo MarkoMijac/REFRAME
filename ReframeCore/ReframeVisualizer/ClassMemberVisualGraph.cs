@@ -80,7 +80,7 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (ClassMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerAssembly = node.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
@@ -93,7 +93,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ClassMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 IAnalysisNode ownerNamespace = node.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
@@ -112,7 +112,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ClassMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 var ownerClass = node.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
@@ -133,12 +133,12 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (ClassMemberAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 string label = $"[{node.Parent.Name}].{node.Name}";
                 GraphNode classMemberNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), label, null);
                 classMemberNode.SetValue("Name", node.Name);
-                classMemberNode.SetValue("NodeType", node.NodeType);
+                classMemberNode.SetValue("NodeType", (node as IHasType).NodeType);
                 classMemberNode.SetValue("ClassIdentifier", node.Parent.Identifier);
                 classMemberNode.SetValue("ClassName", node.Parent.Name);
                 classMemberNode.SetValue("Namespace", node.Parent.Parent.Name);

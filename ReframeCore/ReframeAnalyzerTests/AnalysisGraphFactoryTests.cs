@@ -818,7 +818,7 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
 
-            ClassMemberAnalysisNode firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Name == "PA1" && firstNode.Parent.Name == nameof(ClassA));
         }
@@ -835,7 +835,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
 
             //Assert
-            ClassMemberAnalysisNode firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(firstNode));
             Assert.IsTrue(firstNode.Successors.Count == 1 && firstNode.HasSuccessor(firstNode));
@@ -1058,8 +1058,8 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
 
-            var firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
 
             Assert.IsTrue(firstNode.Name == nameof(ClassA.PA1) && firstNode.Parent.Name == nameof(ClassA));
             Assert.IsTrue(secondNode.Name == nameof(ClassA.PA2) && secondNode.Parent.Name == nameof(ClassA));
@@ -1077,8 +1077,8 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
 
             //Assert
-            var firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(secondNode));
             Assert.IsTrue(secondNode.Successors.Count == 1 && secondNode.HasSuccessor(firstNode));
@@ -1312,10 +1312,10 @@ namespace ReframeAnalyzerTests
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 4);
 
-            var firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassMemberAnalysisNode;
-            var thirdNode = analysisGraph.Nodes[2] as ClassMemberAnalysisNode;
-            var fourthNode = analysisGraph.Nodes[3] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
+            var thirdNode = analysisGraph.Nodes[2];
+            var fourthNode = analysisGraph.Nodes[3];
 
             Assert.IsTrue(firstNode.Name == nameof(ClassA.PA1) && firstNode.Parent.Name == nameof(ClassA));
             Assert.IsTrue(secondNode.Name == nameof(ClassB.PB1) && secondNode.Parent.Name == nameof(ClassB));
@@ -1336,10 +1336,10 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
 
             //Assert
-            var firstNode = analysisGraph.Nodes[0] as ClassMemberAnalysisNode;
-            var secondNode = analysisGraph.Nodes[1] as ClassMemberAnalysisNode;
-            var thirdNode = analysisGraph.Nodes[2] as ClassMemberAnalysisNode;
-            var fourthNode = analysisGraph.Nodes[3] as ClassMemberAnalysisNode;
+            var firstNode = analysisGraph.Nodes[0];
+            var secondNode = analysisGraph.Nodes[1];
+            var thirdNode = analysisGraph.Nodes[2];
+            var fourthNode = analysisGraph.Nodes[3];
 
             Assert.IsTrue(firstNode.Predecessors.Count == 1 && firstNode.HasPredecessor(secondNode));
             Assert.IsTrue(secondNode.Successors.Count == 1 && secondNode.HasSuccessor(firstNode));

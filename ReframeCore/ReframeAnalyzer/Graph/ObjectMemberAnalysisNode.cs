@@ -24,6 +24,7 @@ namespace ReframeAnalyzer.Graph
             PreviousValue = xNode.Element("PreviousValue").Value;
 
             Parent = NodeFactory.CreateNode(xNode.Element("OwnerObject"), AnalysisLevel.ObjectLevel);
+            Source = xNode.ToString();
         }
     }
 }

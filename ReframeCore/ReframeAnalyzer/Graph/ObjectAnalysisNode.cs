@@ -17,6 +17,7 @@ namespace ReframeAnalyzer.Graph
             Name = xNode.Element("Name").Value;
 
             Parent = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel);
+            Source = xNode.ToString();
         }
     }
 }

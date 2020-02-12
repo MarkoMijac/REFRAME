@@ -20,7 +20,9 @@ namespace ReframeAnalyzer.Graph
             FullName = xNode.Element("FullName").Value;
 
             Parent = NodeFactory.CreateNode(xNode.Element("OwnerNamespace"), AnalysisLevel.NamespaceLevel);
-            Parent2 = NodeFactory.CreateNode(xNode.Element("OwnerAssembly"), AnalysisLevel.AssemblyLevel); 
+            Parent2 = NodeFactory.CreateNode(xNode.Element("OwnerAssembly"), AnalysisLevel.AssemblyLevel);
+
+            Source = xNode.ToString();
         }
     }
 }

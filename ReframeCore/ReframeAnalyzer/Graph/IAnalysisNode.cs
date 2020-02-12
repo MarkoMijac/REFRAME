@@ -29,5 +29,6 @@ namespace ReframeAnalyzer.Graph
         bool HasSuccessor(IAnalysisNode successor);
 
         string Tag { get; set; }
+        string Source { get; }
     }
 }
