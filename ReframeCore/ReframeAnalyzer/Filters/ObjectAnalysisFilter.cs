@@ -16,11 +16,11 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<ObjectAnalysisNode> filteredNodes = new List<ObjectAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (IsSelected(objectNode.OwnerClass.OwnerAssembly) && IsSelected(objectNode.OwnerClass.OwnerNamespace) && IsSelected(objectNode.OwnerClass) && IsSelected(objectNode))
+                if (IsSelected(objectNode.Parent.Parent2) && IsSelected(objectNode.Parent.Parent) && IsSelected(objectNode.Parent) && IsSelected(objectNode))
                 {
                     filteredNodes.Add(objectNode);
                 }
@@ -33,11 +33,11 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (assemblyNodes.Exists(n => n.Identifier == objectNode.OwnerClass.OwnerAssembly.Identifier) == false)
+                if (assemblyNodes.Exists(n => n.Identifier == objectNode.Parent.Parent2.Identifier) == false)
                 {
-                    assemblyNodes.Add(objectNode.OwnerClass.OwnerAssembly);
+                    assemblyNodes.Add(objectNode.Parent.Parent2);
                 }
             }
 
@@ -48,11 +48,11 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == objectNode.OwnerClass.OwnerNamespace.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == objectNode.Parent.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(objectNode.OwnerClass.OwnerNamespace);
+                    namespaceNodes.Add(objectNode.Parent.Parent);
                 }
             }
 
@@ -63,26 +63,26 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (classNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Identifier) == false)
+                if (classNodes.Exists(n => n.Identifier == objectNode.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectNode.OwnerClass);
+                    classNodes.Add(objectNode.Parent);
                 }
             }
 
             return classNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public override List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (objectNode.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectNode.OwnerClass.Identifier) == false)
+                if (objectNode.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectNode.Parent.Identifier) == false)
                 {
-                    classNodes.Add(objectNode.OwnerClass);
+                    classNodes.Add(objectNode.Parent);
                 }
             }
 
@@ -93,7 +93,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
                 objectNodes.Add(objectNode);
             }
@@ -101,13 +101,13 @@ namespace ReframeAnalyzer.Filters
             return objectNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableObjectNodes(ClassAnalysisNode classNode)
+        public override List<IAnalysisNode> GetAvailableObjectNodes(IAnalysisNode classNode)
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
-            foreach (ObjectAnalysisNode objectNode in OriginalNodes)
+            foreach (var objectNode in OriginalNodes)
             {
-                if (objectNode.OwnerClass.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                if (objectNode.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
                     objectNodes.Add(objectNode);
                 }

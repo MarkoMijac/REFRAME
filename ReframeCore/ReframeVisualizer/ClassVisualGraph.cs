@@ -71,9 +71,9 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
-                AssemblyAnalysisNode ownerAssembly = node.OwnerAssembly;
+                IAnalysisNode ownerAssembly = node.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
                 groupNode.IsGroup = true;
                 groupNode.SetValue("Name", ownerAssembly.Name);
@@ -84,14 +84,14 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
-                NamespaceAnalysisNode ownerNamespace = node.OwnerNamespace;
+                IAnalysisNode ownerNamespace = node.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
 
-                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.OwnerAssembly.Identifier.ToString());
+                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.Parent2.Identifier.ToString());
                 if (assembyNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(assembyNode, namespaceNode, "", catContains);
@@ -102,19 +102,19 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (ClassAnalysisNode node in _analysisNodes)
+            foreach (var node in _analysisNodes)
             {
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("FullName", node.FullName);
-                g.SetValue("Namespace", node.OwnerNamespace.Name);
-                g.SetValue("Assembly", node.OwnerAssembly.Name);
+                g.SetValue("FullName", node.Name);
+                g.SetValue("Namespace", node.Parent.Name);
+                g.SetValue("Assembly", node.Parent2.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
                 g.SetValue("Tag", node.Tag);
 
-                GraphNode namespaceNode = dgmlGraph.Nodes.Get(node.OwnerNamespace.Identifier.ToString());
+                GraphNode namespaceNode = dgmlGraph.Nodes.Get(node.Parent.Identifier.ToString());
                 if (namespaceNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(namespaceNode, g, "", catContains);

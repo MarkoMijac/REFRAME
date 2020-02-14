@@ -31,10 +31,9 @@ namespace ReframeTools.Controllers
         {
             var pipeClient = new ReframePipeClient();
             string xmlUpdateInfo = pipeClient.GetUpdateInfo(reactorIdentifier);
-            string xmlReactor = pipeClient.GetReactor(reactorIdentifier);
-            var objectMemberGraph = GraphFactory.CreateGraph(xmlReactor, AnalysisLevel.ObjectMemberLevel);
+            string xmlSource = pipeClient.GetReactor(reactorIdentifier);
 
-            AnalysisGraph = GraphFactory.CreateGraph(xmlUpdateInfo, objectMemberGraph, AnalysisLevel.UpdateAnalysisLevel);
+            AnalysisGraph = GraphFactory.CreateGraph(xmlSource, xmlUpdateInfo);
             AnalysisNodes = AnalysisGraph.Nodes;
         }
 

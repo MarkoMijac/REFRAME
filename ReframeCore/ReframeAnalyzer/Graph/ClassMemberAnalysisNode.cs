@@ -7,22 +7,25 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ClassMemberAnalysisNode : AnalysisNode
+    public class ClassMemberAnalysisNode : AnalysisNode, IHasType
     {
         public string NodeType { get; set; }
-        public ClassAnalysisNode OwnerClass { get; set; }
 
-        public ClassMemberAnalysisNode(ObjectMemberAnalysisNode objectMemberNode)
+        public ClassMemberAnalysisNode(XElement xNode)
         {
-            string memberName = objectMemberNode.Name;
-            uint classIdentifier = objectMemberNode.OwnerObject.OwnerClass.Identifier;
+            Level = AnalysisLevel.ClassMemberLevel;
+            string memberName = xNode.Element("MemberName").Value;
+            uint classIdentifier = uint.Parse(xNode.Element("OwnerObject").Element("OwnerClass").Element("Identifier").Value);
+
             Identifier = GenerateIdentifier(memberName, classIdentifier);
             Name = memberName;
-            NodeType = objectMemberNode.NodeType;
-            OwnerClass = objectMemberNode.OwnerObject.OwnerClass;
+            NodeType = xNode.Element("NodeType").Value;
+            Parent = NodeFactory.CreateNode(xNode.Element("OwnerObject").Element("OwnerClass"), AnalysisLevel.ClassLevel);
+
+            Source = xNode.ToString();
         }
 
-        public static  uint GenerateIdentifier(string memberName, uint classIdentifier)
+        private uint GenerateIdentifier(string memberName, uint classIdentifier)
         {
             return (uint)(memberName.GetHashCode() ^ classIdentifier);
         }

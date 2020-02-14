@@ -8,7 +8,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class NamespaceAnalysisGraph : AnalysisGraph
     {
-        public NamespaceAnalysisGraph(ClassAnalysisGraph classAnalysisGraph)
+        public NamespaceAnalysisGraph(IAnalysisGraph classAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.NamespaceLevel;
 
@@ -23,32 +23,32 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphBasicData(ClassAnalysisGraph classAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
         {
             Identifier = classAnalysisGraph.Identifier;
         }
 
         private void InitializeGraphNodes(List<IAnalysisNode> classNodes)
         {
-            foreach (ClassAnalysisNode classNode in classNodes)
+            foreach (var classNode in classNodes)
             {
-                if (ContainsNode(classNode.OwnerNamespace.Identifier) == false)
+                if (ContainsNode(classNode.Parent.Identifier) == false)
                 {
-                    AddNode(classNode.OwnerNamespace);
+                    AddNode(classNode.Parent);
                 }
             }
         }
 
         private void InitializeGraphDependencies(List<IAnalysisNode> classNodes)
         {
-            foreach (ClassAnalysisNode classNode in classNodes)
+            foreach (var classNode in classNodes)
             {
-                var namespaceNode = GetNode(classNode.OwnerNamespace.Identifier);
+                var namespaceNode = GetNode(classNode.Parent.Identifier);
 
-                foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
+                foreach (var classNodeSuccessor in classNode.Successors)
                 {
-                    var successorNamespaceNode = GetNode(classNodeSuccessor.OwnerNamespace.Identifier);
-                    if (successorNamespaceNode != null && namespaceNode != successorNamespaceNode)
+                    var successorNamespaceNode = GetNode(classNodeSuccessor.Parent.Identifier);
+                    if (successorNamespaceNode != null)
                     {
                         namespaceNode.AddSuccesor(successorNamespaceNode);
                     }

@@ -48,7 +48,8 @@
   <ItemGroup>
     <Compile Include="Filters\AnalysisFilter.cs" />
     <Compile Include="Analyzer.cs" />
-    <Compile Include="Exceptions\AnalyzerException.cs" />
+    <Compile Include="Exceptions\AnalysisException.cs" />
+    <Compile Include="Filters\AnalysisFilterFactory.cs" />
     <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
     <Compile Include="Filters\ClassAnalysisFilter.cs" />
     <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
     <Compile Include="Filters\UpdateAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\AnalysisNodeFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisGraph.cs" />
@@ -67,6 +69,10 @@
     <Compile Include="Graph\IAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisNode.cs" />
+    <Compile Include="Graph\IHasType.cs" />
+    <Compile Include="Graph\IHasValues.cs" />
+    <Compile Include="Graph\IUpdateGraph.cs" />
+    <Compile Include="Graph\IUpdateNode.cs" />
     <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
     <Compile Include="Graph\NamespaceAnalysisNode.cs" />
     <Compile Include="Graph\ObjectAnalysisGraph.cs" />

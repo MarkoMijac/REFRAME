@@ -4,7 +4,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassAnalysisGraph : AnalysisGraph
     {
-        public ClassAnalysisGraph(ObjectAnalysisGraph objectAnalysisGraph)
+        public ClassAnalysisGraph(IAnalysisGraph objectAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.ClassLevel;
 
@@ -21,14 +21,14 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphDependencies(List<IAnalysisNode> objectNodes)
         {
-            foreach (ObjectAnalysisNode objectNode in objectNodes)
+            foreach (var objectNode in objectNodes)
             {
-                var classNode = GetNode(objectNode.OwnerClass.Identifier);
+                var classNode = GetNode(objectNode.Parent.Identifier);
 
-                foreach (ObjectAnalysisNode objectNodeSuccessor in objectNode.Successors)
+                foreach (var objectNodeSuccessor in objectNode.Successors)
                 {
-                    var successorClassNode = GetNode(objectNodeSuccessor.OwnerClass.Identifier);
-                    if (successorClassNode != null && classNode != successorClassNode)
+                    var successorClassNode = GetNode(objectNodeSuccessor.Parent.Identifier);
+                    if (successorClassNode != null)
                     {
                         classNode.AddSuccesor(successorClassNode);
                     }
@@ -38,16 +38,16 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphNodes(List<IAnalysisNode> objectNodes)
         {
-            foreach (ObjectAnalysisNode objectNode in objectNodes)
+            foreach (var objectNode in objectNodes)
             {
-                if (ContainsNode(objectNode.OwnerClass.Identifier) == false)
+                if (ContainsNode(objectNode.Parent.Identifier) == false)
                 {
-                    AddNode(objectNode.OwnerClass);
+                    AddNode(objectNode.Parent);
                 }
             }
         }
 
-        private void InitializeGraphBasicData(ObjectAnalysisGraph objectAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph objectAnalysisGraph)
         {
             Identifier = objectAnalysisGraph.Identifier;
         }

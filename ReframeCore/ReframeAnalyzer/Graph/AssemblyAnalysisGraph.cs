@@ -8,7 +8,7 @@ namespace ReframeAnalyzer.Graph
 {
     public class AssemblyAnalysisGraph : AnalysisGraph
     {
-        public AssemblyAnalysisGraph(ClassAnalysisGraph classAnalysisGraph)
+        public AssemblyAnalysisGraph(IAnalysisGraph classAnalysisGraph)
         {
             AnalysisLevel = AnalysisLevel.AssemblyLevel;
 
@@ -23,32 +23,32 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphBasicData(ClassAnalysisGraph classAnalysisGraph)
+        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
         {
             Identifier = classAnalysisGraph.Identifier;
         }
 
         private void InitializeGraphNodes(List<IAnalysisNode> classNodes)
         {
-            foreach (ClassAnalysisNode classNode in classNodes)
+            foreach (var classNode in classNodes)
             {
-                if (ContainsNode(classNode.OwnerAssembly.Identifier) == false)
+                if (ContainsNode(classNode.Parent2.Identifier) == false)
                 {
-                    AddNode(classNode.OwnerAssembly);
+                    AddNode(classNode.Parent2);
                 }
             }
         }
 
         private void InitializeGraphDependencies(List<IAnalysisNode> classNodes)
         {
-            foreach (ClassAnalysisNode classNode in classNodes)
+            foreach (var classNode in classNodes)
             {
-                var assemblyNode = GetNode(classNode.OwnerAssembly.Identifier);
+                var assemblyNode = GetNode(classNode.Parent2.Identifier);
 
-                foreach (ClassAnalysisNode classNodeSuccessor in classNode.Successors)
+                foreach (var classNodeSuccessor in classNode.Successors)
                 {
-                    var successorAssemblyNode = GetNode(classNodeSuccessor.OwnerAssembly.Identifier);
-                    if (successorAssemblyNode != null && assemblyNode != successorAssemblyNode)
+                    var successorAssemblyNode = GetNode(classNodeSuccessor.Parent2.Identifier);
+                    if (successorAssemblyNode != null)
                     {
                         assemblyNode.AddSuccesor(successorAssemblyNode);
                     }

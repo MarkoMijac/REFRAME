@@ -9,14 +9,15 @@ namespace ReframeAnalyzer.Graph
 {
     public class ObjectAnalysisNode : AnalysisNode
     {
-        public ClassAnalysisNode OwnerClass { get; set; }
-
         public ObjectAnalysisNode(XElement xNode)
         {
+            Level = AnalysisLevel.ObjectLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
 
-            OwnerClass = new ClassAnalysisNode(xNode.Element("OwnerClass"));
+            Parent = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel);
+            Source = xNode.ToString();
         }
     }
 }

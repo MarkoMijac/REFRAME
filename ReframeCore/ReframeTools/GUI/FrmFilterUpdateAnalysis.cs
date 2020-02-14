@@ -49,14 +49,14 @@ namespace ReframeTools.GUI
         protected override void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             base.clbNamespaceNodes_ItemCheck(sender, e);
-            var namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(namespaceNode);
         }
 
         protected override void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             base.clbClassNodes_ItemCheck(sender, e);
-            var classNode = clbClassNodes.SelectedItem as ClassAnalysisNode;
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             LoadObjectNodes(classNode);
         }
     }

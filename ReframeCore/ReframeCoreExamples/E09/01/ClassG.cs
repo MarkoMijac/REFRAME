@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeCoreExamples.E09
+namespace ReframeCoreExamples.E09._01
 {
-    public class ClassA
+    public class ClassG
     {
         public string Name { get; set; }
 
-        public int PA1 { get; set; }
-        public int PA2 { get; set; }
-        public int PA3 { get; set; }
+        public int PG1 { get; set; }
+        public int PG2 { get; set; }
+        public int PG3 { get; set; }
 
-        public ClassA()
+        public ClassG()
         {
 
         }
 
-        public ClassA(string name)
+        public ClassG(string name)
         {
             Name = name;
         }

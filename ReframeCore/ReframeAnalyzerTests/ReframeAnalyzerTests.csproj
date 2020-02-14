@@ -48,10 +48,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisFilterFactoryTests.cs" />
+    <Compile Include="AnalysisTestHelper.cs" />
     <Compile Include="AnalyzerTests.cs" />
+    <Compile Include="GraphMetricsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AnalysisGraphFactoryTests.cs" />
-    <Compile Include="ClassAnalysisGraphTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IPCServer\IPCServer.csproj">

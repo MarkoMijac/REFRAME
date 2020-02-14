@@ -16,11 +16,11 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<ClassMemberAnalysisNode> filteredNodes = new List<ClassMemberAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
-                if (IsSelected(classMemberNode.OwnerClass.OwnerAssembly) && IsSelected(classMemberNode.OwnerClass.OwnerNamespace) && IsSelected(classMemberNode.OwnerClass))
+                if (IsSelected(classMemberNode.Parent.Parent2) && IsSelected(classMemberNode.Parent.Parent) && IsSelected(classMemberNode.Parent))
                 {
                     filteredNodes.Add(classMemberNode);
                 }
@@ -33,11 +33,11 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
-                if (assemblyNodes.Exists(n => n.Identifier == classMemberNode.OwnerClass.OwnerAssembly.Identifier) == false)
+                if (assemblyNodes.Exists(n => n.Identifier == classMemberNode.Parent.Parent2.Identifier) == false)
                 {
-                    assemblyNodes.Add(classMemberNode.OwnerClass.OwnerAssembly);
+                    assemblyNodes.Add(classMemberNode.Parent.Parent2);
                 }
             }
 
@@ -48,11 +48,11 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
-                if (namespaceNodes.Exists(n => n.Identifier == classMemberNode.OwnerClass.OwnerNamespace.Identifier) == false)
+                if (namespaceNodes.Exists(n => n.Identifier == classMemberNode.Parent.Parent.Identifier) == false)
                 {
-                    namespaceNodes.Add(classMemberNode.OwnerClass.OwnerNamespace);
+                    namespaceNodes.Add(classMemberNode.Parent.Parent);
                 }
             }
 
@@ -63,26 +63,26 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
-                if (classNodes.Exists(n => n.Identifier == classMemberNode.OwnerClass.Identifier) == false)
+                if (classNodes.Exists(n => n.Identifier == classMemberNode.Parent.Identifier) == false)
                 {
-                    classNodes.Add(classMemberNode.OwnerClass);
+                    classNodes.Add(classMemberNode.Parent);
                 }
             }
 
             return classNodes;
         }
 
-        public override List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public override List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
-            foreach (ClassMemberAnalysisNode classMemberNode in OriginalNodes)
+            foreach (var classMemberNode in OriginalNodes)
             {
-                if (classMemberNode.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == classMemberNode.OwnerClass.Identifier) == false)
+                if (classMemberNode.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == classMemberNode.Parent.Identifier) == false)
                 {
-                    classNodes.Add(classMemberNode.OwnerClass);
+                    classNodes.Add(classMemberNode.Parent);
                 }
             }
 

@@ -18,6 +18,11 @@ namespace ReframeAnalyzer.Graph
 
         public int OutDegree { get => Successors.Count;}
 
+        public IAnalysisNode Parent { get; protected set; }
+        public IAnalysisNode Parent2 { get; protected set; }
+
+        public AnalysisLevel Level { get; protected set; }
+
         private List<IAnalysisNode> _predecessors = new List<IAnalysisNode>();
 
         public IReadOnlyList<IAnalysisNode> Predecessors
@@ -100,6 +105,8 @@ namespace ReframeAnalyzer.Graph
 
         public string Tag { get; set; }
 
+        public string Source { get; protected set; }
+
         public override string ToString()
         {
             return $"[{Identifier}] {Name}";
@@ -109,5 +116,7 @@ namespace ReframeAnalyzer.Graph
         {
             return Predecessors.Count;
         }
+
+        protected AnalysisNodeFactory NodeFactory { get; set; } = new AnalysisNodeFactory();
     }
 }

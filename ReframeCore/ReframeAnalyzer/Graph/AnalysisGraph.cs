@@ -40,5 +40,7 @@ namespace ReframeAnalyzer.Graph
                 _nodes.Remove(node);
             }
         }
+
+        protected AnalysisNodeFactory NodeFactory { get; set; } = new AnalysisNodeFactory();
     }
 }

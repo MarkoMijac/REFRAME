@@ -7,21 +7,22 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class UpdateAnalysisNode : AnalysisNode
+    public class UpdateAnalysisNode : AnalysisNode, IUpdateNode
     {
-        public string NodeType { get; set; }
-        public int UpdateOrder { get; set; }
-        public int UpdateLayer { get; set; }
-        public string UpdateStartedAt { get; set; }
-        public string UpdateCompletedAt { get; set; }
-        public string UpdateDuration { get; set; }
-        public string CurrentValue { get; set; }
-        public string PreviousValue { get; set; }
-        public ObjectMemberAnalysisNode ObjectMemberNode { get; set; }
-        public bool IsInitialNode { get; set; } = false;
+        public string NodeType { get; private set; }
+        public int UpdateOrder { get; private set; }
+        public int UpdateLayer { get; private set; }
+        public string UpdateStartedAt { get; private set; }
+        public string UpdateCompletedAt { get; private set; }
+        public string UpdateDuration { get; private set; }
+        public string CurrentValue { get; private set; }
+        public string PreviousValue { get; private set; }
+        public bool IsInitialNode { get; private set; } = false;
 
-        public UpdateAnalysisNode(XElement xNode, ObjectMemberAnalysisNode objectMemberNode)
+        public UpdateAnalysisNode(XElement xNode, IAnalysisNode objectMemberNode)
         {
+            Level = AnalysisLevel.UpdateAnalysisLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("MemberName").Value;
             NodeType = xNode.Element("NodeType").Value;
@@ -35,7 +36,9 @@ namespace ReframeAnalyzer.Graph
 
             XAttribute isInitialAttribute = xNode.Attribute("IsInitialNode");
             IsInitialNode = isInitialAttribute != null;
-            ObjectMemberNode = objectMemberNode;
+            Parent = objectMemberNode;
+
+            Source = xNode.ToString();
         }
     }
 }

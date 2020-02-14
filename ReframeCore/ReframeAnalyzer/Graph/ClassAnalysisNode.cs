@@ -10,19 +10,19 @@ namespace ReframeAnalyzer.Graph
     public class ClassAnalysisNode : AnalysisNode
     {
         public string FullName { get; set; }
-        public NamespaceAnalysisNode OwnerNamespace { get; set; }
-        public AssemblyAnalysisNode OwnerAssembly { get; set; }
 
         public ClassAnalysisNode(XElement xNode)
         {
+            Level = AnalysisLevel.ClassLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
             FullName = xNode.Element("FullName").Value;
 
-            OwnerNamespace = new NamespaceAnalysisNode(xNode.Element("OwnerNamespace"));
-            OwnerAssembly = new AssemblyAnalysisNode(xNode.Element("OwnerAssembly"));
-        }
+            Parent = NodeFactory.CreateNode(xNode.Element("OwnerNamespace"), AnalysisLevel.NamespaceLevel);
+            Parent2 = NodeFactory.CreateNode(xNode.Element("OwnerAssembly"), AnalysisLevel.AssemblyLevel);
 
-        
+            Source = xNode.ToString();
+        }
     }
 }

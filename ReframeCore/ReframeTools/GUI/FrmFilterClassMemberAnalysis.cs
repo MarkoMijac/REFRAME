@@ -23,7 +23,8 @@ namespace ReframeTools.GUI
         {
             base.Initialize();
             Level = AnalysisLevel.ClassMemberLevel;
-            Filter = new ClassMemberAnalysisFilter(OriginalNodes);
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ClassMemberLevel);
             rbClassMemberLevel.Checked = true;
         }
 
@@ -51,7 +52,7 @@ namespace ReframeTools.GUI
         {
             base.clbNamespaceNodes_ItemCheck(sender, e);
 
-            var namespaceNode = clbNamespaceNodes.SelectedItem as NamespaceAnalysisNode;
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(namespaceNode);
         }
     }

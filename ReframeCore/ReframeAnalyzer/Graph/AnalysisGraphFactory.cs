@@ -1,4 +1,8 @@
-﻿namespace ReframeAnalyzer.Graph
+﻿using ReframeAnalyzer.Exceptions;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace ReframeAnalyzer.Graph
 {
     public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel, UpdateAnalysisLevel };
 
@@ -7,6 +11,8 @@
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
         {
             IAnalysisGraph result;
+
+            ValidateXmlSource(xmlSource);
 
             switch (analysisLevel)
             {
@@ -17,36 +23,30 @@
                     }
                 case AnalysisLevel.ObjectLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
+                        var objectMemberGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
                         result = new ObjectAnalysisGraph(objectMemberGraph);
                         break;
                     }
                 case AnalysisLevel.ClassMemberLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        result = new ClassMemberAnalysisGraph(objectMemberGraph);
+                        result = new ClassMemberAnalysisGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.ClassLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
+                        var objectGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
                         result = new ClassAnalysisGraph(objectGraph);
                         break;
                     }
                 case AnalysisLevel.AssemblyLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
-                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
                         result = new AssemblyAnalysisGraph(classAnalysisGraph);
                         break;
                     }
                 case AnalysisLevel.NamespaceLevel:
                     {
-                        var objectMemberGraph = new ObjectMemberAnalysisGraph(xmlSource);
-                        var objectGraph = new ObjectAnalysisGraph(objectMemberGraph);
-                        var classAnalysisGraph = new ClassAnalysisGraph(objectGraph);
+                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
                         result = new NamespaceAnalysisGraph(classAnalysisGraph);
                         break;
                     }
@@ -58,19 +58,28 @@
             return result;
         }
 
-        public IAnalysisGraph CreateGraph(string xmlSource, IAnalysisGraph objectMemberGraph, AnalysisLevel analysisLevel)
+        private void ValidateXmlSource(string xmlSource)
         {
-            IAnalysisGraph result;
-            switch (analysisLevel)
+            if (xmlSource == "")
             {
-                case AnalysisLevel.UpdateAnalysisLevel:
-                    result = new UpdateAnalysisGraph(xmlSource, objectMemberGraph as ObjectMemberAnalysisGraph);
-                    break;
-                default:
-                    result = null;
-                    break;
+                throw new AnalysisException("XML source is empty!");
             }
 
+            try
+            {
+                XElement.Parse(xmlSource);
+            }
+            catch (XmlException e)
+            {
+                throw new AnalysisException("XML Source is not valid! "+e.Message);
+            }
+        }
+
+        public IAnalysisGraph CreateGraph(string xmlSource, string xmlUpdateInfo)
+        {
+            var objectMemberGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
+
+            IUpdateGraph result = new UpdateAnalysisGraph(xmlUpdateInfo, objectMemberGraph); ;
             return result;
         }
     }

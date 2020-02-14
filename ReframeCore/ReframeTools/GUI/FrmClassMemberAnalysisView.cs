@@ -26,17 +26,17 @@ namespace ReframeTools.GUI
             {
                 if (nodes != null)
                 {
-                    foreach (ClassMemberAnalysisNode node in nodes)
+                    foreach (var node in nodes)
                     {
                         dgvNodes.Rows.Add(new string[]
                         {
                         node.Identifier.ToString(),
-                        node.NodeType,
+                        (node as IHasType).NodeType,
                         node.Name,
-                        node.OwnerClass.Name,
-                        node.OwnerClass.Identifier.ToString(),
-                        node.OwnerClass.OwnerNamespace.Name,
-                        node.OwnerClass.OwnerAssembly.Name,
+                        node.Parent.Name,
+                        node.Parent.Identifier.ToString(),
+                        node.Parent.Parent.Name,
+                        node.Parent.Parent2.Name,
                         node.Degree.ToString(),
                         node.InDegree.ToString(),
                         node.OutDegree.ToString()

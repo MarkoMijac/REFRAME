@@ -18,7 +18,7 @@ namespace ReframeAnalyzer.Filters
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-            foreach (AssemblyAnalysisNode assemblyNode in OriginalNodes)
+            foreach (var assemblyNode in OriginalNodes)
             {
                 assemblyNodes.Add(assemblyNode);
             }
@@ -28,9 +28,9 @@ namespace ReframeAnalyzer.Filters
 
         public override IEnumerable<IAnalysisNode> Apply()
         {
-            List<AssemblyAnalysisNode> filteredNodes = new List<AssemblyAnalysisNode>();
+            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
 
-            foreach (AssemblyAnalysisNode assemblyNode in OriginalNodes)
+            foreach (var assemblyNode in OriginalNodes)
             {
                 if (IsSelected(assemblyNode))
                 {

@@ -46,77 +46,9 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        
-
-        private bool IsSelected(NamespaceAnalysisNode node)
-        {
-            return SelectedNamespaceNodes.Exists(n => n.Identifier == node.Identifier);
-        }
-
-        private bool IsSelected(AssemblyAnalysisNode node)
-        {
-            return SelectedAssemblyNodes.Exists(n => n.Identifier == node.Identifier);
-        }
-
-        private bool IsSelected(ClassAnalysisNode node)
-        {
-            return SelectedClassNodes.Exists(n => n.Identifier == node.Identifier);
-        }
-
-        private bool IsSelected(ObjectAnalysisNode node)
-        {
-            return SelectedObjectNodes.Exists(n => n.Identifier == node.Identifier);
-        }
-
-        private void SelectNode(AssemblyAnalysisNode node)
-        {
-            AddNode(SelectedAssemblyNodes, node);
-        }
-
-        private void DeselectNode(AssemblyAnalysisNode node)
-        {
-            RemoveNode(SelectedAssemblyNodes, node);
-        }
-
-        private void SelectNode(NamespaceAnalysisNode node)
-        {
-            AddNode(SelectedNamespaceNodes, node);
-            SelectAllClassNodes(node);
-            SelectAllObjectNodes(node);
-        }
-
-        private void DeselectNode(NamespaceAnalysisNode node)
-        {
-            RemoveNode(SelectedNamespaceNodes, node);
-            DeselectAllClassNodes(node);
-            DeselectAllObjectNodes(node);
-        }
-
-        private void SelectNode(ClassAnalysisNode node)
-        {
-            AddNode(SelectedClassNodes, node);
-            SelectAllObjectNodes(node);
-        }
-
-        private void DeselectNode(ClassAnalysisNode node)
-        {
-            RemoveNode(SelectedClassNodes, node);
-            DeselectAllObjectNodes(node);
-        }
-
-        private void DeselectNode(ObjectAnalysisNode node)
-        {
-            RemoveNode(SelectedObjectNodes, node);
-        }
-
-        private void SelectNode(ObjectAnalysisNode node)
-        {
-            AddNode(SelectedObjectNodes, node);
-        }
-
         private void SelectAllObjectNodes()
         {
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
                 if (SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
@@ -127,7 +59,7 @@ namespace ReframeAnalyzer.Filters
 
         private void SelectAllClassNodes()
         {
-            foreach (ClassAnalysisNode classNode in GetAvailableClassNodes())
+            foreach (var classNode in GetAvailableClassNodes())
             {
                 if (SelectedClassNodes.Exists(n => n.Identifier == classNode.Identifier) == false)
                 {
@@ -136,65 +68,65 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public void SelectAllObjectNodes(ClassAnalysisNode classNode)
+        public void SelectAllClassObjects(IAnalysisNode classNode)
         {
             if (classNode == null) return;
 
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
-                if (objectNode.OwnerClass.Identifier == classNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                if (objectNode.Parent.Identifier == classNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
                     SelectedObjectNodes.Add(objectNode);
                 }
             }
         }
 
-        public void SelectAllObjectNodes(NamespaceAnalysisNode namespaceNode)
+        private void SelectAllNamespaceObjects(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
 
-            foreach (ObjectAnalysisNode objectNode in GetAvailableObjectNodes())
+            foreach (var objectNode in GetAvailableObjectNodes())
             {
-                if (objectNode.OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
+                if (objectNode.Parent.Parent.Identifier == namespaceNode.Identifier && SelectedObjectNodes.Exists(n => n.Identifier == objectNode.Identifier) == false)
                 {
                     SelectedObjectNodes.Add(objectNode);
                 }
             }
         }
 
-        public void DeselectAllObjectNodes(ClassAnalysisNode classNode)
+        public void DeselectAllClassObjects(IAnalysisNode classNode)
         {
             if (classNode == null) return;
-            SelectedObjectNodes.RemoveAll(n => (n as ObjectAnalysisNode).OwnerClass.Identifier == classNode.Identifier);
+            SelectedObjectNodes.RemoveAll(n => n.Parent.Identifier == classNode.Identifier);
         }
 
-        public void DeselectAllObjectNodes(NamespaceAnalysisNode namespaceNode)
+        public void DeselectAllObjectNodes(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
-            SelectedObjectNodes.RemoveAll(n => (n as ObjectAnalysisNode).OwnerClass.OwnerNamespace.Identifier == namespaceNode.Identifier);
+            SelectedObjectNodes.RemoveAll(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
         }
 
-        public void SelectAllClassNodes(NamespaceAnalysisNode namespaceNode)
+        public void SelectAllNamespaceClasses(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
-            foreach (ClassAnalysisNode classNode in GetAvailableClassNodes())
+            foreach (var classNode in GetAvailableClassNodes())
             {
-                if (classNode.OwnerNamespace.Identifier == namespaceNode.Identifier && SelectedClassNodes.Exists(n => n.Identifier == classNode.Identifier) == false)
+                if (classNode.Parent.Identifier == namespaceNode.Identifier && SelectedClassNodes.Exists(n => n.Identifier == classNode.Identifier) == false)
                 {
                     SelectedClassNodes.Add(classNode);
                 }
             }
         }
 
-        public void DeselectAllClassNodes(NamespaceAnalysisNode namespaceNode)
+        public void DeselectAllNamespaceClasses(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
-            SelectedClassNodes.RemoveAll(n => (n as ClassAnalysisNode).OwnerNamespace.Identifier == namespaceNode.Identifier);
+            SelectedClassNodes.RemoveAll(n => n.Parent.Identifier == namespaceNode.Identifier);
         }
 
         public void SelectAllNamespaceNodes()
         {
-            foreach (NamespaceAnalysisNode namespaceNode in GetAvailableNamespaceNodes())
+            foreach (var namespaceNode in GetAvailableNamespaceNodes())
             {
                 if (SelectedNamespaceNodes.Exists(n => n.Identifier == namespaceNode.Identifier) == false)
                 {
@@ -213,7 +145,7 @@ namespace ReframeAnalyzer.Filters
 
         public void SelectAllAssemblyNodes()
         {
-            foreach (AssemblyAnalysisNode assemblyNode in GetAvailableAssemblyNodes())
+            foreach (var assemblyNode in GetAvailableAssemblyNodes())
             {
                 if (SelectedAssemblyNodes.Exists(n => n.Identifier == assemblyNode.Identifier) == false)
                 {
@@ -244,7 +176,7 @@ namespace ReframeAnalyzer.Filters
             return new List<IAnalysisNode>();
         }
 
-        public virtual List<IAnalysisNode> GetAvailableClassNodes(NamespaceAnalysisNode namespaceNode)
+        public virtual List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
         {
             return new List<IAnalysisNode>();
         }
@@ -254,68 +186,83 @@ namespace ReframeAnalyzer.Filters
             return new List<IAnalysisNode>();
         }
 
-        public virtual List<IAnalysisNode> GetAvailableObjectNodes(ClassAnalysisNode classNode)
+        public virtual List<IAnalysisNode> GetAvailableObjectNodes(IAnalysisNode classNode)
         {
             return new List<IAnalysisNode>();
         }
 
         public void SelectNode(IAnalysisNode node)
         {
-            if (node is NamespaceAnalysisNode)
+            if (node != null)
             {
-                SelectNode(node as NamespaceAnalysisNode);
-            }
-            else if (node is AssemblyAnalysisNode)
-            {
-                SelectNode(node as AssemblyAnalysisNode);
-            }
-            else if (node is ClassAnalysisNode)
-            {
-                SelectNode(node as ClassAnalysisNode);
-            }
-            else if (node is ObjectAnalysisNode)
-            {
-                SelectNode(node as ObjectAnalysisNode);
+                if (node.Level == AnalysisLevel.NamespaceLevel)
+                {
+                    AddNode(SelectedNamespaceNodes, node);
+                    SelectAllNamespaceClasses(node);
+                    SelectAllNamespaceObjects(node);
+                }
+                else if (node.Level == AnalysisLevel.AssemblyLevel)
+                {
+                    AddNode(SelectedAssemblyNodes, node);
+                }
+                else if (node.Level == AnalysisLevel.ClassLevel)
+                {
+                    AddNode(SelectedClassNodes, node);
+                    SelectAllClassObjects(node);
+                }
+                else if (node.Level == AnalysisLevel.ObjectLevel)
+                {
+                    AddNode(SelectedObjectNodes, node);
+                }
             }
         }
 
         public void DeselectNode(IAnalysisNode node)
         {
-            if (node is NamespaceAnalysisNode)
+            if (node != null)
             {
-                DeselectNode(node as NamespaceAnalysisNode);
-            }
-            else if (node is AssemblyAnalysisNode)
-            {
-                DeselectNode(node as AssemblyAnalysisNode);
-            }
-            else if (node is ClassAnalysisNode)
-            {
-                DeselectNode(node as ClassAnalysisNode);
-            }
-            else if (node is ObjectAnalysisNode)
-            {
-                DeselectNode(node as ObjectAnalysisNode);
+                if (node.Level == AnalysisLevel.NamespaceLevel)
+                {
+                    RemoveNode(SelectedNamespaceNodes, node);
+                    DeselectAllNamespaceClasses(node);
+                    DeselectAllObjectNodes(node);
+                }
+                else if (node.Level == AnalysisLevel.AssemblyLevel)
+                {
+                    RemoveNode(SelectedAssemblyNodes, node);
+                }
+                else if (node.Level == AnalysisLevel.ClassLevel)
+                {
+                    RemoveNode(SelectedClassNodes, node);
+                    DeselectAllClassObjects(node);
+                }
+                else if (node.Level == AnalysisLevel.ObjectLevel)
+                {
+                    RemoveNode(SelectedObjectNodes, node);
+                }
             }
         }
 
         public bool IsSelected(IAnalysisNode node)
         {
-            if (node is NamespaceAnalysisNode)
+            if (node != null)
             {
-                return IsSelected(node as NamespaceAnalysisNode);
-            }
-            else if (node is AssemblyAnalysisNode)
-            {
-                return IsSelected(node as AssemblyAnalysisNode);
-            }
-            else if (node is ClassAnalysisNode)
-            {
-                return IsSelected(node as ClassAnalysisNode);
-            }
-            else if (node is ObjectAnalysisNode)
-            {
-                return IsSelected(node as ObjectAnalysisNode);
+                if (node.Level == AnalysisLevel.NamespaceLevel)
+                {
+                    return SelectedNamespaceNodes.Exists(n => n.Identifier == node.Identifier);
+                }
+                else if (node.Level == AnalysisLevel.AssemblyLevel)
+                {
+                    return SelectedAssemblyNodes.Exists(n => n.Identifier == node.Identifier);
+                }
+                else if (node.Level == AnalysisLevel.ClassLevel)
+                {
+                    return SelectedClassNodes.Exists(n => n.Identifier == node.Identifier);
+                }
+                else if (node.Level == AnalysisLevel.ObjectLevel)
+                {
+                    return SelectedObjectNodes.Exists(n => n.Identifier == node.Identifier);
+                }
             }
             return false;
         }

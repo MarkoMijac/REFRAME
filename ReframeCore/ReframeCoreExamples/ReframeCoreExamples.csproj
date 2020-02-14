@@ -80,6 +80,7 @@
     <Compile Include="E08\E8\Class_A_8_8.cs" />
     <Compile Include="E08\E8\Class_B_8_8.cs" />
     <Compile Include="E08\E8\Class_C_8_8.cs" />
+    <Compile Include="E09\01\ClassG.cs" />
     <Compile Include="E09\ClassA.cs" />
     <Compile Include="E09\ClassB.cs" />
     <Compile Include="E09\ClassC.cs" />

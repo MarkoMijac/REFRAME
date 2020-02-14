@@ -16,6 +16,9 @@ namespace ReframeAnalyzer.Graph
 
         IReadOnlyList<IAnalysisNode> Predecessors { get; }
         IReadOnlyList<IAnalysisNode> Successors { get; }
+        IAnalysisNode Parent { get; }
+        IAnalysisNode Parent2 { get; }
+        AnalysisLevel Level { get; }
 
         void AddPredecessor(IAnalysisNode predecessor);
         void RemovePredecessor(IAnalysisNode predecessor);
@@ -26,5 +29,6 @@ namespace ReframeAnalyzer.Graph
         bool HasSuccessor(IAnalysisNode successor);
 
         string Tag { get; set; }
+        string Source { get; }
     }
 }

@@ -11,8 +11,12 @@ namespace ReframeAnalyzer.Graph
     {
         public NamespaceAnalysisNode(XElement xNode)
         {
+            Level = AnalysisLevel.NamespaceLevel;
+
             Identifier = uint.Parse(xNode.Element("Identifier").Value);
             Name = xNode.Element("Name").Value;
+
+            Source = xNode.ToString();
         }
     }
 }
