@@ -335,9 +335,10 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
-
+            PrivateObject privateObject = new PrivateObject(addedNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateObject.GetProperty("UpdateMethod");
             //Assert
-            Assert.IsTrue(addedNode.UpdateMethod == null);
+            Assert.IsTrue(updateMethod == null);
         }
 
         [TestMethod]
@@ -352,11 +353,13 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(addedNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             string generatedUpdateMethodName = privateObject.Invoke("GenerateDefaultUpdateMethodName", memberName).ToString();
-            Assert.IsTrue(addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == generatedUpdateMethodName);
+            Assert.IsTrue(updateMethod != null
+                && (updateMethod as Action).Method.Name == generatedUpdateMethodName);
         }
 
         [TestMethod]
@@ -371,10 +374,11 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode addedNode = graph.AddNode(building, memberName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(addedNode, new PrivateType(typeof(Node)));
 
             //Assert
             //Assert
-            Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName && addedNode.UpdateMethod == null);
+            Assert.IsTrue(addedNode.OwnerObject == building && addedNode.MemberName == memberName && privateNode.GetProperty("UpdateMethod") == null);
         }
 
         [TestMethod]
@@ -463,12 +467,14 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode addedNode = graph.AddNode(building, memberName, updateMethodName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(addedNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == building 
                 && addedNode.MemberName == memberName
-                && addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == updateMethodName);
+                && updateMethod != null
+                && (updateMethod as Action).Method.Name == updateMethodName);
         }
 
         [TestMethod]
@@ -482,12 +488,14 @@ namespace ReframeCoreTests
 
             //Act
             MethodNode addedNode = graph.AddNode(building, memberName, updateMethodName) as MethodNode;
+            PrivateObject privateNode = new PrivateObject(addedNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(addedNode.OwnerObject == building
                 && addedNode.MemberName == memberName
-                && addedNode.UpdateMethod != null
-                && addedNode.UpdateMethod.Method.Name == updateMethodName);
+                && updateMethod != null
+                && (updateMethod as Action).Method.Name == updateMethodName);
         }
 
         [TestMethod]

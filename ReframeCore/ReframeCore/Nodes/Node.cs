@@ -56,7 +56,7 @@ namespace ReframeCore.Nodes
         /// <summary>
         /// Delegate to the update method.
         /// </summary>
-        public Action UpdateMethod
+        private Action UpdateMethod
         {
             get
             {
@@ -144,7 +144,7 @@ namespace ReframeCore.Nodes
         /// Gets reactive node's unique identifier.
         /// </summary>
         /// <returns>Reactive node's unique identifier.</returns>
-        protected uint GenerateIdentifier()
+        private uint GenerateIdentifier()
         {
             return GenerateIdentifier(OwnerObject, MemberName);
         }
@@ -155,7 +155,7 @@ namespace ReframeCore.Nodes
         /// <param name="owner">Associated object which owns the member.</param>
         /// <param name="member">The name of the class member reactive node represents.</param>
         /// <returns>Reactive node's unique identifier.</returns>
-        protected uint GenerateIdentifier(object owner, string member)
+        private uint GenerateIdentifier(object owner, string member)
         {
             uint id = 0;
 

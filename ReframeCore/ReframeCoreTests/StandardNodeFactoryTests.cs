@@ -62,11 +62,13 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode node = defaultFactory.CreateNode(building, propertyName, updateMethodName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(node, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod.Method.Name == updateMethodName);
+                && (updateMethod as Action).Method.Name == updateMethodName);
         }
 
         [TestMethod]
@@ -82,12 +84,14 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(node, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             string generatedUpdateMethodName = privateNodeFactory.Invoke("GenerateDefaultUpdateMethodName", propertyName).ToString();
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod.Method.Name == generatedUpdateMethodName);
+                && (updateMethod as Action).Method.Name == generatedUpdateMethodName);
         }
 
         [TestMethod]
@@ -101,11 +105,13 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(node, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod == null);
+                && updateMethod == null);
         }
 
         [TestMethod]
@@ -119,11 +125,13 @@ namespace ReframeCoreTests
 
             //Act
             PropertyNode node = nodeFactory.CreateNode(building, propertyName) as PropertyNode;
+            PrivateObject privateNode = new PrivateObject(node, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(node.OwnerObject == building
                 && node.MemberName == propertyName
-                && node.UpdateMethod==null);
+                && updateMethod == null);
         }
 
         #endregion
@@ -175,11 +183,13 @@ namespace ReframeCoreTests
 
             //Act
             MethodNode updateAreaNode = defaultFactory.CreateNode(building, memberName) as MethodNode;
+            PrivateObject privateNode = new PrivateObject(updateAreaNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(updateAreaNode.OwnerObject == building
                 && updateAreaNode.MemberName == memberName
-                && updateAreaNode.UpdateMethod.Method.Name == memberName);
+                && (updateMethod as Action).Method.Name == memberName);
         }
 
         #endregion
@@ -242,10 +252,12 @@ namespace ReframeCoreTests
 
             //Act
             CollectionPropertyNode partsNode = defaultFactory.CreateNode(whole.Parts, propertyName, updateMethodName) as CollectionPropertyNode;
+            PrivateObject privateNode = new PrivateObject(partsNode, new PrivateType(typeof(Node)));
+            object updateMethod = privateNode.GetProperty("UpdateMethod");
 
             //Assert
             Assert.IsTrue(partsNode.OwnerObject == whole.Parts
-                && partsNode.MemberName == propertyName && partsNode.UpdateMethod.Method.Name == "UpdateAll"); 
+                && partsNode.MemberName == propertyName && (updateMethod as Action).Method.Name == "UpdateAll"); 
         }
 
         [TestMethod]

@@ -221,12 +221,12 @@ namespace ReframeCoreTests
             INode node = nodeFactory.CreateNode(b, "Width");
 
             //Act
-            PrivateObject privateObject1 = new PrivateObject(node);
+            PrivateObject privateObject1 = new PrivateObject(node, new PrivateType(typeof(Node)));
             uint identifier1 = (uint)privateObject1.Invoke("GenerateIdentifier");
 
             b.Width = 2000;
             INode node2 = nodeFactory.CreateNode(b, "Width");
-            PrivateObject privateObject2 = new PrivateObject(node2);
+            PrivateObject privateObject2 = new PrivateObject(node2, new PrivateType(typeof(Node)));
             uint identifier2 = (uint)privateObject2.Invoke("GenerateIdentifier");
 
             //Assert
