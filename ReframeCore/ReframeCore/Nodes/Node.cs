@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public abstract class Node : INode, ITimeInfoProvider
+    public abstract class Node : INode, IUpdateInfoProvider
     {
         #region Properties
 
@@ -66,6 +66,11 @@ namespace ReframeCore.Nodes
 
         public IDependencyGraph Graph { get; set; }
 
+        public NodeUpdateInfo UpdateInfo
+        {
+            get; private set;
+        }
+
         #endregion
 
         #region Constructors
@@ -91,6 +96,7 @@ namespace ReframeCore.Nodes
             _successors = new List<INode>();
 
             Identifier = GenerateIdentifier();
+            UpdateInfo = new NodeUpdateInfo();
         }
 
         /// <summary>
@@ -187,9 +193,9 @@ namespace ReframeCore.Nodes
         /// </summary>
         public void Update()
         {
-            Stopwatch sw = StartMeasuring();
+            UpdateInfo.StartMeasuring();
             UpdateMethod?.Invoke();
-            EndMeasuring(sw);
+            UpdateInfo.EndMeasuring();
 
             SaveValues();
         }
@@ -198,28 +204,6 @@ namespace ReframeCore.Nodes
         {
 
         }
-
-        private Stopwatch StartMeasuring()
-        {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            UpdateStartedAt = DateTime.Now;
-
-            return sw;
-        }
-
-        private void EndMeasuring(Stopwatch sw)
-        {
-            UpdateCompletedAt = DateTime.Now;
-            sw.Stop();
-
-            UpdateDuration = sw.Elapsed;
-        }
-
-        public TimeSpan UpdateDuration { get; private set; }
-        public DateTime UpdateStartedAt { get; private set; }
-        public DateTime UpdateCompletedAt { get; private set; }
-
 
         /// <summary>
         /// Checks if forwarded reactive node is a predecessor of this reactive node.

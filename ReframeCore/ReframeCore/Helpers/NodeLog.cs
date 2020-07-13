@@ -109,11 +109,13 @@ namespace ReframeCore.Helpers
                 data += node.OwnerObject.GetHashCode().ToString()+";";
                 data += node.Layer+";";
 
-                DateTime start = (node as ITimeInfoProvider).UpdateStartedAt;
+                NodeUpdateInfo updateInfo = (node as IUpdateInfoProvider).UpdateInfo;
+
+                DateTime start = updateInfo.UpdateStartedAt;
                 data += string.Format("{0}:{1}:{2}:{3};", start.Hour, start.Minute, start.Second, start.Millisecond);
-                DateTime finish = (node as ITimeInfoProvider).UpdateCompletedAt;
+                DateTime finish = updateInfo.UpdateCompletedAt;
                 data += string.Format("{0}:{1}:{2}:{3};", finish.Hour, finish.Minute, finish.Second, finish.Millisecond);
-                data += string.Format("{0};", (node as ITimeInfoProvider).UpdateDuration);
+                data += string.Format("{0};", updateInfo.UpdateDuration);
             }
             return data;
         }

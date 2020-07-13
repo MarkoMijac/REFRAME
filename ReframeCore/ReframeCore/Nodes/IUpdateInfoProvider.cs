@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReframeCore.Nodes
 {
-    public interface ITimeInfoProvider
+    public interface IUpdateInfoProvider
     {
-        TimeSpan UpdateDuration { get; }
-        DateTime UpdateStartedAt { get; }
-        DateTime UpdateCompletedAt { get;}
+        NodeUpdateInfo UpdateInfo { get; }
     }
 }

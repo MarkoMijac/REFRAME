@@ -232,7 +232,7 @@ namespace ReframeExporter
         {
             if (node != null)
             {
-                ITimeInfoProvider timeInfo = node as ITimeInfoProvider;
+                NodeUpdateInfo nodeUpdateInfo = (node as IUpdateInfoProvider).UpdateInfo;
                 xmlWriter.WriteStartElement("UpdateOrder");
                 xmlWriter.WriteString(orderNum.ToString());
                 xmlWriter.WriteEndElement();
@@ -245,11 +245,11 @@ namespace ReframeExporter
                 string updateCompletedAt = "";
                 string updateDuration = "";
 
-                if (timeInfo != null)
+                if (nodeUpdateInfo != null)
                 {
-                    updateStartedAt = GetFormatedTime(timeInfo.UpdateStartedAt);
-                    updateCompletedAt = GetFormatedTime(timeInfo.UpdateCompletedAt);
-                    updateDuration = timeInfo.UpdateDuration.ToString();
+                    updateStartedAt = GetFormatedTime(nodeUpdateInfo.UpdateStartedAt);
+                    updateCompletedAt = GetFormatedTime(nodeUpdateInfo.UpdateCompletedAt);
+                    updateDuration = nodeUpdateInfo.UpdateDuration.ToString();
                 }
 
                 xmlWriter.WriteStartElement("UpdateStartedAt");
