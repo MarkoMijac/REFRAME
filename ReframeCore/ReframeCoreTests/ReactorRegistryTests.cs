@@ -120,6 +120,7 @@ namespace ReframeCoreTests
         public void CreateReactor2_GivenThereIsAlreadyReactorForProvidedGraph_ThrowsException()
         {
             //Arrange
+            ReactorRegistry.Instance.Clear();
             string identifier = "R1";
             var graph = new DependencyGraph(identifier);
 
