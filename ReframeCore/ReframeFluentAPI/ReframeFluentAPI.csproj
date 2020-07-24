@@ -45,7 +45,6 @@
     <Compile Include="MemberReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactorExtension.cs" />
-    <Compile Include="TransferObject.cs" />
     <Compile Include="TransferParameter.cs" />
   </ItemGroup>
   <ItemGroup>
