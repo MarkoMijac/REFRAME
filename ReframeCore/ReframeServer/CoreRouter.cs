@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace ReframeServer
 {
-    public class CoreRouter : CommandRouter
+    internal class CoreRouter : CommandRouter
     {
         public CoreRouter()
         {

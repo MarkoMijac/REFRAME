@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IPCServer
 {
-    public class StreamString
+    internal class StreamString
     {
         private Stream ioStream;
         private UnicodeEncoding streamEncoding;
