@@ -4,8 +4,6 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public enum AnalysisLevel { AssemblyLevel, NamespaceLevel, ClassLevel, ClassMemberLevel, ObjectLevel, ObjectMemberLevel, UpdateAnalysisLevel };
-
     public class AnalysisGraphFactory
     {
         public IAnalysisGraph CreateGraph(string xmlSource, AnalysisLevel analysisLevel)
