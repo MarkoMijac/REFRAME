@@ -26,7 +26,8 @@ namespace ReframeTools.Controllers
             string xmlSource = pipeClient.GetReactor(_reactorIdentifier);
 
             var factory = new AnalysisGraphFactory();
-            var objectMemberGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
+            var objectMemberGraphFactory = new ObjectMemberAnalysisGraphFactory();
+            var objectMemberGraph = objectMemberGraphFactory.CreateGraph(xmlSource);
             var objectGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
             var classMemberGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
             var classGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);

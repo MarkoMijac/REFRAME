@@ -59,12 +59,16 @@
     <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
     <Compile Include="Filters\UpdateAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
+    <Compile Include="Graph\AnalysisGraphAbstractFactory.cs" />
     <Compile Include="Graph\AnalysisLevel.cs" />
     <Compile Include="Graph\AnalysisNodeFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
+    <Compile Include="Graph\AssemblyAnalysisGraphFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
     <Compile Include="Graph\ClassAnalysisGraph.cs" />
+    <Compile Include="Graph\ClassAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ClassMemberAnalysisGraph.cs" />
+    <Compile Include="Graph\ClassMemberAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisGraphFactory.cs" />
     <Compile Include="Graph\IAnalysisGraph.cs" />
@@ -76,10 +80,13 @@
     <Compile Include="Graph\IUpdateGraph.cs" />
     <Compile Include="Graph\IUpdateNode.cs" />
     <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
+    <Compile Include="Graph\NamespaceAnalysisGraphFactory.cs" />
     <Compile Include="Graph\NamespaceAnalysisNode.cs" />
     <Compile Include="Graph\ObjectAnalysisGraph.cs" />
+    <Compile Include="Graph\ObjectAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ObjectAnalysisNode.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
+    <Compile Include="Graph\ObjectMemberAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
     <Compile Include="Filters\IAnalysisFilter.cs" />
     <Compile Include="Graph\UpdateAnalysisGraph.cs" />
@@ -88,6 +95,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Importer\ReframeImporter.csproj">
+      <Project>{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}</Project>
+      <Name>ReframeImporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
       <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
       <Name>ReframeBaseExceptions</Name>

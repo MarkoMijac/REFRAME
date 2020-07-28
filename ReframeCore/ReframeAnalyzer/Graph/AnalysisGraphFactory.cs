@@ -16,36 +16,38 @@ namespace ReframeAnalyzer.Graph
             {
                 case AnalysisLevel.ObjectMemberLevel:
                     {
-                        result = new ObjectMemberAnalysisGraph(xmlSource);
+                        var factory = new ObjectMemberAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.ObjectLevel:
                     {
-                        var objectMemberGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
-                        result = new ObjectAnalysisGraph(objectMemberGraph);
+                        var factory = new ObjectAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.ClassMemberLevel:
                     {
-                        result = new ClassMemberAnalysisGraph(xmlSource);
+                        var factory = new ClassMemberAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.ClassLevel:
                     {
-                        var objectGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
-                        result = new ClassAnalysisGraph(objectGraph);
+                        var factory = new ClassAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.AssemblyLevel:
                     {
-                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
-                        result = new AssemblyAnalysisGraph(classAnalysisGraph);
+                        var factory = new AssemblyAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 case AnalysisLevel.NamespaceLevel:
                     {
-                        var classAnalysisGraph = CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
-                        result = new NamespaceAnalysisGraph(classAnalysisGraph);
+                        var factory = new NamespaceAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
                         break;
                     }
                 default:
@@ -75,7 +77,8 @@ namespace ReframeAnalyzer.Graph
 
         public IAnalysisGraph CreateGraph(string xmlSource, string xmlUpdateInfo)
         {
-            var objectMemberGraph = CreateGraph(xmlSource, AnalysisLevel.ObjectMemberLevel);
+            var factory = new ObjectMemberAnalysisGraphFactory();
+            var objectMemberGraph = factory.CreateGraph(xmlSource);
 
             IUpdateGraph result = new UpdateAnalysisGraph(xmlUpdateInfo, objectMemberGraph); ;
             return result;

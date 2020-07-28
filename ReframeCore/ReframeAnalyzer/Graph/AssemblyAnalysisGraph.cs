@@ -8,52 +8,10 @@ namespace ReframeAnalyzer.Graph
 {
     public class AssemblyAnalysisGraph : AnalysisGraph
     {
-        public AssemblyAnalysisGraph(IAnalysisGraph classAnalysisGraph)
+        public AssemblyAnalysisGraph(string identifier, AnalysisLevel level)
         {
-            AnalysisLevel = AnalysisLevel.AssemblyLevel;
-
-            if (classAnalysisGraph != null)
-            {
-                InitializeGraphBasicData(classAnalysisGraph);
-                if (classAnalysisGraph.Nodes.Count > 0)
-                {
-                    InitializeGraphNodes(classAnalysisGraph.Nodes);
-                    InitializeGraphDependencies(classAnalysisGraph.Nodes);
-                }
-            }
-        }
-
-        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
-        {
-            Identifier = classAnalysisGraph.Identifier;
-        }
-
-        private void InitializeGraphNodes(List<IAnalysisNode> classNodes)
-        {
-            foreach (var classNode in classNodes)
-            {
-                if (ContainsNode(classNode.Parent2.Identifier) == false)
-                {
-                    AddNode(classNode.Parent2);
-                }
-            }
-        }
-
-        private void InitializeGraphDependencies(List<IAnalysisNode> classNodes)
-        {
-            foreach (var classNode in classNodes)
-            {
-                var assemblyNode = GetNode(classNode.Parent2.Identifier);
-
-                foreach (var classNodeSuccessor in classNode.Successors)
-                {
-                    var successorAssemblyNode = GetNode(classNodeSuccessor.Parent2.Identifier);
-                    if (successorAssemblyNode != null)
-                    {
-                        assemblyNode.AddSuccesor(successorAssemblyNode);
-                    }
-                }
-            }
+            Identifier = identifier;
+            AnalysisLevel = level;
         }
     }
 }

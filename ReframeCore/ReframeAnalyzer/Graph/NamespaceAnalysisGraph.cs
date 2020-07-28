@@ -8,52 +8,10 @@ namespace ReframeAnalyzer.Graph
 {
     public class NamespaceAnalysisGraph : AnalysisGraph
     {
-        public NamespaceAnalysisGraph(IAnalysisGraph classAnalysisGraph)
+        public NamespaceAnalysisGraph(string identifier, AnalysisLevel level)
         {
-            AnalysisLevel = AnalysisLevel.NamespaceLevel;
-
-            if (classAnalysisGraph != null)
-            {
-                InitializeGraphBasicData(classAnalysisGraph);
-                if (classAnalysisGraph.Nodes.Count > 0)
-                {
-                    InitializeGraphNodes(classAnalysisGraph.Nodes);
-                    InitializeGraphDependencies(classAnalysisGraph.Nodes);
-                }
-            }
-        }
-
-        private void InitializeGraphBasicData(IAnalysisGraph classAnalysisGraph)
-        {
-            Identifier = classAnalysisGraph.Identifier;
-        }
-
-        private void InitializeGraphNodes(List<IAnalysisNode> classNodes)
-        {
-            foreach (var classNode in classNodes)
-            {
-                if (ContainsNode(classNode.Parent.Identifier) == false)
-                {
-                    AddNode(classNode.Parent);
-                }
-            }
-        }
-
-        private void InitializeGraphDependencies(List<IAnalysisNode> classNodes)
-        {
-            foreach (var classNode in classNodes)
-            {
-                var namespaceNode = GetNode(classNode.Parent.Identifier);
-
-                foreach (var classNodeSuccessor in classNode.Successors)
-                {
-                    var successorNamespaceNode = GetNode(classNodeSuccessor.Parent.Identifier);
-                    if (successorNamespaceNode != null)
-                    {
-                        namespaceNode.AddSuccesor(successorNamespaceNode);
-                    }
-                }
-            }
+            Identifier = identifier;
+            AnalysisLevel = level;
         }
     }
 }
