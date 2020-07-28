@@ -4,10 +4,9 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassAnalysisGraph : AnalysisGraph
     {
-        public ClassAnalysisGraph(string identifier, AnalysisLevel level)
+        public ClassAnalysisGraph(string identifier, AnalysisLevel level) : base(identifier, level)
         {
-            Identifier = identifier;
-            AnalysisLevel = level;
+
         }
     }
 }

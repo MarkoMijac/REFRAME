@@ -8,10 +8,9 @@ namespace ReframeAnalyzer.Graph
 {
     public class NamespaceAnalysisGraph : AnalysisGraph
     {
-        public NamespaceAnalysisGraph(string identifier, AnalysisLevel level)
+        public NamespaceAnalysisGraph(string identifier, AnalysisLevel level) : base(identifier, level)
         {
-            Identifier = identifier;
-            AnalysisLevel = level;
+
         }
     }
 }
