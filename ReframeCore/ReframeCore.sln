@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeCore", "ReframeCore\ReframeCore.csproj", "{F81AD39A-AAB0-4AE0-BABD-89BA79E945ED}"
 EndProject
@@ -36,6 +36,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeServer", "ReframeServer\ReframeServer.csproj", "{57E8C376-8716-452F-BF84-BBAF7B3FFEC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeClient", "ReframeClient\ReframeClient.csproj", "{3E1F7606-8C9F-44CB-825B-E378570A59DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeImporter", "Importer\ReframeImporter.csproj", "{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeImporterTests", "ReframeImporterTests\ReframeImporterTests.csproj", "{2EF8A6BF-4116-4B2D-997F-7270390C2E79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +115,14 @@ Global
 		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E1F7606-8C9F-44CB-825B-E378570A59DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD4A6BA8-74D2-48A3-8E1A-B17AE1F3C586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF8A6BF-4116-4B2D-997F-7270390C2E79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF8A6BF-4116-4B2D-997F-7270390C2E79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF8A6BF-4116-4B2D-997F-7270390C2E79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF8A6BF-4116-4B2D-997F-7270390C2E79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
