@@ -18,7 +18,7 @@ namespace ReframeAnalyzer.Graph
             return graph;
         }
 
-        private void InitializeGraph(AnalysisGraph graph, IAnalysisGraph classAnalysisGraph)
+        private void InitializeGraph(IAnalysisGraph graph, IAnalysisGraph classAnalysisGraph)
         {
             if (graph != null && classAnalysisGraph != null)
             {
@@ -27,7 +27,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphNodes(AnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphNodes(IAnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach (var classNode in nodes)
             {
@@ -38,7 +38,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphDependencies(AnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphDependencies(IAnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach (var classNode in nodes)
             {

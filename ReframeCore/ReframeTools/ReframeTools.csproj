@@ -57,12 +57,6 @@
   <ItemGroup>
     <Compile Include="CmdVisualizer.cs" />
     <Compile Include="Controllers\AnalysisController.cs" />
-    <Compile Include="Controllers\AssemblyAnalysisController.cs" />
-    <Compile Include="Controllers\ClassAnalysisController.cs" />
-    <Compile Include="Controllers\ClassMemberAnalysisController.cs" />
-    <Compile Include="Controllers\NamespaceAnalysisController.cs" />
-    <Compile Include="Controllers\ObjectAnalysisController.cs" />
-    <Compile Include="Controllers\ObjectMemberAnalysisController.cs" />
     <Compile Include="Controllers\ReactorDetailsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />

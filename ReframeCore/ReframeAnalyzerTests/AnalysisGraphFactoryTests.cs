@@ -77,12 +77,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ObjectLevel);
@@ -94,12 +94,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ClassMemberLevel);
@@ -111,12 +111,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ClassLevel);
@@ -128,12 +128,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.NamespaceLevel);
@@ -145,12 +145,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.AssemblyLevel);
@@ -214,9 +214,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 3);
@@ -235,9 +235,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -256,9 +256,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 3);
@@ -277,9 +277,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -298,9 +298,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 3);
@@ -319,9 +319,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -340,9 +340,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -359,9 +359,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -377,9 +377,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -396,9 +396,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase1();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -479,9 +479,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 4);
@@ -504,9 +504,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -532,9 +532,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 5);
@@ -559,9 +559,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -588,9 +588,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 4);
@@ -613,9 +613,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -641,9 +641,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -662,9 +662,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -685,9 +685,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -704,9 +704,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase2();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -772,9 +772,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -792,9 +792,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstObject = analysisGraph.Nodes[0];
@@ -811,9 +811,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -830,9 +830,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -848,9 +848,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -867,9 +867,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -885,9 +885,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -904,9 +904,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -922,9 +922,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -941,9 +941,9 @@ namespace ReframeAnalyzerTests
             IReactor reactor = CreateCase3();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1012,9 +1012,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1031,9 +1031,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1051,9 +1051,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -1072,9 +1072,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1091,9 +1091,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1110,9 +1110,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1128,9 +1128,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1147,9 +1147,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1165,9 +1165,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1184,9 +1184,9 @@ namespace ReframeAnalyzerTests
             var reactor = CreateCase4();
 
             //Act
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1262,11 +1262,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -1283,11 +1283,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ObjectAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -1303,11 +1303,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 4);
@@ -1329,11 +1329,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassMemberAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1354,11 +1354,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 2);
@@ -1375,11 +1375,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
 
@@ -1395,11 +1395,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1414,11 +1414,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new NamespaceAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];
@@ -1434,11 +1434,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph.Nodes.Count == 1);
@@ -1453,11 +1453,11 @@ namespace ReframeAnalyzerTests
         {
             //Arrange
             var reactor = CreateCase5();
-            var factory = new AnalysisGraphFactory();
+            var factory = new AssemblyAnalysisGraphFactory();
 
             //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             var firstNode = analysisGraph.Nodes[0];

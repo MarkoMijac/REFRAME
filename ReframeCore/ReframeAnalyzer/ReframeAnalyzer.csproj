@@ -67,7 +67,6 @@
     <Compile Include="Graph\ClassAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ClassMemberAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
-    <Compile Include="Graph\AnalysisGraphFactory.cs" />
     <Compile Include="Graph\IAnalysisGraph.cs" />
     <Compile Include="Graph\IAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisNode.cs" />

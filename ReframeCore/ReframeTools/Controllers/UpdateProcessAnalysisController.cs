@@ -18,7 +18,6 @@ namespace ReframeTools.Controllers
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         public Analyzer Analyzer { get; set; } = new Analyzer();
-        public AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
 
         public UpdateProcessAnalysisController(FrmUpdateProcessInfo form, FrmFilterAnalysis frmFilter = null)
         {
@@ -33,7 +32,11 @@ namespace ReframeTools.Controllers
             string xmlUpdateInfo = pipeClient.GetUpdateInfo(reactorIdentifier);
             string xmlSource = pipeClient.GetReactor(reactorIdentifier);
 
-            AnalysisGraph = GraphFactory.CreateGraph(xmlSource, xmlUpdateInfo);
+            var objectMemberFactory = new ObjectMemberAnalysisGraphFactory();
+            var objectMemberAnalysisGraph = objectMemberFactory.CreateGraph(xmlSource);
+            var factory = new UpdateAnalysisGraphFactory(objectMemberAnalysisGraph);
+
+            AnalysisGraph = factory.CreateGraph(xmlUpdateInfo);
             AnalysisNodes = AnalysisGraph.Nodes;
         }
 

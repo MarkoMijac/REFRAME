@@ -12,14 +12,21 @@ using System.Windows.Forms;
 
 namespace ReframeTools.Controllers
 {
-    public abstract class AnalysisController
+    public class AnalysisController
     {
         protected FrmFilterAnalysis FilterView { get; set; }
         protected FrmAnalysisView View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         protected Analyzer Analyzer { get; set; } = new Analyzer();
-        protected AnalysisGraphFactory GraphFactory { get; set; } = new AnalysisGraphFactory();
+        protected AnalysisGraphAbstractFactory GraphFactory { get; set; }
+
+        public AnalysisController(FrmAnalysisView form, AnalysisGraphAbstractFactory graphFactory, FrmFilterAnalysis frmFilter = null)
+        {
+            GraphFactory = graphFactory;
+            View = form;
+            FilterView = frmFilter;
+        }
 
         public AnalysisController(FrmAnalysisView form, FrmFilterAnalysis frmFilter = null)
         {
@@ -31,7 +38,7 @@ namespace ReframeTools.Controllers
         {
             var pipeClient = new ReframePipeClient();
             string xmlSource = pipeClient.GetReactor(reactorIdentifier);
-            AnalysisGraph = GraphFactory.CreateGraph(xmlSource, analysisLevel);
+            AnalysisGraph = GraphFactory.CreateGraph(xmlSource);
         }
 
         protected virtual void ShowGraph(IEnumerable<IAnalysisNode> nodes)

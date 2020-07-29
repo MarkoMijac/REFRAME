@@ -59,7 +59,8 @@ namespace ReframeTools.GUI
 
         protected override AnalysisController CreateAnalysisController()
         {
-            return new AssemblyAnalysisController(this, new FrmFilterAssemblyAnalysis());
+            AssemblyAnalysisGraphFactory factory = new AssemblyAnalysisGraphFactory();
+            return new AnalysisController(this, factory, new FrmFilterAssemblyAnalysis());
         }
     }
 }

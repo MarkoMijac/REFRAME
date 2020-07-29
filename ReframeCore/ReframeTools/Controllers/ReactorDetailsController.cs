@@ -24,15 +24,24 @@ namespace ReframeTools.Controllers
         {
             var pipeClient = new ReframePipeClient();
             string xmlSource = pipeClient.GetReactor(_reactorIdentifier);
-
-            var factory = new AnalysisGraphFactory();
+            
             var objectMemberGraphFactory = new ObjectMemberAnalysisGraphFactory();
             var objectMemberGraph = objectMemberGraphFactory.CreateGraph(xmlSource);
-            var objectGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
-            var classMemberGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
-            var classGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
-            var namespaceGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
-            var assemblyGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
+
+            var objectGraphFactory = new ObjectAnalysisGraphFactory();
+            var objectGraph = objectGraphFactory.CreateGraph(xmlSource);
+
+            var classMemberGraphFactory = new ClassMemberAnalysisGraphFactory();
+            var classMemberGraph = classMemberGraphFactory.CreateGraph(xmlSource);
+
+            var classGraphFactory = new ClassAnalysisGraphFactory();
+            var classGraph = classGraphFactory.CreateGraph(xmlSource);
+
+            var namespaceGraphFactory = new NamespaceAnalysisGraphFactory();
+            var namespaceGraph = namespaceGraphFactory.CreateGraph(xmlSource);
+
+            var assemblyGraphFactory = new AssemblyAnalysisGraphFactory();
+            var assemblyGraph = assemblyGraphFactory.CreateGraph(xmlSource);
 
             SetBasicInfo(objectMemberGraph);
             SetStatistics(objectMemberGraph);

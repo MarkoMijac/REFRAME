@@ -17,11 +17,52 @@ namespace ReframeAnalyzerTests
     {
         public static IAnalysisGraph CreateAnalysisGraph(IReactor reactor, AnalysisLevel level)
         {
-            var factory = new AnalysisGraphFactory();
-
-            //Act
             var xmlSource = new XmlReactorDetailExporter(reactor.Identifier).Export();
-            return factory.CreateGraph(xmlSource, level);
+            IAnalysisGraph result;
+
+            switch (level)
+            {
+                case AnalysisLevel.ObjectMemberLevel:
+                    {
+                        var factory = new ObjectMemberAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.ObjectLevel:
+                    {
+                        var factory = new ObjectAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.ClassMemberLevel:
+                    {
+                        var factory = new ClassMemberAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.ClassLevel:
+                    {
+                        var factory = new ClassAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.AssemblyLevel:
+                    {
+                        var factory = new AssemblyAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                case AnalysisLevel.NamespaceLevel:
+                    {
+                        var factory = new NamespaceAnalysisGraphFactory();
+                        result = factory.CreateGraph(xmlSource);
+                        break;
+                    }
+                default:
+                    result = null;
+                    break;
+            }
+            return result;
         }
 
         public static IReactor CreateEmptyReactor()
