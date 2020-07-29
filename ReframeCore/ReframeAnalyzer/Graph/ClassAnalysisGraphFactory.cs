@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ClassAnalysisGraphFactory : AnalysisGraphAbstractFactory
+    public class ClassAnalysisGraphFactory : AnalysisGraphFactory
     {
         protected override IAnalysisGraph CreateGraph()
         {

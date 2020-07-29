@@ -16,23 +16,41 @@ namespace ReframeAnalyzer.Graph
             switch (analysisLevel)
             {
                 case AnalysisLevel.AssemblyLevel:
-                    analysisNode = new AssemblyAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new AssemblyAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.NamespaceLevel:
-                    analysisNode = new NamespaceAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new NamespaceAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.ClassLevel:
-                    analysisNode = new ClassAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new ClassAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.ClassMemberLevel:
-                    analysisNode = new ClassMemberAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new ClassMemberAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.ObjectLevel:
-                    analysisNode = new ObjectAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new ObjectAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.ObjectMemberLevel:
-                    analysisNode = new ObjectMemberAnalysisNode(xNode);
-                    break;
+                    {
+                        var factory = new ObjectMemberAnalysisNodeFactory();
+                        analysisNode = factory.CreateNode(xNode);
+                        break;
+                    }
                 case AnalysisLevel.UpdateAnalysisLevel:
                     analysisNode = null;
                     break;

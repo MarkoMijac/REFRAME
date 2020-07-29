@@ -19,9 +19,9 @@ namespace ReframeTools.Controllers
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         protected Analyzer Analyzer { get; set; } = new Analyzer();
-        protected AnalysisGraphAbstractFactory GraphFactory { get; set; }
+        protected AnalysisGraphFactory GraphFactory { get; set; }
 
-        public AnalysisController(FrmAnalysisView form, AnalysisGraphAbstractFactory graphFactory, FrmFilterAnalysis frmFilter = null)
+        public AnalysisController(FrmAnalysisView form, AnalysisGraphFactory graphFactory, FrmFilterAnalysis frmFilter = null)
         {
             GraphFactory = graphFactory;
             View = form;

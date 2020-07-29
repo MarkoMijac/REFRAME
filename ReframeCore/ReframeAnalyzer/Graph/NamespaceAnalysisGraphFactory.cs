@@ -8,7 +8,7 @@ using System.Xml.Schema;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class NamespaceAnalysisGraphFactory : AnalysisGraphAbstractFactory
+    public class NamespaceAnalysisGraphFactory : AnalysisGraphFactory
     {
         protected override IAnalysisGraph CreateGraph()
         {

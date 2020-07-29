@@ -11,18 +11,9 @@ namespace ReframeAnalyzer.Graph
     {
         public string FullName { get; set; }
 
-        public ClassAnalysisNode(XElement xNode)
+        public ClassAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
         {
-            Level = AnalysisLevel.ClassLevel;
 
-            Identifier = uint.Parse(xNode.Element("Identifier").Value);
-            Name = xNode.Element("Name").Value;
-            FullName = xNode.Element("FullName").Value;
-
-            Parent = NodeFactory.CreateNode(xNode.Element("OwnerNamespace"), AnalysisLevel.NamespaceLevel);
-            Parent2 = NodeFactory.CreateNode(xNode.Element("OwnerAssembly"), AnalysisLevel.AssemblyLevel);
-
-            Source = xNode.ToString();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class UpdateAnalysisGraphFactory : AnalysisGraphAbstractFactory
+    public class UpdateAnalysisGraphFactory : AnalysisGraphFactory
     {
         private Importer _importer = new Importer();
 
@@ -84,13 +84,14 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphNodes(UpdateAnalysisGraph graph, IEnumerable<XElement> xNodes)
         {
+            var nodeFactory = new UpdateAnalysisNodeFactory();
             foreach (var xNode in xNodes)
             {
                 uint nodeIdentifier = uint.Parse(xNode.Element("Identifier").Value);
                 if (graph.ContainsNode(nodeIdentifier) == false)
                 {
                     var objectMemberNode = _objectMemberAnalysisGraph.GetNode(nodeIdentifier);
-                    var node = new UpdateAnalysisNode(xNode, objectMemberNode);
+                    var node = nodeFactory.CreateNode(xNode, objectMemberNode);
                     graph.AddNode(node);
                 }
             }

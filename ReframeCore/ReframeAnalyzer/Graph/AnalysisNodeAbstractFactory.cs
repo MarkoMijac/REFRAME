@@ -7,11 +7,8 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class NamespaceAnalysisNode : AnalysisNode
+    public abstract class AnalysisNodeAbstractFactory
     {
-        public NamespaceAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
-        {
-
-        }
+        public abstract IAnalysisNode CreateNode(XElement xNode);
     }
 }

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ObjectMemberAnalysisGraphFactory : AnalysisGraphAbstractFactory
+    public class ObjectMemberAnalysisGraphFactory : AnalysisGraphFactory
     {
         private Importer _importer = new Importer();
         protected override IAnalysisGraph CreateGraph()

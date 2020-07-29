@@ -9,15 +9,9 @@ namespace ReframeAnalyzer.Graph
 {
     public class ObjectAnalysisNode : AnalysisNode
     {
-        public ObjectAnalysisNode(XElement xNode)
+        public ObjectAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
         {
-            Level = AnalysisLevel.ObjectLevel;
 
-            Identifier = uint.Parse(xNode.Element("Identifier").Value);
-            Name = xNode.Element("Name").Value;
-
-            Parent = NodeFactory.CreateNode(xNode.Element("OwnerClass"), AnalysisLevel.ClassLevel);
-            Source = xNode.ToString();
         }
     }
 }

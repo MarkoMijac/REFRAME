@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public abstract class AnalysisGraphAbstractFactory
+    public abstract class AnalysisGraphFactory
     {
         public string XmlSource { get; private set; }
         protected AnalysisNodeFactory NodeFactory { get; set; } = new AnalysisNodeFactory();

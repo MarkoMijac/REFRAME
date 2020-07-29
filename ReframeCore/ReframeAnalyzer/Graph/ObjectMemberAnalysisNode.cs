@@ -13,18 +13,9 @@ namespace ReframeAnalyzer.Graph
         public string CurrentValue { get; set; }
         public string PreviousValue { get; set; }
 
-        public ObjectMemberAnalysisNode(XElement xNode)
+        public ObjectMemberAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
         {
-            Level = AnalysisLevel.ObjectMemberLevel;
 
-            Identifier = uint.Parse(xNode.Element("Identifier").Value);
-            Name = xNode.Element("MemberName").Value;
-            NodeType = xNode.Element("NodeType").Value;
-            CurrentValue = xNode.Element("CurrentValue").Value;
-            PreviousValue = xNode.Element("PreviousValue").Value;
-
-            Parent = NodeFactory.CreateNode(xNode.Element("OwnerObject"), AnalysisLevel.ObjectLevel);
-            Source = xNode.ToString();
         }
     }
 }
