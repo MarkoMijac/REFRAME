@@ -11,16 +11,16 @@ namespace ReframeAnalyzer.Graph
         protected override IAnalysisGraph CreateGraph()
         {
             var factory = new ObjectMemberAnalysisGraphFactory();
-            var objectMemberAnalysisGraph = factory.CreateGraph(XmlSource) as ObjectMemberAnalysisGraph;
+            var objectMemberAnalysisGraph = factory.CreateGraph(XmlSource);
 
             string identifier = objectMemberAnalysisGraph.Identifier;
-            var graph = new ObjectAnalysisGraph(identifier, AnalysisLevel.ObjectLevel);
+            var graph = new AnalysisGraph(identifier, AnalysisLevel.ObjectLevel);
 
             InitializeGraph(graph, objectMemberAnalysisGraph);
             return graph;
         }
 
-        private void InitializeGraph(ObjectAnalysisGraph graph, ObjectMemberAnalysisGraph objectMemberAnalysisGraph)
+        private void InitializeGraph(AnalysisGraph graph, IAnalysisGraph objectMemberAnalysisGraph)
         {
             if (graph != null && objectMemberAnalysisGraph != null)
             {
@@ -29,7 +29,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphNodes(ObjectAnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphNodes(AnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach (var memberNode in nodes)
             {
@@ -40,7 +40,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphDependencies(ObjectAnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphDependencies(AnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach (var memberNode in nodes)
             {

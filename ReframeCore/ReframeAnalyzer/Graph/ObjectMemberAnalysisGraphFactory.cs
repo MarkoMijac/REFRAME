@@ -16,20 +16,20 @@ namespace ReframeAnalyzer.Graph
             var xGraph = _importer.GetGraph(XmlSource);
             string identifier = _importer.GetIdentifier(xGraph);
 
-            var graph = new ObjectMemberAnalysisGraph(identifier, AnalysisLevel.ObjectMemberLevel);
+            var graph = new AnalysisGraph(identifier, AnalysisLevel.ObjectMemberLevel);
             InitializeGraph(graph, xGraph);
 
             return graph;
         }
 
-        private void InitializeGraph(ObjectMemberAnalysisGraph graph, XElement xGraph)
+        private void InitializeGraph(AnalysisGraph graph, XElement xGraph)
         {
             var xNodes = _importer.GetNodes(xGraph);
             InitializeNodes(graph, xNodes);
             InitializeDependencies(graph, xNodes);
         }
 
-        private void InitializeNodes(ObjectMemberAnalysisGraph graph, IEnumerable<XElement> xNodes)
+        private void InitializeNodes(AnalysisGraph graph, IEnumerable<XElement> xNodes)
         {
             foreach (var xNode in xNodes)
             {
@@ -42,7 +42,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeDependencies(ObjectMemberAnalysisGraph graph, IEnumerable<XElement> xNodes)
+        private void InitializeDependencies(AnalysisGraph graph, IEnumerable<XElement> xNodes)
         {
             foreach (var xNode in xNodes)
             {

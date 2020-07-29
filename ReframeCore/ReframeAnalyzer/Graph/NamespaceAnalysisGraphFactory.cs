@@ -13,14 +13,14 @@ namespace ReframeAnalyzer.Graph
         protected override IAnalysisGraph CreateGraph()
         {
             var factory = new ClassAnalysisGraphFactory();
-            var classAnalysisGraph = factory.CreateGraph(XmlSource) as ClassAnalysisGraph;
+            var classAnalysisGraph = factory.CreateGraph(XmlSource);
 
-            var graph = new NamespaceAnalysisGraph(classAnalysisGraph.Identifier, AnalysisLevel.NamespaceLevel);
+            var graph = new AnalysisGraph(classAnalysisGraph.Identifier, AnalysisLevel.NamespaceLevel);
             InitializeGraph(graph, classAnalysisGraph);
             return graph;
         }
 
-        private void InitializeGraph(NamespaceAnalysisGraph graph, ClassAnalysisGraph classAnalysisGraph)
+        private void InitializeGraph(AnalysisGraph graph, IAnalysisGraph classAnalysisGraph)
         {
             if (graph != null && classAnalysisGraph != null)
             {
@@ -29,7 +29,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphNodes(NamespaceAnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphNodes(AnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach (var classNode in nodes)
             {
@@ -40,7 +40,7 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-        private void InitializeGraphDependencies(NamespaceAnalysisGraph graph, List<IAnalysisNode> nodes)
+        private void InitializeGraphDependencies(AnalysisGraph graph, List<IAnalysisNode> nodes)
         {
             foreach(var classNode in nodes)
             {

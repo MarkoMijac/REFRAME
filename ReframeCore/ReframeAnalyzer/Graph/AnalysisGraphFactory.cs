@@ -78,7 +78,7 @@ namespace ReframeAnalyzer.Graph
         public IAnalysisGraph CreateGraph(string xmlSource, string xmlUpdateInfo)
         {
             var factory = new ObjectMemberAnalysisGraphFactory();
-            var objectMemberGraph = factory.CreateGraph(xmlSource) as ObjectMemberAnalysisGraph;
+            var objectMemberGraph = factory.CreateGraph(xmlSource);
 
             var updateGraphFactory = new UpdateAnalysisGraphFactory(objectMemberGraph);
             IUpdateGraph result = updateGraphFactory.CreateGraph(xmlUpdateInfo) as IUpdateGraph;

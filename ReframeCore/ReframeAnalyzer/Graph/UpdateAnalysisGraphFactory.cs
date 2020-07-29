@@ -12,9 +12,9 @@ namespace ReframeAnalyzer.Graph
     {
         private Importer _importer = new Importer();
 
-        private ObjectMemberAnalysisGraph _objectMemberAnalysisGraph;
+        private IAnalysisGraph _objectMemberAnalysisGraph;
 
-        public UpdateAnalysisGraphFactory(ObjectMemberAnalysisGraph objectMemberAnalysisGraph)
+        public UpdateAnalysisGraphFactory(IAnalysisGraph objectMemberAnalysisGraph)
         {
             _objectMemberAnalysisGraph = objectMemberAnalysisGraph;
         }

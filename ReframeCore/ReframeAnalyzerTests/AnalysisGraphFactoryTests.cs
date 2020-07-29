@@ -20,10 +20,10 @@ namespace ReframeAnalyzerTests
         public void CreateGraph_XmlSourceIsEmpty_ThrowsException()
         {
             //Arrange
-            AnalysisGraphFactory factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
-            var analysisGraph = factory.CreateGraph("", AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph("");
         }
 
         [TestMethod]
@@ -31,10 +31,10 @@ namespace ReframeAnalyzerTests
         public void CreateGraph_XmlSourceNotValid_ThrowsException()
         {
             //Arrange
-            AnalysisGraphFactory factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
-            var analysisGraph = factory.CreateGraph("<not valid source?_", AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph("<not valid source?_");
         }
 
         [TestMethod]
@@ -43,12 +43,12 @@ namespace ReframeAnalyzerTests
             //Arrange
             ReactorRegistry.Instance.Clear();
             var reactor = ReactorRegistry.Instance.CreateReactor("R1");
-            var factory = new AnalysisGraphFactory();
+            var factory = new ClassAnalysisGraphFactory();
 
             //Act
             var xmlExporter = new XmlReactorDetailExporter(reactor.Identifier);
             string xmlSource = xmlExporter.Export();
-            var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
+            var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
             Assert.IsTrue(analysisGraph != null && analysisGraph.Nodes.Count == 0);
@@ -68,7 +68,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(ObjectMemberAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ObjectMemberLevel);
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ObjectLevel);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(ObjectAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ObjectLevel);
         }
 
         [TestMethod]
@@ -102,7 +102,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassMemberLevel);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(ClassMemberAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ClassMemberLevel);
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.ClassLevel);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(ClassAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.ClassLevel);
         }
 
         [TestMethod]
@@ -136,7 +136,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.NamespaceLevel);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(NamespaceAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.NamespaceLevel);
         }
 
         [TestMethod]
@@ -153,7 +153,7 @@ namespace ReframeAnalyzerTests
             var analysisGraph = factory.CreateGraph(xmlSource, AnalysisLevel.AssemblyLevel);
 
             //Assert
-            Assert.IsInstanceOfType(analysisGraph, typeof(AssemblyAnalysisGraph));
+            Assert.IsTrue(analysisGraph.AnalysisLevel == AnalysisLevel.AssemblyLevel);
         }
 
         #endregion

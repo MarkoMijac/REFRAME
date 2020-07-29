@@ -62,12 +62,9 @@
     <Compile Include="Graph\AnalysisGraphAbstractFactory.cs" />
     <Compile Include="Graph\AnalysisLevel.cs" />
     <Compile Include="Graph\AnalysisNodeFactory.cs" />
-    <Compile Include="Graph\AssemblyAnalysisGraph.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraphFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />
-    <Compile Include="Graph\ClassAnalysisGraph.cs" />
     <Compile Include="Graph\ClassAnalysisGraphFactory.cs" />
-    <Compile Include="Graph\ClassMemberAnalysisGraph.cs" />
     <Compile Include="Graph\ClassMemberAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ClassMemberAnalysisNode.cs" />
     <Compile Include="Graph\AnalysisGraphFactory.cs" />
@@ -79,13 +76,10 @@
     <Compile Include="Graph\IHasValues.cs" />
     <Compile Include="Graph\IUpdateGraph.cs" />
     <Compile Include="Graph\IUpdateNode.cs" />
-    <Compile Include="Graph\NamespaceAnalysisGraph.cs" />
     <Compile Include="Graph\NamespaceAnalysisGraphFactory.cs" />
     <Compile Include="Graph\NamespaceAnalysisNode.cs" />
-    <Compile Include="Graph\ObjectAnalysisGraph.cs" />
     <Compile Include="Graph\ObjectAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ObjectAnalysisNode.cs" />
-    <Compile Include="Graph\ObjectMemberAnalysisGraph.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisGraphFactory.cs" />
     <Compile Include="Graph\ObjectMemberAnalysisNode.cs" />
     <Compile Include="Filters\IAnalysisFilter.cs" />

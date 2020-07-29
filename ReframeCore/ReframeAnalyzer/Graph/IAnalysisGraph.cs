@@ -5,7 +5,6 @@ namespace ReframeAnalyzer.Graph
     public interface IAnalysisGraph
     {
         string Identifier { get; }
-        string Source { get; }
         List<IAnalysisNode> Nodes { get; }
         AnalysisLevel AnalysisLevel { get; }
 

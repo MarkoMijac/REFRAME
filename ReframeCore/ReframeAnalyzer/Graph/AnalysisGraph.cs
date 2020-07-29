@@ -3,15 +3,13 @@ using System.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public abstract class AnalysisGraph : IAnalysisGraph
+    public class AnalysisGraph : IAnalysisGraph
     {
         public AnalysisGraph(string identifier, AnalysisLevel level)
         {
             Identifier = identifier;
             AnalysisLevel = level;
         }
-
-        public string Source { get; protected set; }
 
         public string Identifier { get; protected set; }
 
@@ -46,7 +44,5 @@ namespace ReframeAnalyzer.Graph
                 _nodes.Remove(node);
             }
         }
-
-        protected AnalysisNodeFactory NodeFactory { get; set; } = new AnalysisNodeFactory();
     }
 }
