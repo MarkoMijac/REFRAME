@@ -122,7 +122,5 @@ namespace ReframeAnalyzer.Graph
         {
             return Predecessors.Count;
         }
-
-        protected AnalysisNodeFactory NodeFactory { get; set; } = new AnalysisNodeFactory();
     }
 }

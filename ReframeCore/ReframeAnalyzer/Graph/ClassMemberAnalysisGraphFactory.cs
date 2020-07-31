@@ -9,6 +9,11 @@ namespace ReframeAnalyzer.Graph
 {
     public class ClassMemberAnalysisGraphFactory : AnalysisGraphFactory
     {
+        public ClassMemberAnalysisGraphFactory()
+        {
+            NodeFactory = new ClassMemberAnalysisNodeFactory();
+        }
+
         protected override IAnalysisGraph CreateGraph()
         {
             var factory = new ObjectMemberAnalysisGraphFactory();
@@ -35,7 +40,7 @@ namespace ReframeAnalyzer.Graph
             foreach (var objectMemberNode in nodes)
             {
                 XElement xNode = XElement.Parse(objectMemberNode.Source);
-                var classMemberNode = NodeFactory.CreateNode(xNode, AnalysisLevel.ClassMemberLevel);
+                var classMemberNode = NodeFactory.CreateNode(xNode);
 
                 if (classMemberNode != null && graph.ContainsNode(classMemberNode.Identifier) == false)
                 {
@@ -49,14 +54,14 @@ namespace ReframeAnalyzer.Graph
             foreach (var objectMemberNode in nodes)
             {
                 XElement xNode = XElement.Parse(objectMemberNode.Source);
-                var node = NodeFactory.CreateNode(xNode, AnalysisLevel.ClassMemberLevel);
+                var node = NodeFactory.CreateNode(xNode);
 
                 var classMemberNode = graph.GetNode(node.Identifier);
 
                 foreach (var objectMemberNodeSuccessor in objectMemberNode.Successors)
                 {
                     XElement xSNode = XElement.Parse(objectMemberNodeSuccessor.Source);
-                    var sNode = NodeFactory.CreateNode(xSNode, AnalysisLevel.ClassMemberLevel);
+                    var sNode = NodeFactory.CreateNode(xSNode);
                     var successorClassMemberNode = graph.GetNode(sNode.Identifier);
                     if (successorClassMemberNode != null)
                     {

@@ -61,7 +61,6 @@
     <Compile Include="Graph\AnalysisGraph.cs" />
     <Compile Include="Graph\AnalysisGraphFactory.cs" />
     <Compile Include="Graph\AnalysisLevel.cs" />
-    <Compile Include="Graph\AnalysisNodeAbstractFactory.cs" />
     <Compile Include="Graph\AnalysisNodeFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisGraphFactory.cs" />
     <Compile Include="Graph\AssemblyAnalysisNode.cs" />

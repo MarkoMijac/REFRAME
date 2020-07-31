@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace ReframeAnalyzer.Graph
 {
-    public class ClassMemberAnalysisNodeFactory : AnalysisNodeAbstractFactory
+    public class ClassMemberAnalysisNodeFactory : AnalysisNodeFactory
     {
         public override IAnalysisNode CreateNode(XElement xNode)
         {

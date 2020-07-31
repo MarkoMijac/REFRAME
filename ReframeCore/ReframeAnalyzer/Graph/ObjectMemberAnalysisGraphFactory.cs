@@ -11,6 +11,12 @@ namespace ReframeAnalyzer.Graph
     public class ObjectMemberAnalysisGraphFactory : AnalysisGraphFactory
     {
         private Importer _importer = new Importer();
+
+        public ObjectMemberAnalysisGraphFactory()
+        {
+            NodeFactory = new ObjectMemberAnalysisNodeFactory();
+        }
+
         protected override IAnalysisGraph CreateGraph()
         {
             var xGraph = _importer.GetGraph(XmlSource);
@@ -36,7 +42,7 @@ namespace ReframeAnalyzer.Graph
                 uint nodeId = uint.Parse(_importer.GetIdentifier(xNode));
                 if (graph.ContainsNode(nodeId) == false)
                 {
-                    var node = NodeFactory.CreateNode(xNode, AnalysisLevel.ObjectMemberLevel);
+                    var node = NodeFactory.CreateNode(xNode);
                     graph.AddNode(node);
                 }
             }
