@@ -26,15 +26,11 @@ namespace ReframeTools.Controllers
             GraphFactory = graphFactory;
             View = form;
             FilterView = frmFilter;
+
+            CreateAnalysisGraph(View.ReactorIdentifier); 
         }
 
-        public AnalysisController(FrmAnalysisView form, FrmFilterAnalysis frmFilter = null)
-        {
-            View = form;
-            FilterView = frmFilter;
-        }
-
-        protected void CreateAnalysisGraph(string reactorIdentifier, AnalysisLevel analysisLevel)
+        protected void CreateAnalysisGraph(string reactorIdentifier)
         {
             var pipeClient = new ReframePipeClient();
             string xmlSource = pipeClient.GetReactor(reactorIdentifier);

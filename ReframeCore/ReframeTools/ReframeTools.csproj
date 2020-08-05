@@ -60,11 +60,59 @@
     <Compile Include="Controllers\ReactorDetailsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
+    <Compile Include="GUI\FrmAnalysisFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAnalysisFilter.Designer.cs">
+      <DependentUpon>FrmAnalysisFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyFilter.Designer.cs">
+      <DependentUpon>FrmAssemblyFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassFilter.Designer.cs">
+      <DependentUpon>FrmClassFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberFilter.Designer.cs">
+      <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateFilter.Designer.cs">
+      <DependentUpon>FrmUpdateFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberFilter.Designer.cs">
+      <DependentUpon>FrmObjectMemberFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectFilter.Designer.cs">
+      <DependentUpon>FrmObjectFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceFilter.Designer.cs">
+      <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmFilterAssemblyAnalysis.cs">
       <SubType>Form</SubType>
@@ -180,6 +228,7 @@
     <Compile Include="GUI\FrmVisualizationOptions.Designer.cs">
       <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\IFilterForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefPckgcs.cs" />
     <Compile Include="SolutionServices.cs" />
@@ -289,8 +338,32 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\FrmAnalysisFilter.resx">
+      <DependentUpon>FrmAnalysisFilter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmAssemblyAnalysisView.resx">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmAssemblyFilter.resx">
+      <DependentUpon>FrmAssemblyFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassFilter.resx">
+      <DependentUpon>FrmClassFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassMemberFilter.resx">
+      <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateFilter.resx">
+      <DependentUpon>FrmUpdateFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectMemberFilter.resx">
+      <DependentUpon>FrmObjectMemberFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectFilter.resx">
+      <DependentUpon>FrmObjectFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmNamespaceFilter.resx">
+      <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmFilterAssemblyAnalysis.resx">
       <DependentUpon>FrmFilterAssemblyAnalysis.cs</DependentUpon>
@@ -355,6 +428,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Importer\ReframeImporter.csproj">
+      <Project>{dd4a6ba8-74d2-48a3-8e1a-b17ae1f3c586}</Project>
+      <Name>ReframeImporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IPCClient\IPCClient.csproj">
       <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
       <Name>IPCClient</Name>
@@ -362,6 +439,10 @@
     <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
       <Project>{87bae3e0-a197-4dc1-9e97-e5945f7cc652}</Project>
       <Name>ReframeAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{d4b96cc8-d94c-42b9-88f1-92c4b728143d}</Project>
+      <Name>ReframeBaseExceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReframeClient\ReframeClient.csproj">
       <Project>{3E1F7606-8C9F-44CB-825B-E378570A59DB}</Project>

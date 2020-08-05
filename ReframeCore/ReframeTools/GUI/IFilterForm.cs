@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
-namespace ReframeImporter
+namespace ReframeTools
 {
-    public interface IImporter
+    public interface IFilterForm
     {
-        XElement GetReactor(string source);
+
     }
 }

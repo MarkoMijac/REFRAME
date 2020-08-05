@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmFilterAnalysis : Form, IFilterForm
+    public partial class FrmObjectFilter : Form, IFilterForm
     {
         public IEnumerable<IAnalysisNode> OriginalNodes { get; set; }
 
@@ -21,61 +21,30 @@ namespace ReframeTools.GUI
 
         public IAnalysisFilter Filter { get; set; }
 
-        public FrmFilterAnalysis()
+        public FrmObjectFilter()
         {
             InitializeComponent();
         }
 
-        protected virtual void btnApply_Click(object sender, EventArgs e)
+        private void btnApply_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        protected virtual void Initialize() { }
-
-        protected virtual void HandleCheckListsVisibility()
+        private void Initialize()
         {
-
+            Level = AnalysisLevel.ObjectLevel;
+            var filterFactory = new AnalysisFilterFactory();
+            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ObjectLevel);
         }
 
-        protected void MakeAssemblyNodesVisible(bool visible)
+        private void LoadNodes()
         {
-            clbAssemblyNodes.Visible = visible;
-            btnSelecteAllAssemblies.Visible = visible;
-            btnDeselectAllAssemblies.Visible = visible;
-            lblAssemblies.Visible = visible;
+            LoadAssemblyNodes();
+            LoadNamespaceNodes();
         }
 
-        protected void MakeNamespaceNodesVisible(bool visible)
-        {
-            clbNamespaceNodes.Visible = visible;
-            btnSelectAllNamespaces.Visible = visible;
-            btnDeselectAllNamespaces.Visible = visible;
-            lblNamespaces.Visible = visible;
-        }
-
-        protected void MakeClassNodesVisible(bool visible)
-        {
-            clbClassNodes.Visible = visible;
-            btnSelectAllClasses.Visible = visible;
-            btnDeselectAllClasses.Visible = visible;
-            lblClassNodes.Visible = visible;
-        }
-
-        protected void MakeObjectNodesVisible(bool visible)
-        {
-            clbObjectNodes.Visible = visible;
-            btnSelectAllObjects.Visible = visible;
-            btnDeselectAllObjects.Visible = visible;
-            lblObjectNodes.Visible = visible;
-        }
-
-        protected virtual void LoadNodes()
-        {
-            
-        }
-
-        protected void LoadAssemblyNodes()
+        private void LoadAssemblyNodes()
         {
             clbAssemblyNodes.Items.Clear();
             List<IAnalysisNode> assemblyNodes = Filter.GetAvailableAssemblyNodes();
@@ -87,7 +56,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void LoadNamespaceNodes()
+        private void LoadNamespaceNodes()
         {
             clbNamespaceNodes.Items.Clear();
             List<IAnalysisNode> namespaceNodes = Filter.GetAvailableNamespaceNodes();
@@ -98,7 +67,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void LoadClassNodes(IAnalysisNode namespaceNode)
+        private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
             clbClassNodes.Items.Clear();
             if (namespaceNode != null)
@@ -112,7 +81,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void LoadObjectNodes(IAnalysisNode classNode)
+        private void LoadObjectNodes(IAnalysisNode classNode)
         {
             clbObjectNodes.Items.Clear();
             if (classNode != null)
@@ -129,32 +98,22 @@ namespace ReframeTools.GUI
         private void FrmOptions_Load(object sender, EventArgs e)
         {
             Initialize();
-            HandleCheckListsVisibility();
             LoadNodes();
         }
 
-        protected void AdjustFormSize(int verticalOffset)
-        {
-            if (verticalOffset == 0) return;
-
-            gbFilterByParent.Size = new Size(gbFilterByParent.Size.Width, gbFilterByParent.Size.Height - verticalOffset);
-            btnApply.Location = new Point(btnApply.Location.X, btnApply.Location.Y - verticalOffset);
-            this.Size = new Size(this.Size.Width, this.Size.Height - verticalOffset);
-        }
-
-        protected virtual void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
+        private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
             Filter.SelectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
-        protected virtual void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
+        private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
             Filter.DeselectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
-        protected virtual void btnSelectAllNamespaces_Click(object sender, EventArgs e)
+        private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
             Filter.SelectAllNamespaceNodes();
             LoadNamespaceNodes();
@@ -170,7 +129,7 @@ namespace ReframeTools.GUI
             EnableObjectNodes(Filter.IsSelected(selectedClassNode));
         }
 
-        protected virtual void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
+        private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
             Filter.DeselectAllNamespaceNodes();
             LoadNamespaceNodes();
@@ -186,7 +145,7 @@ namespace ReframeTools.GUI
             EnableClassNodes(Filter.IsSelected(selectedNamespaceNode));
         }
 
-        protected virtual void btnSelectAllClasses_Click(object sender, EventArgs e)
+        private void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             Filter.SelectAllNamespaceClasses(selectedNamespaceNode);
@@ -195,7 +154,7 @@ namespace ReframeTools.GUI
             RefreshObjectNodes();
         }
 
-        protected virtual void btnDeselectAllClasses_Click(object sender, EventArgs e)
+        private void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             Filter.DeselectAllNamespaceClasses(selectedNamespaceNode);
@@ -204,21 +163,21 @@ namespace ReframeTools.GUI
             RefreshObjectNodes();
         }
 
-        protected virtual void btnSelectAllObjects_Click(object sender, EventArgs e)
+        private void btnSelectAllObjects_Click(object sender, EventArgs e)
         {
             var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
             Filter.SelectAllClassObjects(selectedClassNode);
             LoadObjectNodes(selectedClassNode);
         }
 
-        protected virtual void btnDeselectAllObjects_Click(object sender, EventArgs e)
+        private void btnDeselectAllObjects_Click(object sender, EventArgs e)
         {
             var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
             Filter.DeselectAllClassObjects(selectedClassNode);
             LoadObjectNodes(selectedClassNode);
         }
 
-        protected virtual void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             IAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
@@ -231,7 +190,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected virtual void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
@@ -242,9 +201,10 @@ namespace ReframeTools.GUI
             {
                 Filter.DeselectNode(namespaceNode);
             }
+            LoadClassNodes(namespaceNode);
         }
 
-        protected virtual void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
             if (e.NewValue == CheckState.Checked)
@@ -255,9 +215,10 @@ namespace ReframeTools.GUI
             {
                 Filter.DeselectNode(classNode);
             }
+            LoadObjectNodes(classNode);
         }
 
-        protected virtual void clbObjectNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbObjectNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var objectNode = clbObjectNodes.SelectedItem as IAnalysisNode;
             if (objectNode != null)
@@ -273,12 +234,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected virtual void clbAssemblyNodes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected virtual void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
+        private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
             var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(namespaceNode);
@@ -292,7 +248,7 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void EnableClassNodes(bool enable)
+        private  void EnableClassNodes(bool enable)
         {
             clbClassNodes.Enabled = enable;
             btnSelectAllClasses.Enabled = enable;
