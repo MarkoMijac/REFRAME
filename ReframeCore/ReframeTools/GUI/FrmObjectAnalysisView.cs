@@ -66,7 +66,7 @@ namespace ReframeTools.GUI
         protected override AnalysisController CreateAnalysisController()
         {
             var factory = new ObjectAnalysisGraphFactory();
-            return new AnalysisController(this, factory, new FrmFilterObjectAnalysis());
+            return new AnalysisController(this, factory, new FrmObjectFilter());
         }
     }
 }

@@ -13,14 +13,8 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmClassMemberFilter : Form, IFilterForm
+    public partial class FrmClassMemberFilter : FrmAnalysisFilter, IFilterForm
     {
-        public IEnumerable<IAnalysisNode> OriginalNodes { get; set; }
-
-        public AnalysisLevel Level { get; set; }
-
-        public IAnalysisFilter Filter { get; set; }
-
         public FrmClassMemberFilter()
         {
             InitializeComponent();
@@ -31,14 +25,14 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        private void Initialize()
+        protected override void Initialize()
         {
             Level = AnalysisLevel.ClassMemberLevel;
             var filterFactory = new AnalysisFilterFactory();
             Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ClassMemberLevel);
         }
 
-        private void LoadNodes()
+        protected override void LoadNodes()
         {
             LoadAssemblyNodes();
             LoadNamespaceNodes();
@@ -46,39 +40,23 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            clbAssemblyNodes.Items.Clear();
-            List<IAnalysisNode> assemblyNodes = Filter.GetAvailableAssemblyNodes();
-
-            foreach (var assemblyNode in assemblyNodes)
-            {
-                bool checkedItem = Filter.IsSelected(assemblyNode);
-                clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
-            }
+            FillListBoxes(clbAssemblyNodes, Filter.GetAvailableAssemblyNodes());
         }
 
         private void LoadNamespaceNodes()
         {
-            clbNamespaceNodes.Items.Clear();
-            List<IAnalysisNode> namespaceNodes = Filter.GetAvailableNamespaceNodes();
-            foreach (var namespaceNode in namespaceNodes)
-            {
-                bool checkedItem = Filter.IsSelected(namespaceNode);
-                clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
-            }
+            FillListBoxes(clbNamespaceNodes, Filter.GetAvailableNamespaceNodes());
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
-            clbClassNodes.Items.Clear();
+            List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
             if (namespaceNode != null)
             {
-                List<IAnalysisNode> classNodes = Filter.GetAvailableClassNodes(namespaceNode);
-                foreach (var classNode in classNodes)
-                {
-                    bool checkedItem = Filter.IsSelected(classNode);
-                    clbClassNodes.Items.Add(classNode, checkedItem);
-                }
+                classNodes = Filter.GetAvailableClassNodes(namespaceNode);
             }
+
+            FillListBoxes(clbClassNodes, classNodes);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -87,19 +65,19 @@ namespace ReframeTools.GUI
             LoadNodes();
         }
 
-        protected virtual void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
+        private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
             Filter.SelectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
-        protected virtual void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
+        private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
             Filter.DeselectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
-        protected virtual void btnSelectAllNamespaces_Click(object sender, EventArgs e)
+        private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
             Filter.SelectAllNamespaceNodes();
             LoadNamespaceNodes();
@@ -136,44 +114,20 @@ namespace ReframeTools.GUI
             LoadClassNodes(selectedNamespaceNode);;
         }
 
-        protected virtual void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            IAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(assemblyNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(assemblyNode);
-            }
+            CheckListBoxItem(clbAssemblyNodes, e);
         }
 
-        protected virtual void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(namespaceNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(namespaceNode);
-            }
-            LoadClassNodes(namespaceNode);
+            CheckListBoxItem(clbNamespaceNodes, e);
+            RefreshClassNodes();
         }
 
-        protected virtual void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(classNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(classNode);
-            }
+            CheckListBoxItem(clbClassNodes, e);
         }
 
 
@@ -184,7 +138,7 @@ namespace ReframeTools.GUI
             EnableClassNodes(Filter.IsSelected(namespaceNode));
         }
 
-        protected void EnableClassNodes(bool enable)
+        private void EnableClassNodes(bool enable)
         {
             clbClassNodes.Enabled = enable;
             btnSelectAllClasses.Enabled = enable;

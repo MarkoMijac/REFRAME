@@ -14,18 +14,18 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
-        protected FrmFilterAnalysis FilterView { get; set; }
-        protected FrmAnalysisView View { get; set; }
+        private FrmAnalysisFilter FilterForm { get; set; }
+        private FrmAnalysisView View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
-        protected Analyzer Analyzer { get; set; } = new Analyzer();
-        protected AnalysisGraphFactory GraphFactory { get; set; }
+        private Analyzer Analyzer { get; set; } = new Analyzer();
+        private AnalysisGraphFactory GraphFactory { get; set; }
 
-        public AnalysisController(FrmAnalysisView form, AnalysisGraphFactory graphFactory, FrmFilterAnalysis frmFilter = null)
+        public AnalysisController(FrmAnalysisView form, AnalysisGraphFactory graphFactory, FrmAnalysisFilter frmFilter = null)
         {
             GraphFactory = graphFactory;
             View = form;
-            FilterView = frmFilter;
+            FilterForm = frmFilter;
 
             CreateAnalysisGraph(View.ReactorIdentifier); 
         }
@@ -61,12 +61,12 @@ namespace ReframeTools.Controllers
         private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)
         {
             IEnumerable<IAnalysisNode> filteredNodes;
-            if (FilterView != null)
+            if (FilterForm != null)
             {
-                FilterView.OriginalNodes = originalNodes;
-                FilterView.ShowDialog();
+                FilterForm.OriginalNodes = originalNodes;
+                FilterForm.ShowDialog();
 
-                var filter = FilterView.Filter;
+                var filter = FilterForm.Filter;
                 filteredNodes = filter.Apply();
             }
             else

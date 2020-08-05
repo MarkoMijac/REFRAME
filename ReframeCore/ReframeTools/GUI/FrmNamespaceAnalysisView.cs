@@ -60,7 +60,7 @@ namespace ReframeTools.GUI
         protected override AnalysisController CreateAnalysisController()
         {
             var factory = new NamespaceAnalysisGraphFactory();
-            return new AnalysisController(this, factory, new FrmFilterNamespaceAnalysis());
+            return new AnalysisController(this, factory, new FrmNamespaceFilter());
         }
     }
 }

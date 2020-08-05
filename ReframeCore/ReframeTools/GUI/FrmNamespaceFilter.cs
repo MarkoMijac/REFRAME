@@ -79,28 +79,12 @@ namespace ReframeTools.GUI
 
         protected virtual void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            IAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(assemblyNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(assemblyNode);
-            }
+            CheckListBoxItem(clbAssemblyNodes, e);
         }
 
         protected virtual void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(namespaceNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(namespaceNode);
-            }
+            CheckListBoxItem(clbNamespaceNodes, e);
         }
     }
 }

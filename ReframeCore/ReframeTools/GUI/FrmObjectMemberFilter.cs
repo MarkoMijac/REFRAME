@@ -13,13 +13,8 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmObjectMemberFilter : Form, IFilterForm
+    public partial class FrmObjectMemberFilter : FrmAnalysisFilter, IFilterForm
     {
-        public IEnumerable<IAnalysisNode> OriginalNodes { get; set; }
-
-        public AnalysisLevel Level { get; set; }
-
-        public IAnalysisFilter Filter { get; set; }
 
         public FrmObjectMemberFilter()
         {
@@ -31,14 +26,14 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        private void Initialize()
+        protected override void Initialize()
         {
             Level = AnalysisLevel.ObjectMemberLevel;
             var filterFactory = new AnalysisFilterFactory();
             Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ObjectMemberLevel);
         }
 
-        private void LoadNodes()
+        protected override void LoadNodes()
         {
             LoadAssemblyNodes();
             LoadNamespaceNodes();
@@ -46,53 +41,42 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            clbAssemblyNodes.Items.Clear();
-            List<IAnalysisNode> assemblyNodes = Filter.GetAvailableAssemblyNodes();
-
-            foreach (var assemblyNode in assemblyNodes)
-            {
-                bool checkedItem = Filter.IsSelected(assemblyNode);
-                clbAssemblyNodes.Items.Add(assemblyNode, checkedItem);
-            }
+            FillListBoxes(clbAssemblyNodes, Filter.GetAvailableAssemblyNodes());
         }
 
         private void LoadNamespaceNodes()
         {
-            clbNamespaceNodes.Items.Clear();
-            List<IAnalysisNode> namespaceNodes = Filter.GetAvailableNamespaceNodes();
-            foreach (var namespaceNode in namespaceNodes)
-            {
-                bool checkedItem = Filter.IsSelected(namespaceNode);
-                clbNamespaceNodes.Items.Add(namespaceNode, checkedItem);
-            }
+            FillListBoxes(clbNamespaceNodes, Filter.GetAvailableNamespaceNodes());
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
-            clbClassNodes.Items.Clear();
+            List<IAnalysisNode> classNodes;
             if (namespaceNode != null)
             {
-                List<IAnalysisNode> classNodes = Filter.GetAvailableClassNodes(namespaceNode);
-                foreach (var classNode in classNodes)
-                {
-                    bool checkedItem = Filter.IsSelected(classNode);
-                    clbClassNodes.Items.Add(classNode, checkedItem);
-                }
+                classNodes = Filter.GetAvailableClassNodes(namespaceNode);
             }
+            else
+            {
+                classNodes = new List<IAnalysisNode>();
+            }
+
+            FillListBoxes(clbClassNodes, classNodes);
         }
 
         private void LoadObjectNodes(IAnalysisNode classNode)
         {
-            clbObjectNodes.Items.Clear();
+            List<IAnalysisNode> objectNodes;
             if (classNode != null)
             {
-                List<IAnalysisNode> objectNodes = Filter.GetAvailableObjectNodes(classNode);
-                foreach (var objectNode in objectNodes)
-                {
-                    bool checkedItem = Filter.IsSelected(objectNode);
-                    clbObjectNodes.Items.Add(objectNode, checkedItem);
-                }
+                objectNodes = Filter.GetAvailableObjectNodes(classNode);
             }
+            else
+            {
+                objectNodes = new List<IAnalysisNode>();
+            }
+
+            FillListBoxes(clbObjectNodes, objectNodes);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -179,59 +163,24 @@ namespace ReframeTools.GUI
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            IAnalysisNode assemblyNode = clbAssemblyNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(assemblyNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(assemblyNode);
-            }
+            CheckListBoxItem(clbAssemblyNodes, e);
         }
 
         private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(namespaceNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(namespaceNode);
-            }
-            LoadClassNodes(namespaceNode);
+            CheckListBoxItem(clbNamespaceNodes, e);
+            RefreshClassNodes();
+            RefreshObjectNodes();
         }
 
         private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            if (e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(classNode);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(classNode);
-            }
-            LoadObjectNodes(classNode);
+            CheckListBoxItem(clbClassNodes, e);
         }
 
         private void clbObjectNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var objectNode = clbObjectNodes.SelectedItem as IAnalysisNode;
-            if (objectNode != null)
-            {
-                if (e.NewValue == CheckState.Checked)
-                {
-                    Filter.SelectNode(objectNode);
-                }
-                else if (e.NewValue == CheckState.Unchecked)
-                {
-                    Filter.DeselectNode(objectNode);
-                }
-            }
+            CheckListBoxItem(clbObjectNodes, e);
         }
 
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
