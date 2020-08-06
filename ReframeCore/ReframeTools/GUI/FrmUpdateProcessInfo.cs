@@ -156,7 +156,7 @@ namespace ReframeTools.GUI
 
         private void FrmUpdateProcessInfo_Load(object sender, EventArgs e)
         {
-            UpdateProcessAnalysisController controller = new UpdateProcessAnalysisController(this, new FrmFilterUpdateAnalysis());
+            UpdateProcessAnalysisController controller = new UpdateProcessAnalysisController(this, new FrmUpdateFilter());
             controller.ShowUpdateAnalysis();
         }
 

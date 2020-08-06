@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmAnalysisFilter : Form, IFilterForm
+    public partial class FrmAnalysisFilter : Form
     {
         public IEnumerable<IAnalysisNode> OriginalNodes { get; set; }
 

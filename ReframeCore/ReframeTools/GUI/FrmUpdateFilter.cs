@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace ReframeTools.GUI
 {
-    public partial class FrmUpdateFilter : FrmAnalysisFilter, IFilterForm
+    public partial class FrmUpdateFilter : FrmAnalysisFilter
     {
         public FrmUpdateFilter()
         {

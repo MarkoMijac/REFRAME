@@ -13,13 +13,13 @@ namespace ReframeTools.Controllers
 {
     public class UpdateProcessAnalysisController
     {
-        protected FrmFilterAnalysis FilterView { get; set; }
+        protected FrmUpdateFilter FilterView { get; set; }
         protected FrmUpdateProcessInfo View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         public Analyzer Analyzer { get; set; } = new Analyzer();
 
-        public UpdateProcessAnalysisController(FrmUpdateProcessInfo form, FrmFilterAnalysis frmFilter = null)
+        public UpdateProcessAnalysisController(FrmUpdateProcessInfo form, FrmUpdateFilter frmFilter = null)
         {
             View = form;
             FilterView = frmFilter;
