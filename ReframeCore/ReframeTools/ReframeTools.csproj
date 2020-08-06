@@ -114,18 +114,6 @@
     <Compile Include="GUI\FrmNamespaceFilter.Designer.cs">
       <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmFilterAssemblyAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterAssemblyAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterAssemblyAnalysis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmFilterClassAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterClassAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterClassAnalysis.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\FrmClassAnalysisView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,30 +125,6 @@
     </Compile>
     <Compile Include="GUI\FrmClassMemberAnalysisView.Designer.cs">
       <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmFilterClassMemberAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterClassMemberAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterClassMemberAnalysis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmFilterNamespaceAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterNamespaceAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterNamespaceAnalysis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmFilterObjectAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterObjectAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterObjectAnalysis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\FrmFilterObjectMemberAnalysis.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\FrmFilterObjectMemberAnalysis.Designer.cs">
-      <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\FrmFilterUpdateAnalysis.cs">
       <SubType>Form</SubType>
@@ -365,12 +329,6 @@
     <EmbeddedResource Include="GUI\FrmNamespaceFilter.resx">
       <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterAssemblyAnalysis.resx">
-      <DependentUpon>FrmFilterAssemblyAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterClassAnalysis.resx">
-      <DependentUpon>FrmFilterClassAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmClassAnalysisView.resx">
       <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
     </EmbeddedResource>
@@ -379,18 +337,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmAnalysisView.resx">
       <DependentUpon>FrmAnalysisView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterClassMemberAnalysis.resx">
-      <DependentUpon>FrmFilterClassMemberAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterNamespaceAnalysis.resx">
-      <DependentUpon>FrmFilterNamespaceAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterObjectAnalysis.resx">
-      <DependentUpon>FrmFilterObjectAnalysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\FrmFilterObjectMemberAnalysis.resx">
-      <DependentUpon>FrmFilterObjectMemberAnalysis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmFilterUpdateAnalysis.resx">
       <DependentUpon>FrmFilterUpdateAnalysis.cs</DependentUpon>

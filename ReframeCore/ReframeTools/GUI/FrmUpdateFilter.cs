@@ -49,12 +49,32 @@ namespace ReframeTools.GUI
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
-            FillListBoxes(clbClassNodes, Filter.GetAvailableClassNodes(namespaceNode));
+            List<IAnalysisNode> classNodes;
+            if (namespaceNode != null)
+            {
+                classNodes = Filter.GetAvailableClassNodes(namespaceNode);
+            }
+            else
+            {
+                classNodes = new List<IAnalysisNode>();
+            }
+
+            FillListBoxes(clbClassNodes, classNodes);
         }
 
         private void LoadObjectNodes(IAnalysisNode classNode)
         {
-            FillListBoxes(clbObjectNodes, Filter.GetAvailableObjectNodes(classNode));
+            List<IAnalysisNode> objectNodes;
+            if (classNode != null)
+            {
+                objectNodes = Filter.GetAvailableObjectNodes(classNode);
+            }
+            else
+            {
+                objectNodes = new List<IAnalysisNode>();
+            }
+
+            FillListBoxes(clbObjectNodes, objectNodes);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -147,7 +167,8 @@ namespace ReframeTools.GUI
         private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             CheckListBoxItem(clbNamespaceNodes, e);
-            LoadClassNodes(clbNamespaceNodes.SelectedItem as IAnalysisNode);
+            RefreshClassNodes();
+            RefreshObjectNodes();
         }
 
         private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -162,16 +183,8 @@ namespace ReframeTools.GUI
 
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            LoadClassNodes(namespaceNode);
-            EnableClassNodes(Filter.IsSelected(namespaceNode));
-
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            if (classNode != null)
-            {
-                LoadObjectNodes(classNode);
-                EnableObjectNodes(Filter.IsSelected(classNode));
-            }
+            RefreshClassNodes();
+            RefreshObjectNodes();
         }
 
         private void EnableClassNodes(bool enable)
@@ -190,10 +203,7 @@ namespace ReframeTools.GUI
 
         private void clbClassNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            LoadObjectNodes(classNode);
-            EnableObjectNodes(Filter.IsSelected(classNode));
-
+            RefreshObjectNodes();
         }
     }
 }

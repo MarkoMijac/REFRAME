@@ -133,9 +133,7 @@ namespace ReframeTools.GUI
 
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            LoadClassNodes(namespaceNode);
-            EnableClassNodes(Filter.IsSelected(namespaceNode));
+            RefreshClassNodes();
         }
 
         private void EnableClassNodes(bool enable)

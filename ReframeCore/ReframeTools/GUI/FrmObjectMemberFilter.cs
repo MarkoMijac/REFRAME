@@ -185,16 +185,8 @@ namespace ReframeTools.GUI
 
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            LoadClassNodes(namespaceNode);
-            EnableClassNodes(Filter.IsSelected(namespaceNode));
-
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            if (classNode != null)
-            {
-                LoadObjectNodes(classNode);
-                EnableObjectNodes(Filter.IsSelected(classNode));
-            }
+            RefreshClassNodes();
+            RefreshObjectNodes();
         }
 
         private void EnableClassNodes(bool enable)
@@ -213,10 +205,7 @@ namespace ReframeTools.GUI
 
         private void clbClassNodes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            LoadObjectNodes(classNode);
-            EnableObjectNodes(Filter.IsSelected(classNode));
-
+            RefreshObjectNodes();
         }
     }
 }
