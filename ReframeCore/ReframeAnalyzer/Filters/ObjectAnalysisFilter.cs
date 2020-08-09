@@ -9,26 +9,10 @@ namespace ReframeAnalyzer.Filters
 {
     public class ObjectAnalysisFilter : AnalysisFilter
     {
-        public ObjectAnalysisFilter(IEnumerable<IAnalysisNode> originalNodes) : base(originalNodes)
+        public ObjectAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
-
+            Query = new Predicate<IAnalysisNode>(n => IsSelected(n.Parent.Parent2) && IsSelected(n.Parent.Parent) && IsSelected(n.Parent) && IsSelected(n));
         }
-
-        public override IEnumerable<IAnalysisNode> Apply()
-        {
-            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
-
-            foreach (var objectNode in OriginalNodes)
-            {
-                if (IsSelected(objectNode.Parent.Parent2) && IsSelected(objectNode.Parent.Parent) && IsSelected(objectNode.Parent) && IsSelected(objectNode))
-                {
-                    filteredNodes.Add(objectNode);
-                }
-            }
-
-            return filteredNodes;
-        }
-
         public override List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();

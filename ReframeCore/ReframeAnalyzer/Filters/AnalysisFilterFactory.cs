@@ -10,7 +10,7 @@ namespace ReframeAnalyzer.Filters
 {
     public class AnalysisFilterFactory
     {
-        public IAnalysisFilter CreateFilter(IEnumerable<IAnalysisNode> nodes, AnalysisLevel analysisLevel)
+        public IAnalysisFilter CreateFilter(List<IAnalysisNode> nodes, AnalysisLevel analysisLevel)
         {
             ValidateParameters(nodes, analysisLevel);
 

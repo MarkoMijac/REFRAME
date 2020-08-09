@@ -7,9 +7,17 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Filters
 {
-    public abstract class FilterOption : IFilterOption
+    public class FilterOption : IFilterOption
     {
+        public AnalysisLevel Level { get; private set; }
         private List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
+        private List<IAnalysisNode> AllNodes { get; set; } = new List<IAnalysisNode>();
+
+        public FilterOption(List<IAnalysisNode> allNodes, AnalysisLevel level)
+        {
+            AllNodes = allNodes;
+            Level = level;
+        }
 
         public bool IsSelected(IAnalysisNode node)
         {
@@ -32,19 +40,33 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public abstract List<IAnalysisNode> GetAvailableNodes();
-
-        public void SelectAllNodes()
+        public void SelectNodes()
         {
-            foreach (var node in GetAvailableNodes())
+            foreach (var node in AllNodes)
             {
                 SelectNode(node);
             }
         }
 
-        public void DeselectAllNodes()
+        public void SelectNodes(Predicate<IAnalysisNode> condition)
+        {
+            foreach (var node in AllNodes)
+            {
+                if (condition(node) == true)
+                {
+                    SelectNode(node);
+                }
+            }
+        }
+
+        public void DeselectNodes()
         {
             SelectedNodes.Clear();
+        }
+
+        public void DeselectNodes(Predicate<IAnalysisNode> condition)
+        {
+            SelectedNodes.RemoveAll(condition);
         }
     }
 }

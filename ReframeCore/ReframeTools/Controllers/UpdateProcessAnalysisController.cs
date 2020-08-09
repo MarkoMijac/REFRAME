@@ -48,7 +48,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)
+        private IEnumerable<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
         {
             IEnumerable<IAnalysisNode> filteredNodes;
             if (FilterView != null)

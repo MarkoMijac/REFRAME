@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace ReframeAnalyzer.Filters
 {
-    interface IFilterOption
+    public interface IFilterOption
     {
-        List<IAnalysisNode> GetAvailableNodes();
-        void SelectAllNodes();
-        void DeselectAllNodes();
+        AnalysisLevel Level { get; }
+        void SelectNodes();
+        void SelectNodes(Predicate<IAnalysisNode> condition);
+        void DeselectNodes();
+        void DeselectNodes(Predicate<IAnalysisNode> condition);
         void SelectNode(IAnalysisNode node);
         void DeselectNode(IAnalysisNode node);
         bool IsSelected(IAnalysisNode node);

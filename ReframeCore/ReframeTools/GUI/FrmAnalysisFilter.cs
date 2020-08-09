@@ -14,7 +14,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmAnalysisFilter : Form
     {
-        public IEnumerable<IAnalysisNode> OriginalNodes { get; set; }
+        public List<IAnalysisNode> OriginalNodes { get; set; }
 
         public AnalysisLevel Level { get; set; }
 
@@ -34,7 +34,7 @@ namespace ReframeTools.GUI
             listBox.Items.Clear();
 
             foreach (var node in nodes)
-            {
+            { 
                 bool checkedItem = Filter.IsSelected(node);
                 listBox.Items.Add(node, checkedItem);
             }
@@ -43,6 +43,7 @@ namespace ReframeTools.GUI
         protected void CheckListBoxItem(CheckedListBox listBox, ItemCheckEventArgs e)
         {
             IAnalysisNode node = listBox.SelectedItem as IAnalysisNode;
+            
             if(e.NewValue == CheckState.Checked)
             {
                 Filter.SelectNode(node);

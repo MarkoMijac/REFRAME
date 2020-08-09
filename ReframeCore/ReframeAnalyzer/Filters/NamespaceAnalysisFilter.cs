@@ -9,26 +9,27 @@ namespace ReframeAnalyzer.Filters
 {
     public class NamespaceAnalysisFilter : AnalysisFilter
     {
-        public NamespaceAnalysisFilter(IEnumerable<IAnalysisNode> originalNodes) : base(originalNodes)
+        public NamespaceAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
-
+            Query = new Predicate<IAnalysisNode>(n => IsSelected(n));
         }
 
-        public override IEnumerable<IAnalysisNode> Apply()
+        protected override void InitializeOptions()
         {
-            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
-
-            foreach (var namespaceNode in OriginalNodes)
-            {
-                if (IsSelected(namespaceNode))
-                {
-                    filteredNodes.Add(namespaceNode);
-                }
-            }
-
-            return filteredNodes;
+            IFilterOption namespaceFilterOption = new FilterOption(GetAvailableNamespaceNodes(), AnalysisLevel.NamespaceLevel);
+            FilterOptions.Add(namespaceFilterOption);
+            namespaceFilterOption.SelectNodes();
         }
 
+        public override void SelectNode(IAnalysisNode node)
+        {
+            base.SelectNode(node);
+        }
+
+        public override void DeselectNode(IAnalysisNode node)
+        {
+            base.DeselectNode(node);
+        }
         public override List<IAnalysisNode> GetAvailableNamespaceNodes()
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();

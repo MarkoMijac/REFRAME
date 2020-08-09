@@ -9,26 +9,36 @@ namespace ReframeAnalyzer.Filters
 {
     public class ClassAnalysisFilter : AnalysisFilter
     {
-        public ClassAnalysisFilter(IEnumerable<IAnalysisNode> originalNodes) : base(originalNodes)
+        public ClassAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
-
+            Query = new Predicate<IAnalysisNode>(n => IsSelected(n.Parent2) && IsSelected(n.Parent) && IsSelected(n));
         }
 
-        public override IEnumerable<IAnalysisNode> Apply()
+        protected override void InitializeOptions()
         {
-            List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
+            IFilterOption assemblyFilterOption = new FilterOption(GetAvailableAssemblyNodes(), AnalysisLevel.AssemblyLevel);
+            FilterOptions.Add(assemblyFilterOption);
+            assemblyFilterOption.SelectNodes();
 
-            foreach (var classNode in OriginalNodes)
+            IFilterOption namespaceFilterOption = new FilterOption(GetAvailableNamespaceNodes(), AnalysisLevel.NamespaceLevel);
+            FilterOptions.Add(namespaceFilterOption);
+            namespaceFilterOption.SelectNodes();
+
+            IFilterOption classFilterOption = new FilterOption(GetAvailableClassNodes(), AnalysisLevel.ClassLevel);
+            FilterOptions.Add(classFilterOption);
+            classFilterOption.SelectNodes();
+        }
+
+        public override void SelectNode(IAnalysisNode node)
+        {
+            base.SelectNode(node);
+
+            if (node.Level == AnalysisLevel.NamespaceLevel)
             {
-                if (IsSelected(classNode.Parent2) && IsSelected(classNode.Parent) && IsSelected(classNode))
-                {
-                    filteredNodes.Add(classNode);
-                }
+                IFilterOption classFilterOption = GetFilterOption(AnalysisLevel.ClassLevel);
+                classFilterOption.SelectNodes(n => n.Parent.Identifier == node.Identifier);
             }
-
-            return filteredNodes;
         }
-
         public override List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();

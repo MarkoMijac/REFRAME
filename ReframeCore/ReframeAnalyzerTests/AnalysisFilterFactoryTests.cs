@@ -20,7 +20,7 @@ namespace ReframeAnalyzerTests
         public void CreateFilter_GivenNodesIsNull_ThrowsException()
         {
             //Arrange
-            IEnumerable<IAnalysisNode> nodes = null;
+            List<IAnalysisNode> nodes = null;
             var factory = new AnalysisFilterFactory();
 
             //Act

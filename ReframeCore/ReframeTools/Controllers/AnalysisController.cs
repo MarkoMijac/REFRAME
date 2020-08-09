@@ -58,7 +58,7 @@ namespace ReframeTools.Controllers
             View.GraphDensity = GraphMetrics.GetGraphDensity(AnalysisNodes).ToString("N4");
         }
 
-        private IEnumerable<IAnalysisNode> GetFilteredNodes(IEnumerable<IAnalysisNode> originalNodes)
+        private IEnumerable<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
         {
             IEnumerable<IAnalysisNode> filteredNodes;
             if (FilterForm != null)
@@ -167,7 +167,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes;
+                    List<IAnalysisNode> originalNodes;
 
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
@@ -202,7 +202,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes;
+                    List<IAnalysisNode> originalNodes;
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
                     {
@@ -228,7 +228,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes;
+                    List<IAnalysisNode> originalNodes;
                     int maxDepth = GetMaxDepth();
                     if (maxDepth == 0)
                     {
@@ -255,7 +255,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
@@ -272,7 +272,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
@@ -289,7 +289,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
@@ -306,7 +306,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
@@ -323,7 +323,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
@@ -340,7 +340,7 @@ namespace ReframeTools.Controllers
             {
                 if (nodeIdentifier != 0)
                 {
-                    IEnumerable<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier);
+                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier);
                     AnalysisNodes = GetFilteredNodes(originalNodes);
                     ShowGraph(AnalysisNodes);
                 }
