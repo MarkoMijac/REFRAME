@@ -21,16 +21,18 @@ namespace ReframeAnalyzer.Filters
             namespaceFilterOption.SelectNodes();
         }
 
-        public override void SelectNode(IAnalysisNode node)
+        public List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
-            base.SelectNode(node);
-        }
+            List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
-        public override void DeselectNode(IAnalysisNode node)
-        {
-            base.DeselectNode(node);
+            foreach (var assemblyNode in OriginalNodes)
+            {
+                assemblyNodes.Add(assemblyNode);
+            }
+
+            return assemblyNodes;
         }
-        public override List<IAnalysisNode> GetAvailableNamespaceNodes()
+        public List<IAnalysisNode> GetAvailableNamespaceNodes()
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
@@ -40,6 +42,34 @@ namespace ReframeAnalyzer.Filters
             }
 
             return namespaceNodes;
+        }
+
+        public void SelectAllAssemblyNodes()
+        {
+            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
+            if (assemblyFilterOption != null)
+            {
+                assemblyFilterOption.SelectNodes();
+            }
+        }
+
+        public void DeselectAllAssemblyNodes()
+        {
+            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
+            if (assemblyFilterOption != null)
+            {
+                assemblyFilterOption.DeselectNodes();
+            }
+        }
+
+        public void SelectAllNamespaceNodes()
+        {
+            GetFilterOption(AnalysisLevel.NamespaceLevel).SelectNodes();
+        }
+
+        public void DeselectAllNamespaceNodes()
+        {
+            GetFilterOption(AnalysisLevel.NamespaceLevel).DeselectNodes();
         }
     }
 }

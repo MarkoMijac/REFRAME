@@ -15,6 +15,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmClassFilter : FrmAnalysisFilter
     {
+        private ClassAnalysisFilter _classFilter;
         public FrmClassFilter()
         {
             InitializeComponent();
@@ -28,8 +29,8 @@ namespace ReframeTools.GUI
         protected override void Initialize()
         {
             Level = AnalysisLevel.ClassLevel;
-            var filterFactory = new AnalysisFilterFactory();
-            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.ClassLevel);
+            Filter = new ClassAnalysisFilter(OriginalNodes);
+            _classFilter = Filter as ClassAnalysisFilter;
         }
 
         protected override void LoadNodes()
@@ -40,12 +41,12 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, Filter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _classFilter.GetAvailableAssemblyNodes());
         }
 
         private void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, Filter.GetAvailableNamespaceNodes());
+            FillListBoxes(clbNamespaceNodes, _classFilter.GetAvailableNamespaceNodes());
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
@@ -53,7 +54,7 @@ namespace ReframeTools.GUI
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
             if (namespaceNode != null)
             {
-                classNodes = Filter.GetAvailableClassNodes(namespaceNode);
+                classNodes = _classFilter.GetAvailableClassNodes(namespaceNode);
             }
 
             FillListBoxes(clbClassNodes, classNodes);
@@ -67,19 +68,19 @@ namespace ReframeTools.GUI
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.SelectAllAssemblyNodes();
+            _classFilter.SelectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.DeselectAllAssemblyNodes();
+            _classFilter.DeselectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
         private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
-            Filter.SelectAllNamespaceNodes();
+            _classFilter.SelectAllNamespaceNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -87,7 +88,7 @@ namespace ReframeTools.GUI
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
-            Filter.DeselectAllNamespaceNodes();
+            _classFilter.DeselectAllNamespaceNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -110,14 +111,14 @@ namespace ReframeTools.GUI
         private void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            Filter.SelectAllNamespaceClasses(selectedNamespaceNode);
+            _classFilter.SelectAllNamespaceClasses(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
         }
 
         private void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            Filter.DeselectAllNamespaceClasses(selectedNamespaceNode);
+            _classFilter.DeselectAllNamespaceClasses(selectedNamespaceNode);
             LoadClassNodes(selectedNamespaceNode);
         }
 

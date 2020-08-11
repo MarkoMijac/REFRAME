@@ -20,7 +20,7 @@ namespace ReframeAnalyzer.Filters
             FilterOptions.Add(assemblyFilterOption);
             assemblyFilterOption.SelectNodes();
         }
-        public override List<IAnalysisNode> GetAvailableAssemblyNodes()
+        public List<IAnalysisNode> GetAvailableAssemblyNodes()
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
@@ -30,6 +30,24 @@ namespace ReframeAnalyzer.Filters
             }
 
             return assemblyNodes;
+        }
+
+        public void SelectAllAssemblyNodes()
+        {
+            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
+            if (assemblyFilterOption != null)
+            {
+                assemblyFilterOption.SelectNodes();
+            }
+        }
+
+        public void DeselectAllAssemblyNodes()
+        {
+            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
+            if (assemblyFilterOption != null)
+            {
+                assemblyFilterOption.DeselectNodes();
+            }
         }
     }
 }

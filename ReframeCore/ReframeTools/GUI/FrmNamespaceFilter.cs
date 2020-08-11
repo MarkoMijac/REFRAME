@@ -15,6 +15,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmNamespaceFilter : FrmAnalysisFilter
     {
+        private NamespaceAnalysisFilter _namespaceFilter;
         public FrmNamespaceFilter ()
         {
             InitializeComponent();
@@ -28,8 +29,8 @@ namespace ReframeTools.GUI
         protected override void Initialize()
         {
             Level = AnalysisLevel.NamespaceLevel;
-            var filterFactory = new AnalysisFilterFactory();
-            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.NamespaceLevel);
+            Filter = new NamespaceAnalysisFilter(OriginalNodes);
+            _namespaceFilter = Filter as NamespaceAnalysisFilter;
         }
 
         protected override void LoadNodes()
@@ -39,12 +40,12 @@ namespace ReframeTools.GUI
 
         protected void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, Filter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _namespaceFilter.GetAvailableAssemblyNodes());
         }
 
         protected void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, Filter.GetAvailableNamespaceNodes());
+            FillListBoxes(clbNamespaceNodes, _namespaceFilter.GetAvailableNamespaceNodes());
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -55,25 +56,25 @@ namespace ReframeTools.GUI
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.SelectAllAssemblyNodes();
+            _namespaceFilter.SelectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.DeselectAllAssemblyNodes();
+            _namespaceFilter.DeselectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
         private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
-            Filter.SelectAllNamespaceNodes();
+            _namespaceFilter.SelectAllNamespaceNodes();
             LoadNamespaceNodes();
         }
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
-            Filter.DeselectAllNamespaceNodes();
+            _namespaceFilter.DeselectAllNamespaceNodes();
             LoadNamespaceNodes();
         }
 

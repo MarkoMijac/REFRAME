@@ -15,6 +15,7 @@ namespace ReframeTools.GUI
 {
     public partial class FrmAssemblyFilter : FrmAnalysisFilter
     {
+        private AssemblyAnalysisFilter _assemblyFilter;
         public FrmAssemblyFilter()
         {
             InitializeComponent();
@@ -34,8 +35,8 @@ namespace ReframeTools.GUI
         protected override void Initialize()
         {
             Level = AnalysisLevel.AssemblyLevel;
-            var filterFactory = new AnalysisFilterFactory();
-            Filter = filterFactory.CreateFilter(OriginalNodes, AnalysisLevel.AssemblyLevel);
+            Filter = new AssemblyAnalysisFilter(OriginalNodes);
+            _assemblyFilter = Filter as AssemblyAnalysisFilter;
         }
 
         protected override void LoadNodes()
@@ -45,18 +46,18 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, Filter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _assemblyFilter.GetAvailableAssemblyNodes());
         }
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.SelectAllAssemblyNodes();
+            _assemblyFilter.SelectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            Filter.DeselectAllAssemblyNodes();
+            _assemblyFilter.DeselectAllAssemblyNodes();
             LoadAssemblyNodes();
         }
 
