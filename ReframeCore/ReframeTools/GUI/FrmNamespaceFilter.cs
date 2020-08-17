@@ -40,12 +40,12 @@ namespace ReframeTools.GUI
 
         protected void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _namespaceFilter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption.GetNodes());
         }
 
         protected void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _namespaceFilter.GetAvailableNamespaceNodes());
+            FillListBoxes(clbNamespaceNodes, _namespaceFilter.NamespaceFilterOption);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -56,36 +56,36 @@ namespace ReframeTools.GUI
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            _namespaceFilter.SelectAllAssemblyNodes();
+            _namespaceFilter.AssemblyFilterOption.SelectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            _namespaceFilter.DeselectAllAssemblyNodes();
+            _namespaceFilter.AssemblyFilterOption.DeselectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _namespaceFilter.SelectAllNamespaceNodes();
+            _namespaceFilter.NamespaceFilterOption.SelectNodes();
             LoadNamespaceNodes();
         }
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _namespaceFilter.DeselectAllNamespaceNodes();
+            _namespaceFilter.NamespaceFilterOption.DeselectNodes();
             LoadNamespaceNodes();
         }
 
         protected virtual void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbAssemblyNodes, e);
+            CheckListBoxItem(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption, e);
         }
 
         protected virtual void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbNamespaceNodes, e);
+            CheckListBoxItem(clbNamespaceNodes, _namespaceFilter.NamespaceFilterOption, e);
         }
     }
 }

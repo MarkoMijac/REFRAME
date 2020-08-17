@@ -18,17 +18,5 @@ namespace ReframeAnalyzer.Filters
         {
             Level = AnalysisLevel.AssemblyLevel;
         }
-
-        protected override List<IAnalysisNode> GetAllNodes(List<IAnalysisNode> originalNodes)
-        {
-            List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
-
-            foreach (var assemblyNode in originalNodes)
-            {
-                assemblyNodes.Add(assemblyNode);
-            }
-
-            return assemblyNodes;
-        }
     }
 }

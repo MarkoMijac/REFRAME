@@ -74,9 +74,16 @@ namespace ReframeAnalyzer.Filters
             SelectedNodes.RemoveAll(condition);
         }
 
-        protected virtual List<IAnalysisNode> GetAllNodes(List<IAnalysisNode> originalNodes)
+        protected List<IAnalysisNode> GetAllNodes(List<IAnalysisNode> originalNodes)
         {
-            return default;
+            List<IAnalysisNode> nodes = new List<IAnalysisNode>();
+
+            foreach (var node in originalNodes)
+            {
+                nodes.Add(node);
+            }
+
+            return nodes;
         }
 
         public List<IAnalysisNode> GetNodes()
