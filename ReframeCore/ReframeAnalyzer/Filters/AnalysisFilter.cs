@@ -41,7 +41,7 @@ namespace ReframeAnalyzer.Filters
             filteredNodes.AddRange(OriginalNodes.FindAll(Query));
             return filteredNodes;
         }
-        public IFilterOption GetFilterOption(AnalysisLevel level)
+        protected IFilterOption GetFilterOption(AnalysisLevel level)
         {
             return FilterOptions.FirstOrDefault(o => o.Level == level);
         }
@@ -68,22 +68,7 @@ namespace ReframeAnalyzer.Filters
         {
             if (node != null)
             {
-                if (node.Level == AnalysisLevel.NamespaceLevel)
-                {
-                    return GetFilterOption(AnalysisLevel.NamespaceLevel).IsSelected(node);
-                }
-                else if (node.Level == AnalysisLevel.AssemblyLevel)
-                {
-                    return GetFilterOption(AnalysisLevel.AssemblyLevel).IsSelected(node);
-                }
-                else if (node.Level == AnalysisLevel.ClassLevel)
-                {
-                    return GetFilterOption(AnalysisLevel.ClassLevel).IsSelected(node);
-                }
-                else if (node.Level == AnalysisLevel.ObjectLevel)
-                {
-                    return GetFilterOption(AnalysisLevel.ObjectLevel).IsSelected(node);
-                }
+                return GetFilterOption(node.Level).IsSelected(node);
             }
             return false;
         }

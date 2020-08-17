@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\AnalysisException.cs" />
     <Compile Include="Filters\AnalysisFilterFactory.cs" />
     <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
+    <Compile Include="Filters\AssemblyFilterOption.cs" />
     <Compile Include="Filters\ClassAnalysisFilter.cs" />
     <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
     <Compile Include="Filters\FilterOption.cs" />

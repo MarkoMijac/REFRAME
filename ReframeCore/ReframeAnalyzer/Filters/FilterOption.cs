@@ -9,9 +9,14 @@ namespace ReframeAnalyzer.Filters
 {
     public class FilterOption : IFilterOption
     {
-        public AnalysisLevel Level { get; private set; }
-        private List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
-        private List<IAnalysisNode> AllNodes { get; set; } = new List<IAnalysisNode>();
+        public AnalysisLevel Level { get; protected set; }
+        protected List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
+        public List<IAnalysisNode> AllNodes { get; protected set; } = new List<IAnalysisNode>();
+
+        public FilterOption(List<IAnalysisNode> originalNodes)
+        {
+            AllNodes = GetAllNodes(originalNodes);
+        }
 
         public FilterOption(List<IAnalysisNode> allNodes, AnalysisLevel level)
         {
@@ -67,6 +72,16 @@ namespace ReframeAnalyzer.Filters
         public void DeselectNodes(Predicate<IAnalysisNode> condition)
         {
             SelectedNodes.RemoveAll(condition);
+        }
+
+        protected virtual List<IAnalysisNode> GetAllNodes(List<IAnalysisNode> originalNodes)
+        {
+            return default;
+        }
+
+        public List<IAnalysisNode> GetNodes()
+        {
+            return AllNodes;
         }
     }
 }

@@ -46,24 +46,24 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _assemblyFilter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _assemblyFilter.AssemblyFilterOption);
         }
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            _assemblyFilter.SelectAllAssemblyNodes();
+            _assemblyFilter.AssemblyFilterOption.SelectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            _assemblyFilter.DeselectAllAssemblyNodes();
+            _assemblyFilter.AssemblyFilterOption.DeselectNodes();
             LoadAssemblyNodes();
         }
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbAssemblyNodes, e);
+            CheckListBoxItem(clbAssemblyNodes, _assemblyFilter.AssemblyFilterOption, e);
         }
     }
 }

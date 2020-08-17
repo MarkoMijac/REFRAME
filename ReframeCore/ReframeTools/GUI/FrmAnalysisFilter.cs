@@ -40,6 +40,17 @@ namespace ReframeTools.GUI
             }
         }
 
+        protected void FillListBoxes(CheckedListBox listBox, IFilterOption filterOption)
+        {
+            listBox.Items.Clear();
+
+            foreach (var node in filterOption.GetNodes())
+            {
+                bool checkedItem = filterOption.IsSelected(node);
+                listBox.Items.Add(node, checkedItem);
+            }
+        }
+
         protected void CheckListBoxItem(CheckedListBox listBox, ItemCheckEventArgs e)
         {
             IAnalysisNode node = listBox.SelectedItem as IAnalysisNode;
@@ -51,6 +62,20 @@ namespace ReframeTools.GUI
             else if (e.NewValue == CheckState.Unchecked)
             {
                 Filter.DeselectNode(node);
+            }
+        }
+
+        protected void CheckListBoxItem(CheckedListBox listBox, IFilterOption filterOption, ItemCheckEventArgs e)
+        {
+            IAnalysisNode node = listBox.SelectedItem as IAnalysisNode;
+
+            if (e.NewValue == CheckState.Checked)
+            {
+                filterOption.SelectNode(node);
+            }
+            else if (e.NewValue == CheckState.Unchecked)
+            {
+                filterOption.DeselectNode(node);
             }
         }
     }
