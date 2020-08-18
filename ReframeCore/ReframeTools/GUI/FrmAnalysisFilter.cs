@@ -51,6 +51,17 @@ namespace ReframeTools.GUI
             }
         }
 
+        protected void FillListBoxes(CheckedListBox listBox, IFilterOption filterOption, Predicate<IAnalysisNode> condition)
+        {
+            listBox.Items.Clear();
+
+            foreach (var node in filterOption.GetNodes(condition))
+            {
+                bool checkedItem = filterOption.IsSelected(node);
+                listBox.Items.Add(node, checkedItem);
+            }
+        }
+
         protected void CheckListBoxItem(CheckedListBox listBox, ItemCheckEventArgs e)
         {
             IAnalysisNode node = listBox.SelectedItem as IAnalysisNode;

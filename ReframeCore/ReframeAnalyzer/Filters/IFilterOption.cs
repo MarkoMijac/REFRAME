@@ -11,6 +11,9 @@ namespace ReframeAnalyzer.Filters
     {
         AnalysisLevel Level { get; }
         List<IAnalysisNode> GetNodes();
+        List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition);
+        List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition, bool distinct);
+
         void SelectNodes();
         void SelectNodes(Predicate<IAnalysisNode> condition);
         void DeselectNodes();
@@ -18,5 +21,8 @@ namespace ReframeAnalyzer.Filters
         void SelectNode(IAnalysisNode node);
         void DeselectNode(IAnalysisNode node);
         bool IsSelected(IAnalysisNode node);
+
+        event EventHandler NodeSelected;
+        event EventHandler NodeDeselected;
     }
 }

@@ -15,7 +15,7 @@ namespace ReframeAnalyzer.Filters
 
         public FilterOption(List<IAnalysisNode> originalNodes)
         {
-            AllNodes = GetAllNodes(originalNodes);
+            AllNodes = InitializeNodes(originalNodes);
         }
 
         public FilterOption(List<IAnalysisNode> allNodes, AnalysisLevel level)
@@ -26,7 +26,14 @@ namespace ReframeAnalyzer.Filters
 
         public bool IsSelected(IAnalysisNode node)
         {
-            return SelectedNodes.Exists(n => n.Identifier == node.Identifier);
+            bool isSelected = false;
+
+            if (node != null)
+            {
+                isSelected = SelectedNodes.Exists(n => n.Identifier == node.Identifier);
+            }
+
+            return isSelected;
         }
 
         public void SelectNode(IAnalysisNode node)
@@ -34,6 +41,7 @@ namespace ReframeAnalyzer.Filters
             if (node != null && IsSelected(node) == false)
             {
                 SelectedNodes.Add(node);
+                OnNodeSelected(node);
             }
         }
 
@@ -42,6 +50,7 @@ namespace ReframeAnalyzer.Filters
             if (node != null && IsSelected(node) == true)
             {
                 SelectedNodes.Remove(node);
+                OnNodeDeselected(node);
             }
         }
 
@@ -74,7 +83,7 @@ namespace ReframeAnalyzer.Filters
             SelectedNodes.RemoveAll(condition);
         }
 
-        protected List<IAnalysisNode> GetAllNodes(List<IAnalysisNode> originalNodes)
+        private List<IAnalysisNode> InitializeNodes(List<IAnalysisNode> originalNodes)
         {
             List<IAnalysisNode> nodes = new List<IAnalysisNode>();
 
@@ -89,6 +98,47 @@ namespace ReframeAnalyzer.Filters
         public List<IAnalysisNode> GetNodes()
         {
             return AllNodes;
+        }
+
+        public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition)
+        {
+            return GetNodes().FindAll(condition);
+        }
+
+        public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition, bool distinct)
+        {
+            if (distinct == true)
+            {
+                List<IAnalysisNode> nodes = GetNodes().FindAll(condition);
+                List<IAnalysisNode> distinctNodes = new List<IAnalysisNode>();
+                foreach (var node in nodes)
+                {
+                    if (distinctNodes.Exists(n => n.Identifier == node.Identifier) == false)
+                    {
+                        distinctNodes.Add(node);
+                    }
+                }
+
+                return distinctNodes;
+            }
+            else
+            {
+                return GetNodes(condition);
+            }
+            
+        }
+
+        public event EventHandler NodeSelected;
+        public event EventHandler NodeDeselected;
+
+        private void OnNodeSelected(IAnalysisNode node)
+        {
+            NodeSelected?.Invoke(node, null);
+        }
+
+        private void OnNodeDeselected(IAnalysisNode node)
+        {
+            NodeDeselected?.Invoke(node, null);
         }
     }
 }

@@ -41,23 +41,18 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _classFilter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _classFilter.AssemblyFilterOption);
         }
 
         private void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _classFilter.GetAvailableNamespaceNodes());
+            FillListBoxes(clbNamespaceNodes, _classFilter.NamespaceFilterOption);
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
-            List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
-            if (namespaceNode != null)
-            {
-                classNodes = _classFilter.GetAvailableClassNodes(namespaceNode);
-            }
-
-            FillListBoxes(clbClassNodes, classNodes);
+            if (namespaceNode == null) return;
+            FillListBoxes(clbClassNodes, _classFilter.ClassFilterOption, node => node.Parent.Identifier == namespaceNode.Identifier);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -68,19 +63,19 @@ namespace ReframeTools.GUI
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            _classFilter.SelectAllAssemblyNodes();
+            _classFilter.AssemblyFilterOption.SelectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            _classFilter.DeselectAllAssemblyNodes();
+            _classFilter.AssemblyFilterOption.DeselectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _classFilter.SelectAllNamespaceNodes();
+            _classFilter.NamespaceFilterOption.SelectNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -88,7 +83,7 @@ namespace ReframeTools.GUI
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _classFilter.DeselectAllNamespaceNodes();
+            _classFilter.NamespaceFilterOption.DeselectNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -98,7 +93,7 @@ namespace ReframeTools.GUI
         {
             var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
             LoadClassNodes(selectedNamespaceNode);
-            EnableClassNodes(Filter.IsSelected(selectedNamespaceNode));
+            EnableClassNodes(_classFilter.NamespaceFilterOption.IsSelected(selectedNamespaceNode));
         }
 
         private void EnableClassNodes(bool enable)
@@ -110,16 +105,16 @@ namespace ReframeTools.GUI
 
         private void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            _classFilter.SelectAllNamespaceClasses(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
+            _classFilter.ClassFilterOption.SelectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            LoadClassNodes(namespaceNode);
         }
 
         private void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            _classFilter.DeselectAllNamespaceClasses(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
+            _classFilter.ClassFilterOption.DeselectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            LoadClassNodes(namespaceNode);
         }
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -129,7 +124,7 @@ namespace ReframeTools.GUI
 
         private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbNamespaceNodes, e);
+            CheckListBoxItem(clbNamespaceNodes, _classFilter.NamespaceFilterOption, e);
             RefreshClassNodes();
         }
 

@@ -54,6 +54,7 @@
     <Compile Include="Filters\AssemblyAnalysisFilter.cs" />
     <Compile Include="Filters\AssemblyFilterOption.cs" />
     <Compile Include="Filters\ClassAnalysisFilter.cs" />
+    <Compile Include="Filters\ClassFilterOption.cs" />
     <Compile Include="Filters\ClassMemberAnalysisFilter.cs" />
     <Compile Include="Filters\FilterOption.cs" />
     <Compile Include="Filters\IFilterOption.cs" />
