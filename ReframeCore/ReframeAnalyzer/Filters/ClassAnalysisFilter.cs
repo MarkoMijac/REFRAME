@@ -16,10 +16,7 @@ namespace ReframeAnalyzer.Filters
         public ClassAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
             Query = new Predicate<IAnalysisNode>(n => AssemblyFilterOption.IsSelected(n.Parent2) && NamespaceFilterOption.IsSelected(n.Parent) && ClassFilterOption.IsSelected(n));
-        }
 
-        protected override void InitializeOptions()
-        {
             AssemblyFilterOption = new AssemblyFilterOption(GetAssemblyNodes());
             AssemblyFilterOption.SelectNodes();
 
