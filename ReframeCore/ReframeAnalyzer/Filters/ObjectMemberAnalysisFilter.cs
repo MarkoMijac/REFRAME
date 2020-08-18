@@ -9,30 +9,59 @@ namespace ReframeAnalyzer.Filters
 {
     public class ObjectMemberAnalysisFilter : AnalysisFilter
     {
+        public IFilterOption AssemblyFilterOption { get; set; }
+        public IFilterOption NamespaceFilterOption { get; set; }
+        public IFilterOption ClassFilterOption { get; set; }
+        public IFilterOption ObjectFilterOption { get; set; }
+
         public ObjectMemberAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
-            Query = new Predicate<IAnalysisNode>(n => IsSelected(n.Parent.Parent.Parent2) && IsSelected(n.Parent.Parent.Parent) && IsSelected(n.Parent.Parent) && IsSelected(n.Parent));
+            Query = new Predicate<IAnalysisNode>(n => AssemblyFilterOption.IsSelected(n.Parent.Parent.Parent2) && NamespaceFilterOption.IsSelected(n.Parent.Parent.Parent) && ClassFilterOption.IsSelected(n.Parent.Parent) && ObjectFilterOption.IsSelected(n.Parent));
+
+            AssemblyFilterOption = new AssemblyFilterOption(GetAssemblyNodes(), AnalysisLevel.AssemblyLevel);
+            AssemblyFilterOption.SelectNodes();
+
+            NamespaceFilterOption = new NamespaceFilterOption(GetNamespaceNodes(), AnalysisLevel.NamespaceLevel);
+            NamespaceFilterOption.SelectNodes();
+            NamespaceFilterOption.NodeSelected += NamespaceFilterOption_NodeSelected;
+            NamespaceFilterOption.NodeDeselected += NamespaceFilterOption_NodeDeselected;
+
+            ClassFilterOption = new ClassFilterOption(GetClassNodes(), AnalysisLevel.ClassLevel);
+            ClassFilterOption.SelectNodes();
+            ClassFilterOption.NodeSelected += ClassFilterOption_NodeSelected;
+            ClassFilterOption.NodeDeselected += ClassFilterOption_NodeDeselected;
+
+            ObjectFilterOption = new ObjectFilterOption(GetObjectNodes(), AnalysisLevel.ObjectLevel);
+            ObjectFilterOption.SelectNodes();
         }
 
-        protected override void InitializeOptions()
+        private void ClassFilterOption_NodeDeselected(object sender, EventArgs e)
         {
-            IFilterOption assemblyFilterOption = new FilterOption(GetAvailableAssemblyNodes(), AnalysisLevel.AssemblyLevel);
-            FilterOptions.Add(assemblyFilterOption);
-            assemblyFilterOption.SelectNodes();
-
-            IFilterOption namespaceFilterOption = new FilterOption(GetAvailableNamespaceNodes(), AnalysisLevel.NamespaceLevel);
-            FilterOptions.Add(namespaceFilterOption);
-            namespaceFilterOption.SelectNodes();
-
-            IFilterOption classFilterOption = new FilterOption(GetAvailableClassNodes(), AnalysisLevel.ClassLevel);
-            FilterOptions.Add(classFilterOption);
-            classFilterOption.SelectNodes();
-
-            IFilterOption objectFilterOption = new FilterOption(GetAvailableObjectNodes(), AnalysisLevel.ObjectLevel);
-            FilterOptions.Add(objectFilterOption);
-            objectFilterOption.SelectNodes();
+            var classNode = sender as IAnalysisNode;
+            ObjectFilterOption.DeselectNodes(n => n.Parent.Identifier == classNode.Identifier);
         }
-        public List<IAnalysisNode> GetAvailableAssemblyNodes()
+
+        private void ClassFilterOption_NodeSelected(object sender, EventArgs e)
+        {
+            var classNode = sender as IAnalysisNode;
+            ObjectFilterOption.SelectNodes(n => n.Parent.Identifier == classNode.Identifier);
+        }
+
+        private void NamespaceFilterOption_NodeDeselected(object sender, EventArgs e)
+        {
+            var namespaceNode = sender as IAnalysisNode;
+            ClassFilterOption.DeselectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            ObjectFilterOption.DeselectNodes(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
+        }
+
+        private void NamespaceFilterOption_NodeSelected(object sender, EventArgs e)
+        {
+            var namespaceNode = sender as IAnalysisNode;
+            ClassFilterOption.SelectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            ObjectFilterOption.SelectNodes(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
+        }
+
+        private List<IAnalysisNode> GetAssemblyNodes()
         {
             List<IAnalysisNode> assemblyNodes = new List<IAnalysisNode>();
 
@@ -47,74 +76,7 @@ namespace ReframeAnalyzer.Filters
             return assemblyNodes;
         }
 
-        public override void SelectNode(IAnalysisNode node)
-        {
-            base.SelectNode(node);
-
-            if (node.Level == AnalysisLevel.NamespaceLevel)
-            {
-                SelectAllNamespaceClasses(node);
-                SelectAllNamespaceObjects(node);
-            }
-            else if (node.Level == AnalysisLevel.ClassLevel)
-            {
-                SelectAllClassObjects(node);
-            }
-        }
-
-        public void SelectAllNamespaceClasses(IAnalysisNode namespaceNode)
-        {
-            if (namespaceNode == null) return;
-
-            GetFilterOption(AnalysisLevel.ClassLevel).SelectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
-        }
-
-        public void SelectAllNamespaceObjects(IAnalysisNode namespaceNode)
-        {
-            if (namespaceNode == null) return;
-            GetFilterOption(AnalysisLevel.ObjectLevel).SelectNodes(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
-        }
-
-        public void SelectAllClassObjects(IAnalysisNode classNode)
-        {
-            if (classNode == null) return;
-
-            GetFilterOption(AnalysisLevel.ObjectLevel).DeselectNodes(n => n.Parent.Identifier == classNode.Identifier);
-        }
-
-        public override void DeselectNode(IAnalysisNode node)
-        {
-            base.DeselectNode(node);
-
-            if (node.Level == AnalysisLevel.NamespaceLevel)
-            {
-                DeselectAllNamespaceClasses(node);
-                DeselectAllObjectNodes(node);
-            }
-            else if (node.Level == AnalysisLevel.ClassLevel)
-            {
-                DeselectAllClassObjects(node);
-            }
-        }
-
-        public void DeselectAllNamespaceClasses(IAnalysisNode namespaceNode)
-        {
-            if (namespaceNode == null) return;
-            GetFilterOption(AnalysisLevel.ClassLevel).DeselectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
-        }
-
-        public void DeselectAllObjectNodes(IAnalysisNode namespaceNode)
-        {
-            if (namespaceNode == null) return;
-            GetFilterOption(AnalysisLevel.ObjectLevel).DeselectNodes(n => n.Parent.Parent.Identifier == namespaceNode.Identifier);
-        }
-
-        public void DeselectAllClassObjects(IAnalysisNode classNode)
-        {
-            if (classNode == null) return;
-            GetFilterOption(AnalysisLevel.ObjectLevel).DeselectNodes(n => n.Parent.Identifier == classNode.Identifier);
-        }
-        public List<IAnalysisNode> GetAvailableNamespaceNodes()
+        private List<IAnalysisNode> GetNamespaceNodes()
         {
             List<IAnalysisNode> namespaceNodes = new List<IAnalysisNode>();
 
@@ -129,7 +91,7 @@ namespace ReframeAnalyzer.Filters
             return namespaceNodes;
         }
 
-        public List<IAnalysisNode> GetAvailableClassNodes()
+        private List<IAnalysisNode> GetClassNodes()
         {
             List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
 
@@ -144,22 +106,7 @@ namespace ReframeAnalyzer.Filters
             return classNodes;
         }
 
-        public List<IAnalysisNode> GetAvailableClassNodes(IAnalysisNode namespaceNode)
-        {
-            List<IAnalysisNode> classNodes = new List<IAnalysisNode>();
-
-            foreach (var objectMemberNode in OriginalNodes)
-            {
-                if (objectMemberNode.Parent.Parent.Parent.Identifier == namespaceNode.Identifier && classNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Parent.Identifier) == false)
-                {
-                    classNodes.Add(objectMemberNode.Parent.Parent);
-                }
-            }
-
-            return classNodes;
-        }
-
-        public List<IAnalysisNode> GetAvailableObjectNodes()
+        private List<IAnalysisNode> GetObjectNodes()
         {
             List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
 
@@ -172,49 +119,6 @@ namespace ReframeAnalyzer.Filters
             }
 
             return objectNodes;
-        }
-
-        public List<IAnalysisNode> GetAvailableObjectNodes(IAnalysisNode classNode)
-        {
-            List<IAnalysisNode> objectNodes = new List<IAnalysisNode>();
-
-            foreach (var objectMemberNode in OriginalNodes)
-            {
-                if (objectMemberNode.Parent.Parent.Identifier == classNode.Identifier && objectNodes.Exists(n => n.Identifier == objectMemberNode.Parent.Identifier) == false)
-                {
-                    objectNodes.Add(objectMemberNode.Parent);
-                }
-            }
-
-            return objectNodes;
-        }
-
-        public void SelectAllAssemblyNodes()
-        {
-            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
-            if (assemblyFilterOption != null)
-            {
-                assemblyFilterOption.SelectNodes();
-            }
-        }
-
-        public void DeselectAllAssemblyNodes()
-        {
-            IFilterOption assemblyFilterOption = GetFilterOption(AnalysisLevel.AssemblyLevel);
-            if (assemblyFilterOption != null)
-            {
-                assemblyFilterOption.DeselectNodes();
-            }
-        }
-
-        public void SelectAllNamespaceNodes()
-        {
-            GetFilterOption(AnalysisLevel.NamespaceLevel).SelectNodes();
-        }
-
-        public void DeselectAllNamespaceNodes()
-        {
-            GetFilterOption(AnalysisLevel.NamespaceLevel).DeselectNodes();
         }
     }
 }
