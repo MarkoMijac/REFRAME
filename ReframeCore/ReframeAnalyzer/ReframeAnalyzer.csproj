@@ -62,6 +62,7 @@
     <Compile Include="Filters\NamespaceAnalysisFilter.cs" />
     <Compile Include="Filters\NamespaceFilterOption.cs" />
     <Compile Include="Filters\ObjectAnalysisFilter.cs" />
+    <Compile Include="Filters\ObjectFilterOption.cs" />
     <Compile Include="Filters\ObjectMemberAnalysisFilter.cs" />
     <Compile Include="Filters\UpdateAnalysisFilter.cs" />
     <Compile Include="Graph\AnalysisGraph.cs" />
