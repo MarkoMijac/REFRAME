@@ -41,42 +41,26 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _updateFilter.GetAvailableAssemblyNodes());
+            FillListBoxes(clbAssemblyNodes, _updateFilter.AssemblyFilterOption);
         }
 
         private void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _updateFilter.GetAvailableNamespaceNodes());
+            FillListBoxes(clbNamespaceNodes, _updateFilter.NamespaceFilterOption);
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
-            List<IAnalysisNode> classNodes;
-            if (namespaceNode != null)
-            {
-                classNodes = _updateFilter.GetAvailableClassNodes(namespaceNode);
-            }
-            else
-            {
-                classNodes = new List<IAnalysisNode>();
-            }
+            if (namespaceNode == null) return;
 
-            FillListBoxes(clbClassNodes, classNodes);
+            FillListBoxes(clbClassNodes, _updateFilter.ClassFilterOption, node => node.Parent.Identifier == namespaceNode.Identifier);
         }
 
         private void LoadObjectNodes(IAnalysisNode classNode)
         {
-            List<IAnalysisNode> objectNodes;
-            if (classNode != null)
-            {
-                objectNodes = _updateFilter.GetAvailableObjectNodes(classNode);
-            }
-            else
-            {
-                objectNodes = new List<IAnalysisNode>();
-            }
+            if (classNode == null) return;
 
-            FillListBoxes(clbObjectNodes, objectNodes);
+            FillListBoxes(clbObjectNodes, _updateFilter.ObjectFilterOption, n => n.Parent.Identifier == classNode.Identifier);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
@@ -87,19 +71,19 @@ namespace ReframeTools.GUI
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)
         {
-            _updateFilter.SelectAllAssemblyNodes();
+            _updateFilter.AssemblyFilterOption.SelectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnDeselectAllAssemblies_Click(object sender, EventArgs e)
         {
-            _updateFilter.DeselectAllAssemblyNodes();
+            _updateFilter.AssemblyFilterOption.DeselectNodes();
             LoadAssemblyNodes();
         }
 
         private void btnSelectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _updateFilter.SelectAllNamespaceNodes();
+            _updateFilter.NamespaceFilterOption.SelectNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -115,7 +99,7 @@ namespace ReframeTools.GUI
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
         {
-            _updateFilter.DeselectAllNamespaceNodes();
+            _updateFilter.NamespaceFilterOption.DeselectNodes();
             LoadNamespaceNodes();
 
             RefreshClassNodes();
@@ -131,34 +115,35 @@ namespace ReframeTools.GUI
 
         private void btnSelectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            _updateFilter.SelectAllNamespaceClasses(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
+
+            _updateFilter.ClassFilterOption.SelectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            LoadClassNodes(namespaceNode);
 
             RefreshObjectNodes();
         }
 
         private void btnDeselectAllClasses_Click(object sender, EventArgs e)
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            _updateFilter.DeselectAllNamespaceClasses(selectedNamespaceNode);
-            LoadClassNodes(selectedNamespaceNode);
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
+            _updateFilter.ClassFilterOption.DeselectNodes(n => n.Parent.Identifier == namespaceNode.Identifier);
+            LoadClassNodes(namespaceNode);
 
             RefreshObjectNodes();
         }
 
         private void btnSelectAllObjects_Click(object sender, EventArgs e)
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            _updateFilter.SelectAllClassObjects(selectedClassNode);
-            LoadObjectNodes(selectedClassNode);
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
+            _updateFilter.ObjectFilterOption.DeselectNodes(n => n.Parent.Identifier == classNode.Identifier);
+            LoadObjectNodes(classNode);
         }
 
         private void btnDeselectAllObjects_Click(object sender, EventArgs e)
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            _updateFilter.DeselectAllClassObjects(selectedClassNode);
-            LoadObjectNodes(selectedClassNode);
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
+           _updateFilter.ObjectFilterOption.DeselectNodes(n => n.Parent.Identifier == classNode.Identifier);
+            LoadObjectNodes(classNode);
         }
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
