@@ -33,19 +33,13 @@ namespace ReframeTools.GUI
         public FrmAnalysisView(string reactorIdentifier) : this()
         {
             ReactorIdentifier = reactorIdentifier;
+            AnalysisController = CreateAnalysisController();
             VisualizationController = new VisualizationController(ReactorIdentifier);
             AddColumns();
         }
 
-        protected virtual void SetFormTitle()
-        {
-            
-        }
-
         private void FrmObjectMemberAnalysis_Load(object sender, EventArgs e)
         {
-            SetFormTitle();
-
             bool notEmtpy = dgvNodes.SelectedRows.Count > 0;
             generalNodeAnalysisToolStripMenuItem.Enabled = notEmtpy;
             btnVisualize.Enabled = notEmtpy;
@@ -81,37 +75,31 @@ namespace ReframeTools.GUI
 
         protected virtual void showEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowEntireGraph();
         }
 
         protected virtual void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSourceNodes();
         }
 
         protected virtual void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSinkNodes();
         }
 
         protected virtual void showLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowLeafNodes();
         }
 
         protected virtual void showOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowOrphanNodes();
         }
 
         protected virtual void showIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowIntermediaryNodes();
         }
 
@@ -129,19 +117,16 @@ namespace ReframeTools.GUI
 
         private void showNodePredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowPredecessorNodes(GetSelectedNodeId());
         }
 
         private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSuccessorNodes(GetSelectedNodeId());
         }
 
         private void showNodesNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowNeighbourNodes(GetSelectedNodeId());
         }
 
@@ -152,37 +137,31 @@ namespace ReframeTools.GUI
 
         private void showSinkNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSinkNodes(GetSelectedNodeId());
         }
 
         private void showLeafNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowLeafNodes(GetSelectedNodeId());
         }
 
         private void showSourceNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowSourceNodes(GetSelectedNodeId());
         }
 
         private void showIntermediaryPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowIntermediaryPredecessors(GetSelectedNodeId());
         }
 
         private void showIntermediarySuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowIntermediarySuccessors(GetSelectedNodeId());
         }
 
         private void showIntermediaryNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController = CreateAnalysisController();
             AnalysisController.ShowIntermediaryNodes(GetSelectedNodeId());
         }
     }
