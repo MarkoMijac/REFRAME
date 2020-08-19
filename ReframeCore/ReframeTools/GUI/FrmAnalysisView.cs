@@ -20,7 +20,7 @@ namespace ReframeTools.GUI
         }
 
         public string ReactorIdentifier { get; set; }
-        protected AnalysisController AnalysisController { get; set; }
+        public  AnalysisController AnalysisController { get; set; }
         protected VisualizationController VisualizationController { get; set; }
 
         public string GraphIdentifier { get; set; }

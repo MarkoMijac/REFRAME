@@ -2,6 +2,7 @@
 using ReframeAnalyzer;
 using ReframeAnalyzer.Graph;
 using ReframeClient;
+using ReframeTools.Commands;
 using ReframeTools.GUI;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
+        internal List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
+
         private FrmAnalysisFilter FilterForm { get; set; }
         private FrmAnalysisView View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }

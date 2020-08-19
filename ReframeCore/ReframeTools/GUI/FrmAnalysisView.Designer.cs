@@ -49,18 +49,19 @@
             this.showIntermediaryNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnVisualize = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtGraphTotalNodeCount = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtGraphIdentifier = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtNumberOfAnalyzedNodes = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtGraphDensity = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtMaxNumOfDependencies = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtNumberOfDependencies = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtNumberOfAnalyzedNodes = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtGraphTotalNodeCount = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtGraphIdentifier = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.customAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNodes)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,7 +88,8 @@
             this.menuStrip1.BackColor = System.Drawing.Color.LightCoral;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generalAnalysesToolStripMenuItem,
-            this.generalNodeAnalysisToolStripMenuItem});
+            this.generalNodeAnalysisToolStripMenuItem,
+            this.customAnalysesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(614, 24);
@@ -170,8 +172,8 @@
             this.showIntermediarySuccessorsToolStripMenuItem,
             this.showIntermediaryNodesToolStripMenuItem1});
             this.generalNodeAnalysisToolStripMenuItem.Name = "generalNodeAnalysisToolStripMenuItem";
-            this.generalNodeAnalysisToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
-            this.generalNodeAnalysisToolStripMenuItem.Text = "Node analysis";
+            this.generalNodeAnalysisToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
+            this.generalNodeAnalysisToolStripMenuItem.Text = "Node analyses";
             // 
             // showNodePredecessorsToolStripMenuItem
             // 
@@ -281,60 +283,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Graph details:";
             // 
-            // txtGraphTotalNodeCount
-            // 
-            this.txtGraphTotalNodeCount.BackColor = System.Drawing.Color.MistyRose;
-            this.txtGraphTotalNodeCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtGraphTotalNodeCount.Location = new System.Drawing.Point(160, 45);
-            this.txtGraphTotalNodeCount.Name = "txtGraphTotalNodeCount";
-            this.txtGraphTotalNodeCount.Size = new System.Drawing.Size(100, 20);
-            this.txtGraphTotalNodeCount.TabIndex = 9;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Total nodes count:";
-            // 
-            // txtGraphIdentifier
-            // 
-            this.txtGraphIdentifier.BackColor = System.Drawing.Color.MistyRose;
-            this.txtGraphIdentifier.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtGraphIdentifier.Location = new System.Drawing.Point(160, 19);
-            this.txtGraphIdentifier.Name = "txtGraphIdentifier";
-            this.txtGraphIdentifier.Size = new System.Drawing.Size(100, 20);
-            this.txtGraphIdentifier.TabIndex = 7;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Graph identifier:";
-            // 
-            // txtNumberOfAnalyzedNodes
-            // 
-            this.txtNumberOfAnalyzedNodes.BackColor = System.Drawing.Color.MistyRose;
-            this.txtNumberOfAnalyzedNodes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumberOfAnalyzedNodes.Location = new System.Drawing.Point(160, 71);
-            this.txtNumberOfAnalyzedNodes.Name = "txtNumberOfAnalyzedNodes";
-            this.txtNumberOfAnalyzedNodes.Size = new System.Drawing.Size(100, 20);
-            this.txtNumberOfAnalyzedNodes.TabIndex = 11;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 74);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Number of analyzed nodes:";
-            // 
             // txtGraphDensity
             // 
             this.txtGraphDensity.BackColor = System.Drawing.Color.MistyRose;
@@ -388,6 +336,66 @@
             this.label7.Size = new System.Drawing.Size(129, 13);
             this.label7.TabIndex = 20;
             this.label7.Text = "Number of dependencies:";
+            // 
+            // txtNumberOfAnalyzedNodes
+            // 
+            this.txtNumberOfAnalyzedNodes.BackColor = System.Drawing.Color.MistyRose;
+            this.txtNumberOfAnalyzedNodes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNumberOfAnalyzedNodes.Location = new System.Drawing.Point(160, 71);
+            this.txtNumberOfAnalyzedNodes.Name = "txtNumberOfAnalyzedNodes";
+            this.txtNumberOfAnalyzedNodes.Size = new System.Drawing.Size(100, 20);
+            this.txtNumberOfAnalyzedNodes.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(136, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Number of analyzed nodes:";
+            // 
+            // txtGraphTotalNodeCount
+            // 
+            this.txtGraphTotalNodeCount.BackColor = System.Drawing.Color.MistyRose;
+            this.txtGraphTotalNodeCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGraphTotalNodeCount.Location = new System.Drawing.Point(160, 45);
+            this.txtGraphTotalNodeCount.Name = "txtGraphTotalNodeCount";
+            this.txtGraphTotalNodeCount.Size = new System.Drawing.Size(100, 20);
+            this.txtGraphTotalNodeCount.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(96, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Total nodes count:";
+            // 
+            // txtGraphIdentifier
+            // 
+            this.txtGraphIdentifier.BackColor = System.Drawing.Color.MistyRose;
+            this.txtGraphIdentifier.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGraphIdentifier.Location = new System.Drawing.Point(160, 19);
+            this.txtGraphIdentifier.Name = "txtGraphIdentifier";
+            this.txtGraphIdentifier.Size = new System.Drawing.Size(100, 20);
+            this.txtGraphIdentifier.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Graph identifier:";
+            // 
+            // customAnalysesToolStripMenuItem
+            // 
+            this.customAnalysesToolStripMenuItem.Name = "customAnalysesToolStripMenuItem";
+            this.customAnalysesToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
+            this.customAnalysesToolStripMenuItem.Text = "Custom analyses";
             // 
             // FrmAnalysisView
             // 
@@ -448,5 +456,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtNumberOfDependencies;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripMenuItem customAnalysesToolStripMenuItem;
     }
 }

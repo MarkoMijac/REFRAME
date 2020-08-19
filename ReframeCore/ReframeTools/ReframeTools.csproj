@@ -56,6 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CmdVisualizer.cs" />
+    <Compile Include="Commands\GuiCommand.cs" />
     <Compile Include="Controllers\AnalysisController.cs" />
     <Compile Include="Controllers\ReactorDetailsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />

@@ -1,5 +1,6 @@
 ﻿using IPCClient;
 using ReframeClient;
+using ReframeTools.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,6 +144,12 @@ namespace ReframeTools.GUI
                 var form = new FrmReactorDetails(reactorIdentifier);
                 DisplayForm(form);
             }
+        }
+
+        private void btnCustomAnalysis_Click(object sender, EventArgs e)
+        {
+            var form = new FrmAssemblyAnalysisView(GetSelectedReactorIdentifier());
+            DisplayForm(form);
         }
     }
 }

@@ -42,6 +42,7 @@
             this.archivedAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblReactors = new System.Windows.Forms.Label();
             this.btnShowDetails = new System.Windows.Forms.Button();
+            this.btnCustomAnalysis = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -180,12 +181,25 @@
             this.btnShowDetails.UseVisualStyleBackColor = false;
             this.btnShowDetails.Click += new System.EventHandler(this.btnShowDetails_Click);
             // 
+            // btnCustomAnalysis
+            // 
+            this.btnCustomAnalysis.BackColor = System.Drawing.Color.LightCoral;
+            this.btnCustomAnalysis.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCustomAnalysis.Location = new System.Drawing.Point(12, 461);
+            this.btnCustomAnalysis.Name = "btnCustomAnalysis";
+            this.btnCustomAnalysis.Size = new System.Drawing.Size(102, 23);
+            this.btnCustomAnalysis.TabIndex = 6;
+            this.btnCustomAnalysis.Text = "CustomAnalysis";
+            this.btnCustomAnalysis.UseVisualStyleBackColor = false;
+            this.btnCustomAnalysis.Click += new System.EventHandler(this.btnCustomAnalysis_Click);
+            // 
             // FrmRegisteredReactors
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
             this.ClientSize = new System.Drawing.Size(655, 501);
+            this.Controls.Add(this.btnCustomAnalysis);
             this.Controls.Add(this.btnShowDetails);
             this.Controls.Add(this.lblReactors);
             this.Controls.Add(this.dgvReactors);
@@ -218,5 +232,6 @@
         private System.Windows.Forms.ToolStripMenuItem archivedAnalysesToolStripMenuItem;
         private System.Windows.Forms.Label lblReactors;
         protected System.Windows.Forms.Button btnShowDetails;
+        protected System.Windows.Forms.Button btnCustomAnalysis;
     }
 }
