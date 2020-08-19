@@ -47,7 +47,22 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public void SelectNodes()
+        
+
+        public void SelectNodes(Predicate<IAnalysisNode> condition = null)
+        {
+            if (condition == null)
+            {
+                SelectAllNodes();
+            }
+            else
+            {
+                SelectNodesWithCondition(condition);
+            }
+
+        }
+
+        private void SelectAllNodes()
         {
             foreach (var node in AllNodes)
             {
@@ -55,7 +70,7 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public void SelectNodes(Predicate<IAnalysisNode> condition)
+        private void SelectNodesWithCondition(Predicate<IAnalysisNode> condition)
         {
             foreach (var node in AllNodes)
             {
@@ -66,24 +81,33 @@ namespace ReframeAnalyzer.Filters
             }
         }
 
-        public void DeselectNodes()
+        public void DeselectNodes(Predicate<IAnalysisNode> condition = null)
         {
-            SelectedNodes.Clear();
+            if (condition == null)
+            {
+                SelectedNodes.Clear();
+            }
+            else
+            {
+                SelectedNodes.RemoveAll(condition);
+            }
         }
 
-        public void DeselectNodes(Predicate<IAnalysisNode> condition)
-        {
-            SelectedNodes.RemoveAll(condition);
-        }
-
-        public List<IAnalysisNode> GetNodes()
+        private List<IAnalysisNode> GetNodes()
         {
             return AllNodes;
         }
 
-        public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition)
+        public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition = null)
         {
-            return GetNodes().FindAll(condition);
+            if (condition == null)
+            {
+                return AllNodes;
+            }
+            else
+            {
+                return GetNodes().FindAll(condition);
+            }
         }
 
         public event EventHandler NodeSelected;

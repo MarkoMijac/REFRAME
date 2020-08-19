@@ -9,13 +9,9 @@ namespace ReframeAnalyzer.Filters
 {
     public interface IFilterOption
     {
-        List<IAnalysisNode> GetNodes();
-        List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition);
-
-        void SelectNodes();
-        void SelectNodes(Predicate<IAnalysisNode> condition);
-        void DeselectNodes();
-        void DeselectNodes(Predicate<IAnalysisNode> condition);
+        List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition = null);
+        void SelectNodes(Predicate<IAnalysisNode> condition = null);
+        void DeselectNodes(Predicate<IAnalysisNode> condition = null);
         void SelectNode(IAnalysisNode node);
         void DeselectNode(IAnalysisNode node);
         bool IsSelected(IAnalysisNode node);
