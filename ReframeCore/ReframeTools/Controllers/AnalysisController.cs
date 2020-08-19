@@ -19,25 +19,36 @@ namespace ReframeTools.Controllers
         public IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         private Analyzer Analyzer { get; set; } = new Analyzer();
-        private AnalysisGraphFactory GraphFactory { get; set; }
 
         public AnalysisController(FrmAnalysisView form, AnalysisGraphFactory graphFactory, FrmAnalysisFilter frmFilter = null)
         {
-            GraphFactory = graphFactory;
             View = form;
             FilterForm = frmFilter;
 
-            CreateAnalysisGraph(View.ReactorIdentifier); 
+            CreateAnalysisGraph(View.ReactorIdentifier, graphFactory); 
         }
 
-        protected void CreateAnalysisGraph(string reactorIdentifier)
+        private void CreateAnalysisGraph(string reactorIdentifier, AnalysisGraphFactory graphFactory)
         {
             var pipeClient = new ReframePipeClient();
             string xmlSource = pipeClient.GetReactor(reactorIdentifier);
-            AnalysisGraph = GraphFactory.CreateGraph(xmlSource);
+            AnalysisGraph = graphFactory.CreateGraph(xmlSource);
         }
 
-        protected virtual void ShowGraph(IEnumerable<IAnalysisNode> nodes)
+        private void DisplayGraph(List<IAnalysisNode> originalNodes)
+        {
+            try
+            {
+                AnalysisNodes = GetFilteredNodes(originalNodes);
+                ShowGraph(AnalysisNodes);
+            }
+            catch (Exception e)
+            {
+                DisplayError(e);
+            }
+        }
+
+        private void ShowGraph(IEnumerable<IAnalysisNode> nodes)
         {
             if (View != null)
             {
@@ -77,114 +88,42 @@ namespace ReframeTools.Controllers
             return filteredNodes;
         }
 
-        public virtual void ShowEntireGraph()
+        public void ShowEntireGraph()
         {
-            try
-            {
-                var originalNodes = AnalysisGraph.Nodes;
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(AnalysisGraph.Nodes);
         }
 
-        public virtual void ShowSourceNodes()
+        public void ShowSourceNodes()
         {
-            try
-            {
-                var originalNodes = Analyzer.GetSourceNodes(AnalysisGraph);
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(Analyzer.GetSourceNodes(AnalysisGraph));
         }
 
         public void ShowSinkNodes()
         {
-            try
-            {
-                var originalNodes = Analyzer.GetSinkNodes(AnalysisGraph);
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(Analyzer.GetSinkNodes(AnalysisGraph));
         }
 
         public void ShowLeafNodes()
         {
-            try
-            {
-                var originalNodes = Analyzer.GetLeafNodes(AnalysisGraph);
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(Analyzer.GetLeafNodes(AnalysisGraph));
         }
 
         public void ShowOrphanNodes()
         {
-            try
-            {
-                var originalNodes = Analyzer.GetOrphanNodes(AnalysisGraph);
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(Analyzer.GetOrphanNodes(AnalysisGraph));
         }
 
         public void ShowIntermediaryNodes()
         {
-            try
-            {
-                var originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph);
-                AnalysisNodes = GetFilteredNodes(originalNodes);
-                ShowGraph(AnalysisNodes);
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
-            }
+            DisplayGraph(Analyzer.GetIntermediaryNodes(AnalysisGraph));
         }
 
         public void ShowPredecessorNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes;
-
-                    int maxDepth = GetMaxDepth();
-                    if (maxDepth == 0)
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier);
-                    }
-                    else
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier, maxDepth);
-                    }
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                List<IAnalysisNode> predecessorNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier, GetMaxDepth());
+                DisplayGraph(predecessorNodes);
             }
         }
 
@@ -198,160 +137,71 @@ namespace ReframeTools.Controllers
 
         public void ShowSuccessorNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes;
-                    int maxDepth = GetMaxDepth();
-                    if (maxDepth == 0)
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier);
-                    }
-                    else
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier, maxDepth);
-                    }
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                List<IAnalysisNode> successorNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier, GetMaxDepth());
+                DisplayGraph(successorNodes);
             }
         }
 
         public void ShowNeighbourNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes;
-                    int maxDepth = GetMaxDepth();
-                    if (maxDepth == 0)
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier);
-                    }
-                    else
-                    {
-                        originalNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier, maxDepth);
-                    }
-                    
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                List<IAnalysisNode> neighbourNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier, GetMaxDepth());
+                DisplayGraph(neighbourNodes);
             }
         }
 
         public void ShowSourceNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
         public void ShowSinkNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
         public void ShowLeafNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
         public void ShowIntermediaryPredecessors(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier));
             }
         }
 
         public void ShowIntermediarySuccessors(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier));
             }
         }
 
         public void ShowIntermediaryNodes(uint nodeIdentifier)
         {
-            try
+            if (nodeIdentifier != 0)
             {
-                if (nodeIdentifier != 0)
-                {
-                    List<IAnalysisNode> originalNodes = Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier);
-                    AnalysisNodes = GetFilteredNodes(originalNodes);
-                    ShowGraph(AnalysisNodes);
-                }
-            }
-            catch (Exception e)
-            {
-                DisplayError(e);
+                DisplayGraph(Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        protected void DisplayError(Exception e)
+        private void DisplayError(Exception e)
         {
             MessageBox.Show($"Unable to fetch and display data! Error:{e.Message}!");
         }

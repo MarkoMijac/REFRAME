@@ -520,7 +520,7 @@ namespace ReframeAnalyzerTests
             var analyzer = new Analyzer();
 
             //Act
-            var successors = analyzer.GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
+            var successors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
         }
 
         [TestMethod]
@@ -534,7 +534,7 @@ namespace ReframeAnalyzerTests
             var nodeIdentifier = reactor.Graph.Nodes[0].Identifier;
 
             //Act
-            var successors = analyzer.GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
+            var successors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
         }
 
         [TestMethod]
@@ -547,7 +547,7 @@ namespace ReframeAnalyzerTests
             var nodeIdentifier = sinkNodes[0].Identifier;
 
             //Act
-            var successors = analyzer.GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
+            var successors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
 
             //Assert
             Assert.IsTrue(successors.Count == 1);
@@ -563,7 +563,7 @@ namespace ReframeAnalyzerTests
             var nodeIdentifier = reactor.Graph.Nodes[3].Identifier;
 
             //Act
-            var successors = analyzer.GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
+            var successors = analyzer.GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
 
             //Assert
             Assert.IsTrue(successors.Count == 4);
