@@ -41,19 +41,19 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _classMemberFilter.AssemblyFilterOption);
+            FillListBox(clbAssemblyNodes, _classMemberFilter.AssemblyFilterOption);
         }
 
         private void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _classMemberFilter.NamespaceFilterOption);
+            FillListBox(clbNamespaceNodes, _classMemberFilter.NamespaceFilterOption);
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
 
-            FillListBoxes(clbClassNodes, _classMemberFilter.ClassFilterOption, n => n.Parent.Identifier == namespaceNode.Identifier);
+            FillListBox(clbClassNodes, _classMemberFilter.ClassFilterOption, n => n.Parent.Identifier == namespaceNode.Identifier);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)

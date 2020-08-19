@@ -45,7 +45,7 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _assemblyFilter.AssemblyFilterOption);
+            FillListBox(clbAssemblyNodes, _assemblyFilter.AssemblyFilterOption);
         }
 
         private void btnSelecteAllAssemblies_Click(object sender, EventArgs e)

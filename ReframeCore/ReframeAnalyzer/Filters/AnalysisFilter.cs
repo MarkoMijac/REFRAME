@@ -18,7 +18,7 @@ namespace ReframeAnalyzer.Filters
             OriginalNodes = originalNodes;
         }
 
-        public virtual IEnumerable<IAnalysisNode> Apply()
+        public virtual List<IAnalysisNode> Apply()
         {
             List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
             filteredNodes.AddRange(OriginalNodes.FindAll(Query));

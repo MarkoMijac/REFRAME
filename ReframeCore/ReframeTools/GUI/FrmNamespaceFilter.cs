@@ -39,12 +39,12 @@ namespace ReframeTools.GUI
 
         protected void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption);
+            FillListBox(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption);
         }
 
         protected void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _namespaceFilter.NamespaceFilterOption);
+            FillListBox(clbNamespaceNodes, _namespaceFilter.NamespaceFilterOption);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)

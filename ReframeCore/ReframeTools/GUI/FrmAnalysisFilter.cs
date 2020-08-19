@@ -23,7 +23,7 @@ namespace ReframeTools.GUI
             InitializeComponent();
         }
 
-        protected void FillListBoxes(CheckedListBox listBox, IFilterOption filterOption)
+        protected void FillListBox(CheckedListBox listBox, IFilterOption filterOption)
         {
             listBox.Items.Clear();
 
@@ -34,11 +34,11 @@ namespace ReframeTools.GUI
             }
         }
 
-        protected void FillListBoxes(CheckedListBox listBox, IFilterOption filterOption, Predicate<IAnalysisNode> condition)
+        protected void FillListBox(CheckedListBox listBox, IFilterOption filterOption, Predicate<IAnalysisNode> predicate)
         {
             listBox.Items.Clear();
 
-            foreach (var node in filterOption.GetNodes(condition))
+            foreach (var node in filterOption.GetNodes(predicate))
             {
                 bool checkedItem = filterOption.IsSelected(node);
                 listBox.Items.Add(node, checkedItem);

@@ -9,6 +9,6 @@ namespace ReframeAnalyzer.Filters
 {
     public interface IAnalysisFilter
     {
-        IEnumerable<IAnalysisNode> Apply();
+        List<IAnalysisNode> Apply();
     }
 }

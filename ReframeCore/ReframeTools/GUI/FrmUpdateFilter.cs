@@ -40,26 +40,26 @@ namespace ReframeTools.GUI
 
         private void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _updateFilter.AssemblyFilterOption);
+            FillListBox(clbAssemblyNodes, _updateFilter.AssemblyFilterOption);
         }
 
         private void LoadNamespaceNodes()
         {
-            FillListBoxes(clbNamespaceNodes, _updateFilter.NamespaceFilterOption);
+            FillListBox(clbNamespaceNodes, _updateFilter.NamespaceFilterOption);
         }
 
         private void LoadClassNodes(IAnalysisNode namespaceNode)
         {
             if (namespaceNode == null) return;
 
-            FillListBoxes(clbClassNodes, _updateFilter.ClassFilterOption, node => node.Parent.Identifier == namespaceNode.Identifier);
+            FillListBox(clbClassNodes, _updateFilter.ClassFilterOption, node => node.Parent.Identifier == namespaceNode.Identifier);
         }
 
         private void LoadObjectNodes(IAnalysisNode classNode)
         {
             if (classNode == null) return;
 
-            FillListBoxes(clbObjectNodes, _updateFilter.ObjectFilterOption, n => n.Parent.Identifier == classNode.Identifier);
+            FillListBox(clbObjectNodes, _updateFilter.ObjectFilterOption, n => n.Parent.Identifier == classNode.Identifier);
         }
 
         private void FrmOptions_Load(object sender, EventArgs e)
