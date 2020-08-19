@@ -26,21 +26,20 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        protected override void Initialize()
+        private void Initialize()
         {
-            Level = AnalysisLevel.NamespaceLevel;
             Filter = new NamespaceAnalysisFilter(OriginalNodes);
             _namespaceFilter = Filter as NamespaceAnalysisFilter;
         }
 
-        protected override void LoadNodes()
+        private void LoadNodes()
         {
             LoadNamespaceNodes();
         }
 
         protected void LoadAssemblyNodes()
         {
-            FillListBoxes(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption.GetNodes());
+            FillListBoxes(clbAssemblyNodes, _namespaceFilter.AssemblyFilterOption);
         }
 
         protected void LoadNamespaceNodes()

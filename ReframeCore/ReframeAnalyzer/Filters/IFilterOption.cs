@@ -9,10 +9,8 @@ namespace ReframeAnalyzer.Filters
 {
     public interface IFilterOption
     {
-        AnalysisLevel Level { get; }
         List<IAnalysisNode> GetNodes();
         List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition);
-        List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition, bool distinct);
 
         void SelectNodes();
         void SelectNodes(Predicate<IAnalysisNode> condition);

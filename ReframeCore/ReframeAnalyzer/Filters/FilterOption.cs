@@ -9,19 +9,12 @@ namespace ReframeAnalyzer.Filters
 {
     public class FilterOption : IFilterOption
     {
-        public AnalysisLevel Level { get; protected set; }
-        protected List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
-        public List<IAnalysisNode> AllNodes { get; protected set; } = new List<IAnalysisNode>();
+        private List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
+        private List<IAnalysisNode> AllNodes { get; set; } = new List<IAnalysisNode>();
 
-        public FilterOption(List<IAnalysisNode> originalNodes)
-        {
-            AllNodes = InitializeNodes(originalNodes);
-        }
-
-        public FilterOption(List<IAnalysisNode> allNodes, AnalysisLevel level)
+        public FilterOption(List<IAnalysisNode> allNodes)
         {
             AllNodes = allNodes;
-            Level = level;
         }
 
         public bool IsSelected(IAnalysisNode node)
@@ -83,18 +76,6 @@ namespace ReframeAnalyzer.Filters
             SelectedNodes.RemoveAll(condition);
         }
 
-        private List<IAnalysisNode> InitializeNodes(List<IAnalysisNode> originalNodes)
-        {
-            List<IAnalysisNode> nodes = new List<IAnalysisNode>();
-
-            foreach (var node in originalNodes)
-            {
-                nodes.Add(node);
-            }
-
-            return nodes;
-        }
-
         public List<IAnalysisNode> GetNodes()
         {
             return AllNodes;
@@ -103,29 +84,6 @@ namespace ReframeAnalyzer.Filters
         public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition)
         {
             return GetNodes().FindAll(condition);
-        }
-
-        public List<IAnalysisNode> GetNodes(Predicate<IAnalysisNode> condition, bool distinct)
-        {
-            if (distinct == true)
-            {
-                List<IAnalysisNode> nodes = GetNodes().FindAll(condition);
-                List<IAnalysisNode> distinctNodes = new List<IAnalysisNode>();
-                foreach (var node in nodes)
-                {
-                    if (distinctNodes.Exists(n => n.Identifier == node.Identifier) == false)
-                    {
-                        distinctNodes.Add(node);
-                    }
-                }
-
-                return distinctNodes;
-            }
-            else
-            {
-                return GetNodes(condition);
-            }
-            
         }
 
         public event EventHandler NodeSelected;

@@ -26,14 +26,13 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        protected override void Initialize()
+        private void Initialize()
         {
-            Level = AnalysisLevel.UpdateAnalysisLevel;
             _updateFilter = new UpdateAnalysisFilter(OriginalNodes);
             Filter = _updateFilter;
         }
 
-        protected override void LoadNodes()
+        private void LoadNodes()
         {
             LoadAssemblyNodes();
             LoadNamespaceNodes();
@@ -92,9 +91,9 @@ namespace ReframeTools.GUI
 
         private void RefreshObjectNodes()
         {
-            var selectedClassNode = clbClassNodes.SelectedItem as IAnalysisNode;
-            LoadObjectNodes(selectedClassNode);
-            EnableObjectNodes(_updateFilter.IsSelected(selectedClassNode));
+            var classNode = clbClassNodes.SelectedItem as IAnalysisNode;
+            LoadObjectNodes(classNode);
+            EnableObjectNodes(_updateFilter.ClassFilterOption.IsSelected(classNode));
         }
 
         private void btnDeselectAllNamespaces_Click(object sender, EventArgs e)
@@ -108,9 +107,9 @@ namespace ReframeTools.GUI
 
         private void RefreshClassNodes()
         {
-            var selectedNamespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
-            LoadClassNodes(selectedNamespaceNode);
-            EnableClassNodes(_updateFilter.IsSelected(selectedNamespaceNode));
+            var namespaceNode = clbNamespaceNodes.SelectedItem as IAnalysisNode;
+            LoadClassNodes(namespaceNode);
+            EnableClassNodes(_updateFilter.NamespaceFilterOption.IsSelected(namespaceNode));
         }
 
         private void btnSelectAllClasses_Click(object sender, EventArgs e)
@@ -148,24 +147,24 @@ namespace ReframeTools.GUI
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbAssemblyNodes, e);
+            CheckListBoxItem(clbAssemblyNodes, _updateFilter.AssemblyFilterOption, e);
         }
 
         private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbNamespaceNodes, e);
+            CheckListBoxItem(clbNamespaceNodes, _updateFilter.NamespaceFilterOption, e);
             RefreshClassNodes();
             RefreshObjectNodes();
         }
 
         private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbClassNodes, e);
+            CheckListBoxItem(clbClassNodes, _updateFilter.ClassFilterOption, e);
         }
 
         private void clbObjectNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbObjectNodes, e);
+            CheckListBoxItem(clbObjectNodes, _updateFilter.ObjectFilterOption, e);
         }
 
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)

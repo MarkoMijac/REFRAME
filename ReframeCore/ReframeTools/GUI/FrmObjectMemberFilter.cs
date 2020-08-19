@@ -26,14 +26,13 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        protected override void Initialize()
+        private void Initialize()
         {
-            Level = AnalysisLevel.ObjectMemberLevel;
             _objectMemberFilter = new ObjectMemberAnalysisFilter(OriginalNodes);
             Filter = _objectMemberFilter;
         }
 
-        protected override void LoadNodes()
+        private void LoadNodes()
         {
             LoadAssemblyNodes();
             LoadNamespaceNodes();

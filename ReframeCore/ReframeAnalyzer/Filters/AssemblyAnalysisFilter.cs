@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.Filters
         {
             Query = new Predicate<IAnalysisNode>(n => AssemblyFilterOption.IsSelected(n) == true);
 
-            AssemblyFilterOption = new FilterOption(OriginalNodes, AnalysisLevel.AssemblyLevel);
+            AssemblyFilterOption = new FilterOption(OriginalNodes);
             AssemblyFilterOption.SelectNodes();
         }
     }

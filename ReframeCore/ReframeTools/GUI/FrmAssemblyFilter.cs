@@ -32,14 +32,13 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        protected override void Initialize()
+        private void Initialize()
         {
-            Level = AnalysisLevel.AssemblyLevel;
             Filter = new AssemblyAnalysisFilter(OriginalNodes);
             _assemblyFilter = Filter as AssemblyAnalysisFilter;
         }
 
-        protected override void LoadNodes()
+        private void LoadNodes()
         {
             LoadAssemblyNodes();
         }

@@ -18,20 +18,20 @@ namespace ReframeAnalyzer.Filters
         {
             Query = new Predicate<IAnalysisNode>(n => AssemblyFilterOption.IsSelected(n.Parent.Parent.Parent2) && NamespaceFilterOption.IsSelected(n.Parent.Parent.Parent) && ClassFilterOption.IsSelected(n.Parent.Parent) && ObjectFilterOption.IsSelected(n.Parent));
 
-            AssemblyFilterOption = new FilterOption(GetAssemblyNodes(), AnalysisLevel.AssemblyLevel);
+            AssemblyFilterOption = new FilterOption(GetAssemblyNodes());
             AssemblyFilterOption.SelectNodes();
 
-            NamespaceFilterOption = new FilterOption(GetNamespaceNodes(), AnalysisLevel.NamespaceLevel);
+            NamespaceFilterOption = new FilterOption(GetNamespaceNodes());
             NamespaceFilterOption.SelectNodes();
             NamespaceFilterOption.NodeSelected += NamespaceFilterOption_NodeSelected;
             NamespaceFilterOption.NodeDeselected += NamespaceFilterOption_NodeDeselected;
 
-            ClassFilterOption = new FilterOption(GetClassNodes(), AnalysisLevel.ClassLevel);
+            ClassFilterOption = new FilterOption(GetClassNodes());
             ClassFilterOption.SelectNodes();
             ClassFilterOption.NodeSelected += ClassFilterOption_NodeSelected;
             ClassFilterOption.NodeDeselected += ClassFilterOption_NodeDeselected;
 
-            ObjectFilterOption = new FilterOption(GetObjectNodes(), AnalysisLevel.ObjectLevel);
+            ObjectFilterOption = new FilterOption(GetObjectNodes());
             ObjectFilterOption.SelectNodes();
         }
 

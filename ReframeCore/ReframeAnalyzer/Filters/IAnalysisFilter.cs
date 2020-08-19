@@ -10,8 +10,5 @@ namespace ReframeAnalyzer.Filters
     public interface IAnalysisFilter
     {
         IEnumerable<IAnalysisNode> Apply();
-        bool IsSelected(IAnalysisNode node);
-        void SelectNode(IAnalysisNode node);
-        void DeselectNode(IAnalysisNode node);
     }
 }

@@ -16,28 +16,11 @@ namespace ReframeTools.GUI
     {
         public List<IAnalysisNode> OriginalNodes { get; set; }
 
-        public AnalysisLevel Level { get; set; }
-
         public IAnalysisFilter Filter { get; set; }
 
         public FrmAnalysisFilter()
         {
             InitializeComponent();
-        }
-
-        protected virtual void Initialize() { }
-
-        protected virtual void LoadNodes() { }
-
-        protected void FillListBoxes(CheckedListBox listBox, List<IAnalysisNode> nodes)
-        {
-            listBox.Items.Clear();
-
-            foreach (var node in nodes)
-            { 
-                bool checkedItem = Filter.IsSelected(node);
-                listBox.Items.Add(node, checkedItem);
-            }
         }
 
         protected void FillListBoxes(CheckedListBox listBox, IFilterOption filterOption)
@@ -59,20 +42,6 @@ namespace ReframeTools.GUI
             {
                 bool checkedItem = filterOption.IsSelected(node);
                 listBox.Items.Add(node, checkedItem);
-            }
-        }
-
-        protected void CheckListBoxItem(CheckedListBox listBox, ItemCheckEventArgs e)
-        {
-            IAnalysisNode node = listBox.SelectedItem as IAnalysisNode;
-            
-            if(e.NewValue == CheckState.Checked)
-            {
-                Filter.SelectNode(node);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                Filter.DeselectNode(node);
             }
         }
 

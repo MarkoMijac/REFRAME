@@ -26,14 +26,13 @@ namespace ReframeTools.GUI
             Close();
         }
 
-        protected override void Initialize()
+        private void Initialize()
         {
-            Level = AnalysisLevel.ClassLevel;
             Filter = new ClassAnalysisFilter(OriginalNodes);
             _classFilter = Filter as ClassAnalysisFilter;
         }
 
-        protected override void LoadNodes()
+        private void LoadNodes()
         {
             LoadAssemblyNodes();
             LoadNamespaceNodes();
@@ -119,7 +118,7 @@ namespace ReframeTools.GUI
 
         private void clbAssemblyNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbAssemblyNodes, e);
+            CheckListBoxItem(clbAssemblyNodes, _classFilter.AssemblyFilterOption, e);
         }
 
         private void clbNamespaceNodes_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -130,7 +129,7 @@ namespace ReframeTools.GUI
 
         private void clbClassNodes_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            CheckListBoxItem(clbClassNodes, e);
+            CheckListBoxItem(clbClassNodes, _classFilter.ClassFilterOption, e);
         }
        
         private void clbNamespaceNodes_SelectedIndexChanged(object sender, EventArgs e)
