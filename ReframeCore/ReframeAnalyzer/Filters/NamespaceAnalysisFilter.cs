@@ -16,10 +16,10 @@ namespace ReframeAnalyzer.Filters
         {
             Query = new Predicate<IAnalysisNode>(n => NamespaceFilterOption.IsSelected(n));
 
-            AssemblyFilterOption = new AssemblyFilterOption(OriginalNodes);
+            AssemblyFilterOption = new FilterOption(OriginalNodes, AnalysisLevel.AssemblyLevel);
             AssemblyFilterOption.SelectNodes();
 
-            NamespaceFilterOption = new NamespaceFilterOption(OriginalNodes);
+            NamespaceFilterOption = new FilterOption(OriginalNodes, AnalysisLevel.NamespaceLevel);
             NamespaceFilterOption.SelectNodes();
         }
 

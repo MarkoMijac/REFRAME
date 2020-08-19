@@ -18,20 +18,20 @@ namespace ReframeAnalyzer.Filters
         {
             Query = new Predicate<IAnalysisNode>(n => AssemblyFilterOption.IsSelected(n.Parent.Parent.Parent2) && NamespaceFilterOption.IsSelected(n.Parent.Parent.Parent) && ClassFilterOption.IsSelected(n.Parent.Parent) && ObjectFilterOption.IsSelected(n.Parent));
 
-            AssemblyFilterOption = new AssemblyFilterOption(GetAssemblyNodes(), AnalysisLevel.AssemblyLevel);
+            AssemblyFilterOption = new FilterOption(GetAssemblyNodes(), AnalysisLevel.AssemblyLevel);
             AssemblyFilterOption.SelectNodes();
 
-            NamespaceFilterOption = new NamespaceFilterOption(GetNamespaceNodes(), AnalysisLevel.NamespaceLevel);
+            NamespaceFilterOption = new FilterOption(GetNamespaceNodes(), AnalysisLevel.NamespaceLevel);
             NamespaceFilterOption.SelectNodes();
             NamespaceFilterOption.NodeSelected += NamespaceFilterOption_NodeSelected;
             NamespaceFilterOption.NodeDeselected += NamespaceFilterOption_NodeDeselected;
 
-            ClassFilterOption = new ClassFilterOption(GetClassNodes(), AnalysisLevel.ClassLevel);
+            ClassFilterOption = new FilterOption(GetClassNodes(), AnalysisLevel.ClassLevel);
             ClassFilterOption.SelectNodes();
             ClassFilterOption.NodeSelected += ClassFilterOption_NodeSelected;
             ClassFilterOption.NodeDeselected += ClassFilterOption_NodeDeselected;
 
-            ObjectFilterOption = new ObjectFilterOption(GetObjectNodes(), AnalysisLevel.ObjectLevel);
+            ObjectFilterOption = new FilterOption(GetObjectNodes(), AnalysisLevel.ObjectLevel);
             ObjectFilterOption.SelectNodes();
         }
 
