@@ -145,11 +145,5 @@ namespace ReframeTools.GUI
                 DisplayForm(form);
             }
         }
-
-        private void btnCustomAnalysis_Click(object sender, EventArgs e)
-        {
-            var form = new FrmAssemblyAnalysisView(GetSelectedReactorIdentifier());
-            DisplayForm(form);
-        }
     }
 }

@@ -15,6 +15,7 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
+        internal List<GuiCommand> GeneralAnalyses { get; set; } = new List<GuiCommand>();
         internal List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
 
         private FrmAnalysisFilter FilterForm { get; set; }
@@ -28,6 +29,7 @@ namespace ReframeTools.Controllers
             View = form;
             FilterForm = frmFilter;
 
+            CreateGeneralCommands();
             CreateAnalysisGraph(View.ReactorIdentifier, graphFactory); 
         }
 
@@ -91,32 +93,54 @@ namespace ReframeTools.Controllers
             return filteredNodes;
         }
 
-        public void ShowEntireGraph()
+        private void CreateGeneralCommands()
+        {
+            var showGraphCommand = new GuiCommand("showGraphCommand", "Show graph...", this, nameof(ShowEntireGraph));
+
+            var showSourceNodesCommand = new GuiCommand("showSourceNodesCommand", "Show source nodes...", this, nameof(ShowSourceNodes));
+
+            var showSinkNodesCommand = new GuiCommand("showSinkNodesCommand", "Show sink nodes...", this, nameof(ShowSinkNodes));
+
+            var showLeafNodesCommand = new GuiCommand("showLeafNodesCommand", "Show leaf nodes...", this, nameof(ShowLeafNodes));
+
+            var showOrphanNodesCommand = new GuiCommand("showOrphanNodesCommand", "Show orphan nodes...", this, nameof(ShowOrphanNodes));
+
+            var showIntermediaryNodesCommand = new GuiCommand("showIntermediaryNodesCommand", "Show intermediary nodes...", this, nameof(ShowIntermediaryNodes));
+
+            GeneralAnalyses.Add(showGraphCommand);
+            GeneralAnalyses.Add(showSourceNodesCommand);
+            GeneralAnalyses.Add(showSinkNodesCommand);
+            GeneralAnalyses.Add(showLeafNodesCommand);
+            GeneralAnalyses.Add(showOrphanNodesCommand);
+            GeneralAnalyses.Add(showIntermediaryNodesCommand);
+        }
+
+        private void ShowEntireGraph()
         {
             DisplayGraph(AnalysisGraph.Nodes);
         }
 
-        public void ShowSourceNodes()
+        private void ShowSourceNodes()
         {
             DisplayGraph(Analyzer.GetSourceNodes(AnalysisGraph));
         }
 
-        public void ShowSinkNodes()
+        private void ShowSinkNodes()
         {
             DisplayGraph(Analyzer.GetSinkNodes(AnalysisGraph));
         }
 
-        public void ShowLeafNodes()
+        private void ShowLeafNodes()
         {
             DisplayGraph(Analyzer.GetLeafNodes(AnalysisGraph));
         }
 
-        public void ShowOrphanNodes()
+        private void ShowOrphanNodes()
         {
             DisplayGraph(Analyzer.GetOrphanNodes(AnalysisGraph));
         }
 
-        public void ShowIntermediaryNodes()
+        private void ShowIntermediaryNodes()
         {
             DisplayGraph(Analyzer.GetIntermediaryNodes(AnalysisGraph));
         }
@@ -156,7 +180,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSourceNodes(uint nodeIdentifier)
+        public void ShowSourceNodesForNode(uint nodeIdentifier)
         {
             if (nodeIdentifier != 0)
             {
@@ -164,7 +188,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSinkNodes(uint nodeIdentifier)
+        public void ShowSinkNodesForNode(uint nodeIdentifier)
         {
             if (nodeIdentifier != 0)
             {
@@ -172,7 +196,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowLeafNodes(uint nodeIdentifier)
+        public void ShowLeafNodesForNode(uint nodeIdentifier)
         {
             if (nodeIdentifier != 0)
             {
@@ -196,7 +220,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowIntermediaryNodes(uint nodeIdentifier)
+        public void ShowIntermediaryNodesForNode(uint nodeIdentifier)
         {
             if (nodeIdentifier != 0)
             {

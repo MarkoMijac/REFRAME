@@ -31,12 +31,6 @@
             this.dgvNodes = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.generalAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showEntireGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showSourceNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showSinkNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showLeafNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showOrphanNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showIntermediaryNodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generalNodeAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showNodePredecessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +41,7 @@
             this.showIntermediaryPredecessorsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.showIntermediarySuccessorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showIntermediaryNodesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.customAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnVisualize = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtGraphDensity = new System.Windows.Forms.TextBox();
@@ -61,7 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtGraphIdentifier = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.customAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNodes)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -99,64 +93,9 @@
             // generalAnalysesToolStripMenuItem
             // 
             this.generalAnalysesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.generalAnalysesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showEntireGraphToolStripMenuItem,
-            this.showSourceNodesToolStripMenuItem,
-            this.showSinkNodesToolStripMenuItem,
-            this.showLeafNodesToolStripMenuItem,
-            this.showOrphanNodesToolStripMenuItem,
-            this.showIntermediaryNodesToolStripMenuItem});
             this.generalAnalysesToolStripMenuItem.Name = "generalAnalysesToolStripMenuItem";
             this.generalAnalysesToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
             this.generalAnalysesToolStripMenuItem.Text = "Graph analyses";
-            // 
-            // showEntireGraphToolStripMenuItem
-            // 
-            this.showEntireGraphToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showEntireGraphToolStripMenuItem.Name = "showEntireGraphToolStripMenuItem";
-            this.showEntireGraphToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showEntireGraphToolStripMenuItem.Text = "Show graph...";
-            this.showEntireGraphToolStripMenuItem.Click += new System.EventHandler(this.showEntireGraphToolStripMenuItem_Click);
-            // 
-            // showSourceNodesToolStripMenuItem
-            // 
-            this.showSourceNodesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showSourceNodesToolStripMenuItem.Name = "showSourceNodesToolStripMenuItem";
-            this.showSourceNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showSourceNodesToolStripMenuItem.Text = "Show source nodes";
-            this.showSourceNodesToolStripMenuItem.Click += new System.EventHandler(this.showSourceNodesToolStripMenuItem_Click);
-            // 
-            // showSinkNodesToolStripMenuItem
-            // 
-            this.showSinkNodesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showSinkNodesToolStripMenuItem.Name = "showSinkNodesToolStripMenuItem";
-            this.showSinkNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showSinkNodesToolStripMenuItem.Text = "Show sink nodes";
-            this.showSinkNodesToolStripMenuItem.Click += new System.EventHandler(this.showSinkNodesToolStripMenuItem_Click);
-            // 
-            // showLeafNodesToolStripMenuItem
-            // 
-            this.showLeafNodesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showLeafNodesToolStripMenuItem.Name = "showLeafNodesToolStripMenuItem";
-            this.showLeafNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showLeafNodesToolStripMenuItem.Text = "Show leaf nodes";
-            this.showLeafNodesToolStripMenuItem.Click += new System.EventHandler(this.showLeafNodesToolStripMenuItem_Click);
-            // 
-            // showOrphanNodesToolStripMenuItem
-            // 
-            this.showOrphanNodesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showOrphanNodesToolStripMenuItem.Name = "showOrphanNodesToolStripMenuItem";
-            this.showOrphanNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showOrphanNodesToolStripMenuItem.Text = "Show orphan nodes";
-            this.showOrphanNodesToolStripMenuItem.Click += new System.EventHandler(this.showOrphanNodesToolStripMenuItem_Click);
-            // 
-            // showIntermediaryNodesToolStripMenuItem
-            // 
-            this.showIntermediaryNodesToolStripMenuItem.BackColor = System.Drawing.Color.LightCoral;
-            this.showIntermediaryNodesToolStripMenuItem.Name = "showIntermediaryNodesToolStripMenuItem";
-            this.showIntermediaryNodesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.showIntermediaryNodesToolStripMenuItem.Text = "Show intermediary nodes";
-            this.showIntermediaryNodesToolStripMenuItem.Click += new System.EventHandler(this.showIntermediaryNodesToolStripMenuItem_Click);
             // 
             // generalNodeAnalysisToolStripMenuItem
             // 
@@ -246,6 +185,12 @@
             this.showIntermediaryNodesToolStripMenuItem1.Size = new System.Drawing.Size(253, 22);
             this.showIntermediaryNodesToolStripMenuItem1.Text = "Show intermediary nodes...";
             this.showIntermediaryNodesToolStripMenuItem1.Click += new System.EventHandler(this.showIntermediaryNodesToolStripMenuItem1_Click);
+            // 
+            // customAnalysesToolStripMenuItem
+            // 
+            this.customAnalysesToolStripMenuItem.Name = "customAnalysesToolStripMenuItem";
+            this.customAnalysesToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
+            this.customAnalysesToolStripMenuItem.Text = "Custom analyses";
             // 
             // btnVisualize
             // 
@@ -391,12 +336,6 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Graph identifier:";
             // 
-            // customAnalysesToolStripMenuItem
-            // 
-            this.customAnalysesToolStripMenuItem.Name = "customAnalysesToolStripMenuItem";
-            this.customAnalysesToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
-            this.customAnalysesToolStripMenuItem.Text = "Custom analyses";
-            // 
             // FrmAnalysisView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,12 +364,6 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem generalAnalysesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showEntireGraphToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showSourceNodesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showSinkNodesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showLeafNodesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showOrphanNodesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showIntermediaryNodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generalNodeAnalysisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showNodePredecessorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showSuccessorsToolStripMenuItem;

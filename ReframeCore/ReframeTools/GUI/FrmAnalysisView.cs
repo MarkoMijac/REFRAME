@@ -1,4 +1,5 @@
 ﻿using ReframeAnalyzer.Graph;
+using ReframeTools.Commands;
 using ReframeTools.Controllers;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace ReframeTools.GUI
             ReactorIdentifier = reactorIdentifier;
             AnalysisController = CreateAnalysisController();
             VisualizationController = new VisualizationController(ReactorIdentifier);
+
             AddColumns();
         }
 
@@ -43,6 +45,31 @@ namespace ReframeTools.GUI
             bool notEmtpy = dgvNodes.SelectedRows.Count > 0;
             generalNodeAnalysisToolStripMenuItem.Enabled = notEmtpy;
             btnVisualize.Enabled = notEmtpy;
+
+            FillGeneralAnalyses();
+            FillCustomAnalyses();
+
+        }
+
+        private void FillMenuItemOptions(ToolStripMenuItem menu, List<GuiCommand> commands)
+        {
+            menu.DropDownItems.Clear();
+
+            foreach (var command in commands)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(command.Text, null, command.Handler);
+                menu.DropDownItems.Add(item);
+            }
+        }
+
+        private void FillGeneralAnalyses()
+        {
+            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GeneralAnalyses);
+        }
+
+        private void FillCustomAnalyses()
+        {
+            FillMenuItemOptions(customAnalysesToolStripMenuItem, AnalysisController.CustomAnalyses);
         }
 
         public virtual void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)
@@ -71,36 +98,6 @@ namespace ReframeTools.GUI
         protected virtual AnalysisController CreateAnalysisController()
         {
             return null;
-        }
-
-        protected virtual void showEntireGraphToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowEntireGraph();
-        }
-
-        protected virtual void showSourceNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowSourceNodes();
-        }
-
-        protected virtual void showSinkNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowSinkNodes();
-        }
-
-        protected virtual void showLeafNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowLeafNodes();
-        }
-
-        protected virtual void showOrphanNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowOrphanNodes();
-        }
-
-        protected virtual void showIntermediaryNodesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowIntermediaryNodes();
         }
 
         private uint GetSelectedNodeId()
@@ -137,17 +134,17 @@ namespace ReframeTools.GUI
 
         private void showSinkNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController.ShowSinkNodes(GetSelectedNodeId());
+            AnalysisController.ShowSinkNodesForNode(GetSelectedNodeId());
         }
 
         private void showLeafNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController.ShowLeafNodes(GetSelectedNodeId());
+            AnalysisController.ShowLeafNodesForNode(GetSelectedNodeId());
         }
 
         private void showSourceNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController.ShowSourceNodes(GetSelectedNodeId());
+            AnalysisController.ShowSourceNodesForNode(GetSelectedNodeId());
         }
 
         private void showIntermediaryPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -162,7 +159,7 @@ namespace ReframeTools.GUI
 
         private void showIntermediaryNodesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AnalysisController.ShowIntermediaryNodes(GetSelectedNodeId());
+            AnalysisController.ShowIntermediaryNodesForNode(GetSelectedNodeId());
         }
     }
 }
