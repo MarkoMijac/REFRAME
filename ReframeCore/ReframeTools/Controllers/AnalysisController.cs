@@ -15,7 +15,10 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
-        internal List<GuiCommand> GeneralAnalyses { get; set; } = new List<GuiCommand>();
+        internal List<GuiCommand> GeneralGraphAnalyses { get; set; } = new List<GuiCommand>();
+
+        internal List<GuiCommand> GeneralNodeAnalyses { get; set; } = new List<GuiCommand>();
+
         internal List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
 
         private FrmAnalysisFilter FilterForm { get; set; }
@@ -29,7 +32,8 @@ namespace ReframeTools.Controllers
             View = form;
             FilterForm = frmFilter;
 
-            CreateGeneralCommands();
+            CreateGeneralGraphCommands();
+            CreateGeneralNodeCommands();
             CreateAnalysisGraph(View.ReactorIdentifier, graphFactory); 
         }
 
@@ -93,26 +97,44 @@ namespace ReframeTools.Controllers
             return filteredNodes;
         }
 
-        private void CreateGeneralCommands()
+        private void CreateGeneralGraphCommands()
         {
             var showGraphCommand = new GuiCommand("showGraphCommand", "Show graph...", this, nameof(ShowEntireGraph));
-
             var showSourceNodesCommand = new GuiCommand("showSourceNodesCommand", "Show source nodes...", this, nameof(ShowSourceNodes));
-
             var showSinkNodesCommand = new GuiCommand("showSinkNodesCommand", "Show sink nodes...", this, nameof(ShowSinkNodes));
-
             var showLeafNodesCommand = new GuiCommand("showLeafNodesCommand", "Show leaf nodes...", this, nameof(ShowLeafNodes));
-
             var showOrphanNodesCommand = new GuiCommand("showOrphanNodesCommand", "Show orphan nodes...", this, nameof(ShowOrphanNodes));
-
             var showIntermediaryNodesCommand = new GuiCommand("showIntermediaryNodesCommand", "Show intermediary nodes...", this, nameof(ShowIntermediaryNodes));
 
-            GeneralAnalyses.Add(showGraphCommand);
-            GeneralAnalyses.Add(showSourceNodesCommand);
-            GeneralAnalyses.Add(showSinkNodesCommand);
-            GeneralAnalyses.Add(showLeafNodesCommand);
-            GeneralAnalyses.Add(showOrphanNodesCommand);
-            GeneralAnalyses.Add(showIntermediaryNodesCommand);
+            GeneralGraphAnalyses.Add(showGraphCommand);
+            GeneralGraphAnalyses.Add(showSourceNodesCommand);
+            GeneralGraphAnalyses.Add(showSinkNodesCommand);
+            GeneralGraphAnalyses.Add(showLeafNodesCommand);
+            GeneralGraphAnalyses.Add(showOrphanNodesCommand);
+            GeneralGraphAnalyses.Add(showIntermediaryNodesCommand);
+        }
+
+        private void CreateGeneralNodeCommands()
+        {
+            var showPredecessorsForNode = new GuiCommand("showPredecessorsForNode", "Show node's predecessors...", this, nameof(ShowPredecessorNodes));
+            var showSuccessorsForNode = new GuiCommand("showSuccessorsForNode", "Show node's successors...", this, nameof(ShowSuccessorNodes));
+            var showNeighboursForNode = new GuiCommand("showNeighboursForNode", "Show node's neighbours...", this, nameof(ShowNeighbourNodes));
+            var showSourceNodesForNode = new GuiCommand("showSourceNodesForNode", "Show node's source nodes...", this, nameof(ShowSourceNodesForNode));
+            var showSinkNodesForNode = new GuiCommand("showSinkNodesForNode", "Show node's sink nodes...", this, nameof(ShowSinkNodesForNode));
+            var showLeafNodesForNode = new GuiCommand("showLeafNodesForNode", "Show node's leaf nodes...", this, nameof(ShowLeafNodesForNode));
+            var showIntermediaryPredecessors = new GuiCommand("showIntermediaryPredecessors", "Show intermediary predecessors...", this, nameof(ShowIntermediaryPredecessors));
+            var showIntermediarySuccessors = new GuiCommand("showIntermediarySuccessors", "Show intermediary successors...", this, nameof(ShowIntermediarySuccessors));
+            var showIntermediaryNodesForNode = new GuiCommand("showIntermediaryNodesForNode", "Show node's intermediary nodes...", this, nameof(ShowIntermediaryNodesForNode));
+
+            GeneralNodeAnalyses.Add(showPredecessorsForNode);
+            GeneralNodeAnalyses.Add(showSuccessorsForNode);
+            GeneralNodeAnalyses.Add(showNeighboursForNode);
+            GeneralNodeAnalyses.Add(showSourceNodesForNode);
+            GeneralNodeAnalyses.Add(showSinkNodesForNode);
+            GeneralNodeAnalyses.Add(showLeafNodesForNode);
+            GeneralNodeAnalyses.Add(showIntermediaryPredecessors);
+            GeneralNodeAnalyses.Add(showIntermediarySuccessors);
+            GeneralNodeAnalyses.Add(showIntermediaryNodesForNode);
         }
 
         private void ShowEntireGraph()
@@ -145,8 +167,9 @@ namespace ReframeTools.Controllers
             DisplayGraph(Analyzer.GetIntermediaryNodes(AnalysisGraph));
         }
 
-        public void ShowPredecessorNodes(uint nodeIdentifier)
+        private void ShowPredecessorNodes()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 List<IAnalysisNode> predecessorNodes = Analyzer.GetNodeAndItsPredecessors(AnalysisGraph, nodeIdentifier, GetMaxDepth());
@@ -162,8 +185,9 @@ namespace ReframeTools.Controllers
             return depthForm.MaxDepthLevel;
         }
 
-        public void ShowSuccessorNodes(uint nodeIdentifier)
+        private void ShowSuccessorNodes()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 List<IAnalysisNode> successorNodes = Analyzer.GetNodeAndItsSuccessors(AnalysisGraph, nodeIdentifier, GetMaxDepth());
@@ -171,8 +195,9 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowNeighbourNodes(uint nodeIdentifier)
+        private void ShowNeighbourNodes()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 List<IAnalysisNode> neighbourNodes = Analyzer.GetNodeAndItsNeighbours(AnalysisGraph, nodeIdentifier, GetMaxDepth());
@@ -180,48 +205,54 @@ namespace ReframeTools.Controllers
             }
         }
 
-        public void ShowSourceNodesForNode(uint nodeIdentifier)
+        private void ShowSourceNodesForNode()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetSourceNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        public void ShowSinkNodesForNode(uint nodeIdentifier)
+        private void ShowSinkNodesForNode()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetSinkNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        public void ShowLeafNodesForNode(uint nodeIdentifier)
+        private void ShowLeafNodesForNode()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetLeafNodes(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        public void ShowIntermediaryPredecessors(uint nodeIdentifier)
+        private void ShowIntermediaryPredecessors()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetIntermediaryPredecessors(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        public void ShowIntermediarySuccessors(uint nodeIdentifier)
+        private void ShowIntermediarySuccessors()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetIntermediarySuccessors(AnalysisGraph, nodeIdentifier));
             }
         }
 
-        public void ShowIntermediaryNodesForNode(uint nodeIdentifier)
+        private void ShowIntermediaryNodesForNode()
         {
+            uint nodeIdentifier = View.SelectedNodeId;
             if (nodeIdentifier != 0)
             {
                 DisplayGraph(Analyzer.GetIntermediaryNodes(AnalysisGraph, nodeIdentifier));

@@ -21,6 +21,9 @@ namespace ReframeTools.GUI
         }
 
         public string ReactorIdentifier { get; set; }
+
+        public uint SelectedNodeId { get { return GetSelectedNodeId(); } }
+
         public  AnalysisController AnalysisController { get; set; }
         protected VisualizationController VisualizationController { get; set; }
 
@@ -64,7 +67,8 @@ namespace ReframeTools.GUI
 
         private void FillGeneralAnalyses()
         {
-            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GeneralAnalyses);
+            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GeneralGraphAnalyses);
+            FillMenuItemOptions(generalNodeAnalysisToolStripMenuItem, AnalysisController.GeneralNodeAnalyses);
         }
 
         private void FillCustomAnalyses()
@@ -112,54 +116,9 @@ namespace ReframeTools.GUI
             return id;
         }
 
-        private void showNodePredecessorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowPredecessorNodes(GetSelectedNodeId());
-        }
-
-        private void showSuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowSuccessorNodes(GetSelectedNodeId());
-        }
-
-        private void showNodesNeighboursToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowNeighbourNodes(GetSelectedNodeId());
-        }
-
         private void btnVisualize_Click(object sender, EventArgs e)
         {
             VisualizationController.Visualize(AnalysisController.AnalysisGraph, AnalysisController.AnalysisNodes);
-        }
-
-        private void showSinkNodesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowSinkNodesForNode(GetSelectedNodeId());
-        }
-
-        private void showLeafNodesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowLeafNodesForNode(GetSelectedNodeId());
-        }
-
-        private void showSourceNodesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowSourceNodesForNode(GetSelectedNodeId());
-        }
-
-        private void showIntermediaryPredecessorsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowIntermediaryPredecessors(GetSelectedNodeId());
-        }
-
-        private void showIntermediarySuccessorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowIntermediarySuccessors(GetSelectedNodeId());
-        }
-
-        private void showIntermediaryNodesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AnalysisController.ShowIntermediaryNodesForNode(GetSelectedNodeId());
         }
     }
 }
