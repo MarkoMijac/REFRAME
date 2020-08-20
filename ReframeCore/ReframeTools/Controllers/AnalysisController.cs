@@ -15,11 +15,11 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
-        internal List<GuiCommand> GeneralGraphAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> GeneralGraphAnalyses { get; set; } = new List<GuiCommand>();
 
-        internal List<GuiCommand> GeneralNodeAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> GeneralNodeAnalyses { get; set; } = new List<GuiCommand>();
 
-        internal List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
 
         private FrmAnalysisFilter FilterForm { get; set; }
         private FrmAnalysisView View { get; set; }
@@ -114,6 +114,11 @@ namespace ReframeTools.Controllers
             GeneralGraphAnalyses.Add(showIntermediaryNodesCommand);
         }
 
+        public IReadOnlyList<GuiCommand> GetGeneralGraphAnalyses()
+        {
+            return GeneralGraphAnalyses;
+        }
+
         private void CreateGeneralNodeCommands()
         {
             var showPredecessorsForNode = new GuiCommand("showPredecessorsForNode", "Show node's predecessors...", this, nameof(ShowPredecessorNodes));
@@ -135,6 +140,38 @@ namespace ReframeTools.Controllers
             GeneralNodeAnalyses.Add(showIntermediaryPredecessors);
             GeneralNodeAnalyses.Add(showIntermediarySuccessors);
             GeneralNodeAnalyses.Add(showIntermediaryNodesForNode);
+        }
+
+        public IReadOnlyList<GuiCommand> GetGeneralNodeAnalyses()
+        {
+            return GeneralNodeAnalyses;
+        }
+
+        public void AddCustomAnalysisCommand(GuiCommand command)
+        {
+            if (command != null)
+            {
+                CustomAnalyses.Add(command);
+            }
+        }
+
+        public void RemoveCustomAnalysisCommand(GuiCommand command)
+        {
+            if (command != null)
+            {
+                CustomAnalyses.Remove(command);
+            }
+        }
+
+        public void RemoveCustomAnalysisCommand(string identifier)
+        {
+            var command = CustomAnalyses.FirstOrDefault(c => c.Identifier == identifier);
+            RemoveCustomAnalysisCommand(command);
+        }
+
+        public IReadOnlyList<GuiCommand> GetCustomAnalyses()
+        {
+            return CustomAnalyses;
         }
 
         private void ShowEntireGraph()

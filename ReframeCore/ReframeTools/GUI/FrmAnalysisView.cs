@@ -54,7 +54,7 @@ namespace ReframeTools.GUI
 
         }
 
-        private void FillMenuItemOptions(ToolStripMenuItem menu, List<GuiCommand> commands)
+        private void FillMenuItemOptions(ToolStripMenuItem menu, IEnumerable<GuiCommand> commands)
         {
             menu.DropDownItems.Clear();
 
@@ -67,13 +67,22 @@ namespace ReframeTools.GUI
 
         private void FillGeneralAnalyses()
         {
-            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GeneralGraphAnalyses);
-            FillMenuItemOptions(generalNodeAnalysisToolStripMenuItem, AnalysisController.GeneralNodeAnalyses);
+            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GetGeneralGraphAnalyses());
+            FillMenuItemOptions(generalNodeAnalysisToolStripMenuItem, AnalysisController.GetGeneralNodeAnalyses());
         }
 
         private void FillCustomAnalyses()
         {
-            FillMenuItemOptions(customAnalysesToolStripMenuItem, AnalysisController.CustomAnalyses);
+            var customAnalyses = AnalysisController.GetCustomAnalyses();
+            if (customAnalyses.Count > 0)
+            {
+                FillMenuItemOptions(customAnalysesToolStripMenuItem, customAnalyses);
+                customAnalysesToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                customAnalysesToolStripMenuItem.Visible = false;
+            }
         }
 
         public virtual void ShowAnalysis(IEnumerable<IAnalysisNode> nodes)

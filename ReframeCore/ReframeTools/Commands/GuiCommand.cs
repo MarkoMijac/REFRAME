@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReframeTools.Commands
 {
-    internal class GuiCommand
+    public class GuiCommand
     {
         public string Identifier { get; private set; }
         public string Text { get; set; }
