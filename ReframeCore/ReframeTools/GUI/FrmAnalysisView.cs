@@ -67,13 +67,13 @@ namespace ReframeTools.GUI
 
         private void FillGeneralAnalyses()
         {
-            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GetGeneralGraphAnalyses());
-            FillMenuItemOptions(generalNodeAnalysisToolStripMenuItem, AnalysisController.GetGeneralNodeAnalyses());
+            FillMenuItemOptions(generalAnalysesToolStripMenuItem, AnalysisController.GetGeneralGraphAnalysesCommands());
+            FillMenuItemOptions(generalNodeAnalysisToolStripMenuItem, AnalysisController.GetGeneralNodeAnalysesCommands());
         }
 
         private void FillCustomAnalyses()
         {
-            var customAnalyses = AnalysisController.GetCustomAnalyses();
+            var customAnalyses = AnalysisController.GetCustomAnalysesCommands();
             if (customAnalyses.Count > 0)
             {
                 FillMenuItemOptions(customAnalysesToolStripMenuItem, customAnalyses);

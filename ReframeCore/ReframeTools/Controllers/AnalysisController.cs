@@ -15,11 +15,11 @@ namespace ReframeTools.Controllers
 {
     public class AnalysisController
     {
-        protected List<GuiCommand> GeneralGraphAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> GeneralGraphAnalysesCommands { get; set; } = new List<GuiCommand>();
 
-        protected List<GuiCommand> GeneralNodeAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> GeneralNodeAnalysesCommands { get; set; } = new List<GuiCommand>();
 
-        protected List<GuiCommand> CustomAnalyses { get; set; } = new List<GuiCommand>();
+        protected List<GuiCommand> CustomAnalysesCommands { get; set; } = new List<GuiCommand>();
 
         private FrmAnalysisFilter FilterForm { get; set; }
         private FrmAnalysisView View { get; set; }
@@ -32,8 +32,8 @@ namespace ReframeTools.Controllers
             View = form;
             FilterForm = frmFilter;
 
-            CreateGeneralGraphCommands();
-            CreateGeneralNodeCommands();
+            CreateGeneralGraphAnalysesCommands();
+            CreateGeneralNodeAnalysesCommands();
             CreateAnalysisGraph(View.ReactorIdentifier, graphFactory); 
         }
 
@@ -97,7 +97,7 @@ namespace ReframeTools.Controllers
             return filteredNodes;
         }
 
-        private void CreateGeneralGraphCommands()
+        private void CreateGeneralGraphAnalysesCommands()
         {
             var showGraphCommand = new GuiCommand("showGraphCommand", "Show graph...", this, nameof(ShowEntireGraph));
             var showSourceNodesCommand = new GuiCommand("showSourceNodesCommand", "Show source nodes...", this, nameof(ShowSourceNodes));
@@ -106,20 +106,20 @@ namespace ReframeTools.Controllers
             var showOrphanNodesCommand = new GuiCommand("showOrphanNodesCommand", "Show orphan nodes...", this, nameof(ShowOrphanNodes));
             var showIntermediaryNodesCommand = new GuiCommand("showIntermediaryNodesCommand", "Show intermediary nodes...", this, nameof(ShowIntermediaryNodes));
 
-            GeneralGraphAnalyses.Add(showGraphCommand);
-            GeneralGraphAnalyses.Add(showSourceNodesCommand);
-            GeneralGraphAnalyses.Add(showSinkNodesCommand);
-            GeneralGraphAnalyses.Add(showLeafNodesCommand);
-            GeneralGraphAnalyses.Add(showOrphanNodesCommand);
-            GeneralGraphAnalyses.Add(showIntermediaryNodesCommand);
+            GeneralGraphAnalysesCommands.Add(showGraphCommand);
+            GeneralGraphAnalysesCommands.Add(showSourceNodesCommand);
+            GeneralGraphAnalysesCommands.Add(showSinkNodesCommand);
+            GeneralGraphAnalysesCommands.Add(showLeafNodesCommand);
+            GeneralGraphAnalysesCommands.Add(showOrphanNodesCommand);
+            GeneralGraphAnalysesCommands.Add(showIntermediaryNodesCommand);
         }
 
-        public IReadOnlyList<GuiCommand> GetGeneralGraphAnalyses()
+        public IReadOnlyList<GuiCommand> GetGeneralGraphAnalysesCommands()
         {
-            return GeneralGraphAnalyses;
+            return GeneralGraphAnalysesCommands;
         }
 
-        private void CreateGeneralNodeCommands()
+        private void CreateGeneralNodeAnalysesCommands()
         {
             var showPredecessorsForNode = new GuiCommand("showPredecessorsForNode", "Show node's predecessors...", this, nameof(ShowPredecessorNodes));
             var showSuccessorsForNode = new GuiCommand("showSuccessorsForNode", "Show node's successors...", this, nameof(ShowSuccessorNodes));
@@ -131,27 +131,27 @@ namespace ReframeTools.Controllers
             var showIntermediarySuccessors = new GuiCommand("showIntermediarySuccessors", "Show intermediary successors...", this, nameof(ShowIntermediarySuccessors));
             var showIntermediaryNodesForNode = new GuiCommand("showIntermediaryNodesForNode", "Show node's intermediary nodes...", this, nameof(ShowIntermediaryNodesForNode));
 
-            GeneralNodeAnalyses.Add(showPredecessorsForNode);
-            GeneralNodeAnalyses.Add(showSuccessorsForNode);
-            GeneralNodeAnalyses.Add(showNeighboursForNode);
-            GeneralNodeAnalyses.Add(showSourceNodesForNode);
-            GeneralNodeAnalyses.Add(showSinkNodesForNode);
-            GeneralNodeAnalyses.Add(showLeafNodesForNode);
-            GeneralNodeAnalyses.Add(showIntermediaryPredecessors);
-            GeneralNodeAnalyses.Add(showIntermediarySuccessors);
-            GeneralNodeAnalyses.Add(showIntermediaryNodesForNode);
+            GeneralNodeAnalysesCommands.Add(showPredecessorsForNode);
+            GeneralNodeAnalysesCommands.Add(showSuccessorsForNode);
+            GeneralNodeAnalysesCommands.Add(showNeighboursForNode);
+            GeneralNodeAnalysesCommands.Add(showSourceNodesForNode);
+            GeneralNodeAnalysesCommands.Add(showSinkNodesForNode);
+            GeneralNodeAnalysesCommands.Add(showLeafNodesForNode);
+            GeneralNodeAnalysesCommands.Add(showIntermediaryPredecessors);
+            GeneralNodeAnalysesCommands.Add(showIntermediarySuccessors);
+            GeneralNodeAnalysesCommands.Add(showIntermediaryNodesForNode);
         }
 
-        public IReadOnlyList<GuiCommand> GetGeneralNodeAnalyses()
+        public IReadOnlyList<GuiCommand> GetGeneralNodeAnalysesCommands()
         {
-            return GeneralNodeAnalyses;
+            return GeneralNodeAnalysesCommands;
         }
 
         public void AddCustomAnalysisCommand(GuiCommand command)
         {
             if (command != null)
             {
-                CustomAnalyses.Add(command);
+                CustomAnalysesCommands.Add(command);
             }
         }
 
@@ -159,19 +159,19 @@ namespace ReframeTools.Controllers
         {
             if (command != null)
             {
-                CustomAnalyses.Remove(command);
+                CustomAnalysesCommands.Remove(command);
             }
         }
 
         public void RemoveCustomAnalysisCommand(string identifier)
         {
-            var command = CustomAnalyses.FirstOrDefault(c => c.Identifier == identifier);
+            var command = CustomAnalysesCommands.FirstOrDefault(c => c.Identifier == identifier);
             RemoveCustomAnalysisCommand(command);
         }
 
-        public IReadOnlyList<GuiCommand> GetCustomAnalyses()
+        public IReadOnlyList<GuiCommand> GetCustomAnalysesCommands()
         {
-            return CustomAnalyses;
+            return CustomAnalysesCommands;
         }
 
         private void ShowEntireGraph()
