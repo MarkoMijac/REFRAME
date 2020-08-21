@@ -3,6 +3,7 @@ using ReframeAnalyzer.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Net.Http.Headers;
 
 namespace ReframeAnalyzer
 {
@@ -124,6 +125,11 @@ namespace ReframeAnalyzer
 
         public List<IAnalysisNode> GetNodeAndItsPredecessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth = 0)
         {
+            if (maxDepth < 0)
+            {
+                throw new AnalysisException("Invalid predecessors max depth!");
+            }
+
             if (maxDepth == 0)
             {
                 return GetNodeAndItsPredecessors_All(analysisGraph, nodeIdentifier);
@@ -230,6 +236,8 @@ namespace ReframeAnalyzer
 
         public List<IAnalysisNode> GetNodeAndItsSuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier, int maxDepth = 0)
         {
+            if (maxDepth < 0) throw new AnalysisException("Invalid successors max depth!");
+
             if (maxDepth == 0)
             {
                 return GetNodeAndItsSuccessors_All(analysisGraph, nodeIdentifier);
@@ -323,7 +331,7 @@ namespace ReframeAnalyzer
         private List<IAnalysisNode> GetNodeAndItsNeighbours_All(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
             IEnumerable<IAnalysisNode> predecessors = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
-            IEnumerable<IAnalysisNode> successors = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+            IEnumerable<IAnalysisNode> successors = GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
 
             List<IAnalysisNode> neighbours = new List<IAnalysisNode>();
             foreach (var p in predecessors)
@@ -382,7 +390,7 @@ namespace ReframeAnalyzer
 
         public List<IAnalysisNode> GetSinkNodes(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
-            var successorNodes = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+            var successorNodes = GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
             var sinkNodes = GetSinkNodes(successorNodes);
             var selectedNode = sinkNodes.FirstOrDefault(n => n.Identifier == nodeIdentifier);
             sinkNodes.Remove(selectedNode);
@@ -410,7 +418,7 @@ namespace ReframeAnalyzer
 
         public List<IAnalysisNode> GetIntermediarySuccessors(IAnalysisGraph analysisGraph, uint nodeIdentifier)
         {
-            var successorNodes = GetNodeAndItsPredecessors(analysisGraph, nodeIdentifier);
+            var successorNodes = GetNodeAndItsSuccessors(analysisGraph, nodeIdentifier);
             var intermediaryNodes = GetIntermediaryNodes(successorNodes);
             var selectedNode = intermediaryNodes.FirstOrDefault(n => n.Identifier == nodeIdentifier);
             intermediaryNodes.Remove(selectedNode);
