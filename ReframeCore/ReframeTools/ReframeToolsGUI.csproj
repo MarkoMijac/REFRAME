@@ -356,10 +356,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Importer\ReframeImporter.csproj">
-      <Project>{dd4a6ba8-74d2-48a3-8e1a-b17ae1f3c586}</Project>
-      <Name>ReframeImporter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IPCClient\IPCClient.csproj">
       <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
       <Name>IPCClient</Name>
@@ -367,10 +363,6 @@
     <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
       <Project>{87bae3e0-a197-4dc1-9e97-e5945f7cc652}</Project>
       <Name>ReframeAnalyzer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
-      <Project>{d4b96cc8-d94c-42b9-88f1-92c4b728143d}</Project>
-      <Name>ReframeBaseExceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReframeClient\ReframeClient.csproj">
       <Project>{3E1F7606-8C9F-44CB-825B-E378570A59DB}</Project>

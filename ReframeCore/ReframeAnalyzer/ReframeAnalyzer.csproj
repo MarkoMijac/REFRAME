@@ -105,10 +105,6 @@
       <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
       <Name>ReframeBaseExceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
-      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
-      <Name>ReframeExporter</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

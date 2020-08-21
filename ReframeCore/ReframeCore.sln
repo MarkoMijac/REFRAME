@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeDemonstration", "Ref
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPCClient", "IPCClient\IPCClient.csproj", "{6D150A3B-579C-4022-B873-B28315AF6397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeTools", "ReframeTools\ReframeTools.csproj", "{13201477-E0C5-4053-AB72-CDD6C01ADBE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeToolsGUI", "ReframeTools\ReframeToolsGUI.csproj", "{13201477-E0C5-4053-AB72-CDD6C01ADBE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizer", "ReframeVisualizer\ReframeVisualizer.csproj", "{2BECC201-155A-4FD4-81E0-3D6A33C6838D}"
 EndProject
