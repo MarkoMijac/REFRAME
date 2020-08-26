@@ -10,7 +10,7 @@ namespace ReframeTools
 {
     public static class SolutionServices
     {
-        private static string _dgmlTemplatePath = @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\ItemTemplates\Modeling\Modeling.vstemplate";
+        private static string _dgmlTemplatePath = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ItemTemplates\Modeling\Modeling.vstemplate";
 
         public static Solution Solution { get; set; }
 
