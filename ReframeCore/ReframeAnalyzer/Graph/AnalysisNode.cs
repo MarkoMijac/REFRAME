@@ -117,10 +117,5 @@ namespace ReframeAnalyzer.Graph
         {
             return $"[{Identifier}] {Name}";
         }
-
-        private int CalculateInDegree()
-        {
-            return Predecessors.Count;
-        }
     }
 }

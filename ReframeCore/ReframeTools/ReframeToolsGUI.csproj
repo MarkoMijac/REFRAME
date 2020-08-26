@@ -356,6 +356,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Importer\ReframeImporter.csproj">
+      <Project>{dd4a6ba8-74d2-48a3-8e1a-b17ae1f3c586}</Project>
+      <Name>ReframeImporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IPCClient\IPCClient.csproj">
       <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
       <Name>IPCClient</Name>
