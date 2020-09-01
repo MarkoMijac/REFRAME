@@ -15,16 +15,16 @@ namespace ReframeVisualizer
 
         }
 
-        protected override void AddNodesToGraph(Graph dgmlGraph)
+        protected override void AddNodesToGraph(Graph graph)
         {
-            AddNodes(dgmlGraph);
+            AddNodes(graph);
         }
 
-        private void AddNodes(Graph dgmlGraph)
+        private void AddNodes(Graph graph)
         {
             foreach (var node in AnalysisNodes)
             {
-                GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
+                GraphNode g = graph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);

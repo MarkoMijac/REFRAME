@@ -17,7 +17,7 @@ namespace ReframeVisualizer
 
         private GroupingLevel groupingLevel;
 
-        public GroupingLevel GroupingLevel
+        public GroupingLevel ChosenGroupingLevel
         {
             get { return groupingLevel; }
             set

@@ -23,7 +23,7 @@ namespace ReframeTools.GUI
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            VisualGraph.Options.GroupingLevel = DetermineGroupingLevel();
+            VisualGraph.Options.ChosenGroupingLevel = DetermineGroupingLevel();
             Close();
         }
 

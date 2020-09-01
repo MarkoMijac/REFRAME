@@ -18,34 +18,34 @@ namespace ReframeVisualizer
             };
         }
 
-        protected override void AddCustomProperties(Graph dgmlgraph)
+        protected override void AddCustomProperties(Graph graph)
         {
-            base.AddCustomProperties(dgmlgraph);
-            dgmlgraph.DocumentSchema.Properties.AddNewProperty("Class", System.Type.GetType("System.String"));
+            base.AddCustomProperties(graph);
+            graph.DocumentSchema.Properties.AddNewProperty("Class", System.Type.GetType("System.String"));
         }
 
-        protected override void AddNodesToGraph(Graph dgmlgraph)
+        protected override void AddNodesToGraph(Graph graph)
         {
-            AddGroupNodes(dgmlgraph);
-            AddNodes(dgmlgraph);
+            AddGroupNodes(graph);
+            AddNodes(graph);
         }
 
         private void AddGroupNodes(Graph dgmlGraph)
         {
-            if (Options.GroupingLevel == GroupingLevel.NoGrouping)
+            if (Options.ChosenGroupingLevel == GroupingLevel.NoGrouping)
             {
 
             }
-            else if (Options.GroupingLevel == GroupingLevel.ClassLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.ClassLevel)
             {
                 AddClassGroups(dgmlGraph);
             }
-            else if (Options.GroupingLevel == GroupingLevel.NamespaceLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.NamespaceLevel)
             {
                 AddNamespaceGroups(dgmlGraph);
                 AddClassGroups(dgmlGraph);
             }
-            else if (Options.GroupingLevel == GroupingLevel.AssemblyLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.AssemblyLevel)
             {
                 AddAssemblyGroups(dgmlGraph);
                 AddNamespaceGroups(dgmlGraph);

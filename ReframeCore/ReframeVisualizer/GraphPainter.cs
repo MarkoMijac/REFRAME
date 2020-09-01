@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.GraphModel.Styles;
 
 namespace ReframeVisualizer
 {
-    public class GraphPainter : IGraphPainter
+    public class GraphPainter
     {
         public void Paint(Graph graph, GraphNode node, string colorCode)
         {

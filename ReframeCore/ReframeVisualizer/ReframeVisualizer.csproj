@@ -52,7 +52,6 @@
     <Compile Include="ClassMemberVisualGraph.cs" />
     <Compile Include="ClassVisualGraph.cs" />
     <Compile Include="GraphPainter.cs" />
-    <Compile Include="IGraphPainter.cs" />
     <Compile Include="IVisualGraph.cs" />
     <Compile Include="NamespaceVisualGraph.cs" />
     <Compile Include="ObjectMemberVisualGraph.cs" />

@@ -20,31 +20,31 @@ namespace ReframeVisualizer
             };
         }
 
-        protected override void AddCustomProperties(Graph dgmlGraph)
+        protected override void AddCustomProperties(Graph graph)
         {
-            base.AddCustomProperties(dgmlGraph);
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
+            base.AddCustomProperties(graph);
+            graph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
         }
 
-        protected override void AddNodesToGraph(Graph dgmlGraph)
+        protected override void AddNodesToGraph(Graph graph)
         {
-            AddGroupNodes(dgmlGraph);
-            AddNodes(dgmlGraph);
+            AddGroupNodes(graph);
+            AddNodes(graph);
         }
 
         private void AddGroupNodes(Graph dgmlGraph)
         {
-            if (Options.GroupingLevel == GroupingLevel.NoGrouping)
+            if (Options.ChosenGroupingLevel == GroupingLevel.NoGrouping)
             {
 
             }
-            else if (Options.GroupingLevel == GroupingLevel.NamespaceLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.NamespaceLevel)
             {
                 AddNamespaceGroups(dgmlGraph);
             }
-            else if (Options.GroupingLevel == GroupingLevel.AssemblyLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.AssemblyLevel)
             {
                 AddAssemblyGroups(dgmlGraph);
                 AddNamespaceGroups(dgmlGraph);

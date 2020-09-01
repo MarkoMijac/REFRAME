@@ -33,20 +33,20 @@ namespace ReframeVisualizer
 
         private void AddGroupNodes(Graph dgmlGraph)
         {
-            if (Options.GroupingLevel == GroupingLevel.NoGrouping)
+            if (Options.ChosenGroupingLevel == GroupingLevel.NoGrouping)
             {
 
             }
-            else if (Options.GroupingLevel == GroupingLevel.ClassLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.ClassLevel)
             {
                 AddClassGroups(dgmlGraph);
             }
-            else if (Options.GroupingLevel == GroupingLevel.NamespaceLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.NamespaceLevel)
             {
                 AddNamespaceGroups(dgmlGraph);
                 AddClassGroups(dgmlGraph);
             }
-            else if (Options.GroupingLevel == GroupingLevel.AssemblyLevel)
+            else if (Options.ChosenGroupingLevel == GroupingLevel.AssemblyLevel)
             {
                 AddAssemblyGroups(dgmlGraph);
                 AddNamespaceGroups(dgmlGraph);
