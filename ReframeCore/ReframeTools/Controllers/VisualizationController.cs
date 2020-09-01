@@ -26,7 +26,7 @@ namespace ReframeTools.Controllers
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
         }
 
-        public void Visualize(IAnalysisGraph analysisGraph, IEnumerable<IAnalysisNode> analysisNodes)
+        public void Visualize(IEnumerable<IAnalysisNode> analysisNodes, AnalysisLevel analysisLevel)
         {
             if (analysisNodes == null || analysisNodes.Count() == 0)
             {
@@ -37,7 +37,7 @@ namespace ReframeTools.Controllers
             try
             {
                 var factory = new VisualGraphFactory();
-                var visualGraph = factory.CreateGraph(analysisNodes, analysisGraph.AnalysisLevel);
+                var visualGraph = factory.CreateGraph(analysisNodes, analysisLevel);
 
                 var formOptions = new FrmVisualizationOptions(visualGraph);
                 formOptions.ShowDialog();

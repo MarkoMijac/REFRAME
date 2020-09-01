@@ -62,5 +62,10 @@ namespace ReframeTools.GUI
             AssemblyAnalysisGraphFactory factory = new AssemblyAnalysisGraphFactory();
             return new AnalysisController(this, factory, new FrmAssemblyFilter());
         }
+
+        protected override void btnVisualize_Click(object sender, EventArgs e)
+        {
+            VisualizationController.Visualize(AnalysisController.AnalysisNodes, AnalysisLevel.AssemblyLevel);
+        }
     }
 }

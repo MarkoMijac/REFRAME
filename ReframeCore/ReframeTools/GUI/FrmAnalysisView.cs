@@ -125,9 +125,9 @@ namespace ReframeTools.GUI
             return id;
         }
 
-        private void btnVisualize_Click(object sender, EventArgs e)
+        protected virtual void btnVisualize_Click(object sender, EventArgs e)
         {
-            VisualizationController.Visualize(AnalysisController.AnalysisGraph, AnalysisController.AnalysisNodes);
+            
         }
     }
 }

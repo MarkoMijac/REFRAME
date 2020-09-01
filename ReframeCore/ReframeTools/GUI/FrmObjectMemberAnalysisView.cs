@@ -76,5 +76,10 @@ namespace ReframeTools.GUI
             var factory = new ObjectMemberAnalysisGraphFactory();
             return new AnalysisController(this, factory, new FrmObjectMemberFilter());
         }
+
+        protected override void btnVisualize_Click(object sender, EventArgs e)
+        {
+            VisualizationController.Visualize(AnalysisController.AnalysisNodes, AnalysisLevel.ObjectMemberLevel);
+        }
     }
 }

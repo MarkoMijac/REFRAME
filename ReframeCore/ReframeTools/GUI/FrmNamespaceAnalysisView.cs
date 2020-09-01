@@ -62,5 +62,10 @@ namespace ReframeTools.GUI
             var factory = new NamespaceAnalysisGraphFactory();
             return new AnalysisController(this, factory, new FrmNamespaceFilter());
         }
+
+        protected override void btnVisualize_Click(object sender, EventArgs e)
+        {
+            VisualizationController.Visualize(AnalysisController.AnalysisNodes, AnalysisLevel.NamespaceLevel);
+        }
     }
 }

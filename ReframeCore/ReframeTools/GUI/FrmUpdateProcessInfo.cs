@@ -163,7 +163,7 @@ namespace ReframeTools.GUI
         private void btnVisualize_Click(object sender, EventArgs e)
         {
             VisualizationController visualizationController = new VisualizationController(ReactorIdentifier);
-            visualizationController.Visualize(_analysisGraph, _analysisNodes);
+            visualizationController.Visualize( _analysisNodes, _analysisGraph.AnalysisLevel);
         }
 
         private void ShowOnlyRowsWithNoDifferences()
