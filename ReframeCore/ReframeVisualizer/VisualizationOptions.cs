@@ -29,6 +29,6 @@ namespace ReframeVisualizer
             }
         }
 
-        public List<GroupingLevel> AllowedGroupingLevels { get; set; }
+        public List<GroupingLevel> AllowedGroupingLevels { get; set; } = new List<GroupingLevel> { GroupingLevel.NoGrouping };
     }
 }

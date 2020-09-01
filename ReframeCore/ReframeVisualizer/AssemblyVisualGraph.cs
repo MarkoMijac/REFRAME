@@ -12,49 +12,17 @@ namespace ReframeVisualizer
     {
         public AssemblyVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
-            VisualizationOptions = new VisualizationOptions
-            {
-                AllowedGroupingLevels = new List<GroupingLevel> { GroupingLevel.NoGrouping}
-            };
-        }
 
-        protected override void AddCustomProperties(Graph dgmlGraph)
-        {
-            base.AddCustomProperties(dgmlGraph);
-        }
-
-        protected override void AddDependenciesToGraph(Graph dgmlGraph)
-        {
-            GraphNode dgmlPredecessor;
-            GraphNode dgmlSuccessor;
-            foreach (var analysisNode in _analysisNodes)
-            {
-                dgmlPredecessor = dgmlGraph.Nodes.Get(analysisNode.Identifier.ToString());
-                foreach (var analysisSuccessor in analysisNode.Successors)
-                {
-                    dgmlSuccessor = dgmlGraph.Nodes.Get(analysisSuccessor.Identifier.ToString());
-                    if (dgmlSuccessor != null)
-                    {
-                        GraphLink dependency = dgmlGraph.Links.GetOrCreate(dgmlPredecessor, dgmlSuccessor);
-                    }
-                }
-            }
         }
 
         protected override void AddNodesToGraph(Graph dgmlGraph)
         {
-            AddGroupNodes(dgmlGraph);
             AddNodes(dgmlGraph);
-        }
-
-        private void AddGroupNodes(Graph dgmlGraph)
-        {
-            
         }
 
         private void AddNodes(Graph dgmlGraph)
         {
-            foreach (var node in _analysisNodes)
+            foreach (var node in AnalysisNodes)
             {
                 GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);

@@ -23,14 +23,14 @@ namespace ReframeTools.GUI
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            VisualGraph.VisualizationOptions.GroupingLevel = DetermineGroupingLevel();
+            VisualGraph.Options.GroupingLevel = DetermineGroupingLevel();
             Close();
         }
 
         private void FillGroupingLevels()
         {
             cmbGroupLevel.Items.Clear();
-            VisualizationOptions options = VisualGraph.VisualizationOptions;
+            VisualizationOptions options = VisualGraph.Options;
             foreach (var level in options.AllowedGroupingLevels)
             {
                 cmbGroupLevel.Items.Add(level);

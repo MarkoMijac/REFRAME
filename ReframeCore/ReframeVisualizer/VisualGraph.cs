@@ -11,58 +11,67 @@ namespace ReframeVisualizer
 {
     public abstract class VisualGraph : IVisualGraph
     {
-        protected IEnumerable<IAnalysisNode> _analysisNodes;
-
-        public VisualizationOptions VisualizationOptions { get; protected set; } = new VisualizationOptions();
+        public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
+        protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
 
         public VisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
         {
-            _analysisNodes = analysisNodes;
-            Initialize();
+            AnalysisNodes = analysisNodes;
         }
 
-        protected virtual void Initialize()
+        protected virtual void AddCustomProperties(Graph graph)
         {
-
+            graph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Tag", System.Type.GetType("System.String"));
         }
 
-        protected virtual void AddCustomProperties(Graph dgmlGraph)
+        protected abstract void AddNodesToGraph(Graph graph);
+        protected virtual void AddDependenciesToGraph(Graph graph)
         {
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Tag", System.Type.GetType("System.String"));
-        }
-
-        protected abstract void AddNodesToGraph(Graph dgmlGraph);
-        protected abstract void AddDependenciesToGraph(Graph dgmlGraph);
-
-        private void PaintSelectedNode(Graph dgmlGraph)
-        {
-            GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "SelectedNode");
-            if (initialNode != null)
+            GraphNode predecessor;
+            GraphNode successor;
+            foreach (var analysisNode in AnalysisNodes)
             {
-                var painter = new GraphPainter();
-                painter.Paint(dgmlGraph, initialNode, "#FF339933");
+                predecessor = graph.Nodes.Get(analysisNode.Identifier.ToString());
+                foreach (var analysisSuccessor in analysisNode.Successors)
+                {
+                    successor = graph.Nodes.Get(analysisSuccessor.Identifier.ToString());
+                    if (successor != null)
+                    {
+                        GraphLink dependency = graph.Links.GetOrCreate(predecessor, successor);
+                    }
+                }
             }
         }
 
-        protected virtual void PaintGraph(Graph dgmlGraph)
+        private void PaintSelectedNode(Graph graph)
         {
-            PaintSelectedNode(dgmlGraph);
+            GraphNode initialNode = graph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "SelectedNode");
+            if (initialNode != null)
+            {
+                var painter = new GraphPainter();
+                painter.Paint(graph, initialNode, "#FF339933");
+            }
         }
 
-        public Graph GetDGML()
+        protected virtual void PaintGraph(Graph graph)
         {
-            Graph dgmlGraph = new Graph();
+            PaintSelectedNode(graph);
+        }
 
-            AddCustomProperties(dgmlGraph);
-            AddNodesToGraph(dgmlGraph);
-            AddDependenciesToGraph(dgmlGraph);
-            PaintGraph(dgmlGraph);
+        public Graph GetGraph()
+        {
+            Graph graph = new Graph();
 
-            return dgmlGraph;
+            AddCustomProperties(graph);
+            AddNodesToGraph(graph);
+            AddDependenciesToGraph(graph);
+            PaintGraph(graph);
+
+            return graph;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ReframeVisualizer
 {
     public interface IVisualGraph
     {
-        Graph GetDGML();
-        VisualizationOptions VisualizationOptions { get; }
+        Graph GetGraph();
+        VisualizationOptions Options { get; }
     }
 }

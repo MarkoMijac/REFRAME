@@ -12,7 +12,7 @@ namespace ReframeVisualizer
     {
         public UpdateVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
-            VisualizationOptions = new VisualizationOptions
+            Options = new VisualizationOptions
             {
                 AllowedGroupingLevels = new List<GroupingLevel>() { GroupingLevel.NoGrouping, GroupingLevel.AssemblyLevel, GroupingLevel.NamespaceLevel, GroupingLevel.ClassLevel, GroupingLevel.ObjectLevel }
             };
@@ -31,24 +31,6 @@ namespace ReframeVisualizer
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateDuration", System.Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("CurrentValue", System.Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("PreviousValue", System.Type.GetType("System.String"));
-        }
-
-        protected override void AddDependenciesToGraph(Graph dgmlGraph)
-        {
-            GraphNode dgmlPredecessor;
-            GraphNode dgmlSuccessor;
-            foreach (var analysisNode in _analysisNodes)
-            {
-                dgmlPredecessor = dgmlGraph.Nodes.Get(analysisNode.Identifier.ToString());
-                foreach (var analysisSuccessor in analysisNode.Successors)
-                {
-                    dgmlSuccessor = dgmlGraph.Nodes.Get(analysisSuccessor.Identifier.ToString());
-                    if (dgmlSuccessor != null)
-                    {
-                        GraphLink dependency = dgmlGraph.Links.GetOrCreate(dgmlPredecessor, dgmlSuccessor);
-                    }
-                }
-            }
         }
 
         private void PaintInitialNode(Graph dgmlGraph)
@@ -75,26 +57,26 @@ namespace ReframeVisualizer
 
         private void AddGroupNodes(Graph dgmlGraph)
         {
-            if (VisualizationOptions.GroupingLevel == GroupingLevel.NoGrouping)
+            if (Options.GroupingLevel == GroupingLevel.NoGrouping)
             {
 
             }
-            else if (VisualizationOptions.GroupingLevel == GroupingLevel.ObjectLevel)
+            else if (Options.GroupingLevel == GroupingLevel.ObjectLevel)
             {
                 AddObjectGroups(dgmlGraph);
             }
-            else if (VisualizationOptions.GroupingLevel == GroupingLevel.ClassLevel)
+            else if (Options.GroupingLevel == GroupingLevel.ClassLevel)
             {
                 AddClassGroups(dgmlGraph);
                 AddObjectGroups(dgmlGraph);
             }
-            else if (VisualizationOptions.GroupingLevel == GroupingLevel.NamespaceLevel)
+            else if (Options.GroupingLevel == GroupingLevel.NamespaceLevel)
             {
                 AddNamespaceGroups(dgmlGraph);
                 AddClassGroups(dgmlGraph);
                 AddObjectGroups(dgmlGraph);
             }
-            else if (VisualizationOptions.GroupingLevel == GroupingLevel.AssemblyLevel)
+            else if (Options.GroupingLevel == GroupingLevel.AssemblyLevel)
             {
                 AddAssemblyGroups(dgmlGraph);
                 AddNamespaceGroups(dgmlGraph);
@@ -105,7 +87,7 @@ namespace ReframeVisualizer
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (IUpdateNode node in _analysisNodes)
+            foreach (IUpdateNode node in AnalysisNodes)
             {
                 var objectMemberNode = node.Parent;
                 IAnalysisNode ownerAssembly = objectMemberNode.Parent.Parent.Parent2;
@@ -119,7 +101,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in _analysisNodes)
+            foreach (IUpdateNode node in AnalysisNodes)
             {
                 var objectMemberNode = node.Parent;
                 IAnalysisNode ownerNamespace = objectMemberNode.Parent.Parent.Parent;
@@ -139,7 +121,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in _analysisNodes)
+            foreach (IUpdateNode node in AnalysisNodes)
             {
                 var objectMemberNode = node.Parent;
                 var ownerClass = objectMemberNode.Parent.Parent;
@@ -162,7 +144,7 @@ namespace ReframeVisualizer
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in _analysisNodes)
+            foreach (IUpdateNode node in AnalysisNodes)
             {
                 var objectMemberNode = node.Parent;
                 var ownerObject = objectMemberNode.Parent;
@@ -181,7 +163,7 @@ namespace ReframeVisualizer
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (IUpdateNode node in _analysisNodes)
+            foreach (IUpdateNode node in AnalysisNodes)
             {
                 var objectMemberNode = node.Parent;
 

@@ -20,7 +20,7 @@ namespace ReframeTools.Controllers
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
         {
-            var dgmlGraph = visualGraph.GetDGML();
+            var dgmlGraph = visualGraph.GetGraph();
 
             string fileName = new Random().Next().ToString() + "_" + _reactorIdentifier;
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
