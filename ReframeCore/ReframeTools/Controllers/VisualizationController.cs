@@ -12,10 +12,16 @@ namespace ReframeTools.Controllers
     public class VisualizationController
     {
         private string _reactorIdentifier;
+        private IVisualGraphFactory _visualGraphFactory;
 
         public VisualizationController(string reactorIdentifier)
         {
             _reactorIdentifier = reactorIdentifier;
+        }
+
+        public VisualizationController(string reactorIdentifier, IVisualGraphFactory factory)
+        {
+            _visualGraphFactory = factory;
         }
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
@@ -26,7 +32,7 @@ namespace ReframeTools.Controllers
             ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, serializedGraph);
         }
 
-        public void Visualize(IEnumerable<IAnalysisNode> analysisNodes, AnalysisLevel analysisLevel)
+        public void Visualize(IEnumerable<IAnalysisNode> analysisNodes)
         {
             if (analysisNodes == null || analysisNodes.Count() == 0)
             {
@@ -36,8 +42,7 @@ namespace ReframeTools.Controllers
 
             try
             {
-                var factory = new VisualGraphFactory();
-                var visualGraph = factory.CreateGraph(analysisNodes, analysisLevel);
+                var visualGraph = _visualGraphFactory.CreateGraph(analysisNodes);
 
                 var formOptions = new FrmVisualizationOptions(visualGraph);
                 formOptions.ShowDialog();

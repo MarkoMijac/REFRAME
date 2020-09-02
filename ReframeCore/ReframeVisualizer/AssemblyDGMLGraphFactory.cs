@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace ReframeVisualizer
 {
-    public interface IVisualGraph
+    public class AssemblyDGMLGraphFactory : IVisualGraphFactory
     {
-        VisualizationOptions Options { get; }
-        string SerializeGraph();
+        public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes)
+        {
+            return new AssemblyVisualGraph(analysisNodes);
+        }
     }
 }

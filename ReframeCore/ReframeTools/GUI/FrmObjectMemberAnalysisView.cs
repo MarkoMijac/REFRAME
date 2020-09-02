@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
+using ReframeVisualizer;
 
 namespace ReframeTools.GUI
 {
@@ -77,9 +78,10 @@ namespace ReframeTools.GUI
             return new AnalysisController(this, factory, new FrmObjectMemberFilter());
         }
 
-        protected override void btnVisualize_Click(object sender, EventArgs e)
+        protected override VisualizationController CreateVisualizationController()
         {
-            VisualizationController.Visualize(AnalysisController.AnalysisNodes, AnalysisLevel.ObjectMemberLevel);
+            var factory = new ObjectMemberDGMLGraphFactory();
+            return new VisualizationController(ReactorIdentifier, factory);
         }
     }
 }

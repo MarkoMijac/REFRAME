@@ -1,5 +1,6 @@
 ﻿using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,9 +64,10 @@ namespace ReframeTools.GUI
             return new AnalysisController(this, factory, new FrmNamespaceFilter());
         }
 
-        protected override void btnVisualize_Click(object sender, EventArgs e)
+        protected override VisualizationController CreateVisualizationController()
         {
-            VisualizationController.Visualize(AnalysisController.AnalysisNodes, AnalysisLevel.NamespaceLevel);
+            var factory = new NamespaceDGMLGraphFactory();
+            return new VisualizationController(ReactorIdentifier, factory);
         }
     }
 }

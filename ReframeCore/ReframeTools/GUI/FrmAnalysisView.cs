@@ -38,7 +38,7 @@ namespace ReframeTools.GUI
         {
             ReactorIdentifier = reactorIdentifier;
             AnalysisController = CreateAnalysisController();
-            VisualizationController = new VisualizationController(ReactorIdentifier);
+            VisualizationController = CreateVisualizationController();
 
             AddColumns();
         }
@@ -132,7 +132,7 @@ namespace ReframeTools.GUI
 
         protected virtual void btnVisualize_Click(object sender, EventArgs e)
         {
-            
+            VisualizationController.Visualize(AnalysisController.AnalysisNodes);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
+using ReframeVisualizer;
 
 namespace ReframeTools.GUI
 {
@@ -162,8 +163,9 @@ namespace ReframeTools.GUI
 
         private void btnVisualize_Click(object sender, EventArgs e)
         {
-            VisualizationController visualizationController = new VisualizationController(ReactorIdentifier);
-            visualizationController.Visualize( _analysisNodes, _analysisGraph.AnalysisLevel);
+            var factory = new UpdateDGMLGraphFactory();
+            VisualizationController visualizationController = new VisualizationController(ReactorIdentifier, factory);
+            visualizationController.Visualize( _analysisNodes);
         }
 
         private void ShowOnlyRowsWithNoDifferences()
