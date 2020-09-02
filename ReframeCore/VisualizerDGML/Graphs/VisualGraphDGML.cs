@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.GraphModel;
 using System.Xml.Linq;
 using ReframeAnalyzer.Graph;
-using ReframeVisualizer.Utilities;
+using VisualizerDGML.Utilities;
+using ReframeVisualizer;
 
-namespace ReframeVisualizer.Graphs
+namespace VisualizerDGML.Graphs
 {
-    public class VisualGraph : IVisualGraph
+    public class VisualGraphDGML : IVisualGraph
     {
         public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
         protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
 
-        public VisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
+        public VisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes)
         {
             AnalysisNodes = analysisNodes;
         }

@@ -1,17 +1,18 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
-using ReframeVisualizer.Utilities;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace ReframeVisualizer.Graphs
+namespace VisualizerDGML.Graphs
 {
-    public class ObjectVisualGraphDGML : VisualGraph
+    public class ClassMemberVisualGraphDGML : VisualGraphDGML
     {
-        public ObjectVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public ClassMemberVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
@@ -19,16 +20,16 @@ namespace ReframeVisualizer.Graphs
             };
         }
 
-        protected override void AddCustomProperties(Graph graph)
+        protected override void AddCustomProperties(Graph dgmlGraph)
         {
-            base.AddCustomProperties(graph);
-            graph.DocumentSchema.Properties.AddNewProperty("Class", Type.GetType("System.String"));
-        }
+            base.AddCustomProperties(dgmlGraph);
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassIdentifier", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassName", Type.GetType("System.String"));
 
-        protected override void AddNodesToGraph(Graph graph)
-        {
-            AddGroupNodes(graph);
-            AddNodes(graph);
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", Type.GetType("System.String"));
         }
 
         private void AddGroupNodes(Graph dgmlGraph)
@@ -111,20 +112,31 @@ namespace ReframeVisualizer.Graphs
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
             foreach (var node in AnalysisNodes)
             {
-                GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
-                objectNode.SetValue("Name", node.Name);
-                objectNode.SetValue("Class", node.Parent.Name);
-                objectNode.SetValue("Degree", node.Degree);
-                objectNode.SetValue("InDegree", node.InDegree);
-                objectNode.SetValue("OutDegree", node.OutDegree);
-                objectNode.SetValue("Tag", node.Tag);
+                string label = $"[{node.Parent.Name}].{node.Name}";
+                GraphNode classMemberNode = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), label, null);
+                classMemberNode.SetValue("Name", node.Name);
+                classMemberNode.SetValue("NodeType", (node as IHasType).NodeType);
+                classMemberNode.SetValue("ClassIdentifier", node.Parent.Identifier);
+                classMemberNode.SetValue("ClassName", node.Parent.Name);
+                classMemberNode.SetValue("Namespace", node.Parent.Parent.Name);
+                classMemberNode.SetValue("Assembly", node.Parent.Parent2.Name);
+                classMemberNode.SetValue("Degree", node.Degree);
+                classMemberNode.SetValue("InDegree", node.InDegree);
+                classMemberNode.SetValue("OutDegree", node.OutDegree);
+                classMemberNode.SetValue("Tag", node.Tag);
 
                 GraphNode classNode = dgmlGraph.Nodes.Get(node.Parent.Identifier.ToString());
                 if (classNode != null)
                 {
-                    dgmlGraph.Links.GetOrCreate(classNode, objectNode, "", catContains);
+                    dgmlGraph.Links.GetOrCreate(classNode, classMemberNode, "", catContains);
                 }
             }
+        }
+
+        protected override void AddNodesToGraph(Graph dgmlGraph)
+        {
+            AddGroupNodes(dgmlGraph);
+            AddNodes(dgmlGraph);
         }
     }
 }

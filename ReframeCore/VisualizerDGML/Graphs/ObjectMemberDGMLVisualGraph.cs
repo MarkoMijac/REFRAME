@@ -1,17 +1,17 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
-using ReframeVisualizer.Utilities;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer.Graphs
+namespace VisualizerDGML.Graphs
 {
-    public class UpdateVisualGraphDGML : VisualGraph
+    public class ObjectMemberDGMLVisualGraph : VisualGraphDGML
     {
-        public UpdateVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public ObjectMemberDGMLVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
@@ -24,30 +24,6 @@ namespace ReframeVisualizer.Graphs
             base.AddCustomProperties(dgmlGraph);
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", Type.GetType("System.String"));
             dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("IsInitialNode", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateOrder", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateLayer", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateStartedAt", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateCompletedAt", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateDuration", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("CurrentValue", Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("PreviousValue", Type.GetType("System.String"));
-        }
-
-        private void PaintInitialNode(Graph dgmlGraph)
-        {
-            GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("IsInitialNode") != null && n.GetValue("IsInitialNode").ToString().ToLower() == "true");
-            if (initialNode != null)
-            {
-                var painter = new GraphPainter();
-                painter.Paint(dgmlGraph, initialNode, "#FF339933");
-            }
-        }
-
-        protected override void PaintGraph(Graph dgmlGraph)
-        {
-            base.PaintGraph(dgmlGraph);
-            PaintInitialNode(dgmlGraph);
         }
 
         protected override void AddNodesToGraph(Graph dgmlGraph)
@@ -88,10 +64,9 @@ namespace ReframeVisualizer.Graphs
 
         private void AddAssemblyGroups(Graph dgmlGraph)
         {
-            foreach (IUpdateNode node in AnalysisNodes)
+            foreach (var node in AnalysisNodes)
             {
-                var objectMemberNode = node.Parent;
-                IAnalysisNode ownerAssembly = objectMemberNode.Parent.Parent.Parent2;
+                IAnalysisNode ownerAssembly = node.Parent.Parent.Parent2;
                 GraphNode groupNode = dgmlGraph.Nodes.GetOrCreate(ownerAssembly.Identifier.ToString(), ownerAssembly.Name, null);
                 groupNode.IsGroup = true;
                 groupNode.SetValue("Name", ownerAssembly.Name);
@@ -102,15 +77,14 @@ namespace ReframeVisualizer.Graphs
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in AnalysisNodes)
+            foreach (var node in AnalysisNodes)
             {
-                var objectMemberNode = node.Parent;
-                IAnalysisNode ownerNamespace = objectMemberNode.Parent.Parent.Parent;
+                IAnalysisNode ownerNamespace = node.Parent.Parent.Parent;
                 GraphNode namespaceNode = dgmlGraph.Nodes.GetOrCreate(ownerNamespace.Identifier.ToString(), ownerNamespace.Name, null);
                 namespaceNode.IsGroup = true;
                 namespaceNode.SetValue("Name", ownerNamespace.Name);
 
-                GraphNode assembyNode = dgmlGraph.Nodes.Get(objectMemberNode.Parent.Parent.Parent2.Identifier.ToString());
+                GraphNode assembyNode = dgmlGraph.Nodes.Get(node.Parent.Parent.Parent2.Identifier.ToString());
                 if (assembyNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(assembyNode, namespaceNode, "", catContains);
@@ -122,10 +96,9 @@ namespace ReframeVisualizer.Graphs
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in AnalysisNodes)
+            foreach (var node in AnalysisNodes)
             {
-                var objectMemberNode = node.Parent;
-                var ownerClass = objectMemberNode.Parent.Parent;
+                var ownerClass = node.Parent.Parent;
                 GraphNode classNode = dgmlGraph.Nodes.GetOrCreate(ownerClass.Identifier.ToString(), ownerClass.Name, null);
                 classNode.IsGroup = true;
                 classNode.SetValue("Name", ownerClass.Name);
@@ -145,10 +118,9 @@ namespace ReframeVisualizer.Graphs
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
 
-            foreach (IUpdateNode node in AnalysisNodes)
+            foreach (var node in AnalysisNodes)
             {
-                var objectMemberNode = node.Parent;
-                var ownerObject = objectMemberNode.Parent;
+                var ownerObject = node.Parent;
                 GraphNode objectNode = dgmlGraph.Nodes.GetOrCreate(ownerObject.Identifier.ToString(), ownerObject.Name, null);
                 objectNode.IsGroup = true;
                 objectNode.SetValue("Name", ownerObject.Name);
@@ -164,28 +136,18 @@ namespace ReframeVisualizer.Graphs
         private void AddNodes(Graph dgmlGraph)
         {
             GraphCategory catContains = dgmlGraph.DocumentSchema.FindCategory("Contains");
-            foreach (IUpdateNode node in AnalysisNodes)
+            foreach (var node in AnalysisNodes)
             {
-                var objectMemberNode = node.Parent;
-
-                GraphNode g = dgmlGraph.Nodes.GetOrCreate(objectMemberNode.Identifier.ToString(), $"[{node.UpdateOrder}] {node.Name}", null);
+                GraphNode g = dgmlGraph.Nodes.GetOrCreate(node.Identifier.ToString(), node.Name, null);
                 g.SetValue("Name", node.Name);
-                g.SetValue("NodeType", node.NodeType);
-                g.SetValue("OwnerObjectIdentifier", objectMemberNode.Parent.Identifier);
+                g.SetValue("NodeType", (node as IHasType).NodeType);
+                g.SetValue("OwnerObjectIdentifier", node.Parent.Identifier);
                 g.SetValue("Degree", node.Degree);
                 g.SetValue("InDegree", node.InDegree);
                 g.SetValue("OutDegree", node.OutDegree);
                 g.SetValue("Tag", node.Tag);
-                g.SetValue("IsInitialNode", node.IsInitialNode.ToString());
-                g.SetValue("UpdateOrder", node.UpdateOrder);
-                g.SetValue("UpdateLayer", node.UpdateLayer);
-                g.SetValue("UpdateStartedAt", node.UpdateStartedAt);
-                g.SetValue("UpdateCompletedAt", node.UpdateCompletedAt);
-                g.SetValue("UpdateDuration", node.UpdateDuration);
-                g.SetValue("CurrentValue", node.CurrentValue);
-                g.SetValue("PreviousValue", node.CurrentValue);
 
-                GraphNode objectNode = dgmlGraph.Nodes.Get(objectMemberNode.Parent.Identifier.ToString());
+                GraphNode objectNode = dgmlGraph.Nodes.Get(node.Parent.Identifier.ToString());
                 if (objectNode != null)
                 {
                     dgmlGraph.Links.GetOrCreate(objectNode, g, "", catContains);

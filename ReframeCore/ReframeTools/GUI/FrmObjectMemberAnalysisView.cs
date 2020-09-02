@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
-using ReframeVisualizer;
+using VisualizerDGML.Factories;
 
 namespace ReframeTools.GUI
 {

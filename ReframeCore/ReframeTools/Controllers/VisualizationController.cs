@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using ReframeAnalyzer.Graph;
 using ReframeTools.GUI;
-using ReframeVisualizer.Graphs;
+using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer.Utilities
+namespace ReframeVisualizer
 {
     public enum GroupingLevel { NoGrouping, AssemblyLevel, NamespaceLevel, ClassLevel, ObjectLevel }
 

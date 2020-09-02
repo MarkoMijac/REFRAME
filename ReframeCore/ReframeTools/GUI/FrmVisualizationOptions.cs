@@ -1,5 +1,4 @@
-﻿using ReframeVisualizer.Graphs;
-using ReframeVisualizer.Utilities;
+﻿using ReframeVisualizer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

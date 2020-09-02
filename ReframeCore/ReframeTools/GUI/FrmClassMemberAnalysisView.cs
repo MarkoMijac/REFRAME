@@ -1,6 +1,5 @@
 ﻿using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
-using ReframeVisualizer.Factories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisualizerDGML.Factories;
 
 namespace ReframeTools.GUI
 {

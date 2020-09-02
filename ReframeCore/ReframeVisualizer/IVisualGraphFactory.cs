@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer.Graphs
+namespace ReframeVisualizer
 {
     public interface IVisualGraphFactory
     {
