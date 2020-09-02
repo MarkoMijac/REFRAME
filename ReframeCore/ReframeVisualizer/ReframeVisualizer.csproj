@@ -48,26 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyVisualGraph.cs" />
-    <Compile Include="AssemblyDGMLGraphFactory.cs" />
-    <Compile Include="ClassDGMLGraphFactory.cs" />
-    <Compile Include="ClassMemberDGMLGraphFactory.cs" />
-    <Compile Include="ClassMemberVisualGraph.cs" />
-    <Compile Include="ClassVisualGraph.cs" />
-    <Compile Include="GraphPainter.cs" />
-    <Compile Include="IVisualGraph.cs" />
-    <Compile Include="IVisualGraphFactory.cs" />
-    <Compile Include="NamespaceDGMLGraphFactory.cs" />
-    <Compile Include="NamespaceVisualGraph.cs" />
-    <Compile Include="ObjectDGMLGraphFactory.cs" />
-    <Compile Include="ObjectMemberDGMLGraphFactory.cs" />
-    <Compile Include="ObjectMemberVisualGraph.cs" />
-    <Compile Include="ObjectVisualGraph.cs" />
+    <Compile Include="Graphs\AssemblyVisualGraphDGML.cs" />
+    <Compile Include="Factories\AssemblyGraphFactoryDGML.cs" />
+    <Compile Include="Factories\ClassGraphFactoryDGML.cs" />
+    <Compile Include="Factories\ClassMemberGraphFactoryDGML.cs" />
+    <Compile Include="Graphs\ClassMemberVisualGraphDGML.cs" />
+    <Compile Include="Graphs\ClassVisualGraphDGML.cs" />
+    <Compile Include="Utilities\GraphPainter.cs" />
+    <Compile Include="Graphs\IVisualGraph.cs" />
+    <Compile Include="Factories\IVisualGraphFactory.cs" />
+    <Compile Include="Factories\NamespaceGraphFactoryDGML.cs" />
+    <Compile Include="Graphs\NamespaceVisualGraphDGML.cs" />
+    <Compile Include="Factories\ObjectGraphFactoryDGML.cs" />
+    <Compile Include="Factories\ObjectMemberGraphFactoryDGML.cs" />
+    <Compile Include="Graphs\ObjectMemberDGMLVisualGraph.cs" />
+    <Compile Include="Graphs\ObjectVisualGraphDGML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdateDGMLGraphFactory.cs" />
-    <Compile Include="UpdateVisualGraph.cs" />
-    <Compile Include="VisualGraph.cs" />
-    <Compile Include="VisualizationOptions.cs" />
+    <Compile Include="Factories\UpdateGraphFactoryDGML.cs" />
+    <Compile Include="Graphs\UpdateVisualGraphDGML.cs" />
+    <Compile Include="Graphs\VisualGraph.cs" />
+    <Compile Include="Utilities\VisualizationOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

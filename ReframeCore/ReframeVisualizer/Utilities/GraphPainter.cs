@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.Styles;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Utilities
 {
     public class GraphPainter
     {

@@ -1,17 +1,18 @@
 ﻿using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Factories
 {
-    public class ClassDGMLGraphFactory : IVisualGraphFactory
+    public class ClassGraphFactoryDGML : IVisualGraphFactory
     {
         public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes)
         {
-            return new ClassVisualGraph(analysisNodes);
+            return new ClassVisualGraphDGML(analysisNodes);
         }
     }
 }

@@ -6,26 +6,27 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Utilities;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
-    public class ClassVisualGraph : VisualGraph
+    public class ClassVisualGraphDGML : VisualGraph
     {
-        public ClassVisualGraph(IEnumerable<IAnalysisNode> analysisNodes)
-            :base(analysisNodes)
+        public ClassVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes)
+            : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
-                AllowedGroupingLevels = new List<GroupingLevel>() { GroupingLevel.NoGrouping, GroupingLevel.AssemblyLevel, GroupingLevel.NamespaceLevel}
+                AllowedGroupingLevels = new List<GroupingLevel>() { GroupingLevel.NoGrouping, GroupingLevel.AssemblyLevel, GroupingLevel.NamespaceLevel }
             };
         }
 
         protected override void AddCustomProperties(Graph graph)
         {
             base.AddCustomProperties(graph);
-            graph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("FullName", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Namespace", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Assembly", Type.GetType("System.String"));
         }
 
         protected override void AddNodesToGraph(Graph graph)

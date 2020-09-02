@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
-    public class ClassMemberVisualGraph : VisualGraph
+    public class ClassMemberVisualGraphDGML : VisualGraph
     {
-        public ClassMemberVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public ClassMemberVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
@@ -22,13 +23,13 @@ namespace ReframeVisualizer
         protected override void AddCustomProperties(Graph dgmlGraph)
         {
             base.AddCustomProperties(dgmlGraph);
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassIdentifier", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassName", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassIdentifier", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("ClassName", Type.GetType("System.String"));
 
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("FullName", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Assembly", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("Namespace", Type.GetType("System.String"));
         }
 
         private void AddGroupNodes(Graph dgmlGraph)

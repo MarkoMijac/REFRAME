@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.GraphModel;
 using System.Xml.Linq;
 using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Utilities;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
     public class VisualGraph : IVisualGraph
     {
@@ -21,11 +22,11 @@ namespace ReframeVisualizer
 
         protected virtual void AddCustomProperties(Graph graph)
         {
-            graph.DocumentSchema.Properties.AddNewProperty("Name", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Degree", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("InDegree", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("OutDegree", System.Type.GetType("System.String"));
-            graph.DocumentSchema.Properties.AddNewProperty("Tag", System.Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Name", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Degree", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("InDegree", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("OutDegree", Type.GetType("System.String"));
+            graph.DocumentSchema.Properties.AddNewProperty("Tag", Type.GetType("System.String"));
         }
 
         protected virtual void AddNodesToGraph(Graph graph)
@@ -53,7 +54,7 @@ namespace ReframeVisualizer
 
         private void PaintSelectedNode(Graph graph)
         {
-            GraphNode initialNode = graph.Nodes.FirstOrDefault(n => n.GetValue("Tag")!=null && n.GetValue("Tag").ToString() == "SelectedNode");
+            GraphNode initialNode = graph.Nodes.FirstOrDefault(n => n.GetValue("Tag") != null && n.GetValue("Tag").ToString() == "SelectedNode");
             if (initialNode != null)
             {
                 var painter = new GraphPainter();

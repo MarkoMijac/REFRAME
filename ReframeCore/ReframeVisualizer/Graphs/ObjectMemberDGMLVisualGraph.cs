@@ -1,16 +1,17 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
-    public class ObjectMemberVisualGraph : VisualGraph
+    public class ObjectMemberDGMLVisualGraph : VisualGraph
     {
-        public ObjectMemberVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public ObjectMemberDGMLVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
@@ -21,8 +22,8 @@ namespace ReframeVisualizer
         protected override void AddCustomProperties(Graph dgmlGraph)
         {
             base.AddCustomProperties(dgmlGraph);
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", Type.GetType("System.String"));
         }
 
         protected override void AddNodesToGraph(Graph dgmlGraph)

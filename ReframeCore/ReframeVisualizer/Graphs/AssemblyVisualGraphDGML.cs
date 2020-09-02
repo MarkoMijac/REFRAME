@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
-    public class AssemblyVisualGraph : VisualGraph
+    public class AssemblyVisualGraphDGML : VisualGraph
     {
-        public AssemblyVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public AssemblyVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
 
         }

@@ -1,16 +1,17 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
 using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Graphs
 {
-    public class UpdateVisualGraph : VisualGraph
+    public class UpdateVisualGraphDGML : VisualGraph
     {
-        public UpdateVisualGraph(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
+        public UpdateVisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes) : base(analysisNodes)
         {
             Options = new VisualizationOptions
             {
@@ -21,16 +22,16 @@ namespace ReframeVisualizer
         protected override void AddCustomProperties(Graph dgmlGraph)
         {
             base.AddCustomProperties(dgmlGraph);
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("IsInitialNode", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateOrder", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateLayer", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateStartedAt", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateCompletedAt", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateDuration", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("CurrentValue", System.Type.GetType("System.String"));
-            dgmlGraph.DocumentSchema.Properties.AddNewProperty("PreviousValue", System.Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("NodeType", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("OwnerObjectIdentifier", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("IsInitialNode", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateOrder", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateLayer", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateStartedAt", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateCompletedAt", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("UpdateDuration", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("CurrentValue", Type.GetType("System.String"));
+            dgmlGraph.DocumentSchema.Properties.AddNewProperty("PreviousValue", Type.GetType("System.String"));
         }
 
         private void PaintInitialNode(Graph dgmlGraph)

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeVisualizer
+namespace ReframeVisualizer.Utilities
 {
-    public enum GroupingLevel { NoGrouping, AssemblyLevel, NamespaceLevel, ClassLevel, ObjectLevel}
+    public enum GroupingLevel { NoGrouping, AssemblyLevel, NamespaceLevel, ClassLevel, ObjectLevel }
 
     public class VisualizationOptions
     {

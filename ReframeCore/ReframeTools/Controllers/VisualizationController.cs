@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using ReframeAnalyzer.Graph;
 using ReframeTools.GUI;
-using ReframeVisualizer;
+using ReframeVisualizer.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +14,10 @@ namespace ReframeTools.Controllers
         private string _reactorIdentifier;
         private IVisualGraphFactory _visualGraphFactory;
 
-        public VisualizationController(string reactorIdentifier)
-        {
-            _reactorIdentifier = reactorIdentifier;
-        }
-
         public VisualizationController(string reactorIdentifier, IVisualGraphFactory factory)
         {
             _visualGraphFactory = factory;
+            _reactorIdentifier = reactorIdentifier;
         }
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")

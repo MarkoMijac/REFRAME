@@ -1,6 +1,6 @@
 ﻿using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
-using ReframeVisualizer;
+using ReframeVisualizer.Factories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -72,7 +72,7 @@ namespace ReframeTools.GUI
 
         protected override VisualizationController CreateVisualizationController()
         {
-            var factory = new ObjectDGMLGraphFactory();
+            var factory = new ObjectGraphFactoryDGML();
             return new VisualizationController(ReactorIdentifier, factory);
         }
     }

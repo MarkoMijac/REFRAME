@@ -1,4 +1,5 @@
 ﻿using ReframeAnalyzer.Graph;
+using ReframeVisualizer.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ReframeVisualizer
 {
-    public class ClassMemberDGMLGraphFactory : IVisualGraphFactory
+    public class ObjectMemberDGMLGraphFactory : IVisualGraphFactory
     {
         public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes)
         {
-            return new ClassMemberVisualGraph(analysisNodes);
+            return new ObjectMemberDGMLVisualGraph(analysisNodes);
         }
     }
 }

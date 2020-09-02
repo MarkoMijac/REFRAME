@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
-using ReframeVisualizer;
+using ReframeVisualizer.Factories;
 
 namespace ReframeTools.GUI
 {
@@ -163,7 +163,7 @@ namespace ReframeTools.GUI
 
         private void btnVisualize_Click(object sender, EventArgs e)
         {
-            var factory = new UpdateDGMLGraphFactory();
+            var factory = new UpdateGraphFactoryDGML();
             VisualizationController visualizationController = new VisualizationController(ReactorIdentifier, factory);
             visualizationController.Visualize( _analysisNodes);
         }
