@@ -12,5 +12,6 @@ namespace ReframeVisualizer
     {
         Graph GetGraph();
         VisualizationOptions Options { get; }
+        string SerializeGraph();
     }
 }

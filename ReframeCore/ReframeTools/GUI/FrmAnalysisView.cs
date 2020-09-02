@@ -113,6 +113,11 @@ namespace ReframeTools.GUI
             return null;
         }
 
+        protected virtual VisualizationController CreateVisualizationController()
+        {
+            return null;
+        }
+
         private uint GetSelectedNodeId()
         {
             uint id = 0;

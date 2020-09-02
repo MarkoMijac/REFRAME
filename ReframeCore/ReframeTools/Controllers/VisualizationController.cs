@@ -20,10 +20,10 @@ namespace ReframeTools.Controllers
 
         protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
         {
-            var dgmlGraph = visualGraph.GetGraph();
+            var serializedGraph = visualGraph.SerializeGraph();
 
             string fileName = new Random().Next().ToString() + "_" + _reactorIdentifier;
-            ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, dgmlGraph);
+            ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, serializedGraph);
         }
 
         public void Visualize(IEnumerable<IAnalysisNode> analysisNodes, AnalysisLevel analysisLevel)

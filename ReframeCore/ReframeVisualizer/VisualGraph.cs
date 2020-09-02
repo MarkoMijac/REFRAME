@@ -9,7 +9,7 @@ using ReframeAnalyzer.Graph;
 
 namespace ReframeVisualizer
 {
-    public abstract class VisualGraph : IVisualGraph
+    public class VisualGraph : IVisualGraph
     {
         public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
         protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
@@ -28,7 +28,11 @@ namespace ReframeVisualizer
             graph.DocumentSchema.Properties.AddNewProperty("Tag", System.Type.GetType("System.String"));
         }
 
-        protected abstract void AddNodesToGraph(Graph graph);
+        protected virtual void AddNodesToGraph(Graph graph)
+        {
+
+        }
+
         protected virtual void AddDependenciesToGraph(Graph graph)
         {
             GraphNode predecessor;
@@ -72,6 +76,11 @@ namespace ReframeVisualizer
             PaintGraph(graph);
 
             return graph;
+        }
+
+        public string SerializeGraph()
+        {
+            return GetGraph().ToXml();
         }
     }
 }

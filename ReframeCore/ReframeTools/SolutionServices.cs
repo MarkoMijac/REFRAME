@@ -53,11 +53,6 @@ namespace ReframeTools
             return projectItems;
         }
 
-        public static ProjectItem CreateNewDgmlFile(string dgmlFileName, Graph graph)
-        {
-            return CreateNewDgmlFile(dgmlFileName, graph.ToXml());
-        }
-
         public static ProjectItem CreateNewDgmlFile(string dgmlFileName, string xmlSource)
         {
             Project project = Solution.Item(1);
