@@ -12,9 +12,9 @@ namespace VisualizerDGML.Factories
 {
     public class AssemblyGraphFactoryDGML : IVisualGraphFactory
     {
-        public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes)
+        public IVisualGraph CreateGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
         {
-            return new AssemblyVisualGraphDGML(analysisNodes);
+            return new AssemblyVisualGraphDGML(reactorIdentifier, analysisNodes);
         }
     }
 }

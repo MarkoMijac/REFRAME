@@ -13,19 +13,18 @@ namespace ReframeTools.Controllers
     {
         private string _reactorIdentifier;
         private IVisualGraphFactory _visualGraphFactory;
+        private IGraphFileCreator _fileCreator;
 
-        public VisualizationController(string reactorIdentifier, IVisualGraphFactory factory)
+        public VisualizationController(string reactorIdentifier, IVisualGraphFactory factory, IGraphFileCreator fileCreator)
         {
             _visualGraphFactory = factory;
             _reactorIdentifier = reactorIdentifier;
+            _fileCreator = fileCreator;
         }
 
-        protected virtual void ShowGraph(IVisualGraph visualGraph, string analysisDescription = "")
+        private void ShowGraph(IVisualGraph visualGraph)
         {
-            var serializedGraph = visualGraph.SerializeGraph();
-
-            string fileName = new Random().Next().ToString() + "_" + _reactorIdentifier;
-            ProjectItem p = SolutionServices.CreateNewDgmlFile(fileName, serializedGraph);
+            _fileCreator.CreateNewFile(visualGraph);
         }
 
         public void Visualize(IEnumerable<IAnalysisNode> analysisNodes)
@@ -38,12 +37,12 @@ namespace ReframeTools.Controllers
 
             try
             {
-                var visualGraph = _visualGraphFactory.CreateGraph(analysisNodes);
+                var visualGraph = _visualGraphFactory.CreateGraph(_reactorIdentifier, analysisNodes);
 
                 var formOptions = new FrmVisualizationOptions(visualGraph);
                 formOptions.ShowDialog();
 
-                ShowGraph(visualGraph, "");
+                ShowGraph(visualGraph);
             }
             catch (Exception e)
             {
@@ -51,7 +50,7 @@ namespace ReframeTools.Controllers
             }
         }
 
-        protected void DisplayError(Exception e)
+        private void DisplayError(Exception e)
         {
             MessageBox.Show($"Unable to fetch and display data! Error:{e.Message}!");
         }

@@ -11,9 +11,9 @@ namespace VisualizerDGML.Factories
 {
     public class UpdateGraphFactoryDGML : IVisualGraphFactory
     {
-        public IVisualGraph CreateGraph(IEnumerable<IAnalysisNode> analysisNodes)
+        public IVisualGraph CreateGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
         {
-            return new UpdateVisualGraphDGML(analysisNodes);
+            return new UpdateVisualGraphDGML(reactorIdentifier, analysisNodes);
         }
     }
 }

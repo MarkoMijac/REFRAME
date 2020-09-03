@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VisualizerDGML;
 using VisualizerDGML.Factories;
 
 namespace ReframeTools.GUI
@@ -71,7 +72,8 @@ namespace ReframeTools.GUI
         protected override VisualizationController CreateVisualizationController()
         {
             var factory = new ClassGraphFactoryDGML();
-            return new VisualizationController(ReactorIdentifier, factory);
+            var fileCreator = new DGMLFileCreator(SolutionServices.Solution);
+            return new VisualizationController(ReactorIdentifier, factory, fileCreator);
         }
     }
 }

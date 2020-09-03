@@ -12,5 +12,6 @@ namespace ReframeVisualizer
     {
         VisualizationOptions Options { get; }
         string SerializeGraph();
+        string ReactorIdentifier { get; }
     }
 }

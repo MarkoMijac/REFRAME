@@ -52,25 +52,6 @@ namespace ReframeTools.Commands
             return action;
         }
 
-        private static EventHandler CreateHandler(object obj, MethodInfo methodInfo)
-        {
-            EventHandler handler = null;
-
-            if (methodInfo != null)
-            {
-                if (methodInfo.IsStatic == true)
-                {
-                    handler = Delegate.CreateDelegate(typeof(EventHandler), methodInfo) as EventHandler;
-                }
-                else
-                {
-                    handler = Delegate.CreateDelegate(typeof(EventHandler), obj, methodInfo) as EventHandler;
-                }
-            }
-
-            return handler;
-        }
-
         private static EventHandler CreateHandler(Action action)
         {
             return delegate { action?.Invoke(); };

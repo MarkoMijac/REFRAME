@@ -53,21 +53,21 @@ namespace ReframeTools
             return projectItems;
         }
 
-        public static ProjectItem CreateNewDgmlFile(string dgmlFileName, string xmlSource)
+        public static ProjectItem CreateNewFile(string fileName, string extension, string source)
         {
             Project project = Solution.Item(1);
 
-            ProjectItem newProjectItem = project.ProjectItems.AddFromTemplate(_dgmlTemplatePath, dgmlFileName);
+            ProjectItem newProjectItem = project.ProjectItems.AddFromTemplate(_dgmlTemplatePath, fileName);
             if (newProjectItem == null)
             {
                 List<ProjectItem> allProjectItems = GetProjectItems(project);
-                newProjectItem = allProjectItems.FirstOrDefault(p => p.Name == dgmlFileName + ".dgml");
+                newProjectItem = allProjectItems.FirstOrDefault(p => p.Name == fileName + extension);
             }
 
             TextSelection sel = newProjectItem.Document.Selection as TextSelection;
             sel.SelectAll();
             sel.Delete();
-            sel.Insert(xmlSource);
+            sel.Insert(source);
 
             newProjectItem.Document.Close(vsSaveChanges.vsSaveChangesYes);
             newProjectItem.Open();

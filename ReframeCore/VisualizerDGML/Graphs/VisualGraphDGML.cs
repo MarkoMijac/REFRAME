@@ -15,10 +15,12 @@ namespace VisualizerDGML.Graphs
     {
         public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
         protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
+        public string ReactorIdentifier { get; set; }
 
-        public VisualGraphDGML(IEnumerable<IAnalysisNode> analysisNodes)
+        public VisualGraphDGML(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
         {
             AnalysisNodes = analysisNodes;
+            ReactorIdentifier = reactorIdentifier;
         }
 
         protected virtual void AddCustomProperties(Graph graph)

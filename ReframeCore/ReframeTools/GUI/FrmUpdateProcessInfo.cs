@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
+using VisualizerDGML;
 using VisualizerDGML.Factories;
 
 namespace ReframeTools.GUI
@@ -164,7 +165,8 @@ namespace ReframeTools.GUI
         private void btnVisualize_Click(object sender, EventArgs e)
         {
             var factory = new UpdateGraphFactoryDGML();
-            VisualizationController visualizationController = new VisualizationController(ReactorIdentifier, factory);
+            var fileCreator = new DGMLFileCreator(SolutionServices.Solution);
+            VisualizationController visualizationController = new VisualizationController(ReactorIdentifier, factory,  fileCreator);
             visualizationController.Visualize( _analysisNodes);
         }
 
