@@ -273,6 +273,11 @@ namespace ReframeCoreFluentAPI
             }
         }
 
+        public static void Update(this IReactor instance, object ownerObject, [CallerMemberNameAttribute] string memberName = "")
+        {
+            instance.PerformUpdate(ownerObject, memberName);
+        }
+
         #endregion
     }
 }
