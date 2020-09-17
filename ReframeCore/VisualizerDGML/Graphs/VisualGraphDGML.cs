@@ -11,11 +11,13 @@ using ReframeVisualizer;
 
 namespace VisualizerDGML.Graphs
 {
-    public class VisualGraphDGML : IVisualGraph
+    public abstract class VisualGraphDGML : IVisualGraph
     {
         public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
         protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         public string ReactorIdentifier { get; set; }
+
+        protected GraphPainter GraphPainter { get; set; } = new GraphPainter();
 
         public VisualGraphDGML(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
         {
@@ -32,10 +34,7 @@ namespace VisualizerDGML.Graphs
             graph.DocumentSchema.Properties.AddNewProperty("Tag", Type.GetType("System.String"));
         }
 
-        protected virtual void AddNodesToGraph(Graph graph)
-        {
-
-        }
+        protected abstract void AddNodesToGraph(Graph graph);
 
         protected virtual void AddDependenciesToGraph(Graph graph)
         {
@@ -59,9 +58,8 @@ namespace VisualizerDGML.Graphs
         {
             GraphNode initialNode = graph.Nodes.FirstOrDefault(n => n.GetValue("Tag") != null && n.GetValue("Tag").ToString() == "SelectedNode");
             if (initialNode != null)
-            {
-                var painter = new GraphPainter();
-                painter.Paint(graph, initialNode, "#FF339933");
+            {                
+                GraphPainter.Paint(graph, initialNode, "#FF339933");
             }
         }
 
@@ -70,7 +68,7 @@ namespace VisualizerDGML.Graphs
             PaintSelectedNode(graph);
         }
 
-        public Graph GetGraph()
+        private Graph GetGraph()
         {
             Graph graph = new Graph();
 

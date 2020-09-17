@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DGMLFileCreator.cs" />
+    <Compile Include="Utilities\DGMLFileCreator.cs" />
     <Compile Include="Factories\AssemblyGraphFactoryDGML.cs" />
     <Compile Include="Factories\ClassGraphFactoryDGML.cs" />
     <Compile Include="Factories\ClassMemberGraphFactoryDGML.cs" />

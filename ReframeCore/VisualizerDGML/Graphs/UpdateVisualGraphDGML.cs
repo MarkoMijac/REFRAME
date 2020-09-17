@@ -40,8 +40,7 @@ namespace VisualizerDGML.Graphs
             GraphNode initialNode = dgmlGraph.Nodes.FirstOrDefault(n => n.GetValue("IsInitialNode") != null && n.GetValue("IsInitialNode").ToString().ToLower() == "true");
             if (initialNode != null)
             {
-                var painter = new GraphPainter();
-                painter.Paint(dgmlGraph, initialNode, "#FF339933");
+                GraphPainter.Paint(dgmlGraph, initialNode, "#FF339933");
             }
         }
 

@@ -7,7 +7,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualizerDGML
+namespace VisualizerDGML.Utilities
 {
     public class DGMLFileCreator : IGraphFileCreator
     {

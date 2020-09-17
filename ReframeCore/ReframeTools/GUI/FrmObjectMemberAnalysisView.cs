@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
 using ReframeTools.Controllers;
-using VisualizerDGML;
 using VisualizerDGML.Factories;
+using VisualizerDGML.Utilities;
 
 namespace ReframeTools.GUI
 {

@@ -3,8 +3,8 @@ using ReframeTools.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using VisualizerDGML;
 using VisualizerDGML.Factories;
+using VisualizerDGML.Utilities;
 
 namespace ReframeTools.GUI
 {
