@@ -31,7 +31,8 @@ namespace ReframeAnalyzer.Graph
             if (graph != null)
             {
                 XElement xGraph = _importer.GetGraph(XmlSource);
-                IEnumerable<XElement> xNodes = _importer.GetNodes(xGraph);
+                XElement xUpdateProcess = XElement.Parse(XmlSource);
+                IEnumerable<XElement> xNodes = _importer.GetNodes(xUpdateProcess);
 
                 InitializeBasicData(graph);
                 InitializeGraphNodes(graph, xNodes);

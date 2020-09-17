@@ -19,7 +19,17 @@ namespace ReframeImporter
 
             try
             {
-                return XElement.Parse(source);
+                XElement xReactor = null;
+                var xRoot = XElement.Parse(source);
+                if (xRoot.Name == "Reactor")
+                {
+                    xReactor = xRoot;
+                }
+                else
+                {
+                    xReactor = xRoot.Element("Reactor");
+                }
+                return xReactor;
             }
             catch (XmlException e)
             {
