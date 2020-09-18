@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.Filters
 
         public UpdateAnalysisFilter(List<IAnalysisNode> originalNodes) : base(originalNodes)
         {
-            Query = new Predicate<IAnalysisNode>(objectMemberNode => AssemblyFilterOption.IsSelected(objectMemberNode.Parent.Parent.Parent2) && NamespaceFilterOption.IsSelected(objectMemberNode.Parent.Parent.Parent) && ClassFilterOption.IsSelected(objectMemberNode.Parent.Parent) && ObjectFilterOption.IsSelected(objectMemberNode.Parent));
+            Query = new Predicate<IAnalysisNode>(updateAnalysisNode => AssemblyFilterOption.IsSelected(updateAnalysisNode.Parent.Parent.Parent.Parent2) && NamespaceFilterOption.IsSelected(updateAnalysisNode.Parent.Parent.Parent.Parent) && ClassFilterOption.IsSelected(updateAnalysisNode.Parent.Parent.Parent) && ObjectFilterOption.IsSelected(updateAnalysisNode.Parent.Parent));
 
             AssemblyFilterOption = new FilterOption(GetAssemblyNodes());
             AssemblyFilterOption.SelectNodes();
