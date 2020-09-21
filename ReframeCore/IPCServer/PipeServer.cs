@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace IPCServer
 {
@@ -21,13 +22,23 @@ namespace IPCServer
 
         public PipeServer()
         {
-            
+            InitializeRouters();
         }
+
+        protected abstract void InitializeRouters();
 
         public void StartServer()
         {
             server = new Thread(Listening);
             server.Start();
+        }
+
+        public void StopServer()
+        {
+            if (server.IsAlive == true)
+            {
+                server.Join();
+            }
         }
 
         private void Listening()
@@ -79,7 +90,7 @@ namespace IPCServer
         {
             ICommandRouter sender = null;
 
-            string identifier = CommandRouter.GetRouterIdentifier(commandXml);
+            string identifier = GetRouterIdentifier(commandXml);
             sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
 
             return sender;
@@ -93,6 +104,14 @@ namespace IPCServer
         private void ClearLog()
         {
             communicationLog = "";
+        }
+
+        private string GetRouterIdentifier(string commandXml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(commandXml);
+            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
+            return routerIdentifier.InnerText;
         }
     }
 }

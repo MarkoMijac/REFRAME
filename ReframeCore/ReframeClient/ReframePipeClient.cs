@@ -11,18 +11,18 @@ namespace ReframeClient
     {
         public string GetRegisteredReactors()
         {
-            ServerCommand command = new ServerCommand()
+            PipeCommand command = new PipeCommand()
             {
                 RouterIdentifier = "CoreRouter",
                 CommandName = "ExportRegisteredReactors"
             };
 
-            return ExecuteServerCommand(command);
+            return SendCommand(command);
         }
 
         public string GetReactor(string identifier)
         {
-            ServerCommand command = new ServerCommand()
+            PipeCommand command = new PipeCommand()
             {
                 RouterIdentifier = "CoreRouter",
                 CommandName = "ExportReactor"
@@ -30,12 +30,12 @@ namespace ReframeClient
 
             command.Parameters.Add("ReactorIdentifier", identifier);
 
-            return ExecuteServerCommand(command);
+            return SendCommand(command);
         }
 
         public string GetUpdateInfo(string identifier)
         {
-            ServerCommand command = new ServerCommand()
+            PipeCommand command = new PipeCommand()
             {
                 RouterIdentifier = "CoreRouter",
                 CommandName = "ExportUpdateInfo"
@@ -43,7 +43,7 @@ namespace ReframeClient
 
             command.Parameters.Add("ReactorIdentifier", identifier);
 
-            return ExecuteServerCommand(command);
+            return SendCommand(command);
         }
     }
 }

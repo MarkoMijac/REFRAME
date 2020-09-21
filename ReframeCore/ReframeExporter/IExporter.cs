@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReframeExporter
 {
-    interface IExporter
+    public interface IExporter
     {
         string Export();
     }

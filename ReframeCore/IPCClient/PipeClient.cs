@@ -10,7 +10,7 @@ namespace IPCClient
 {
     public abstract class PipeClient
     {
-        protected string ExecuteServerCommand(ServerCommand command)
+        protected string SendCommand(PipeCommand command)
         {
             NamedPipeClientStream pipeClient = CreateClient();
             pipeClient.Connect(3000);

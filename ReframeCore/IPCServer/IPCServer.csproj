@@ -56,5 +56,11 @@
   <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
+      <Project>{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}</Project>
+      <Name>ReframeExporter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

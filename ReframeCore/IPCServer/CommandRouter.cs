@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeExporter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace IPCServer
     {
         public string Identifier { get; set; }
 
-        protected static XmlDocument GetCommandXmlDocument(string commandXml)
+        protected XmlDocument GetCommandXmlDocument(string commandXml)
         {
             XmlDocument document = new XmlDocument();
             document.LoadXml(commandXml);
@@ -37,17 +38,35 @@ namespace IPCServer
 
                 parameters.Add(name, value);
             }
-
+            
             return parameters;
         }
 
-        public static string GetRouterIdentifier(string commandXml)
+        public string RouteCommand(string command)
         {
-            XmlDocument doc = GetCommandXmlDocument(commandXml);
-            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
-            return routerIdentifier.InnerText;
+            string result = "";
+
+            try
+            {
+                var exporter = GetExporter(command);
+                if (exporter != null)
+                {
+                    result = exporter.Export();
+                }
+                else
+                {
+                    result = "No such command!";
+                }
+            }
+            catch (Exception e)
+            {
+                string errorMessage = $"Error: {e.Message}" + Environment.NewLine;
+                errorMessage += $"StackTrace:{e.StackTrace}";
+                return errorMessage;
+            }
+            return result;
         }
 
-        public abstract string RouteCommand(string command);
+        protected abstract IExporter GetExporter(string command);
     }
 }

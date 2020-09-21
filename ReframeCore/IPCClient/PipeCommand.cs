@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace IPCClient
 {
-    public class ServerCommand
+    public class PipeCommand
     {
         public string RouterIdentifier { get; set; }
         public string CommandName { get; set; }
