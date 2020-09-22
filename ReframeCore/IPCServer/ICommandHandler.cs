@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace IPCServer
 {
-    public interface ICommandRouter
+    public interface ICommandHandler
     {
         string Identifier { get; }
-        string RouteCommand(string commandXml);
+        string HandleCommand(string commandXml);
     }
 }

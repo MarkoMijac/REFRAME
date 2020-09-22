@@ -13,7 +13,7 @@ namespace IPCServer
 {
     public abstract class PipeServer
     {
-        public List<ICommandRouter> CommandRouters { get; set; } = new List<ICommandRouter>();
+        public List<ICommandHandler> CommandHandlers { get; set; } = new List<ICommandHandler>();
 
         public string communicationLog="";
 
@@ -22,10 +22,10 @@ namespace IPCServer
 
         public PipeServer()
         {
-            InitializeRouters();
+            InitializeHandlers();
         }
 
-        protected abstract void InitializeRouters();
+        protected abstract void InitializeHandlers();
 
         public void StartServer()
         {
@@ -63,7 +63,7 @@ namespace IPCServer
 
         private void CreatePipeServer()
         {
-            NamedPipeServerStream pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("reframePipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
             pipeServer.WaitForConnection();
             StreamString stream = new StreamString(pipeServer);
             string incomingStream;
@@ -71,9 +71,9 @@ namespace IPCServer
             {
                 incomingStream = stream.ReadString();
                 WriteLogEntry($"IncomingStream: {incomingStream}");
-                ICommandRouter activeRouter = GetActivatedRouter(incomingStream);
-                WriteLogEntry($"ActiveRouter: {activeRouter.Identifier}");
-                string result = activeRouter.RouteCommand(incomingStream);
+                ICommandHandler activeHandler = GetActivatedHandler(incomingStream);
+                WriteLogEntry($"ActiveHandler: {activeHandler.Identifier}");
+                string result = activeHandler.HandleCommand(incomingStream);
                 WriteLogEntry($"Result: {result}");
                 stream.WriteString(result);
             }
@@ -86,12 +86,12 @@ namespace IPCServer
             WriteLogEntry("Server #" + Thread.CurrentThread.ManagedThreadId + " has terminated!");
         }
 
-        private ICommandRouter GetActivatedRouter(string commandXml)
+        private ICommandHandler GetActivatedHandler(string commandXml)
         {
-            ICommandRouter sender = null;
+            ICommandHandler sender = null;
 
-            string identifier = GetRouterIdentifier(commandXml);
-            sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
+            string identifier = GetHandlerIdentifier(commandXml);
+            sender = CommandHandlers.FirstOrDefault(x => x.Identifier == identifier);
 
             return sender;
         }
@@ -106,12 +106,12 @@ namespace IPCServer
             communicationLog = "";
         }
 
-        private string GetRouterIdentifier(string commandXml)
+        private string GetHandlerIdentifier(string commandXml)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(commandXml);
-            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
-            return routerIdentifier.InnerText;
+            XmlNode handlerIdentifier = doc.GetElementsByTagName("HandlerIdentifier").Item(0);
+            return handlerIdentifier.InnerText;
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace IPCServer
 {
-    public abstract class CommandRouter : ICommandRouter
+    public abstract class CommandHandler : ICommandHandler
     {
         public string Identifier { get; set; }
 
@@ -42,7 +42,7 @@ namespace IPCServer
             return parameters;
         }
 
-        public string RouteCommand(string command)
+        public string HandleCommand(string command)
         {
             string result = "";
 

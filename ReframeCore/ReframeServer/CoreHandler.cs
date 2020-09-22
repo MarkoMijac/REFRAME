@@ -9,11 +9,11 @@ using System.Xml;
 
 namespace ReframeServer
 {
-    internal class CoreRouter : CommandRouter
+    internal class CoreHandler : CommandHandler
     {
-        public CoreRouter()
+        public CoreHandler()
         {
-            Identifier = "CoreRouter";
+            Identifier = "CoreHandler";
         }
 
         protected override IExporter GetExporter(string command)

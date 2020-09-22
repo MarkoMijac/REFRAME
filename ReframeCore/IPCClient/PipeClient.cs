@@ -25,7 +25,7 @@ namespace IPCClient
 
         private NamedPipeClientStream CreateClient()
         {
-            NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "testpipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
+            NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "reframePipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
 
             return pipeClient;
         }

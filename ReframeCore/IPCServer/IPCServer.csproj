@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandRouter.cs" />
-    <Compile Include="ICommandRouter.cs" />
+    <Compile Include="CommandHandler.cs" />
+    <Compile Include="ICommandHandler.cs" />
     <Compile Include="PipeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamString.cs" />

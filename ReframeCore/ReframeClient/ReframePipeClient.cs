@@ -13,7 +13,7 @@ namespace ReframeClient
         {
             PipeCommand command = new PipeCommand()
             {
-                RouterIdentifier = "CoreRouter",
+                HandlerIdentifier = "CoreHandler",
                 CommandName = "ExportRegisteredReactors"
             };
 
@@ -24,7 +24,7 @@ namespace ReframeClient
         {
             PipeCommand command = new PipeCommand()
             {
-                RouterIdentifier = "CoreRouter",
+                HandlerIdentifier = "CoreHandler",
                 CommandName = "ExportReactor"
             };
 
@@ -37,7 +37,7 @@ namespace ReframeClient
         {
             PipeCommand command = new PipeCommand()
             {
-                RouterIdentifier = "CoreRouter",
+                HandlerIdentifier = "CoreHandler",
                 CommandName = "ExportUpdateInfo"
             };
 
