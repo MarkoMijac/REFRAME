@@ -31,13 +31,5 @@ namespace ReframeAnalyzer.Graph
 
             return node;
         }
-
-        public IAnalysisNode CreateNode(XElement xNode, IAnalysisNode objectMemberNode)
-        {
-            var node = CreateNode(xNode) as UpdateAnalysisNode;
-            node.Parent = objectMemberNode;
-
-            return node;
-        }
     }
 }

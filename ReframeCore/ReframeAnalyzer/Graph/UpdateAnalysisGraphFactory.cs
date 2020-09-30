@@ -82,7 +82,6 @@ namespace ReframeAnalyzer.Graph
             }
         }
 
-
         private void InitializeGraphNodes(UpdateAnalysisGraph graph, IEnumerable<XElement> xNodes)
         {
             var nodeFactory = new UpdateAnalysisNodeFactory();
@@ -92,7 +91,8 @@ namespace ReframeAnalyzer.Graph
                 if (graph.ContainsNode(nodeIdentifier) == false)
                 {
                     var objectMemberNode = _objectMemberAnalysisGraph.GetNode(nodeIdentifier);
-                    var node = nodeFactory.CreateNode(xNode, objectMemberNode);
+                    UpdateAnalysisNode node = nodeFactory.CreateNode(xNode) as UpdateAnalysisNode;
+                    node.Parent = objectMemberNode;
                     graph.AddNode(node);
                 }
             }
