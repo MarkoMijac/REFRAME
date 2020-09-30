@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace IPCServer
 {
@@ -79,7 +80,11 @@ namespace IPCServer
         {
             ICommandRouter sender = null;
 
-            string identifier = CommandRouter.GetRouterIdentifier(commandXml);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(commandXml);
+            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
+            string identifier =  routerIdentifier.InnerText;
+
             sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
 
             return sender;

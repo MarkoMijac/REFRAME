@@ -11,7 +11,7 @@ namespace IPCServer
     {
         public string Identifier { get; set; }
 
-        protected static XmlDocument GetCommandXmlDocument(string commandXml)
+        protected XmlDocument GetCommandXmlDocument(string commandXml)
         {
             XmlDocument document = new XmlDocument();
             document.LoadXml(commandXml);
@@ -39,13 +39,6 @@ namespace IPCServer
             }
 
             return parameters;
-        }
-
-        public static string GetRouterIdentifier(string commandXml)
-        {
-            XmlDocument doc = GetCommandXmlDocument(commandXml);
-            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
-            return routerIdentifier.InnerText;
         }
 
         public abstract string RouteCommand(string command);
