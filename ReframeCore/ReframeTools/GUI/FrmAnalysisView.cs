@@ -24,7 +24,7 @@ namespace ReframeTools.GUI
 
         public uint SelectedNodeId { get { return GetSelectedNodeId(); } }
 
-        public  AnalysisController AnalysisController { get; set; }
+        protected  AnalysisController AnalysisController { get; set; }
         protected VisualizationController VisualizationController { get; set; }
 
         public string GraphIdentifier { get; set; }

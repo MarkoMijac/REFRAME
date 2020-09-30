@@ -11,7 +11,7 @@ namespace ReframeAnalyzer.Graph
 {
     public abstract class AnalysisGraphFactory
     {
-        public string XmlSource { get; private set; }
+        protected string XmlSource { get; private set; }
         protected AnalysisNodeFactory NodeFactory { get; set; }
 
         public virtual IAnalysisGraph CreateGraph(string xmlSource)
