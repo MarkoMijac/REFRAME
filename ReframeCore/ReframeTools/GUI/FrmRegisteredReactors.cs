@@ -1,4 +1,5 @@
 ﻿using ReframeClient;
+using ReframeTools.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,57 +11,17 @@ namespace ReframeTools.GUI
     public partial class FrmRegisteredReactors : Form
     {
         private Form _currentForm;
+        private RegisteredReactorsController _registeredReactorsController;
 
         public FrmRegisteredReactors()
         {
             InitializeComponent();
-        }
-
-        private void DisplayReactors()
-        {
-            dgvReactors.DataSource = null;
-            try
-            {
-                var pipeClient = new ReframePipeClient();
-                string xmlReactors = pipeClient.GetRegisteredReactors();
-                dgvReactors.DataSource = ParseReactors(xmlReactors);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Unable to fetch reactors!");
-            }
-
-        }
-
-        private List<object> ParseReactors(string xmlReactors)
-        {
-            List<object> list = new List<object>();
-
-            XElement document = XElement.Parse(xmlReactors);
-            IEnumerable<XElement> reactors = from r in document.Descendants("Reactor") select r;
-
-            foreach (var reactor in reactors)
-            {
-                string reactorIdentifier = reactor.Element("Identifier").Value;
-                XElement xeGraph = reactor.Element("Graph");
-                string graphIdentifier = xeGraph.Element("Identifier").Value;
-                string nodeCount = xeGraph.Element("TotalNodeCount").Value;
-                var g = new
-                {
-                    Identifier = reactorIdentifier,
-                    GraphIdentifier = graphIdentifier,
-                    GraphNodeCount = nodeCount
-                };
-
-                list.Add(g);
-            }
-
-            return list;
+            _registeredReactorsController = new RegisteredReactorsController(this);
         }
 
         private void FrmRegisteredReactors_Load(object sender, EventArgs e)
         {
-            DisplayReactors();
+            _registeredReactorsController.ShowRegisteredReactors();
         }
 
         public string GetSelectedReactorIdentifier()

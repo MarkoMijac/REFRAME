@@ -61,9 +61,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.btnVisualize = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rbtnOnlyNodesWithDifferences = new System.Windows.Forms.RadioButton();
-            this.rbtnOnlyNodesWithNoDifferences = new System.Windows.Forms.RadioButton();
             this.rbtnAllNodes = new System.Windows.Forms.RadioButton();
+            this.rbtnOnlyNodesWithNoDifferences = new System.Windows.Forms.RadioButton();
+            this.rbtnOnlyNodesWithDifferences = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -409,17 +409,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filter:";
             // 
-            // rbtnOnlyNodesWithDifferences
+            // rbtnAllNodes
             // 
-            this.rbtnOnlyNodesWithDifferences.AutoSize = true;
-            this.rbtnOnlyNodesWithDifferences.Location = new System.Drawing.Point(112, 19);
-            this.rbtnOnlyNodesWithDifferences.Name = "rbtnOnlyNodesWithDifferences";
-            this.rbtnOnlyNodesWithDifferences.Size = new System.Drawing.Size(183, 17);
-            this.rbtnOnlyNodesWithDifferences.TabIndex = 0;
-            this.rbtnOnlyNodesWithDifferences.TabStop = true;
-            this.rbtnOnlyNodesWithDifferences.Text = "Show only nodes with differences";
-            this.rbtnOnlyNodesWithDifferences.UseVisualStyleBackColor = true;
-            this.rbtnOnlyNodesWithDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithDifferences_CheckedChanged);
+            this.rbtnAllNodes.AutoSize = true;
+            this.rbtnAllNodes.Location = new System.Drawing.Point(9, 19);
+            this.rbtnAllNodes.Name = "rbtnAllNodes";
+            this.rbtnAllNodes.Size = new System.Drawing.Size(97, 17);
+            this.rbtnAllNodes.TabIndex = 2;
+            this.rbtnAllNodes.TabStop = true;
+            this.rbtnAllNodes.Text = "Show all nodes";
+            this.rbtnAllNodes.UseVisualStyleBackColor = true;
+            this.rbtnAllNodes.CheckedChanged += new System.EventHandler(this.rbtnAllNodes_CheckedChanged);
             // 
             // rbtnOnlyNodesWithNoDifferences
             // 
@@ -433,17 +433,17 @@
             this.rbtnOnlyNodesWithNoDifferences.UseVisualStyleBackColor = true;
             this.rbtnOnlyNodesWithNoDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithNoDifferences_CheckedChanged);
             // 
-            // rbtnAllNodes
+            // rbtnOnlyNodesWithDifferences
             // 
-            this.rbtnAllNodes.AutoSize = true;
-            this.rbtnAllNodes.Location = new System.Drawing.Point(9, 19);
-            this.rbtnAllNodes.Name = "rbtnAllNodes";
-            this.rbtnAllNodes.Size = new System.Drawing.Size(97, 17);
-            this.rbtnAllNodes.TabIndex = 2;
-            this.rbtnAllNodes.TabStop = true;
-            this.rbtnAllNodes.Text = "Show all nodes";
-            this.rbtnAllNodes.UseVisualStyleBackColor = true;
-            this.rbtnAllNodes.CheckedChanged += new System.EventHandler(this.rbtnAllNodes_CheckedChanged);
+            this.rbtnOnlyNodesWithDifferences.AutoSize = true;
+            this.rbtnOnlyNodesWithDifferences.Location = new System.Drawing.Point(112, 19);
+            this.rbtnOnlyNodesWithDifferences.Name = "rbtnOnlyNodesWithDifferences";
+            this.rbtnOnlyNodesWithDifferences.Size = new System.Drawing.Size(183, 17);
+            this.rbtnOnlyNodesWithDifferences.TabIndex = 0;
+            this.rbtnOnlyNodesWithDifferences.TabStop = true;
+            this.rbtnOnlyNodesWithDifferences.Text = "Show only nodes with differences";
+            this.rbtnOnlyNodesWithDifferences.UseVisualStyleBackColor = true;
+            this.rbtnOnlyNodesWithDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithDifferences_CheckedChanged);
             // 
             // FrmUpdateProcessInfo
             // 
@@ -470,42 +470,41 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dgvUpdateInfo;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtGraphTotalNodeCount;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtGraphIdentifier;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtUpdatedNodesCount;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtUpdateDuration;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtUpdateEndedAt;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtUpdateStartedAt;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtUpdateSuccessful;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtInitialNodeOwnerObject;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtInitialNodeMemberName;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtInitialNodeIdentifier;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtUpdateCause;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtInitialNodePreviousValue;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox txtInitialNodeCurrentValue;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnVisualize;
-        private System.Windows.Forms.TextBox txtDisplayedNodesCount;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton rbtnAllNodes;
-        private System.Windows.Forms.RadioButton rbtnOnlyNodesWithNoDifferences;
-        private System.Windows.Forms.RadioButton rbtnOnlyNodesWithDifferences;
+        public System.Windows.Forms.DataGridView dgvUpdateInfo;
+        public System.Windows.Forms.TextBox txtGraphTotalNodeCount;
+        public System.Windows.Forms.TextBox txtGraphIdentifier;
+        public System.Windows.Forms.TextBox txtUpdatedNodesCount;
+        public System.Windows.Forms.TextBox txtUpdateDuration;
+        public System.Windows.Forms.TextBox txtUpdateEndedAt;
+        public System.Windows.Forms.TextBox txtUpdateStartedAt;
+        public System.Windows.Forms.TextBox txtUpdateSuccessful;
+        public System.Windows.Forms.TextBox txtInitialNodeOwnerObject;
+        public System.Windows.Forms.TextBox txtInitialNodeMemberName;
+        public System.Windows.Forms.TextBox txtInitialNodeIdentifier;
+        public System.Windows.Forms.TextBox txtUpdateCause;
+        public System.Windows.Forms.TextBox txtInitialNodePreviousValue;
+        public System.Windows.Forms.TextBox txtInitialNodeCurrentValue;
+        public System.Windows.Forms.TextBox txtDisplayedNodesCount;
+        public System.Windows.Forms.RadioButton rbtnAllNodes;
+        public System.Windows.Forms.RadioButton rbtnOnlyNodesWithNoDifferences;
+        public System.Windows.Forms.RadioButton rbtnOnlyNodesWithDifferences;
     }
 }

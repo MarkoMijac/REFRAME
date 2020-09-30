@@ -59,6 +59,7 @@
     <Compile Include="Commands\GuiCommand.cs" />
     <Compile Include="Controllers\AnalysisController.cs" />
     <Compile Include="Controllers\ReactorDetailsController.cs" />
+    <Compile Include="Controllers\RegisteredReactorsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
     <Compile Include="GUI\FrmAnalysisFilter.cs">
