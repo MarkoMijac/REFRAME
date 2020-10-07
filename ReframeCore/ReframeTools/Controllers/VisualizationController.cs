@@ -1,5 +1,5 @@
 ﻿using EnvDTE;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 using ReframeTools.GUI;
 using ReframeVisualizer;
 using System;

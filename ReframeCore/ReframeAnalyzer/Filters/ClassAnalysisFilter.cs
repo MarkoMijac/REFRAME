@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 
 namespace ReframeAnalyzer.Filters
 {

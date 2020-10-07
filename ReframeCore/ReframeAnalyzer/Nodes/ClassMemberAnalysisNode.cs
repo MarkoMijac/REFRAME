@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.Nodes
 {
     public class ClassMemberAnalysisNode : AnalysisNode, IHasType
     {
-       public string NodeType { get; set; }
+        public string NodeType { get; set; }
 
         public ClassMemberAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
         {

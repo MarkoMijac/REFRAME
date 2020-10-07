@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.GraphFactories
 {
     public class ClassAnalysisGraphFactory : AnalysisGraphFactory
     {

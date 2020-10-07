@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.Nodes
 {
     public abstract class AnalysisNode : IAnalysisNode
     {
@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.Graph
 
         public int InDegree { get => Predecessors.Count; }
 
-        public int OutDegree { get => Successors.Count;}
+        public int OutDegree { get => Successors.Count; }
 
         public IAnalysisNode Parent { get; set; }
         public IAnalysisNode Parent2 { get; set; }

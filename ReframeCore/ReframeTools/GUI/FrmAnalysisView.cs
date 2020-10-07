@@ -1,4 +1,4 @@
-﻿using ReframeAnalyzer.Graph;
+﻿using ReframeAnalyzer.Nodes;
 using ReframeTools.Commands;
 using ReframeTools.Controllers;
 using System;

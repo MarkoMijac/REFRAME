@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.Nodes
 {
     public interface IAnalysisNode
     {
-        uint Identifier { get;}
-        string Name { get;}
+        uint Identifier { get; }
+        string Name { get; }
         int Degree { get; }
         int InDegree { get; }
         int OutDegree { get; }

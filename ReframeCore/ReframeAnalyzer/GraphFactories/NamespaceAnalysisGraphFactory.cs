@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.GraphFactories
 {
     public class NamespaceAnalysisGraphFactory : AnalysisGraphFactory
     {
@@ -42,7 +44,7 @@ namespace ReframeAnalyzer.Graph
 
         private void InitializeGraphDependencies(AnalysisGraph graph, List<IAnalysisNode> nodes)
         {
-            foreach(var classNode in nodes)
+            foreach (var classNode in nodes)
             {
                 var namespaceNode = graph.GetNode(classNode.Parent.Identifier);
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.GraphModel;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 using ReframeVisualizer;
 using System;
 using System.Collections.Generic;

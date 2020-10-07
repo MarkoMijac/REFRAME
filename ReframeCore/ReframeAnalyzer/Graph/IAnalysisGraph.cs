@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ReframeAnalyzer.Nodes;
+using System.Collections.Generic;
 
 namespace ReframeAnalyzer.Graph
 {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 using ReframeTools.Controllers;
 using VisualizerDGML.Factories;
 using VisualizerDGML.Utilities;

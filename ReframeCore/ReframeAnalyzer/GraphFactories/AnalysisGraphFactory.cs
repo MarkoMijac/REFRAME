@@ -1,4 +1,6 @@
 ﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.NodeFactories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.GraphFactories
 {
     public abstract class AnalysisGraphFactory
     {

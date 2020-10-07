@@ -1,4 +1,6 @@
-﻿using ReframeAnalyzer.Graph;
+﻿using ReframeAnalyzer;
+using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.GraphFactories;
 using ReframeCore;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;

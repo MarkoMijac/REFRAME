@@ -1,5 +1,5 @@
 ﻿using ReframeAnalyzer.Filters;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

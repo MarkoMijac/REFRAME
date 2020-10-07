@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Graph;
+﻿using ReframeAnalyzer.GraphFactories;
+using ReframeAnalyzer.Nodes;
 using ReframeTools.Controllers;
 using System;
 using System.Collections.Generic;

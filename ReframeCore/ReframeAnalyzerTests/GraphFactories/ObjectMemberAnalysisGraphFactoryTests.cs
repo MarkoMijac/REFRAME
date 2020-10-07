@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReframeAnalyzer;
 using ReframeAnalyzer.Exceptions;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.GraphFactories;
+using ReframeAnalyzer.Nodes;
 using ReframeCore;
 using ReframeCore.Factories;
 using ReframeCoreExamples.E09;

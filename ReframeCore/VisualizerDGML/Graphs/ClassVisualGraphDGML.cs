@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.GraphModel;
-using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.Nodes;
 using ReframeVisualizer;
 
 namespace VisualizerDGML.Graphs

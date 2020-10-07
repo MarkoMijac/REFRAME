@@ -1,4 +1,7 @@
-﻿using ReframeImporter;
+﻿using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.NodeFactories;
+using ReframeAnalyzer.Nodes;
+using ReframeImporter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ReframeAnalyzer.Graph
+namespace ReframeAnalyzer.GraphFactories
 {
     public class UpdateAnalysisGraphFactory : AnalysisGraphFactory
     {

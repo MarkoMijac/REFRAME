@@ -1,5 +1,6 @@
 ﻿using ReframeAnalyzer;
 using ReframeAnalyzer.Graph;
+using ReframeAnalyzer.GraphFactories;
 using ReframeClient;
 using ReframeTools.GUI;
 using System;
