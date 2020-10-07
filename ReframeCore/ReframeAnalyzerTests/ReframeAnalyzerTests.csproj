@@ -51,9 +51,15 @@
   <ItemGroup>
     <Compile Include="AnalysisTestHelper.cs" />
     <Compile Include="AnalyzerTests.cs" />
+    <Compile Include="GraphFactories\AssemblyAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\NamespaceAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\ClassAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\ClassMemberAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\ObjectAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\ObjectMemberAnalysisGraphFactoryTests.cs" />
+    <Compile Include="GraphFactories\UpdateAnalysisGraphFactoryTests.cs" />
     <Compile Include="GraphMetricsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AnalysisGraphFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IPCServer\IPCServer.csproj">
