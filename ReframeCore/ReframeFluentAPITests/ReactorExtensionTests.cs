@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using ReframeCore.Exceptions;
 using ReframeCoreFluentAPI;
 
-namespace ReframeCoreTests
+namespace ReframeFluentAPITests
 {
     [TestClass]
     public class ReactorExtensionTests

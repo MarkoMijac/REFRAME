@@ -6,7 +6,7 @@ using ReframeCoreExamples.E01;
 using ReframeCoreExamples.E07;
 using ReframeCoreFluentAPI;
 
-namespace ReframeCoreTests
+namespace ReframeFluentAPITests
 {
     [TestClass]
     public class MemberReaderTests

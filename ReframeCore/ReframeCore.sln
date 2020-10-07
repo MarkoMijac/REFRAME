@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeToolsGUI", "ReframeT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizer", "ReframeVisualizer\ReframeVisualizer.csproj", "{2BECC201-155A-4FD4-81E0-3D6A33C6838D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizerTests", "ReframeVisualizerTests\ReframeVisualizerTests.csproj", "{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporter", "ReframeExporter\ReframeExporter.csproj", "{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporterTests", "ReframeExporterTests\ReframeExporterTests.csproj", "{EA249920-9709-42F9-B1A0-E50210BDD84F}"
@@ -42,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeImporterTests", "ReframeImporterTests\ReframeImporterTests.csproj", "{2EF8A6BF-4116-4B2D-997F-7270390C2E79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizerDGML", "VisualizerDGML\VisualizerDGML.csproj", "{28EA06C4-5306-4CF7-B97F-3815F2AE8E64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeFluentAPITests", "ReframeFluentAPITests\ReframeFluentAPITests.csproj", "{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,6 @@ Global
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEBD0CE0-B91F-4549-AEEE-D1C426E5631F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,6 +125,10 @@ Global
 		{28EA06C4-5306-4CF7-B97F-3815F2AE8E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28EA06C4-5306-4CF7-B97F-3815F2AE8E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28EA06C4-5306-4CF7-B97F-3815F2AE8E64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
