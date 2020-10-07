@@ -47,14 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandRouter.cs" />
-    <Compile Include="ICommandRouter.cs" />
+    <Compile Include="CommandHandler.cs" />
+    <Compile Include="ICommandHandler.cs" />
     <Compile Include="PipeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamString.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReframeExporter\ReframeExporter.csproj">
+      <Project>{9f507f8c-9e4b-4e12-ae3a-389ad8f0e337}</Project>
+      <Name>ReframeExporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

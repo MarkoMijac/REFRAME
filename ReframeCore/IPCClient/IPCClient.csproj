@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="PipeClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerCommand.cs" />
+    <Compile Include="PipeCommand.cs" />
     <Compile Include="StreamString.cs" />
   </ItemGroup>
   <ItemGroup>

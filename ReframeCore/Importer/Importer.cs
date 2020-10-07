@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace ReframeImporter
 {
-    public class Importer : IImporter
+    public class Importer
     {
         public XElement GetReactor(string source)
         {

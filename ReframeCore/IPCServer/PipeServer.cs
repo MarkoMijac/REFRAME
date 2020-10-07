@@ -13,7 +13,7 @@ namespace IPCServer
 {
     public abstract class PipeServer
     {
-        public List<ICommandRouter> CommandRouters { get; set; } = new List<ICommandRouter>();
+        public List<ICommandHandler> CommandHandlers { get; set; } = new List<ICommandHandler>();
 
         public string communicationLog="";
 
@@ -22,13 +22,23 @@ namespace IPCServer
 
         public PipeServer()
         {
-            
+            InitializeHandlers();
         }
+
+        protected abstract void InitializeHandlers();
 
         public void StartServer()
         {
             server = new Thread(Listening);
             server.Start();
+        }
+
+        public void StopServer()
+        {
+            if (server.IsAlive)
+            {
+                server.Join();
+            }
         }
 
         private void Listening()
@@ -53,7 +63,7 @@ namespace IPCServer
 
         private void CreatePipeServer()
         {
-            NamedPipeServerStream pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("reframePipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances);
             pipeServer.WaitForConnection();
             StreamString stream = new StreamString(pipeServer);
             string incomingStream;
@@ -61,9 +71,9 @@ namespace IPCServer
             {
                 incomingStream = stream.ReadString();
                 WriteLogEntry($"IncomingStream: {incomingStream}");
-                ICommandRouter activeRouter = GetActivatedRouter(incomingStream);
-                WriteLogEntry($"ActiveRouter: {activeRouter.Identifier}");
-                string result = activeRouter.RouteCommand(incomingStream);
+                ICommandHandler activeHandler = GetActivatedHandler(incomingStream);
+                WriteLogEntry($"ActiveHandler: {activeHandler.Identifier}");
+                string result = activeHandler.HandleCommand(incomingStream);
                 WriteLogEntry($"Result: {result}");
                 stream.WriteString(result);
             }
@@ -76,18 +86,10 @@ namespace IPCServer
             WriteLogEntry("Server #" + Thread.CurrentThread.ManagedThreadId + " has terminated!");
         }
 
-        private ICommandRouter GetActivatedRouter(string commandXml)
+        private ICommandHandler GetActivatedHandler(string commandXml)
         {
-            ICommandRouter sender = null;
-
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(commandXml);
-            XmlNode routerIdentifier = doc.GetElementsByTagName("RouterIdentifier").Item(0);
-            string identifier =  routerIdentifier.InnerText;
-
-            sender = CommandRouters.FirstOrDefault(x => x.Identifier == identifier);
-
-            return sender;
+            string identifier = GetHandlerIdentifier(commandXml);
+            return CommandHandlers.FirstOrDefault(x => x.Identifier == identifier);
         }
 
         private void WriteLogEntry(string entry)
@@ -95,9 +97,12 @@ namespace IPCServer
             communicationLog += entry + Environment.NewLine;
         }
 
-        private void ClearLog()
+        private string GetHandlerIdentifier(string commandXml)
         {
-            communicationLog = "";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(commandXml);
+            XmlNode handlerIdentifier = doc.GetElementsByTagName("HandlerIdentifier").Item(0);
+            return handlerIdentifier.InnerText;
         }
     }
 }

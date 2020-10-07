@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeExporter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml;
 
 namespace IPCServer
 {
-    public abstract class CommandRouter : ICommandRouter
+    public abstract class CommandHandler : ICommandHandler
     {
         public string Identifier { get; set; }
 
@@ -41,6 +42,32 @@ namespace IPCServer
             return parameters;
         }
 
-        public abstract string RouteCommand(string command);
+        public string HandleCommand(string command)
+        {
+            string result = "";
+
+            try
+            {
+                var exporter = GetExporter(command);
+                if (exporter != null)
+                {
+                    result = exporter.Export();
+                }
+                else
+                {
+                    result = "No such command!";
+                }
+            }
+            catch (Exception e)
+            {
+                string errorMessage = $"Error: {e.Message}" + Environment.NewLine;
+                errorMessage += $"StackTrace:{e.StackTrace}";
+                return errorMessage;
+            }
+
+            return result;
+        }
+
+        protected abstract IExporter GetExporter(string command);
     }
 }

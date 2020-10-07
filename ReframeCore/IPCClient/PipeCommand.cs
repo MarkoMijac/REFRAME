@@ -8,9 +8,9 @@ using System.Xml;
 
 namespace IPCClient
 {
-    public class ServerCommand
+    public class PipeCommand
     {
-        public string RouterIdentifier { get; set; }
+        public string HandlerIdentifier { get; set; }
         public string CommandName { get; set; }
         public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
 
@@ -29,8 +29,8 @@ namespace IPCClient
                 xmlWriter.WriteStartDocument();
                 xmlWriter.WriteStartElement("ServerCommand");
 
-                xmlWriter.WriteStartElement("RouterIdentifier");
-                xmlWriter.WriteString(RouterIdentifier);
+                xmlWriter.WriteStartElement("HandlerIdentifier");
+                xmlWriter.WriteString(HandlerIdentifier);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("CommandName");

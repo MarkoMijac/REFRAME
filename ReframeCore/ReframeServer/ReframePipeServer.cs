@@ -9,9 +9,9 @@ namespace ReframeServer
 {
     public class ReframePipeServer : PipeServer
     {
-        public ReframePipeServer() : base()
+        protected override void InitializeHandlers()
         {
-            CommandRouters.Add(new CoreRouter());
+            CommandHandlers.Add(new CoreHandler());
         }
     }
 }
