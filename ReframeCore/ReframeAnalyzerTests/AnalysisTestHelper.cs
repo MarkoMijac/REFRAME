@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ReframeAnalyzerTests
 {
@@ -277,5 +278,14 @@ namespace ReframeAnalyzerTests
 
             return reactor;
         }
+
+        #region GetNodeXElement
+
+        public static XElement GetAssemblyNode_XElement()
+        {
+            return null;
+        }
+
+        #endregion
     }
 }
