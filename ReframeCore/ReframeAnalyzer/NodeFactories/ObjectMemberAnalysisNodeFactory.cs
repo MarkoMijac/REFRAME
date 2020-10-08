@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,28 @@ namespace ReframeAnalyzer.NodeFactories
     {
         public override IAnalysisNode CreateNode(XElement xNode)
         {
-            uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-            var node = new ObjectMemberAnalysisNode(identifier, AnalysisLevel.ObjectMemberLevel);
+            try
+            {
+                uint identifier = uint.Parse(xNode.Element("Identifier").Value);
+                var node = new ObjectMemberAnalysisNode(identifier, AnalysisLevel.ObjectMemberLevel);
 
-            node.Name = xNode.Element("MemberName").Value;
-            node.NodeType = xNode.Element("NodeType").Value;
-            node.CurrentValue = xNode.Element("CurrentValue").Value;
-            node.PreviousValue = xNode.Element("PreviousValue").Value;
+                node.Name = xNode.Element("MemberName").Value;
+                node.NodeType = xNode.Element("NodeType").Value;
+                node.CurrentValue = xNode.Element("CurrentValue").Value;
+                node.PreviousValue = xNode.Element("PreviousValue").Value;
 
-            var objectFactory = new ObjectAnalysisNodeFactory();
-            node.Parent = objectFactory.CreateNode(xNode.Element("OwnerObject"));
-            node.Source = xNode.ToString();
+                var objectFactory = new ObjectAnalysisNodeFactory();
+                node.Parent = objectFactory.CreateNode(xNode.Element("OwnerObject"));
+                node.Source = xNode.ToString();
 
-            return node;
+                return node;
+
+            }
+            catch (Exception e)
+            {
+                throw new AnalysisException("Error parsing ObjectMemberNode XML! Source error message: " + e.Message);
+            }
+            
         }
     }
 }

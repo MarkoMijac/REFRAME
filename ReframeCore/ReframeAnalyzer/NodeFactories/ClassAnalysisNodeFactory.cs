@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,27 @@ namespace ReframeAnalyzer.NodeFactories
     {
         public override IAnalysisNode CreateNode(XElement xNode)
         {
-            uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-            var node = new ClassAnalysisNode(identifier, AnalysisLevel.ClassLevel);
-            node.Name = xNode.Element("Name").Value;
-            node.FullName = xNode.Element("FullName").Value;
-            node.Source = xNode.ToString();
+            try
+            {
+                uint identifier = uint.Parse(xNode.Element("Identifier").Value);
+                var node = new ClassAnalysisNode(identifier, AnalysisLevel.ClassLevel);
+                node.Name = xNode.Element("Name").Value;
+                node.FullName = xNode.Element("FullName").Value;
+                node.Source = xNode.ToString();
 
-            var namespaceFactory = new NamespaceAnalysisNodeFactory();
-            node.Parent = namespaceFactory.CreateNode(xNode.Element("OwnerNamespace"));
+                var namespaceFactory = new NamespaceAnalysisNodeFactory();
+                node.Parent = namespaceFactory.CreateNode(xNode.Element("OwnerNamespace"));
 
-            var assemblyFactory = new AssemblyAnalysisNodeFactory();
-            node.Parent2 = assemblyFactory.CreateNode(xNode.Element("OwnerAssembly"));
+                var assemblyFactory = new AssemblyAnalysisNodeFactory();
+                node.Parent2 = assemblyFactory.CreateNode(xNode.Element("OwnerAssembly"));
 
-            return node;
+                return node;
+            }
+            catch (Exception e)
+            {
+                throw new AnalysisException("Error parsing ClassNode XML! Source error message: " + e.Message);
+            }
+            
         }
     }
 }

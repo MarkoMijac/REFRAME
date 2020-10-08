@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,19 @@ namespace ReframeAnalyzer.NodeFactories
     {
         public override IAnalysisNode CreateNode(XElement xNode)
         {
-            uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-            var node = new AssemblyAnalysisNode(identifier, AnalysisLevel.AssemblyLevel);
-            node.Name = xNode.Element("Name").Value;
-            node.Source = xNode.ToString();
+            try
+            {
+                uint identifier = uint.Parse(xNode.Element("Identifier").Value);
+                var node = new AssemblyAnalysisNode(identifier, AnalysisLevel.AssemblyLevel);
+                node.Name = xNode.Element("Name").Value;
+                node.Source = xNode.ToString();
 
-            return node;
+                return node;
+            }
+            catch (Exception e)
+            {
+                throw new AnalysisException("Error parsing AssemblyNode XML! Source error message: " + e.Message);
+            }
         }
     }
 }

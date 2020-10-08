@@ -283,7 +283,45 @@ namespace ReframeAnalyzerTests
 
         public static XElement GetAssemblyNode_XElement()
         {
-            return null;
+            string assemblyNode = "<OwnerAssembly><Identifier>63906962</Identifier><Name>ReframeCoreExamples.dll</Name></OwnerAssembly>";
+
+            return XElement.Parse(assemblyNode);
+
+        }
+
+        public static XElement GetNamespaceNode_XElement()
+        {
+            string namespaceNode = "<OwnerNamespace><Identifier>3679577347</Identifier><Name>ReframeCoreExamples.E09</Name></OwnerNamespace>";
+
+            return XElement.Parse(namespaceNode);
+        }
+
+        public static XElement GetClassNode_XElement()
+        {
+            string classNode = "<OwnerClass><Identifier>776132068</Identifier><Name>ClassB</Name><FullName>ReframeCoreExamples.E09.ClassB</FullName><OwnerNamespace><Identifier>3679577347</Identifier><Name>ReframeCoreExamples.E09</Name></OwnerNamespace><OwnerAssembly><Identifier>63906962</Identifier><Name>ReframeCoreExamples.dll</Name></OwnerAssembly></OwnerClass>";
+
+            return XElement.Parse(classNode);
+        }
+
+        public static XElement GetObjectNode_XElement()
+        {
+            string objectNode = "<OwnerObject><Identifier>12852035</Identifier><Name>First object A</Name><OwnerClass><Identifier>776132068</Identifier><Name>ClassB</Name><FullName>ReframeCoreExamples.E09.ClassB</FullName><OwnerNamespace><Identifier>3679577347</Identifier><Name>ReframeCoreExamples.E09</Name></OwnerNamespace><OwnerAssembly><Identifier>63906962</Identifier><Name>ReframeCoreExamples.dll</Name></OwnerAssembly></OwnerClass></OwnerObject>";
+
+            return XElement.Parse(objectNode);
+        }
+
+        public static XElement GetObjectMemberNode_XElement()
+        {
+            string objectMemberNode = "<Node><Identifier>1526585190</Identifier><MemberName>PA1</MemberName><NodeType>PropertyNode</NodeType><CurrentValue>0</CurrentValue><PreviousValue></PreviousValue><OwnerObject><Identifier>12852035</Identifier><Name>First object A</Name><OwnerClass><Identifier>776132068</Identifier><Name>ClassB</Name><FullName>ReframeCoreExamples.E09.ClassB</FullName><OwnerNamespace><Identifier>3679577347</Identifier><Name>ReframeCoreExamples.E09</Name></OwnerNamespace><OwnerAssembly><Identifier>63906962</Identifier><Name>ReframeCoreExamples.dll</Name></OwnerAssembly></OwnerClass></OwnerObject><Predecessors><Predecessor><Identifier>1520527567</Identifier><MemberName>PB1</MemberName></Predecessor></Predecessors><Successors/></Node>";
+
+            return XElement.Parse(objectMemberNode);
+        }
+
+        public static XElement GetUpdateNode_XElement()
+        {
+            string updateNode = "<Node><Identifier>3451459271</Identifier><MemberName>B3</MemberName><OwnerObject>ClassB</OwnerObject><NodeType>PropertyNode</NodeType><ObjectIdentifier>958745</ObjectIdentifier><CurrentValue>2</CurrentValue><PreviousValue>2</PreviousValue><UpdateOrder>1</UpdateOrder><UpdateLayer>1</UpdateLayer><UpdateStartedAt>14:2:29:848</UpdateStartedAt><UpdateCompletedAt>14:2:29:848</UpdateCompletedAt><UpdateDuration>00:00:00.0000058</UpdateDuration><Predecessors /><Successors><Successor><Identifier>3451393735</Identifier><MemberName>B4</MemberName><OwnerObject>ClassB</OwnerObject></Successor></Successors></Node>";
+
+            return XElement.Parse(updateNode);
         }
 
         #endregion

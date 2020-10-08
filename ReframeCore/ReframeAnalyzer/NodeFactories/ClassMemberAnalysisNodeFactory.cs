@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,27 @@ namespace ReframeAnalyzer.NodeFactories
     {
         public override IAnalysisNode CreateNode(XElement xNode)
         {
-            string memberName = xNode.Element("MemberName").Value;
-            uint classIdentifier = uint.Parse(xNode.Element("OwnerObject").Element("OwnerClass").Element("Identifier").Value);
+            try
+            {
+                string memberName = xNode.Element("MemberName").Value;
+                uint classIdentifier = uint.Parse(xNode.Element("OwnerObject").Element("OwnerClass").Element("Identifier").Value);
 
-            uint identifier = GenerateIdentifier(memberName, classIdentifier);
-            var node = new ClassMemberAnalysisNode(identifier, AnalysisLevel.ClassMemberLevel);
-            node.Name = memberName;
-            node.NodeType = xNode.Element("NodeType").Value;
+                uint identifier = GenerateIdentifier(memberName, classIdentifier);
+                var node = new ClassMemberAnalysisNode(identifier, AnalysisLevel.ClassMemberLevel);
+                node.Name = memberName;
+                node.NodeType = xNode.Element("NodeType").Value;
 
-            var classFactory = new ClassAnalysisNodeFactory();
-            node.Parent = classFactory.CreateNode(xNode.Element("OwnerObject").Element("OwnerClass"));
-            node.Source = xNode.ToString();
+                var classFactory = new ClassAnalysisNodeFactory();
+                node.Parent = classFactory.CreateNode(xNode.Element("OwnerObject").Element("OwnerClass"));
+                node.Source = xNode.ToString();
 
-            return node;
+                return node;
+            }
+            catch (Exception e)
+            {
+                throw new AnalysisException("Error parsing ClassMemberNode XML! Source error message: " + e.Message);
+            }
+            
         }
 
         private uint GenerateIdentifier(string memberName, uint classIdentifier)
