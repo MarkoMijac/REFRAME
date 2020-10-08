@@ -11,7 +11,7 @@ namespace ReframeAnalyzer.Nodes
     {
         public string NodeType { get; set; }
 
-        public ClassMemberAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
+        public ClassMemberAnalysisNode(uint identifier) : base(identifier, AnalysisLevel.ClassMemberLevel)
         {
 
         }

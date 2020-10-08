@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.NodeFactories
             try
             {
                 uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-                var node = new UpdateAnalysisNode(identifier, AnalysisLevel.UpdateAnalysisLevel);
+                var node = new UpdateAnalysisNode(identifier);
 
                 node.Name = xNode.Element("MemberName").Value;
                 node.NodeType = xNode.Element("NodeType").Value;

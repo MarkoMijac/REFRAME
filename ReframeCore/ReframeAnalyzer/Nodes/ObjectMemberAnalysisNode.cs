@@ -13,7 +13,7 @@ namespace ReframeAnalyzer.Nodes
         public string CurrentValue { get; set; }
         public string PreviousValue { get; set; }
 
-        public ObjectMemberAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
+        public ObjectMemberAnalysisNode(uint identifier) : base(identifier, AnalysisLevel.ObjectMemberLevel)
         {
 
         }

@@ -19,7 +19,7 @@ namespace ReframeAnalyzer.Nodes
         public string PreviousValue { get; set; }
         public bool IsInitialNode { get; set; } = false;
 
-        public UpdateAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
+        public UpdateAnalysisNode(uint identifier) : base(identifier, AnalysisLevel.UpdateAnalysisLevel)
         {
 
         }

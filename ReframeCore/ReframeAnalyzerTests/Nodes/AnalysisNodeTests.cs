@@ -11,7 +11,7 @@ namespace ReframeAnalyzerTests.Nodes
         public void AddPredecessor_GivenNullPredecessor_ThrowsException()
         {
             //Arrange
-            var node = new AssemblyAnalysisNode(
+            
 
             //Act
 

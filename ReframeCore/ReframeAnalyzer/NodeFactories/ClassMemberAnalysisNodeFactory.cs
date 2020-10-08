@@ -19,7 +19,7 @@ namespace ReframeAnalyzer.NodeFactories
                 uint classIdentifier = uint.Parse(xNode.Element("OwnerObject").Element("OwnerClass").Element("Identifier").Value);
 
                 uint identifier = GenerateIdentifier(memberName, classIdentifier);
-                var node = new ClassMemberAnalysisNode(identifier, AnalysisLevel.ClassMemberLevel);
+                var node = new ClassMemberAnalysisNode(identifier);
                 node.Name = memberName;
                 node.NodeType = xNode.Element("NodeType").Value;
 

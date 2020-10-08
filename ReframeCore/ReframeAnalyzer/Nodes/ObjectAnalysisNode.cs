@@ -9,7 +9,7 @@ namespace ReframeAnalyzer.Nodes
 {
     public class ObjectAnalysisNode : AnalysisNode
     {
-        public ObjectAnalysisNode(uint identifier, AnalysisLevel level) : base(identifier, level)
+        public ObjectAnalysisNode(uint identifier) : base(identifier, AnalysisLevel.ObjectLevel)
         {
 
         }

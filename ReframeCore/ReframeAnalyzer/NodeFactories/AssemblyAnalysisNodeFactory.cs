@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.NodeFactories
             try
             {
                 uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-                var node = new AssemblyAnalysisNode(identifier, AnalysisLevel.AssemblyLevel);
+                var node = new AssemblyAnalysisNode(identifier);
                 node.Name = xNode.Element("Name").Value;
                 node.Source = xNode.ToString();
 

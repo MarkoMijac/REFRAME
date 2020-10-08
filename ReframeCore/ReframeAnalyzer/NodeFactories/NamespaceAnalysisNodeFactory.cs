@@ -16,7 +16,7 @@ namespace ReframeAnalyzer.NodeFactories
             try
             {
                 uint identifier = uint.Parse(xNode.Element("Identifier").Value);
-                var node = new NamespaceAnalysisNode(identifier, AnalysisLevel.NamespaceLevel);
+                var node = new NamespaceAnalysisNode(identifier);
                 node.Name = xNode.Element("Name").Value;
                 node.Source = xNode.ToString();
 
