@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,7 +23,10 @@ namespace ReframeAnalyzer.Graph
 
         public void AddNode(IAnalysisNode node)
         {
-            if (node != null && ContainsNode(node.Identifier) == false)
+            if (node == null) throw new AnalysisException("Cannot add null node to graph!");
+            if (node.Level != AnalysisLevel) throw new AnalysisException("Node has to be the same analysis level as the graph!");
+
+            if (ContainsNode(node.Identifier) == false)
             {
                 _nodes.Add(node);
             }
