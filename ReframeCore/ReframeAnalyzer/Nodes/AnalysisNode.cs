@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReframeAnalyzer.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,8 @@ namespace ReframeAnalyzer.Nodes
 
         public void AddPredecessor(IAnalysisNode predecessor)
         {
+            ValidateDependencies(predecessor);
+
             if (_predecessors.Contains(predecessor) == false)
             {
                 _predecessors.Add(predecessor);
@@ -58,8 +61,17 @@ namespace ReframeAnalyzer.Nodes
             }
         }
 
+        private void ValidateDependencies(IAnalysisNode associatedNode)
+        {
+            if (associatedNode == null) throw new AnalysisException("Associated node cannot be null!");
+            if (associatedNode.Identifier == Identifier) throw new AnalysisException("Node cannot be associated to itself!");
+            if (associatedNode.Level != Level) throw new AnalysisException("Nodes need to have the same analysis level!");
+        }
+
         public void AddSuccesor(IAnalysisNode successor)
         {
+            ValidateDependencies(successor);
+
             if (_successors.Contains(successor) == false)
             {
                 _successors.Add(successor);
