@@ -116,7 +116,7 @@ namespace ReframeAnalyzer.GraphFactories
                     var successorAnalysisNode = graph.GetNode(successorIdentifier);
                     if (successorAnalysisNode != null)
                     {
-                        analysisNode.AddSuccesor(successorAnalysisNode);
+                        analysisNode.AddSuccessor(successorAnalysisNode);
                     }
                 }
             }

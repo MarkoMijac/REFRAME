@@ -1,6 +1,7 @@
 ﻿using ReframeAnalyzer.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,25 +53,24 @@ namespace ReframeAnalyzer.Nodes
 
         public void AddPredecessor(IAnalysisNode predecessor)
         {
-            ValidateDependencies(predecessor);
+            ValidateAdding(predecessor);
 
             if (_predecessors.Contains(predecessor) == false)
             {
                 _predecessors.Add(predecessor);
-                predecessor.AddSuccesor(this);
+                predecessor.AddSuccessor(this);
             }
         }
 
-        private void ValidateDependencies(IAnalysisNode associatedNode)
+        private void ValidateAdding(IAnalysisNode associatedNode)
         {
-            if (associatedNode == null) throw new AnalysisException("Associated node cannot be null!");
-            if (associatedNode.Identifier == Identifier) throw new AnalysisException("Node cannot be associated to itself!");
+            if (associatedNode == null) throw new AnalysisException("Added node cannot be null!");
             if (associatedNode.Level != Level) throw new AnalysisException("Nodes need to have the same analysis level!");
         }
 
-        public void AddSuccesor(IAnalysisNode successor)
+        public void AddSuccessor(IAnalysisNode successor)
         {
-            ValidateDependencies(successor);
+            ValidateAdding(successor);
 
             if (_successors.Contains(successor) == false)
             {
@@ -81,33 +81,36 @@ namespace ReframeAnalyzer.Nodes
 
         public void RemovePredecessor(IAnalysisNode predecessor)
         {
-            if (predecessor != null)
-            {
-                if (_predecessors.Contains(predecessor) == true)
-                {
-                    _predecessors.Remove(predecessor);
-                }
+            ValidateRemoving(predecessor);
 
-                if (predecessor.Successors.Contains(this) == true)
-                {
-                    predecessor.RemoveSuccessor(this);
-                }
+            if (_predecessors.Contains(predecessor) == true)
+            {
+                _predecessors.Remove(predecessor);
             }
+
+            if (predecessor.Successors.Contains(this) == true)
+            {
+                predecessor.RemoveSuccessor(this);
+            }
+        }
+
+        private static void ValidateRemoving(IAnalysisNode node)
+        {
+            if (node == null) throw new AnalysisException("Removed node cannot be null!");
         }
 
         public void RemoveSuccessor(IAnalysisNode successor)
         {
-            if (successor != null)
-            {
-                if (_successors.Contains(successor) == true)
-                {
-                    _successors.Remove(successor);
-                }
+            ValidateRemoving(successor);
 
-                if (successor.Predecessors.Contains(this) == true)
-                {
-                    successor.RemovePredecessor(this);
-                }
+            if (_successors.Contains(successor) == true)
+            {
+                _successors.Remove(successor);
+            }
+
+            if (successor.Predecessors.Contains(this) == true)
+            {
+                successor.RemovePredecessor(this);
             }
         }
 

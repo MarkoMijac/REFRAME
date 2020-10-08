@@ -24,7 +24,7 @@ namespace ReframeAnalyzer.Nodes
         void RemovePredecessor(IAnalysisNode predecessor);
         bool HasPredecessor(IAnalysisNode predecessor);
 
-        void AddSuccesor(IAnalysisNode successor);
+        void AddSuccessor(IAnalysisNode successor);
         void RemoveSuccessor(IAnalysisNode successor);
         bool HasSuccessor(IAnalysisNode successor);
 

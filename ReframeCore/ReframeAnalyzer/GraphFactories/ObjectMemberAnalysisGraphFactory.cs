@@ -64,7 +64,7 @@ namespace ReframeAnalyzer.GraphFactories
                     var successor = graph.GetNode(successorId);
                     if (successor != null)
                     {
-                        node.AddSuccesor(successor);
+                        node.AddSuccessor(successor);
                     }
                 }
             }
