@@ -23,9 +23,8 @@ namespace ReframeTools.Controllers
 
         public void ShowReactorDetails()
         {
-            var pipeClient = new ReframePipeClient();
-            string xmlSource = pipeClient.GetReactor(_reactorIdentifier);
-            
+            string xmlSource = FetchXmlSource();
+
             var objectMemberGraphFactory = new ObjectMemberAnalysisGraphFactory();
             var objectMemberGraph = objectMemberGraphFactory.CreateGraph(xmlSource);
 
@@ -53,6 +52,13 @@ namespace ReframeTools.Controllers
             SetAssemblyGraphStatistics(assemblyGraph);
 
             _view.DisplayDetails();
+        }
+
+        private string FetchXmlSource()
+        {
+            var pipeClient = new ReframePipeClient();
+            string xmlSource = pipeClient.GetReactor(_reactorIdentifier);
+            return xmlSource;
         }
 
         private void SetAssemblyGraphStatistics(IAnalysisGraph assemblyGraph)

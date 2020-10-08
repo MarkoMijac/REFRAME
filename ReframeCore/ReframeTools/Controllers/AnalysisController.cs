@@ -22,7 +22,7 @@ namespace ReframeTools.Controllers
 
         private FrmAnalysisFilter FilterForm { get; set; }
         private FrmAnalysisView View { get; set; }
-        public IAnalysisGraph AnalysisGraph { get; set; }
+        private IAnalysisGraph AnalysisGraph { get; set; }
         public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
         private Analyzer Analyzer { get; set; } = new Analyzer();
 

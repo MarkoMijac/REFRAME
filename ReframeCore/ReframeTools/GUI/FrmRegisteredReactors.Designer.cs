@@ -203,8 +203,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dgvReactors;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem chooseAnalysislevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectMemberlevelAnalysisToolStripMenuItem;
@@ -218,5 +216,6 @@
         private System.Windows.Forms.ToolStripMenuItem archivedAnalysesToolStripMenuItem;
         private System.Windows.Forms.Label lblReactors;
         protected System.Windows.Forms.Button btnShowDetails;
+        public System.Windows.Forms.DataGridView dgvReactors;
     }
 }
