@@ -1,4 +1,5 @@
-﻿using ReframeAnalyzer.Nodes;
+﻿using ReframeAnalyzer.Exceptions;
+using ReframeAnalyzer.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,15 @@ namespace ReframeAnalyzer.Filters
 
         public AnalysisFilter(List<IAnalysisNode> originalNodes)
         {
+            if (originalNodes == null) throw new AnalysisException("Cannot query null list of nodes!");
+
             OriginalNodes = originalNodes;
         }
 
         public virtual List<IAnalysisNode> Apply()
         {
+            if (OriginalNodes == null) throw new AnalysisException("Cannot query null list of nodes!");
+
             List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
             filteredNodes.AddRange(OriginalNodes.FindAll(Query));
             return filteredNodes;

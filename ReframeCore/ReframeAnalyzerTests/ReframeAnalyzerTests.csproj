@@ -52,6 +52,13 @@
   <ItemGroup>
     <Compile Include="AnalysisTestHelper.cs" />
     <Compile Include="AnalyzerTests.cs" />
+    <Compile Include="Filters\AssemblyAnalysisFilterTests.cs" />
+    <Compile Include="Filters\NamespaceAnalysisFilterTests.cs" />
+    <Compile Include="Filters\ClassAnalysisFilterTests.cs" />
+    <Compile Include="Filters\ClassMemberAnalysisFilterTests.cs" />
+    <Compile Include="Filters\ObjectAnalysisFilterTests.cs" />
+    <Compile Include="Filters\ObjectMemberAnalysisFilterTests.cs" />
+    <Compile Include="Filters\UpdateAnalysisFilterTests.cs" />
     <Compile Include="GraphFactories\AssemblyAnalysisGraphFactoryTests.cs" />
     <Compile Include="GraphFactories\NamespaceAnalysisGraphFactoryTests.cs" />
     <Compile Include="GraphFactories\ClassAnalysisGraphFactoryTests.cs" />
@@ -67,6 +74,7 @@
     <Compile Include="NodeFactories\ObjectAnalysisNodeFactoryTests.cs" />
     <Compile Include="NodeFactories\ObjectMemberAnalysisNodeFactoryTests.cs" />
     <Compile Include="NodeFactories\UpdateAnalysisNodeFactoryTests.cs" />
+    <Compile Include="Nodes\AnalysisNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
