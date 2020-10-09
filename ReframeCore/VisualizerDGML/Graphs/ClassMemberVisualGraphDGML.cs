@@ -12,7 +12,7 @@ namespace VisualizerDGML.Graphs
 {
     public class ClassMemberVisualGraphDGML : VisualGraphDGML
     {
-        public ClassMemberVisualGraphDGML(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes) : base(reactorIdentifier, analysisNodes)
+        public ClassMemberVisualGraphDGML(string reactorIdentifier, List<IAnalysisNode> analysisNodes) : base(reactorIdentifier, analysisNodes)
         {
             Options = new VisualizationOptions
             {

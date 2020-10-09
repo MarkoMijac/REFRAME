@@ -19,7 +19,7 @@ namespace ReframeTools.Controllers
         protected FrmUpdateFilter FilterView { get; set; }
         protected FrmUpdateProcessInfo View { get; set; }
         public IAnalysisGraph AnalysisGraph { get; set; }
-        public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
+        public List<IAnalysisNode> AnalysisNodes { get; set; }
 
         public UpdateProcessAnalysisController(FrmUpdateProcessInfo form, FrmUpdateFilter frmFilter = null)
         {
@@ -51,9 +51,9 @@ namespace ReframeTools.Controllers
             PaintValueDifferences();
         }
 
-        private IEnumerable<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
+        private List<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
         {
-            IEnumerable<IAnalysisNode> filteredNodes;
+            List<IAnalysisNode> filteredNodes;
             if (FilterView != null)
             {
                 FilterView.OriginalNodes = originalNodes;

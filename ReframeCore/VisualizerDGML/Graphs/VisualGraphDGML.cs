@@ -14,12 +14,12 @@ namespace VisualizerDGML.Graphs
     public abstract class VisualGraphDGML : IVisualGraph
     {
         public VisualizationOptions Options { get; protected set; } = new VisualizationOptions();
-        protected IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
+        protected List<IAnalysisNode> AnalysisNodes { get; set; }
         public string ReactorIdentifier { get; set; }
 
         protected GraphPainter GraphPainter { get; set; } = new GraphPainter();
 
-        public VisualGraphDGML(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
+        public VisualGraphDGML(string reactorIdentifier, List<IAnalysisNode> analysisNodes)
         {
             AnalysisNodes = analysisNodes;
             ReactorIdentifier = reactorIdentifier;

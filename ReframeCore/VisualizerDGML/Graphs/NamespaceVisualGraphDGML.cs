@@ -10,7 +10,7 @@ namespace VisualizerDGML.Graphs
 {
     public class NamespaceVisualGraphDGML : VisualGraphDGML
     {
-        public NamespaceVisualGraphDGML(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNode) : base(reactorIdentifier, analysisNode)
+        public NamespaceVisualGraphDGML(string reactorIdentifier, List<IAnalysisNode> analysisNode) : base(reactorIdentifier, analysisNode)
         {
 
         }

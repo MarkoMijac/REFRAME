@@ -27,7 +27,7 @@ namespace ReframeTools.Controllers
             _fileCreator.CreateNewFile(visualGraph);
         }
 
-        public void Visualize(IEnumerable<IAnalysisNode> analysisNodes)
+        public void Visualize(List<IAnalysisNode> analysisNodes)
         {
             if (analysisNodes == null || analysisNodes.Count() == 0)
             {

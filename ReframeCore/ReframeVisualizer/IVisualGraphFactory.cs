@@ -9,6 +9,6 @@ namespace ReframeVisualizer
 {
     public interface IVisualGraphFactory
     {
-        IVisualGraph CreateGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes);
+        IVisualGraph CreateGraph(string reactorIdentifier, List<IAnalysisNode> analysisNodes);
     }
 }

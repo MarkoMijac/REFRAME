@@ -9,11 +9,12 @@ using VisualizerDGML.Graphs;
 
 namespace VisualizerDGML.Factories
 {
-    public class ObjectMemberDGMLGraphFactory : IVisualGraphFactory
+    public class ObjectMemberGraphFactoryDGML : VisualGraphFactory
     {
-        public IVisualGraph CreateGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
+        public override IVisualGraph CreateGraph(string reactorIdentifier, List<IAnalysisNode> analysisNodes)
         {
-            return new ObjectMemberDGMLVisualGraph(reactorIdentifier, analysisNodes);
+            Validate(reactorIdentifier, analysisNodes);
+            return new ObjectMemberVisualGraphDGML(reactorIdentifier, analysisNodes);
         }
     }
 }

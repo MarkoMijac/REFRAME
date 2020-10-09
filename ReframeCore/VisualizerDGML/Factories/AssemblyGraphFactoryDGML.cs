@@ -10,10 +10,11 @@ using VisualizerDGML.Graphs;
 
 namespace VisualizerDGML.Factories
 {
-    public class AssemblyGraphFactoryDGML : IVisualGraphFactory
+    public class AssemblyGraphFactoryDGML : VisualGraphFactory
     {
-        public IVisualGraph CreateGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes)
+        public override IVisualGraph CreateGraph(string reactorIdentifier, List<IAnalysisNode> analysisNodes)
         {
+            Validate(reactorIdentifier, analysisNodes);
             return new AssemblyVisualGraphDGML(reactorIdentifier, analysisNodes);
         }
     }

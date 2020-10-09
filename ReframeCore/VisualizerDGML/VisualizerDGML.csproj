@@ -63,7 +63,7 @@
     <Compile Include="Graphs\ClassMemberVisualGraphDGML.cs" />
     <Compile Include="Graphs\ClassVisualGraphDGML.cs" />
     <Compile Include="Graphs\NamespaceVisualGraphDGML.cs" />
-    <Compile Include="Graphs\ObjectMemberDGMLVisualGraph.cs" />
+    <Compile Include="Graphs\ObjectMemberVisualGraphDGML.cs" />
     <Compile Include="Graphs\ObjectVisualGraphDGML.cs" />
     <Compile Include="Graphs\UpdateVisualGraphDGML.cs" />
     <Compile Include="Graphs\VisualGraphDGML.cs" />
@@ -77,6 +77,10 @@
     <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
       <Project>{87BAE3E0-A197-4DC1-9E97-E5945F7CC652}</Project>
       <Name>ReframeAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
+      <Name>ReframeBaseExceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
       <Project>{2becc201-155a-4fd4-81e0-3d6a33c6838d}</Project>

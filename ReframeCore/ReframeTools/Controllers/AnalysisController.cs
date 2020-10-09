@@ -23,7 +23,7 @@ namespace ReframeTools.Controllers
         private FrmAnalysisFilter FilterForm { get; set; }
         private FrmAnalysisView View { get; set; }
         private IAnalysisGraph AnalysisGraph { get; set; }
-        public IEnumerable<IAnalysisNode> AnalysisNodes { get; set; }
+        public List<IAnalysisNode> AnalysisNodes { get; set; }
         private Analyzer Analyzer { get; set; } = new Analyzer();
 
         public AnalysisController(FrmAnalysisView form, AnalysisGraphFactory graphFactory, FrmAnalysisFilter frmFilter = null)
@@ -77,9 +77,9 @@ namespace ReframeTools.Controllers
             View.GraphDensity = GraphMetrics.GetGraphDensity(AnalysisNodes).ToString("N4");
         }
 
-        private IEnumerable<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
+        private List<IAnalysisNode> GetFilteredNodes(List<IAnalysisNode> originalNodes)
         {
-            IEnumerable<IAnalysisNode> filteredNodes;
+            List<IAnalysisNode> filteredNodes;
             if (FilterForm != null)
             {
                 FilterForm.OriginalNodes = originalNodes;

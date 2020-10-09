@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace VisualizerDGML.Graphs
 {
-    public class ObjectMemberDGMLVisualGraph : VisualGraphDGML
+    public class ObjectMemberVisualGraphDGML : VisualGraphDGML
     {
-        public ObjectMemberDGMLVisualGraph(string reactorIdentifier, IEnumerable<IAnalysisNode> analysisNodes) : base(reactorIdentifier, analysisNodes)
+        public ObjectMemberVisualGraphDGML(string reactorIdentifier, List<IAnalysisNode> analysisNodes) : base(reactorIdentifier, analysisNodes)
         {
             Options = new VisualizationOptions
             {
