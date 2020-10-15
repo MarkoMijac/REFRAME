@@ -131,7 +131,7 @@ namespace ReframeExporter
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("StackTrace");
-                xmlWriter.WriteString(updateError.SourceException.Message);
+                xmlWriter.WriteString(updateError.SourceException.StackTrace);
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteEndElement();

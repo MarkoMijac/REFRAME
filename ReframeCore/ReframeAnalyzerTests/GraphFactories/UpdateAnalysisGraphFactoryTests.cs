@@ -36,7 +36,6 @@ namespace ReframeAnalyzerTests.GraphFactories
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AnalysisException))]
         public void CreateGraph_XMLSourceIsValid_ReturnsNonEmptyGraph()
         {
             //Arrange
@@ -48,6 +47,43 @@ namespace ReframeAnalyzerTests.GraphFactories
 
             //Assert
             Assert.IsTrue(graph.Nodes.Count == 16);
+        }
+
+        [TestMethod]
+        public void CreateGraph_GivenUpdateError_ContainsErrorData()
+        {
+            //Arrange
+            var objectMemberAnalysisGraph = new AnalysisGraph("G1", AnalysisLevel.ObjectMemberLevel);
+            var factory = new UpdateAnalysisGraphFactory(objectMemberAnalysisGraph);
+
+            //Act
+            var graph = factory.CreateGraph(AnalysisTestHelper.GetUpdateInfoStringWithUpdateError()) as UpdateAnalysisGraph;
+
+            //Assert
+            Assert.IsTrue(graph.FailedNodeIdentifier == 3451262663
+                && graph.FailedNodeName == "B2"
+                && graph.FailedNodeOwner == "ClassB"
+                && graph.SourceException == "Null reference exception!"
+                && graph.StackTrace == "Test stack trace");
+        }
+
+        [TestMethod]
+        public void CreateGraph_GivenUpdateCause_ContainsCauseData()
+        {
+            //Arrange
+            var objectMemberAnalysisGraph = new AnalysisGraph("G1", AnalysisLevel.ObjectMemberLevel);
+            var factory = new UpdateAnalysisGraphFactory(objectMemberAnalysisGraph);
+
+            //Act
+            var graph = factory.CreateGraph(AnalysisTestHelper.GetUpdateInfoStringWithCause()) as UpdateAnalysisGraph;
+
+            //Assert
+            Assert.IsTrue(graph.CauseMessage == "Complete graph update requested!"
+                && graph.InitialNodeIdentifier == 3451262663
+                && graph.InitialNodeName == "B2"
+                && graph.InitialNodeOwner == "ClassB"
+                && graph.InitialNodeCurrentValue == "10"
+                && graph.InitialNodePreviousValue == "9");
         }
     }
 }

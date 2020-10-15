@@ -23,8 +23,6 @@ namespace ReframeAnalyzer.Filters
 
         public virtual List<IAnalysisNode> Apply()
         {
-            if (OriginalNodes == null) throw new AnalysisException("Cannot query null list of nodes!");
-
             List<IAnalysisNode> filteredNodes = new List<IAnalysisNode>();
             filteredNodes.AddRange(OriginalNodes.FindAll(Query));
             return filteredNodes;

@@ -57,7 +57,7 @@ namespace ReframeAnalyzer.GraphFactories
             XElement xError = xRoot.Element("UpdateError");
             if (xError != null)
             {
-                XElement xFailedNode = xRoot.Element("FailedNode");
+                XElement xFailedNode = xError.Element("FailedNode");
                 if (xFailedNode != null)
                 {
                     graph.FailedNodeIdentifier = uint.Parse(xFailedNode.Element("Identifier").Value);
