@@ -54,12 +54,11 @@ namespace ReframeCoreTests
         public void NodeCreation_CreatedReactiveNode_ObtainedIdentifier()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
 
             //Act
-            PropertyNode node = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            var node = new PropertyNode(building00, memberName);
 
             //Assert
             Assert.AreNotEqual(default(uint), node.Identifier);
@@ -69,12 +68,11 @@ namespace ReframeCoreTests
         public void HasSameIdentifier_NodesPointingAtTheSameObjectAndMember_ReturnsTrue()
         {
             //Arrange
-            NodeFactory nodeFactory = new StandardNodeFactory();
             Building00 building00 = new Building00();
             string memberName = "Width";
 
-            PropertyNode node1 = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
-            PropertyNode node2 = nodeFactory.CreateNode(building00, memberName) as PropertyNode;
+            var node1 = new PropertyNode(building00, memberName);
+            var node2 = new PropertyNode(building00, memberName);
 
             //Act
             bool same = node1.HasSameIdentifier(node2);

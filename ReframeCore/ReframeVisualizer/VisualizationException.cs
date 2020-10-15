@@ -9,12 +9,6 @@ namespace ReframeVisualizer
 {
     public class VisualizationException : ReframeException
     {
-        public VisualizationException()
-            : base("Generic visualization exception!")
-        {
-
-        }
-
         public VisualizationException(string message) : base(message)
         {
 

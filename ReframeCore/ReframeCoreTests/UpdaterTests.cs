@@ -512,22 +512,22 @@ namespace ReframeCoreTests
             updater.PerformUpdate(building, "Width");
 
             //Assert
-            NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+            NodeLog actualLog = updater.NodeLog;
+            NodeLog expectedLog = CreateExpectedLog_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
-            Assert.AreEqual(expectedLogger, actualLogger);
+            Assert.AreEqual(expectedLog, actualLog);
         }
 
-        private NodeLog CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(IDependencyGraph graph, Building00 building00)
+        private NodeLog CreateExpectedLog_Case1_GivenWidthOrLengthAsInitialNode(IDependencyGraph graph, Building00 building00)
         {
-            NodeLog logger = new NodeLog();
+            NodeLog nodeLog = new NodeLog();
 
-            logger.Log(graph.GetNode(building00, "Area"));
-            logger.Log(graph.GetNode(building00, "TotalConsumption"));
-            logger.Log(graph.GetNode(building00, "Volume"));
-            logger.Log(graph.GetNode(building00, "TotalConsumptionPer_m3"));
+            nodeLog.Log(graph.GetNode(building00, "Area"));
+            nodeLog.Log(graph.GetNode(building00, "TotalConsumption"));
+            nodeLog.Log(graph.GetNode(building00, "Volume"));
+            nodeLog.Log(graph.GetNode(building00, "TotalConsumptionPer_m3"));
 
-            return logger;
+            return nodeLog;
         }
 
         [TestMethod]
@@ -616,7 +616,7 @@ namespace ReframeCoreTests
 
             //Assert
             NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+            NodeLog expectedLogger = CreateExpectedLog_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger, actualLogger);
         }
@@ -636,7 +636,7 @@ namespace ReframeCoreTests
 
             //Assert
             NodeLog actualLogger = updater.NodeLog;
-            NodeLog expectedLogger = CreateExpectedLogger_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
+            NodeLog expectedLogger = CreateExpectedLog_Case1_GivenWidthOrLengthAsInitialNode(graph, building);
 
             Assert.AreEqual(expectedLogger, actualLogger);
         }

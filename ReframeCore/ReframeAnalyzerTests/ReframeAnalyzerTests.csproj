@@ -68,6 +68,7 @@
     <Compile Include="GraphFactories\UpdateAnalysisGraphFactoryTests.cs" />
     <Compile Include="GraphMetricsTests.cs" />
     <Compile Include="Graph\AnalysisGraphTests.cs" />
+    <Compile Include="Graph\UpdateAnalysisGraphTests.cs" />
     <Compile Include="NodeFactories\AssemblyAnalysisNodeFactoryTests.cs" />
     <Compile Include="NodeFactories\ClassAnalysisNodeFactoryTests.cs" />
     <Compile Include="NodeFactories\ClassMemberAnalysisNodeFactoryTests.cs" />

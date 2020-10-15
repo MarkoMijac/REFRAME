@@ -27,8 +27,6 @@ namespace ReframeAnalyzer.Graph
         public string InitialNodeCurrentValue { get; set; }
         public string InitialNodePreviousValue { get; set; }
 
-        private IAnalysisGraph ObjectMemberGraph { get; set; }
-
         public UpdateAnalysisGraph(string identifier, AnalysisLevel level) : base(identifier, level)
         {
 
