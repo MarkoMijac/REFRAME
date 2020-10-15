@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReframeAnalyzer;
 using ReframeAnalyzer.Exceptions;
 using ReframeAnalyzer.Filters;
 using ReframeAnalyzer.GraphFactories;
@@ -74,6 +75,24 @@ namespace ReframeAnalyzerTests.Filters
 
             //Assert
             Assert.IsTrue(filteredNodes.Count == 0);
+        }
+
+        [TestMethod]
+        public void GivenNamespaceNodeSelected_ChildNodesAreSelected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+
+            var filter = new ObjectMemberAnalysisFilter(analysisGraph.Nodes);
+            filter.NamespaceFilterOption.DeselectNodes();
+
+            //Act
+            var node = filter.NamespaceFilterOption.GetNodes()[0];
+            filter.NamespaceFilterOption.SelectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ClassFilterOption.GetSelectedNodes().Count > 0);
         }
     }
 }

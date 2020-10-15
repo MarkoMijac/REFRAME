@@ -9,12 +9,13 @@ namespace ReframeAnalyzer.Filters
 {
     public class FilterOption : IFilterOption
     {
-        private List<IAnalysisNode> SelectedNodes { get; set; } = new List<IAnalysisNode>();
+        private List<IAnalysisNode> SelectedNodes { get; set; }
         private List<IAnalysisNode> AllNodes { get; set; } = new List<IAnalysisNode>();
 
         public FilterOption(List<IAnalysisNode> allNodes)
         {
             AllNodes = allNodes;
+            SelectedNodes = new List<IAnalysisNode>();
         }
 
         public bool IsSelected(IAnalysisNode node)
@@ -109,6 +110,12 @@ namespace ReframeAnalyzer.Filters
                 return GetNodes().FindAll(condition);
             }
         }
+
+        public List<IAnalysisNode> GetSelectedNodes()
+        {
+            return SelectedNodes;
+        }
+
 
         public event EventHandler NodeSelected;
         public event EventHandler NodeDeselected;

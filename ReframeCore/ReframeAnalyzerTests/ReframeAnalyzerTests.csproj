@@ -58,6 +58,7 @@
     <Compile Include="Filters\ClassMemberAnalysisFilterTests.cs" />
     <Compile Include="Filters\ObjectAnalysisFilterTests.cs" />
     <Compile Include="Filters\ObjectMemberAnalysisFilterTests.cs" />
+    <Compile Include="Filters\FilterOptionTests.cs" />
     <Compile Include="Filters\UpdateAnalysisFilterTests.cs" />
     <Compile Include="GraphFactories\AssemblyAnalysisGraphFactoryTests.cs" />
     <Compile Include="GraphFactories\NamespaceAnalysisGraphFactoryTests.cs" />
