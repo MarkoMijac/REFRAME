@@ -41,5 +41,50 @@ namespace VisualizerDGMLTests.Graphs
                 && dgmlGraph.DocumentSchema.Properties.Count == 11
                 && dgmlGraph.Links.Count == 2);
         }
+
+        [TestMethod]
+        public void GetGraph_GivenClassLevelGrouping_GroupsExist()
+        {
+            //Arrange
+            var visualGraph = new ClassMemberVisualGraphDGML("G1", VisualizationTestHelper.GetClassMemberAnalysisNodes());
+            visualGraph.Options.ChosenGroupingLevel = ReframeVisualizer.GroupingLevel.ClassLevel;
+            var privateVisualGraph = new PrivateObject(visualGraph, new PrivateType(typeof(VisualGraphDGML)));
+
+            //Act
+            Graph dgmlGraph = privateVisualGraph.Invoke("GetGraph") as Graph;
+            //Assert
+            Assert.IsTrue(dgmlGraph != null
+                && dgmlGraph.Groups.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetGraph_GivenNamespaceLevelGrouping_GroupsExist()
+        {
+            //Arrange
+            var visualGraph = new ClassMemberVisualGraphDGML("G1", VisualizationTestHelper.GetClassMemberAnalysisNodes());
+            visualGraph.Options.ChosenGroupingLevel = ReframeVisualizer.GroupingLevel.NamespaceLevel;
+            var privateVisualGraph = new PrivateObject(visualGraph, new PrivateType(typeof(VisualGraphDGML)));
+
+            //Act
+            Graph dgmlGraph = privateVisualGraph.Invoke("GetGraph") as Graph;
+            //Assert
+            Assert.IsTrue(dgmlGraph != null
+                && dgmlGraph.Groups.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetGraph_GivenAssemblyLevelGrouping_GroupsExist()
+        {
+            //Arrange
+            var visualGraph = new ClassMemberVisualGraphDGML("G1", VisualizationTestHelper.GetClassMemberAnalysisNodes());
+            visualGraph.Options.ChosenGroupingLevel = ReframeVisualizer.GroupingLevel.AssemblyLevel;
+            var privateVisualGraph = new PrivateObject(visualGraph, new PrivateType(typeof(VisualGraphDGML)));
+
+            //Act
+            Graph dgmlGraph = privateVisualGraph.Invoke("GetGraph") as Graph;
+            //Assert
+            Assert.IsTrue(dgmlGraph != null
+                && dgmlGraph.Groups.Count > 0);
+        }
     }
 }
