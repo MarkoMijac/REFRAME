@@ -94,5 +94,60 @@ namespace ReframeAnalyzerTests.Filters
             //Assert
             Assert.IsTrue(filter.ClassFilterOption.GetSelectedNodes().Count > 0);
         }
+
+        [TestMethod]
+        public void GivenNamespaceNodeDeselected_ChildNodesAreDeselected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+
+            var filter = new ObjectMemberAnalysisFilter(analysisGraph.Nodes);
+            var node = filter.NamespaceFilterOption.GetNodes()[0];
+            filter.NamespaceFilterOption.SelectNode(node);
+
+            //Act
+            filter.NamespaceFilterOption.DeselectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ClassFilterOption.GetSelectedNodes().Count == 0);
+        }
+
+        [TestMethod]
+        public void GivenClassNodeSelected_ChildNodesAreSelected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+
+            var filter = new ObjectMemberAnalysisFilter(analysisGraph.Nodes);
+            filter.ClassFilterOption.DeselectNodes();
+
+            //Act
+            var node = filter.ClassFilterOption.GetNodes()[0];
+            filter.ClassFilterOption.SelectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ObjectFilterOption.GetSelectedNodes().Count > 0);
+        }
+
+        [TestMethod]
+        public void GivenClassNodeDeselected_ChildNodesAreDeselected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ObjectMemberLevel);
+
+            var filter = new ObjectMemberAnalysisFilter(analysisGraph.Nodes);
+            var node = filter.ClassFilterOption.GetNodes()[0];
+            filter.ObjectFilterOption.DeselectNodes();
+            filter.ClassFilterOption.SelectNode(node);
+
+            //Act
+            filter.ClassFilterOption.DeselectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ObjectFilterOption.GetSelectedNodes().Count == 0);
+        }
     }
 }
