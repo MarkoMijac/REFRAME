@@ -39,7 +39,8 @@ namespace ReframeAnalyzerTests.GraphFactories
         public void CreateGraph_XMLSourceIsValid_ReturnsNonEmptyGraph()
         {
             //Arrange
-            var objectMemberAnalysisGraph = new AnalysisGraph("G1", AnalysisLevel.ObjectMemberLevel);
+            var objectMemberFactory = new ObjectMemberAnalysisGraphFactory();
+            var objectMemberAnalysisGraph = objectMemberFactory.CreateGraph(AnalysisTestHelper.GetReactorXML());
             var factory = new UpdateAnalysisGraphFactory(objectMemberAnalysisGraph);
 
             //Act
@@ -53,7 +54,8 @@ namespace ReframeAnalyzerTests.GraphFactories
         public void CreateGraph_GivenUpdateError_ContainsErrorData()
         {
             //Arrange
-            var objectMemberAnalysisGraph = new AnalysisGraph("G1", AnalysisLevel.ObjectMemberLevel);
+            var objectMemberFactory = new ObjectMemberAnalysisGraphFactory();
+            var objectMemberAnalysisGraph = objectMemberFactory.CreateGraph(AnalysisTestHelper.GetReactorXML());
             var factory = new UpdateAnalysisGraphFactory(objectMemberAnalysisGraph);
 
             //Act

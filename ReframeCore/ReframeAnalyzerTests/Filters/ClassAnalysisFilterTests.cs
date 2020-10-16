@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReframeAnalyzer;
 using ReframeAnalyzer.Exceptions;
 using ReframeAnalyzer.Filters;
 using ReframeAnalyzer.GraphFactories;
@@ -74,6 +75,42 @@ namespace ReframeAnalyzerTests.Filters
 
             //Assert
             Assert.IsTrue(filteredNodes.Count == 0);
+        }
+
+        [TestMethod]
+        public void GivenNamespaceNodeSelected_ChildNodesAreSelected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ClassLevel);
+
+            var filter = new ClassAnalysisFilter(analysisGraph.Nodes);
+            filter.NamespaceFilterOption.DeselectNodes();
+
+            //Act
+            var node = filter.NamespaceFilterOption.GetNodes()[0];
+            filter.NamespaceFilterOption.SelectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ClassFilterOption.GetSelectedNodes().Count > 0);
+        }
+
+        [TestMethod]
+        public void GivenNamespaceNodeDeselected_ChildNodesAreDeselected()
+        {
+            //Arrange
+            var reactor = AnalysisTestHelper.CreateCase1();
+            var analysisGraph = AnalysisTestHelper.CreateAnalysisGraph(reactor, AnalysisLevel.ClassLevel);
+
+            var filter = new ClassAnalysisFilter(analysisGraph.Nodes);
+            var node = filter.NamespaceFilterOption.GetNodes()[0];
+            filter.NamespaceFilterOption.SelectNode(node);
+
+            //Act
+            filter.NamespaceFilterOption.DeselectNode(node);
+
+            //Assert
+            Assert.IsTrue(filter.ClassFilterOption.GetSelectedNodes().Count == 0);
         }
     }
 }
