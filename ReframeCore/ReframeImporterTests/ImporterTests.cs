@@ -167,5 +167,34 @@ namespace ReframeImporterTests
             //Assert
             Assert.IsTrue(nodes.Count() == 0);
         }
+
+        [TestMethod]
+        public void GetNodes_GivenGraphIsNull_ReturnsEmptyListOfNodes()
+        {
+            ///Arrange
+            Importer importer = new Importer();
+            XElement xGraph = null;
+
+            //Act
+            IEnumerable<XElement> nodes = importer.GetNodes(xGraph);
+
+            //Assert
+            Assert.IsTrue(nodes.Count() == 0);
+        }
+
+        [TestMethod]
+        public void GetSuccessors_GivenNodeIsNull_ReturnsEmptyListOfNodes()
+        {
+            ///Arrange
+            Importer importer = new Importer();
+            XElement xNode = null;
+
+            //Act
+            IEnumerable<XElement> nodes = importer.GetSuccessors(xNode);
+
+            //Assert
+            Assert.IsTrue(nodes.Count() == 0);
+        }
+
     }
 }

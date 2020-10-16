@@ -58,10 +58,6 @@ namespace ReframeImporter
             {
                 throw new ImporterException("Provided element does not have identifier! " + e.Message);
             }
-            catch (XmlException e)
-            {
-                throw new ImporterException("Provided element does not have identifier! "+ e.Message);
-            }
         }
 
         public string GetName(XElement xElement)

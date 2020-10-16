@@ -9,11 +9,6 @@ namespace ReframeImporter
 {
     public class ImporterException : ReframeException
     {
-        public ImporterException() :base("Generic importer exception")
-        {
-
-        }
-
         public ImporterException(string message) : base(message)
         {
 
