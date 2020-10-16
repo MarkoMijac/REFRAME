@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="DependencyGraph.cs" />
     <Compile Include="Exceptions\CyclicReactiveDependencyException.cs" />
-    <Compile Include="Exceptions\DependencyGraphException.cs" />
     <Compile Include="Exceptions\NodeNullReferenceException.cs" />
     <Compile Include="Exceptions\GraphUpdateException.cs" />
     <Compile Include="Exceptions\ReactiveCollectionException.cs" />
@@ -66,7 +65,6 @@
     <Compile Include="Exceptions\ReactiveNodeException.cs" />
     <Compile Include="Exceptions\ReactorException.cs" />
     <Compile Include="Exceptions\ReflectorException.cs" />
-    <Compile Include="Exceptions\UpdaterException.cs" />
     <Compile Include="Factories\INodeFactory.cs" />
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\ReactorRegistry.cs" />

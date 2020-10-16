@@ -26,6 +26,26 @@ namespace ReframeFluentAPITests
         }
 
         [TestMethod]
+        public void GetMemberName1_GivenExpressionIsNull_ThrowsException()
+        {
+            //Arrange
+            Expression<Func<object, object>> lambda = null;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberName(lambda));
+        }
+
+        [TestMethod]
+        public void GetMemberName2_GivenExpressionIsNull_ThrowsException()
+        {
+            //Arrange
+            Expression<Action> lambda = null;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberName(lambda));
+        }
+
+        [TestMethod]
         public void GetMemberName_GivenPropertyValueMember_ReturnsPropertyName()
         {
             //Arrange
@@ -161,6 +181,16 @@ namespace ReframeFluentAPITests
         {
             //Arrange
             Expression<Func<object>> lambda = null;
+
+            //Act&Assert
+            Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberOwner(lambda));
+        }
+
+        [TestMethod]
+        public void GetMemberOwner1_GivenExpressionIsNull_ThrowsException()
+        {
+            //Arrange
+            Expression<Action> lambda = null;
 
             //Act&Assert
             Assert.ThrowsException<FluentException>(() => MemberReader.GetMemberOwner(lambda));

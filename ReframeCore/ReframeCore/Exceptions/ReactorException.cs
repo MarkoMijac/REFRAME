@@ -9,12 +9,6 @@ namespace ReframeCore.Exceptions
 {
     public class ReactorException : ReframeException
     {
-        public ReactorException()
-            :base("Generic reactor exception")
-        {
-
-        }
-
         public ReactorException(string message)
             :base(message)
         {

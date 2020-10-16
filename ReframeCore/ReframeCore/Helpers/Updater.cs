@@ -210,7 +210,7 @@ namespace ReframeCore.Helpers
 
             OnUpdateFailed(LatestUpdateInfo.ErrorData);
 
-            GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData);
+            GraphUpdateException ex = new GraphUpdateException(LatestUpdateInfo.ErrorData, "There was an error during update process. See update info for details!");
             throw ex;
         }
 

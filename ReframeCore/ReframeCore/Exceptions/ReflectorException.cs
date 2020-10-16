@@ -8,11 +8,6 @@ namespace ReframeCore.Exceptions
 {
     public class ReflectorException : Exception
     {
-        public ReflectorException()
-        {
-
-        }
-
         public ReflectorException(string message) : base(message)
         {
 

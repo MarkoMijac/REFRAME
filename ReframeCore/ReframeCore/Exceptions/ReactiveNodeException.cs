@@ -9,12 +9,6 @@ namespace ReframeCore.Exceptions
 {
     public class ReactiveNodeException : ReframeException
     {
-        public ReactiveNodeException() 
-            : base("Generic reactive node exception!")
-        {
-
-        }
-
         public ReactiveNodeException(string message) 
             : base(message)
         {

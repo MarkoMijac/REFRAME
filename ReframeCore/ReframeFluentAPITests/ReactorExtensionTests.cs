@@ -587,6 +587,56 @@ namespace ReframeFluentAPITests
             Assert.IsTrue(updatePerformed);
         }
 
+        [TestMethod]
+        public void Update1_GivenProvidedNodeIsPartOfGraph_PerformsUpdate()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+            Building00 b = new Building00();
+            NodeFactory nodeFactory = new StandardNodeFactory();
+            INode width = nodeFactory.CreateNode(b, nameof(b.Width));
+            INode area = nodeFactory.CreateNode(b, nameof(b.Area));
+
+            bool updatePerformed = false;
+            reactor.AddDependency(width, area);
+            reactor.UpdateCompleted += delegate
+            {
+                updatePerformed = true;
+            };
+
+            //Act
+            reactor.Update(b, nameof(b.Width));
+
+            //Assert
+            Assert.IsTrue(updatePerformed);
+        }
+
+        [TestMethod]
+        public void Update2_GivenProvidedNodeIsPartOfGraph_PerformsUpdate()
+        {
+            //Arrange
+            ReactorRegistry.Instance.Clear();
+            var reactor = ReactorRegistry.Instance.CreateReactor("R1");
+            Building00 b = new Building00();
+            NodeFactory nodeFactory = new StandardNodeFactory();
+            INode width = nodeFactory.CreateNode(b, nameof(b.Width));
+            INode area = nodeFactory.CreateNode(b, nameof(b.Area));
+
+            bool updatePerformed = false;
+            reactor.AddDependency(width, area);
+            reactor.UpdateCompleted += delegate
+            {
+                updatePerformed = true;
+            };
+
+            //Act
+            b.Update(nameof(b.Width));
+
+            //Assert
+            Assert.IsTrue(updatePerformed);
+        }
+
         #endregion
     }
 }

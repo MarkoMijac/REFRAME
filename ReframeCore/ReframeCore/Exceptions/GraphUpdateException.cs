@@ -13,12 +13,6 @@ namespace ReframeCore.Exceptions
     {
         public UpdateError ErrorData { get; private set; }
 
-        public GraphUpdateException(UpdateError error)
-            : base("Generic exception in graph update process.")
-        {
-            ErrorData = error;
-        }
-
         public GraphUpdateException(UpdateError error, string message)
             :base(message)
         {

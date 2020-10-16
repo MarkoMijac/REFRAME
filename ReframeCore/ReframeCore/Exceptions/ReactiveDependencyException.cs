@@ -9,12 +9,6 @@ namespace ReframeCore.Exceptions
 {
     public class ReactiveDependencyException : ReframeException
     {
-        public ReactiveDependencyException()
-            :base("Generic reactive dependency exception")
-        {
-
-        }
-
         public ReactiveDependencyException(string message)
             :base(message)
         {
