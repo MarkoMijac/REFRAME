@@ -246,20 +246,6 @@ namespace ReframeCoreFluentAPI
 
         #region Update
 
-        public static void Update(this object instance, IReactor reactor, [CallerMemberNameAttribute] string memberName = "")
-        {
-            if (reactor == null)
-            {
-                throw new ReactorException("Reactor cannot be null!");
-            }
-
-            if (instance == null)
-            {
-                throw new NodeNullReferenceException("Owner object is null!");
-            }
-            reactor.PerformUpdate(instance, memberName);
-        }
-
         public static void Update(this object instance, [CallerMemberNameAttribute] string memberName = "")
         {
             foreach (var reactor in ReactorRegistry.Instance.GetReactors())
@@ -275,6 +261,16 @@ namespace ReframeCoreFluentAPI
 
         public static void Update(this IReactor instance, object ownerObject, [CallerMemberNameAttribute] string memberName = "")
         {
+            if (instance == null)
+            {
+                throw new ReactorException("Reactor cannot be null!");
+            }
+
+            if (ownerObject == null)
+            {
+                throw new NodeNullReferenceException("Owner object is null!");
+            }
+
             instance.PerformUpdate(ownerObject, memberName);
         }
 

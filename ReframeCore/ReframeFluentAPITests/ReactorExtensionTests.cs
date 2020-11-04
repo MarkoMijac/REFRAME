@@ -534,7 +534,7 @@ namespace ReframeFluentAPITests
             Building00 b = new Building00();
 
             //Act&Assert
-            Assert.ThrowsException<ReactorException>(() => b.Update(reactor, nameof(b.Width)));
+            Assert.ThrowsException<ReactorException>(() => reactor.Update(b, nameof(b.Width)));
         }
 
         [TestMethod]
@@ -547,7 +547,7 @@ namespace ReframeFluentAPITests
             Building00 b = null;
 
             //Act&Assert
-            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(reactor, nameof(b.Width)));
+            Assert.ThrowsException<NodeNullReferenceException>(() => reactor.Update(b, nameof(b.Width)));
         }
 
         [TestMethod]
@@ -559,7 +559,7 @@ namespace ReframeFluentAPITests
             Building00 b = new Building00();
 
             //Act&Asset
-            Assert.ThrowsException<NodeNullReferenceException>(() => b.Update(reactor, nameof(b.Width)));
+            Assert.ThrowsException<NodeNullReferenceException>(() => reactor.Update(b, nameof(b.Width)));
         }
 
         [TestMethod]
@@ -581,7 +581,7 @@ namespace ReframeFluentAPITests
             };
 
             //Act
-            b.Update(reactor, nameof(b.Width));
+            reactor.Update(b, nameof(b.Width));
 
             //Assert
             Assert.IsTrue(updatePerformed);
