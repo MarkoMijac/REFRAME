@@ -21,7 +21,9 @@ namespace IPCClient
         public string ReadString()
         {
             int len;
-            len = ioStream.ReadByte() * 256;
+            len = ioStream.ReadByte() * 16777216;
+            len += ioStream.ReadByte() * 65536;
+            len += ioStream.ReadByte() * 256;
             len += ioStream.ReadByte();
             byte[] inBuffer = new byte[len];
             ioStream.Read(inBuffer, 0, len);
@@ -33,12 +35,15 @@ namespace IPCClient
         {
             byte[] outBuffer = streamEncoding.GetBytes(outString);
             int len = outBuffer.Length;
-            if (len > UInt16.MaxValue)
+            if (len > int.MaxValue)
             {
-                len = (int)UInt16.MaxValue;
+                len = int.MaxValue;
             }
-            ioStream.WriteByte((byte)(len / 256));
-            ioStream.WriteByte((byte)(len & 255));
+
+            ioStream.WriteByte((byte)(len / 16777216)); //1st byte
+            ioStream.WriteByte((byte)(len / 65536)); //2nd byte
+            ioStream.WriteByte((byte)(len / 256)); //3rd byte
+            ioStream.WriteByte((byte)(len & 255)); //4th byte
             ioStream.Write(outBuffer, 0, len);
             ioStream.Flush();
 
