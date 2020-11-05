@@ -190,14 +190,23 @@ namespace ReframeCoreFluentAPI
             object owner = null;
             string[] memberPath = GetMemberPath(expression);
             var mex = expression as MethodCallExpression;
-            var ex = mex.Object as MemberExpression;
-
-            while (ex.Expression is MemberExpression)
+            ConstantExpression cEx = null;
+            if (mex.Object is MemberExpression)
             {
-                ex = ex.Expression as MemberExpression;
-            }
+                var ex = mex.Object as MemberExpression;
 
-            var cEx = ex.Expression as ConstantExpression;
+                while (ex.Expression is MemberExpression)
+                {
+                    ex = ex.Expression as MemberExpression;
+                }
+
+                cEx = ex.Expression as ConstantExpression;
+            }
+            else if (mex.Object is ConstantExpression)
+            {
+                cEx = mex.Object as ConstantExpression;
+            }
+            
             owner = cEx.Value;
             if (memberPath.Length > 2)
             {
@@ -284,15 +293,24 @@ namespace ReframeCoreFluentAPI
 
             MethodCallExpression mex = expression as MethodCallExpression;
             path.Add(mex.Method.Name);
-            MemberExpression ex = mex.Object as MemberExpression;
-            path.Add(ex.Member.Name);
-            while (ex.Expression is MemberExpression)
+            if (mex.Object is MemberExpression)
             {
-                ex = ex.Expression as MemberExpression;
+                MemberExpression ex = mex.Object as MemberExpression;
                 path.Add(ex.Member.Name);
+                while (ex.Expression is MemberExpression)
+                {
+                    ex = ex.Expression as MemberExpression;
+                    path.Add(ex.Member.Name);
+                }
+
+                ConstantExpression cEx = ex.Expression as ConstantExpression;
+                path.Add(cEx.Type.Name);
             }
-            ConstantExpression cEx = ex.Expression as ConstantExpression;
-            path.Add(cEx.Type.Name);
+            else if (mex.Object is ConstantExpression)
+            {
+                ConstantExpression ex = mex.Object as ConstantExpression;
+                path.Add(ex.Type.Name);
+            }
 
             return path.ToArray();
         }

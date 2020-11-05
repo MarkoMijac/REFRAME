@@ -225,6 +225,25 @@ namespace ReframeFluentAPITests
         }
 
         [TestMethod]
+        public void GetMemberOwner_GivenMethodMember1_ReturnsOwner()
+        {
+            //Arrange
+            GenericReactiveObject3 obj = new GenericReactiveObject3();
+            Expression<Action> lambda = () => this.SomeMethod();
+
+            //Act
+            object owner = MemberReader.GetMemberOwner(lambda);
+
+            //Assert
+            Assert.AreEqual(this, owner);
+        }
+
+        private void SomeMethod()
+        {
+            //Doing something
+        }
+
+        [TestMethod]
         public void GetMemberOwner_GivenNestedObjectProperty_ReturnsOwner()
         {
             //Arrange
