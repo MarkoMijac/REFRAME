@@ -59,7 +59,7 @@
             this.dgvReactors.Name = "dgvReactors";
             this.dgvReactors.RowHeadersVisible = false;
             this.dgvReactors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReactors.Size = new System.Drawing.Size(631, 409);
+            this.dgvReactors.Size = new System.Drawing.Size(631, 412);
             this.dgvReactors.TabIndex = 1;
             // 
             // menuStrip1
@@ -170,9 +170,10 @@
             // 
             // btnShowDetails
             // 
+            this.btnShowDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowDetails.BackColor = System.Drawing.Color.LightCoral;
             this.btnShowDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowDetails.Location = new System.Drawing.Point(541, 461);
+            this.btnShowDetails.Location = new System.Drawing.Point(541, 470);
             this.btnShowDetails.Name = "btnShowDetails";
             this.btnShowDetails.Size = new System.Drawing.Size(102, 23);
             this.btnShowDetails.TabIndex = 5;
@@ -185,7 +186,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(655, 501);
+            this.ClientSize = new System.Drawing.Size(655, 504);
             this.Controls.Add(this.btnShowDetails);
             this.Controls.Add(this.lblReactors);
             this.Controls.Add(this.dgvReactors);
