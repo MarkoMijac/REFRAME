@@ -226,12 +226,17 @@ namespace ReframeCore.Helpers
         private void UpdateInParallel(Dictionary<INode, bool> nodesForUpdate)
         {
             IList<INode> list = nodesForUpdate.Keys.ToList();
-            int maxLayer = list[0].Layer;
+            int maxLayer = GetMaxLayer(list);
 
             for (int i = maxLayer; i >= 0; i--)
             {
                 UpdateLayer(nodesForUpdate, i).Wait();
             }
+        }
+
+        private int GetMaxLayer(IList<INode> list)
+        {
+            return list.Max(n => n.Layer);
         }
 
         private Task UpdateLayer(Dictionary<INode, bool> nodesForUpdate, int layer)
