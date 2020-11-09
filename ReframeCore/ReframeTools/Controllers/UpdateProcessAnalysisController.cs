@@ -101,6 +101,7 @@ namespace ReframeTools.Controllers
             IUpdateGraph updateGraph = AnalysisGraph as IUpdateGraph;
             View.txtGraphTotalNodeCount.Text = updateGraph.TotalNodeCount.ToString();
             View.txtUpdateSuccessful.Text = updateGraph.UpdateSuccessful.ToString();
+            View.btnErrorInfo.Visible = !updateGraph.UpdateSuccessful;
             View.txtUpdateStartedAt.Text = updateGraph.UpdateStartedAt.ToString();
             View.txtUpdateEndedAt.Text = updateGraph.UpdateEndedAt.ToString();
             View.txtUpdateDuration.Text = updateGraph.UpdateDuration.ToString();

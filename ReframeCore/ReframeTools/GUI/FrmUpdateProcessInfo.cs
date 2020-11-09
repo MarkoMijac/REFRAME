@@ -135,5 +135,11 @@ namespace ReframeTools.GUI
                 ShowOnlyRowsWithNoDifferences();
             }
         }
+
+        private void btnErrorInfo_Click(object sender, EventArgs e)
+        {
+            var errorInfoForm = new FrmUpdateErrorInfo(_controller.AnalysisGraph as IUpdateGraph);
+            errorInfoForm.ShowDialog();
+        }
     }
 }

@@ -92,6 +92,12 @@
     <Compile Include="GUI\FrmClassMemberFilter.Designer.cs">
       <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\FrmUpdateErrorInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateErrorInfo.Designer.cs">
+      <DependentUpon>FrmUpdateErrorInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FrmUpdateFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmClassMemberFilter.resx">
       <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateErrorInfo.resx">
+      <DependentUpon>FrmUpdateErrorInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FrmUpdateFilter.resx">
       <DependentUpon>FrmUpdateFilter.cs</DependentUpon>

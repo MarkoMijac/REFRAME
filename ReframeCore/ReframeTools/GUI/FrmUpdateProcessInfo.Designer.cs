@@ -64,6 +64,7 @@
             this.rbtnAllNodes = new System.Windows.Forms.RadioButton();
             this.rbtnOnlyNodesWithNoDifferences = new System.Windows.Forms.RadioButton();
             this.rbtnOnlyNodesWithDifferences = new System.Windows.Forms.RadioButton();
+            this.btnErrorInfo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpdateInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,6 +88,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnErrorInfo);
             this.groupBox1.Controls.Add(this.txtDisplayedNodesCount);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.txtInitialNodePreviousValue);
@@ -445,6 +447,19 @@
             this.rbtnOnlyNodesWithDifferences.UseVisualStyleBackColor = true;
             this.rbtnOnlyNodesWithDifferences.CheckedChanged += new System.EventHandler(this.rbtnOnlyNodesWithDifferences_CheckedChanged);
             // 
+            // btnErrorInfo
+            // 
+            this.btnErrorInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnErrorInfo.BackColor = System.Drawing.Color.LightCoral;
+            this.btnErrorInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnErrorInfo.Location = new System.Drawing.Point(130, 146);
+            this.btnErrorInfo.Name = "btnErrorInfo";
+            this.btnErrorInfo.Size = new System.Drawing.Size(100, 23);
+            this.btnErrorInfo.TabIndex = 25;
+            this.btnErrorInfo.Text = "Error info...";
+            this.btnErrorInfo.UseVisualStyleBackColor = false;
+            this.btnErrorInfo.Click += new System.EventHandler(this.btnErrorInfo_Click);
+            // 
             // FrmUpdateProcessInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -506,5 +521,6 @@
         public System.Windows.Forms.RadioButton rbtnAllNodes;
         public System.Windows.Forms.RadioButton rbtnOnlyNodesWithNoDifferences;
         public System.Windows.Forms.RadioButton rbtnOnlyNodesWithDifferences;
+        public System.Windows.Forms.Button btnErrorInfo;
     }
 }
