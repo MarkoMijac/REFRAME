@@ -140,14 +140,21 @@ namespace ReframeCoreFluentAPI
             }
 
             var cEx = ex.Expression as ConstantExpression;
-
+            owner = cEx.Value;
             if (memberPath.Length > 2)
             {
-                var t = cEx.Value.GetType().InvokeMember(memberPath[memberPath.Length - 1], BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public, null, cEx.Value, null);
-                return t;
-            }
+                int counter = memberPath.Length - 2;
+                while (counter > 0)
+                {
+                    owner = owner.GetType().InvokeMember(memberPath[counter], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null, owner, null);
+                    counter--;
 
-            owner = cEx.Value;
+                    if (owner == null)
+                    {
+                        throw new FluentException($"Invoked owner of member {memberPath[counter]} is null!");
+                    }
+                }
+            }
 
             return owner;
         }
