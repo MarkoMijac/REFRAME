@@ -60,6 +60,11 @@ namespace ReframeCore
             return Graph.RemoveNode(node, forceRemoval);
         }
 
+        public bool RemoveNodes(object ownerObject)
+        {
+            return Graph.RemoveNodes(ownerObject);
+        }
+
         public bool ContainsNode(INode node)
         {
             return Graph.ContainsNode(node);

@@ -18,6 +18,7 @@ namespace ReframeCore
         INode AddNode(INode node);
         INode AddNode(object ownerObject, string memberName);
         bool RemoveNode(INode node, bool forceRemoval);
+        bool RemoveNodes(object ownerObject);
 
         bool ContainsNode(INode node);
         bool ContainsNode(object ownerObject, string memberName);

@@ -145,6 +145,20 @@ namespace ReframeCore
 
         }
 
+        public bool RemoveNodes(object ownerObject)
+        {
+            IEnumerable<INode> nodesForRemoval = Nodes.Where(n => n.OwnerObject == ownerObject).ToList();
+            if (nodesForRemoval != null && nodesForRemoval.Count() > 0)
+            {
+                foreach (var node in nodesForRemoval)
+                {
+                    RemoveNode(node, true);
+                }
+                return true;
+            }
+            return false;
+        }
+
         private void ValidateNodeRemoval(INode node, bool forceRemoval)
         {
             if (node == null)
@@ -347,7 +361,7 @@ namespace ReframeCore
         {
             if (p.HasSuccessor(s) && s.HasPredecessor(p))
             {
-                throw new ReactiveDependencyException("Reactive dependency cannot be added twice!");
+                throw new ReactiveDependencyException($"Reactive dependency cannot be added twice! Predecessor: {p.OwnerObject.GetType()}.{p.MemberName}; Successor: {s.OwnerObject.GetType()}.{s.MemberName}");
             }
         }
 
