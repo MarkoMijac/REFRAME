@@ -56,7 +56,7 @@
         <Parent guid="guidRefPckgcsCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke CmdVisualizer</ButtonText>
+          <ButtonText>Run ReframeTools</ButtonText>
         </Strings>
       </Button>
     </Buttons>
