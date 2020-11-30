@@ -73,135 +73,91 @@
     <Compile Include="Controllers\RegisteredReactorsController.cs" />
     <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
     <Compile Include="Controllers\VisualizationController.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Form1.cs" />
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmAnalysisFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmAnalysisFilter.cs" />
     <Compile Include="GUI\FrmAnalysisFilter.Designer.cs">
       <DependentUpon>FrmAnalysisFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmAnalysisView.cs" />
     <Compile Include="GUI\FrmAnalysisView.Designer.cs">
       <DependentUpon>FrmAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmAssemblyAnalysisView.cs" />
     <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
       <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmAssemblyFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmAssemblyFilter.cs" />
     <Compile Include="GUI\FrmAssemblyFilter.Designer.cs">
       <DependentUpon>FrmAssemblyFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmClassAnalysisView.cs" />
     <Compile Include="GUI\FrmClassAnalysisView.Designer.cs">
       <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmClassFilter.cs" />
     <Compile Include="GUI\FrmClassFilter.Designer.cs">
       <DependentUpon>FrmClassFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassMemberAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmClassMemberAnalysisView.cs" />
     <Compile Include="GUI\FrmClassMemberAnalysisView.Designer.cs">
       <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmClassMemberFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmClassMemberFilter.cs" />
     <Compile Include="GUI\FrmClassMemberFilter.Designer.cs">
       <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmMaxDepthLevel.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmMaxDepthLevel.cs" />
     <Compile Include="GUI\FrmMaxDepthLevel.Designer.cs">
       <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmNamespaceAnalysisView.cs" />
     <Compile Include="GUI\FrmNamespaceAnalysisView.Designer.cs">
       <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmNamespaceFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmNamespaceFilter.cs" />
     <Compile Include="GUI\FrmNamespaceFilter.Designer.cs">
       <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmObjectAnalysisView.cs" />
     <Compile Include="GUI\FrmObjectAnalysisView.Designer.cs">
       <DependentUpon>FrmObjectAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmObjectFilter.cs" />
     <Compile Include="GUI\FrmObjectFilter.Designer.cs">
       <DependentUpon>FrmObjectFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectMemberAnalysisView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmObjectMemberAnalysisView.cs" />
     <Compile Include="GUI\FrmObjectMemberAnalysisView.Designer.cs">
       <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmObjectMemberFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmObjectMemberFilter.cs" />
     <Compile Include="GUI\FrmObjectMemberFilter.Designer.cs">
       <DependentUpon>FrmObjectMemberFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmReactorDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.cs" />
     <Compile Include="GUI\FrmReactorDetails.Designer.cs">
       <DependentUpon>FrmReactorDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmRegisteredReactors.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmRegisteredReactors.cs" />
     <Compile Include="GUI\FrmRegisteredReactors.Designer.cs">
       <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmUpdateErrorInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmUpdateErrorInfo.cs" />
     <Compile Include="GUI\FrmUpdateErrorInfo.Designer.cs">
       <DependentUpon>FrmUpdateErrorInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmUpdateFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmUpdateFilter.cs" />
     <Compile Include="GUI\FrmUpdateFilter.Designer.cs">
       <DependentUpon>FrmUpdateFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmUpdateProcessInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.cs" />
     <Compile Include="GUI\FrmUpdateProcessInfo.Designer.cs">
       <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\FrmVisualizationOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GUI\FrmVisualizationOptions.cs" />
     <Compile Include="GUI\FrmVisualizationOptions.Designer.cs">
       <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
     </Compile>
