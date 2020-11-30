@@ -83,7 +83,7 @@ namespace ReframeTools.GUI
         protected override VisualizationController CreateVisualizationController()
         {
             var factory = new ObjectMemberGraphFactoryDGML();
-            var fileCreator = new DGMLFileCreator(SolutionServices.Solution);
+            var fileCreator = new DGMLFileCreator2();
             return new VisualizationController(ReactorIdentifier, factory, fileCreator);
         }
     }

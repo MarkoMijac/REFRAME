@@ -57,7 +57,7 @@ namespace ReframeTools.GUI
         private void btnVisualize_Click(object sender, EventArgs e)
         {
             var factory = new UpdateGraphFactoryDGML();
-            var fileCreator = new DGMLFileCreator(SolutionServices.Solution);
+            var fileCreator = new DGMLFileCreator2();
             VisualizationController visualizationController = new VisualizationController(ReactorIdentifier, factory,  fileCreator);
             visualizationController.Visualize(_controller.AnalysisNodes);
         }

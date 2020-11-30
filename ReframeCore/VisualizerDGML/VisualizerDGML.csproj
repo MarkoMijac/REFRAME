@@ -68,6 +68,7 @@
     <Compile Include="Graphs\UpdateVisualGraphDGML.cs" />
     <Compile Include="Graphs\VisualGraphDGML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DGMLFileCreator2.cs" />
     <Compile Include="Utilities\GraphPainter.cs" />
   </ItemGroup>
   <ItemGroup>
