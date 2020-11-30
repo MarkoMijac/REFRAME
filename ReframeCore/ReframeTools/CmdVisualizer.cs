@@ -1,10 +1,8 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Globalization;
+﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE;
 using ReframeTools.GUI;
+using System;
+using System.ComponentModel.Design;
 
 namespace ReframeTools
 {

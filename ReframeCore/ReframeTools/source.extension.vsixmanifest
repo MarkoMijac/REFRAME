@@ -19,5 +19,25 @@
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="IPCClient.dll" AssemblyName="IPCClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca56d92d914c867b" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeAnalyzer.dll" AssemblyName="ReframeAnalyzer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4a5a3c7f4ffe43ef" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeBaseExceptions.dll" AssemblyName="ReframeBaseExceptions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60b4cd8bc1dab808" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeClient.dll" AssemblyName="ReframeClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=63e6741e69741462" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeCore.dll" AssemblyName="ReframeCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=462c9398b9a2818a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeImporter.dll" AssemblyName="ReframeImporter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4e75507c03b866b2" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="ReframeVisualizer.dll" AssemblyName="ReframeVisualizer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6142c488a6a231fa" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="VisualizerDGML.dll" AssemblyName="VisualizerDGML, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c927ecf82579d8e6" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="EnvDTE.dll" AssemblyName="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.OLE.Interop.dll" AssemblyName="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.15.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.15.0, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Framework.dll" AssemblyName="Microsoft.VisualStudio.Shell.Framework, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.10.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.11.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.12.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.8.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Shell.Interop.9.0.dll" AssemblyName="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Microsoft.VisualStudio.Utilities.dll" AssemblyName="Microsoft.VisualStudio.Utilities, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     </Assets>
 </PackageManifest>
