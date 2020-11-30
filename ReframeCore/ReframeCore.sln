@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeDemonstration", "Ref
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPCClient", "IPCClient\IPCClient.csproj", "{6D150A3B-579C-4022-B873-B28315AF6397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeToolsGUI", "ReframeTools\ReframeToolsGUI.csproj", "{13201477-E0C5-4053-AB72-CDD6C01ADBE7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeVisualizer", "ReframeVisualizer\ReframeVisualizer.csproj", "{2BECC201-155A-4FD4-81E0-3D6A33C6838D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeExporter", "ReframeExporter\ReframeExporter.csproj", "{9F507F8C-9E4B-4E12-AE3A-389AD8F0E337}"
@@ -44,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeFluentAPITests", "ReframeFluentAPITests\ReframeFluentAPITests.csproj", "{302E47A8-0C33-4F11-BD7D-DE646C8FEA35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizerDGMLTests", "VisualizerDGMLTests\VisualizerDGMLTests.csproj", "{C226BA1C-B648-4D57-B16B-336B9CFA3C61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReframeToolsMain", "ReframeToolsMain\ReframeToolsMain.csproj", "{79986C4B-92E2-4D6B-804E-C6B529FFB57A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,10 +83,6 @@ Global
 		{6D150A3B-579C-4022-B873-B28315AF6397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D150A3B-579C-4022-B873-B28315AF6397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D150A3B-579C-4022-B873-B28315AF6397}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13201477-E0C5-4053-AB72-CDD6C01ADBE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13201477-E0C5-4053-AB72-CDD6C01ADBE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13201477-E0C5-4053-AB72-CDD6C01ADBE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13201477-E0C5-4053-AB72-CDD6C01ADBE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BECC201-155A-4FD4-81E0-3D6A33C6838D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -135,6 +131,10 @@ Global
 		{C226BA1C-B648-4D57-B16B-336B9CFA3C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C226BA1C-B648-4D57-B16B-336B9CFA3C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C226BA1C-B648-4D57-B16B-336B9CFA3C61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79986C4B-92E2-4D6B-804E-C6B529FFB57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79986C4B-92E2-4D6B-804E-C6B529FFB57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79986C4B-92E2-4D6B-804E-C6B529FFB57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79986C4B-92E2-4D6B-804E-C6B529FFB57A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

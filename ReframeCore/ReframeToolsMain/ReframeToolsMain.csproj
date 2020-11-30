@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{79986C4B-92E2-4D6B-804E-C6B529FFB57A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ReframeToolsMain</RootNamespace>
+    <AssemblyName>ReframeToolsMain</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ReframeToolsMain.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.Diagnostics.PerformanceProvider">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Diagnostics.PerformanceProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\GuiCommand.cs" />
+    <Compile Include="Controllers\AnalysisController.cs" />
+    <Compile Include="Controllers\ReactorDetailsController.cs" />
+    <Compile Include="Controllers\RegisteredReactorsController.cs" />
+    <Compile Include="Controllers\UpdateProcessAnalysisController.cs" />
+    <Compile Include="Controllers\VisualizationController.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmAnalysisFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAnalysisFilter.Designer.cs">
+      <DependentUpon>FrmAnalysisFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAnalysisView.Designer.cs">
+      <DependentUpon>FrmAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyAnalysisView.Designer.cs">
+      <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmAssemblyFilter.Designer.cs">
+      <DependentUpon>FrmAssemblyFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassAnalysisView.Designer.cs">
+      <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassFilter.Designer.cs">
+      <DependentUpon>FrmClassFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberAnalysisView.Designer.cs">
+      <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmClassMemberFilter.Designer.cs">
+      <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmMaxDepthLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmMaxDepthLevel.Designer.cs">
+      <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceAnalysisView.Designer.cs">
+      <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmNamespaceFilter.Designer.cs">
+      <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectAnalysisView.Designer.cs">
+      <DependentUpon>FrmObjectAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectFilter.Designer.cs">
+      <DependentUpon>FrmObjectFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberAnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberAnalysisView.Designer.cs">
+      <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmObjectMemberFilter.Designer.cs">
+      <DependentUpon>FrmObjectMemberFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmReactorDetails.Designer.cs">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmRegisteredReactors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmRegisteredReactors.Designer.cs">
+      <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateErrorInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateErrorInfo.Designer.cs">
+      <DependentUpon>FrmUpdateErrorInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateFilter.Designer.cs">
+      <DependentUpon>FrmUpdateFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmUpdateProcessInfo.Designer.cs">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\FrmVisualizationOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FrmVisualizationOptions.Designer.cs">
+      <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\FrmAnalysisFilter.resx">
+      <DependentUpon>FrmAnalysisFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmAnalysisView.resx">
+      <DependentUpon>FrmAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmAssemblyAnalysisView.resx">
+      <DependentUpon>FrmAssemblyAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmAssemblyFilter.resx">
+      <DependentUpon>FrmAssemblyFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassAnalysisView.resx">
+      <DependentUpon>FrmClassAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassFilter.resx">
+      <DependentUpon>FrmClassFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassMemberAnalysisView.resx">
+      <DependentUpon>FrmClassMemberAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmClassMemberFilter.resx">
+      <DependentUpon>FrmClassMemberFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmMaxDepthLevel.resx">
+      <DependentUpon>FrmMaxDepthLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmNamespaceAnalysisView.resx">
+      <DependentUpon>FrmNamespaceAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmNamespaceFilter.resx">
+      <DependentUpon>FrmNamespaceFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectAnalysisView.resx">
+      <DependentUpon>FrmObjectAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectFilter.resx">
+      <DependentUpon>FrmObjectFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectMemberAnalysisView.resx">
+      <DependentUpon>FrmObjectMemberAnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmObjectMemberFilter.resx">
+      <DependentUpon>FrmObjectMemberFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmReactorDetails.resx">
+      <DependentUpon>FrmReactorDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmRegisteredReactors.resx">
+      <DependentUpon>FrmRegisteredReactors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateErrorInfo.resx">
+      <DependentUpon>FrmUpdateErrorInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateFilter.resx">
+      <DependentUpon>FrmUpdateFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmUpdateProcessInfo.resx">
+      <DependentUpon>FrmUpdateProcessInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\FrmVisualizationOptions.resx">
+      <DependentUpon>FrmVisualizationOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IPCClient\IPCClient.csproj">
+      <Project>{6D150A3B-579C-4022-B873-B28315AF6397}</Project>
+      <Name>IPCClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeAnalyzer\ReframeAnalyzer.csproj">
+      <Project>{87BAE3E0-A197-4DC1-9E97-E5945F7CC652}</Project>
+      <Name>ReframeAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeBaseExceptions\ReframeBaseExceptions.csproj">
+      <Project>{D4B96CC8-D94C-42B9-88F1-92C4B728143D}</Project>
+      <Name>ReframeBaseExceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeClient\ReframeClient.csproj">
+      <Project>{3E1F7606-8C9F-44CB-825B-E378570A59DB}</Project>
+      <Name>ReframeClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReframeVisualizer\ReframeVisualizer.csproj">
+      <Project>{2BECC201-155A-4FD4-81E0-3D6A33C6838D}</Project>
+      <Name>ReframeVisualizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualizerDGML\VisualizerDGML.csproj">
+      <Project>{28EA06C4-5306-4CF7-B97F-3815F2AE8E64}</Project>
+      <Name>VisualizerDGML</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
