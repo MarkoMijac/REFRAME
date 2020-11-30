@@ -42,6 +42,7 @@
             this.archivedAnalysesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblReactors = new System.Windows.Forms.Label();
             this.btnShowDetails = new System.Windows.Forms.Button();
+            this.btnFetchReactors = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReactors)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -181,12 +182,26 @@
             this.btnShowDetails.UseVisualStyleBackColor = false;
             this.btnShowDetails.Click += new System.EventHandler(this.btnShowDetails_Click);
             // 
+            // btnFetchReactors
+            // 
+            this.btnFetchReactors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFetchReactors.BackColor = System.Drawing.Color.LightCoral;
+            this.btnFetchReactors.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFetchReactors.Location = new System.Drawing.Point(12, 470);
+            this.btnFetchReactors.Name = "btnFetchReactors";
+            this.btnFetchReactors.Size = new System.Drawing.Size(190, 23);
+            this.btnFetchReactors.TabIndex = 6;
+            this.btnFetchReactors.Text = "Fetch reactors";
+            this.btnFetchReactors.UseVisualStyleBackColor = false;
+            this.btnFetchReactors.Click += new System.EventHandler(this.btnFetchReactors_Click);
+            // 
             // FrmRegisteredReactors
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MistyRose;
             this.ClientSize = new System.Drawing.Size(655, 504);
+            this.Controls.Add(this.btnFetchReactors);
             this.Controls.Add(this.btnShowDetails);
             this.Controls.Add(this.lblReactors);
             this.Controls.Add(this.dgvReactors);
@@ -218,5 +233,6 @@
         private System.Windows.Forms.Label lblReactors;
         protected System.Windows.Forms.Button btnShowDetails;
         public System.Windows.Forms.DataGridView dgvReactors;
+        protected System.Windows.Forms.Button btnFetchReactors;
     }
 }

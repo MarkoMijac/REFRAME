@@ -104,5 +104,10 @@ namespace ReframeTools.GUI
                 DisplayForm(form);
             }
         }
+
+        private void btnFetchReactors_Click(object sender, EventArgs e)
+        {
+            _registeredReactorsController.ShowRegisteredReactors();
+        }
     }
 }
