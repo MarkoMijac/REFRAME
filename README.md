@@ -67,7 +67,21 @@ In order to use Reframe framework you need to obtain framework binary files (.dl
 
 ### Use scenarios
 
-Reframe framework consists of 12 .dll file and one .exe file. However, which of these files will be necessary to use depends on the use scenario. From the perspective of end-user (host) application, there are three main scenarios.
+Reframe framework consists of 12 .dll files and one .exe file. However, which of these files will be necessary to use depends on the use scenario. From the perspective of end-user (host) application, there are three main scenarios.
+
+| Component  | Description |
+| ------------- | ------------- |
+| ReframeCore  | The core component of the framework which enables end-user application to construct dependency graphs and perform update process. It contains abstractions representing members of reactive node hierarchy, dependency graph, update, scheduler, reactor and other essential parts of the framework.  |
+| ReframeBaseExceptions  | Contains the definition of the root REFRAME exception which is inherited by specific exceptions in other components.  |
+| ReframeFluentAPI | Contains classes with extension methods which allow us to use reactor in a declarative style. |
+| IPCServer | Contains interfaces and abstract classes with reusable part of the server side of inter-process communication. |
+| ReframeServer | Contains concrete classes with REFRAME-specific implementation of the server side of inter-process communication. |
+| ReframeExporter |  Contains classes responsible for exporting dependency graph data and update process data in a form of XML content. |
+| ReframeToolsGUI | Contains graphical user interface classes and coordinates the rest of the components. |
+| IPCClient | Contains interfaces and abstract classes with reusable part of the client side of inter-process communication. |
+| ReframeClient | Contains concrete classes with REFRAME-specific implementation of the client side of inter-process communication. |
+| ReframeAnalyzer 
+| |
 
 1. Scenario - Core features
 
