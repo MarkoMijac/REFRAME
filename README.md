@@ -65,21 +65,34 @@ To get a local copy up and running follow these simple example steps.
 
 In order to use Reframe framework you need to obtain framework binary files (.dll and .exe files). This can be done either by downloading ready to use binaries from [GitHub Release](https://github.com/MarkoMijac/REFRAME/releases/tag/v1.0.0) page (ReframeCore.zip and ReframeTools.zip files), or by cloning the project and building these files by yourself.
 
-Reframe framework consists of 12 .dll file and one .exe file. However, which of these files will be necessary to use depends on the use scenario.
+### Use scenarios
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Reframe framework consists of 12 .dll file and one .exe file. However, which of these files will be necessary to use depends on the use scenario. From the perspective of end-user (host) application, there are three main scenarios.
 
+1. Scenario - Core features
 
+The first, and the most basic use scenario assumes using only two components from REFRAME, namely: ReframeCore.dll and
+ReframeBaseExceptions.dll. These are mandatory components which allow end-user application to access core features of REFRAME, i.e. to construct dependency graphs and perform update process.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/b3a2656d-c6d3-4080-ab3d-9b3373456ee4)
+
+2. Scenario - Core features + Fluent API
+
+The second use scenario introduces optional ReframeFluentAPI.dll component, which (as its name imply) contains implementation of Fluent interface. This allows us to, in addition to traditional imperative style, also use alternative, more declarative approach when specifying individual reactive dependencies between nodes.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/d31b1569-d4f7-493d-884f-21f96a562fce)
+
+3. Scenario - Core features + Fluent API + Reframe Tools
+
+The third use scenario is only relevant if we want to use REFRAME tools. It allows us to setup inter-process communication between end-user application and REFRAME tools. By introducing IPCServer.dll, ReframeServer.dll and ReframeExporter.dll components, we can start the server in end-user application which will respond to requests from the Analyzer tool (client) and send dependency graph data. Since integration of server components into end-user application and starting the server is a trivial task, application developers can switch to and from this use scenario easily.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/ed1884e9-2510-4d73-9f10-d3c48e5e9a35)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### Use cases
-
-![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/b3a2656d-c6d3-4080-ab3d-9b3373456ee4)
 
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
