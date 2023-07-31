@@ -63,21 +63,9 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+In order to use Reframe framework you need to obtain framework binary files (.dll and .exe files). This can be done either by downloading ready to use binaries from [GitHub Release](https://github.com/MarkoMijac/REFRAME/releases/tag/v1.0.0) page (ReframeCore.zip and ReframeTools.zip files), or by cloning the project and building these files by yourself.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+Reframe framework consists of 12 .dll file and one .exe file. However, which of these files will be necessary to use depends on the use scenario.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -85,6 +73,11 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+### Use cases
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/b3a2656d-c6d3-4080-ab3d-9b3373456ee4)
+
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
