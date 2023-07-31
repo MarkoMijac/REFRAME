@@ -67,7 +67,7 @@ In order to use Reframe framework you need to obtain framework binary files (.dl
 
 ### Use scenarios
 
-Reframe framework consists of 12 .dll files and one .exe file. However, which of these files will be necessary to use depends on the use scenario. From the perspective of end-user (host) application, there are three main scenarios.
+Reframe framework consists of 12 .dll files and one .exe file. However, which of these files will be necessary to use depends on the use scenario. 
 
 | Component  | Description |
 | ------------- | ------------- |
@@ -80,8 +80,12 @@ Reframe framework consists of 12 .dll files and one .exe file. However, which of
 | ReframeToolsGUI | Contains graphical user interface classes and coordinates the rest of the components. |
 | IPCClient | Contains interfaces and abstract classes with reusable part of the client side of inter-process communication. |
 | ReframeClient | Contains concrete classes with REFRAME-specific implementation of the client side of inter-process communication. |
-| ReframeAnalyzer 
-| |
+| ReframeAnalyzer | Contains abstractions representing members of analysis graph and analysis node hierarchies, factories for creating graph and node objects, filter specifications, analysis and metrics implementations, and other parts related to graph and update analysis. |
+| ReframeImporter | Contains utility classes which interpret XML content fetched from end-user application. |
+| ReframeVisualizer | Contains interfaces and abstract classes with reusable and technology-independent part of the visualizer implementation. |
+| VisualizerDGML | Contains concrete classes implementing visualizer using DGML technology. |
+
+From the perspective of end-user (host) application, there are three main scenarios.
 
 1. Scenario - Core features
 
