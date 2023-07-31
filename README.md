@@ -117,10 +117,17 @@ var reactor = ReactorRegistry.Instance.CreateReactor("default");
 
 ```
 
+### Example 2 - Geting existing "default" reactor object from registry
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```
+var reactor = ReactorRegistry.Instance.GetReactor("default");
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+```
+
+### Example 3 - Specifying reactive dependencies
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/0011c15c-a548-4514-b3a0-4db8acc5f9ee)
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
