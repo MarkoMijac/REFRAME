@@ -109,7 +109,13 @@ The third use scenario is only relevant if we want to use REFRAME tools. It allo
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+### Example 1 - Creating and registering new reactor object
+Creating new reactor object with identifier "default" and registering it in ReactorRegistry to be available for further use.
 
+```
+var reactor = ReactorRegistry.Instance.CreateReactor("default");
+
+```
 
 
 _For more examples, please refer to the [Documentation](https://example.com)_
