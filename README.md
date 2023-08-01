@@ -128,6 +128,60 @@ var reactor = ReactorRegistry.Instance.GetReactor("default");
 
 ![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/0011c15c-a548-4514-b3a0-4db8acc5f9ee)
 
+### Example 4 - Performing update process of entire graph
+
+In order to perform update process of entire graph we need to fetch reactor object from registry and invoke PerformUpdate method.
+
+```
+var reactor = ReactorRegistry.Instance.CreateReactor("default");
+reactor.PerformUpdate();
+```
+
+### Example 5 - Performing update process as a result of triggering change in object's state
+
+```
+public int A
+{
+  get {return _a; }
+  set
+  {
+    _a = value;
+    reactor.Update(this);
+  }
+}
+```
+
+### Example 6 - Performing update process asynchronously
+
+```
+var reactor = ReactorRegistry.Instance.GetReactor("default");
+(reactor.Updater as Updater).Strategy = UpdateStrategy.Asynchronous;
+await reactor.PerformUpdate();
+```
+
+### Example 7 - Performing update process in parallel
+
+```
+var reactor = ReactorRegistry.Instance.GetReactor("default");
+(reactor.Updater as Updater).Strategy = UpdateStrategy.Parallel;
+await reactor.PerformUpdate();
+```
+
+### Example 8 - Reporting the progress and status of the ongoing update process
+
+```
+var reactor = ReactorRegistry.Instance.GetReactor("default");
+reactor.UpdateStarted += Reactor_UpdateStarted;
+reactor.UpdateCompleted += Reactor_UpdateCompleted;
+reactor.UpdateFailed += Reactor_UpdateFailed;
+
+...
+
+private void Reactor_UpdateCompleted(object sender, EventArgs e)
+{
+  RefreshGui();
+}
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing
