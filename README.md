@@ -169,6 +169,8 @@ await reactor.PerformUpdate();
 
 ### Example 8 - Reporting the progress and status of the ongoing update process
 
+Reactor exposes three events that can be used to report on the progress and status of update process. These events are: UpdateStarted, UpdateCompleted and UpdateFailed.
+
 ```
 var reactor = ReactorRegistry.Instance.GetReactor("default");
 reactor.UpdateStarted += Reactor_UpdateStarted;
@@ -177,11 +179,65 @@ reactor.UpdateFailed += Reactor_UpdateFailed;
 
 ...
 
+private void Reactor_UpdateStarted(object sender, EventArgs e)
+{
+  var graph = (sender as IUpdater).Graph;
+  MessageBox.Show($"Update process for graph {graph.Identifier} has started!");
+}
+
+private void Reactor_UpdateFailed(object sender, EventArgs e)
+{
+  var error = sender as UpdateError;
+  var graph = error.Graph;
+  var failedNode = error.FailedNode;
+  MessageBox.Show($"There was and error in node {failedNode.Identifier} during update process for graph {graph.Identifier}!");
+}
+
 private void Reactor_UpdateCompleted(object sender, EventArgs e)
 {
   RefreshGui();
 }
 ```
+
+### Example 9 - Displaying list of reactors
+
+After starting REFRAME Tools a graphical user interface appeares showing the list of registered reactors in end-user application. For each registered
+reactor a detailed data about its structure can be displayed.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/6138893e-9a4b-40e4-af34-07b9b6aa8618)
+
+
+### Example 10 - Displaying the list of reactive nodes on a different levels of abstraction
+
+After selecting registered reactor, available menu offers six levels at which reactive nodes can be shown, e.g. object-member level. List of nodes are then displayed in a table with data available at chosen level of abstraction.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/aae6ca3d-b9af-4a33-8e7e-968abf5e3774)
+
+### Example 11 - Displaying the list of reactive nodes with respect to their role in dependency graph
+
+After selecting registered reactor and a level of abstraction, it is possible to show only reactive nodes with particular role (filtering by role) in a dependency graph, e.g. source nodes.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/078f1863-76a1-4e2e-86e4-85b900250ea4)
+
+### Example 12 - Displaying the list of reactive nodes with associated with selected node
+
+After any list of reactive nodes is displayed, and any reactive node is selected, it is possible to display reactive nodes which are in various ways associated with selected node (filtering by association).
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/51456069-89a9-4d9e-afd0-96b8e6a67600)
+
+### Example 13 - Displaying information about last performed update process
+After selecting registered reactor we can show information about the latest update process. Here we can see information about the overall update process, such as update status, cause, duration, error, etc. Also, we can see the list of all reactive nodes which participated in the update process. In addition to usual information about reactive nodes, for each node we can see the duration of update, as well as whether the update resulted in a value change.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/d4011d51-90ac-4516-811e-1a389e61d537)
+
+### Example 14 - Visualizing the list of reactive nodes
+
+After displaying any list of reactive nodes we can visualize it in a form of DGML graph shown in Visual Studio’s DGML Viewer.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/606d3aae-0a5f-4a83-8867-7e1a4c17629f)
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/99a0b1fb-2a6c-42ec-93b9-b21ef62d81e7)
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
