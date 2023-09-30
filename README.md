@@ -89,16 +89,22 @@ From the perspective of end-user (host) application, there are three main scenar
 
 1. Scenario - Core features
 
-The first, and the most basic use scenario assumes using only two components from REFRAME, namely: ReframeCore.dll and
-ReframeBaseExceptions.dll. These are mandatory components which allow end-user application to access core features of REFRAME, i.e. to construct dependency graphs and perform update process.
+The first, and the most basic use scenario assumes using only two components from REFRAME, namely: ReframeCore.dll and ReframeBaseExceptions.dll. These are mandatory components which allow end-user application to access core features of REFRAME, i.e. to construct dependency graphs and perform update process.
 
 ![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/b3a2656d-c6d3-4080-ab3d-9b3373456ee4)
+
+In order to use the core features of REFRAME it is necessary to reference ReframeCore.dll and ReframeBaseExceptions.dll libraries in the project we want to use them in. In order to do that, we first need to obtain dll libraries. This can be done either by downloading ready-to-use binaries from [GitHub Release](https://github.com/MarkoMijac/REFRAME/releases/tag/v1.0.0) page (ReframeCore.zip and ReframeTools.zip files), or by cloning the project and building these files by yourself. When we have required dll files, we need to reference them in our project. Dependening on our IDE of choice (e.g. Visual Studio, Visual Studio Code, Resharper, etc.) this process might be different. In case of Visual Studio we would need to right-click at our project in Solution explorer, choose Add Reference option, and then find the dll files we want to reference.
+
+![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/2c7e273e-9390-43fc-b7f9-7297e69cb3ed)
+
 
 2. Scenario - Core features + Fluent API
 
 The second use scenario introduces optional ReframeFluentAPI.dll component, which (as its name imply) contains implementation of Fluent interface. This allows us to, in addition to traditional imperative style, also use alternative, more declarative approach when specifying individual reactive dependencies between nodes.
 
 ![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/d31b1569-d4f7-493d-884f-21f96a562fce)
+
+Extending the base use scenario with fluent API requires referencing one additional component - ReframeFluentAPI.dll. This is done exactly the same as with the first two dll files.
 
 3. Scenario - Core features + Fluent API + Reframe Tools
 
