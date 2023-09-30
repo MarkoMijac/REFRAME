@@ -112,6 +112,14 @@ The third use scenario is only relevant if we want to use REFRAME tools. It allo
 
 ![image](https://github.com/MarkoMijac/REFRAME/assets/5802626/ed1884e9-2510-4d73-9f10-d3c48e5e9a35)
 
+In addition to referencing required dll files, in order for Reframe Tools to exchange information with end-user application we need to start Reframe server in end-user application. This can be done by adding following lines of code in Program Main method or any other convenient point in code.
+
+```
+var server = new ReframePipeServer;
+server.StartServer();
+
+```
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
